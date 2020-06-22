@@ -5,14 +5,14 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 ```jsx
 <Text
   sx={{
-    fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
+    fontSize: [14, 16, 20] // 14 on mobile, 16 on tablet, 20 on desktop
   }}
 >
   Responsive font size?? 🤯
 </Text>
 ```
 
-## Why?
+# Why?
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
 
@@ -24,33 +24,33 @@ While React Native has some nice component libraries (`react-native-elements`, `
 
 The goal of this project is to build an unopinionated, responsive design system that looks great in React Native, on **all** devices.
 
-## What does Dripsy look like?
+# What does Dripsy look like?
 
-### Create a theme!
+## Create a theme!
 
 ```js
 export default {
   colors: {
     text: '#000',
     background: '#fff',
-    primary: 'tomato',
+    primary: 'tomato'
   },
   fonts: {
     body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
+    heading: '"Avenir Next", sans-serif'
   },
-  spacing: [10, 12, 14],
-};
+  spacing: [10, 12, 14]
+}
 ```
 
-### ...and build a beautiful, responsive UI
+## ...and build a beautiful, responsive UI
 
 ```jsx
 <Text
   sx={{
     color: 'primary',
     padding: [1, 3],
-    fontFamily: 'heading',
+    fontFamily: 'heading'
   }}
 >
   Themed color!
@@ -59,46 +59,44 @@ export default {
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
-## Before & After
+# Before & After
 
-### Before Dripsy ☹️
+## Before Dripsy ☹️
 
 ```jsx
-import { useState } from 'react';
-import { View } from 'react-native';
+import { useState } from 'react'
+import { View } from 'react-native'
 
 const ResponsiveBox = () => {
-  const [screenWidth, setScreenWidth] = useState(
-    Dimensions.get('window').width
-  );
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
 
   useEffect(() => {
     const onResize = (event) => {
-      setScreenWidth(event.window.width);
-    };
-    Dimensions.addEventListener('change');
-  }, []);
+      setScreenWidth(event.window.width)
+    }
+    Dimensions.addEventListener('change')
+  }, [])
 
-  let width = '100%';
+  let width = '100%'
   if (screenWidth > 700) {
-    width = '50%';
+    width = '50%'
   }
 
-  return <View style={{ width }} />;
-};
+  return <View style={{ width }} />
+}
 ```
 
-### With Dripsy 🤩
+## With Dripsy 🤩
 
 ```jsx
-import { View } from '@nandorojo/dripsy';
+import { View } from '@nandorojo/dripsy'
 
 const ResponsiveBox = () => {
-  return <View sx={{ width: ['100%', '50%'] }} />;
-};
+  return <View sx={{ width: ['100%', '50%'] }} />
+}
 ```
 
-## Installation
+# Installation
 
 ```sh
 yarn add @nandorojo/dripsy
@@ -107,15 +105,46 @@ yarn add @nandorojo/dripsy
 npm i @nandorojo/dripsy
 ```
 
-## Set up
+# Set up
 
 Technically, you don't have to do anything else!
 
 However, you'll likely want to create a custom theme.
 
-### Custom theme
+## Custom theme
 
-Create a `theme.ts` file. Follow the docs from `theme-ui` to see how to theme your app – we use the same API as them.
+Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders. 
+
+`App.js`
+
+```jsx
+import { ThemeProvider } from '@nandorojo/dripsy'
+
+const theme = {
+  colors: {
+    text: '#000',
+    background: '#fff',
+    primary: 'tomato'
+  },
+  fonts: {
+    body: 'system-ui, sans-serif',
+    heading: '"Avenir Next", sans-serif'
+  },
+  spacing: [10, 12, 14]
+}
+
+export default function App() {
+  return <ThemeProvider theme={theme}>{/* Your app code goes here! */}</ThemeProvider>
+}
+```
+
+Follow the [docs from `theme-ui`](https://theme-ui.com/theme-spec) to see how to theme your app – we use the same API as them.
+
+My personal preference is to have the entire theme object in one file.
+
+Example theme: 
+
+_All theme values are optional. You don't have to use them if you don't want._
 
 ### Expo + Next.js
 
@@ -141,7 +170,7 @@ Currently, a bunch of the React Native components are supported. That said, I ha
 Or, you can use the `createThemedComponent` function.
 
 ```jsx
-import { createThemedComponent } from '@nandorojo/dripsy';
+import { createThemedComponent } from '@nandorojo/dripsy'
 ```
 
 ## Contributing
