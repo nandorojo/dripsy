@@ -58,6 +58,8 @@ _Todo: make the theme values show up in TS types for intelliesense._
 
 ## Before Dripsy ☹️
 
+This is what it took to make _one_ responsive style...
+
 ```jsx
 import { useState } from 'react'
 import { View } from 'react-native'
@@ -69,7 +71,9 @@ const ResponsiveBox = () => {
     const onResize = (event) => {
       setScreenWidth(event.window.width)
     }
-    Dimensions.addEventListener('change')
+    Dimensions.addEventListener('change', onResize)
+    
+    return () => Dimensions.removeEventListener('change', onResize)
   }, [])
 
   let width = '100%'
