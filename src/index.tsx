@@ -1,2 +1,2 @@
 export * from './components';
-export { css } from './css';
+export { css, useBreakpointIndex } from './css';
