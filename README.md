@@ -16,7 +16,7 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
 
-React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](Before ☹️).)
+React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#Before-&-After).)
 
 React has great design systems and libraries for styling (`theme-ui`, `chakra-ui`, `rebasss`, `styled-system`, etc.)
 
@@ -58,6 +58,8 @@ export default {
 ```
 
 _Todo: make the theme values show up in TS types for intelliesense._
+
+## Before & After
 
 ### Before Dripsy ☹️
 
