@@ -5,7 +5,7 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 ```jsx
 <Text
   sx={{
-    fontSize: [14, 16], // 14 on mobile, 16 on tablet +
+    fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
   }}
 >
   Responsive font size?? 🤯
