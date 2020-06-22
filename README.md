@@ -35,10 +35,6 @@ export default {
     background: '#fff',
     primary: 'tomato'
   },
-  fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif'
-  },
   spacing: [10, 12, 14]
 }
 ```
@@ -49,8 +45,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3],
-    fontFamily: 'heading'
+    padding: [1, 3], // [10, 14] from theme!
   }}
 >
   Themed color!
