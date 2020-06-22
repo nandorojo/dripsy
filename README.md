@@ -12,7 +12,7 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 </Text>
 ```
 
-# Why?
+# 🤔 Why?
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
 
@@ -24,7 +24,7 @@ While React Native has some nice component libraries (`react-native-elements`, `
 
 The goal of this project is to build an unopinionated, responsive design system that looks great in React Native, on **all** devices.
 
-# What does Dripsy look like?
+# 👀 What does Dripsy look like?
 
 ## Create a theme!
 
@@ -54,7 +54,7 @@ export default {
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
-# Before & After
+# 🏆 Before & After
 
 ## Before Dripsy ☹️
 
@@ -95,7 +95,7 @@ const ResponsiveBox = () => {
 }
 ```
 
-# Installation
+# 🙉 Installation
 
 ```sh
 yarn add @nandorojo/dripsy
@@ -104,7 +104,7 @@ yarn add @nandorojo/dripsy
 npm i @nandorojo/dripsy
 ```
 
-# Set up
+# 🛠 Set up
 
 Technically, you don't have to do anything else!
 
