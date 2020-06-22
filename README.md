@@ -6,7 +6,7 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
 
-React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](Before & After).)
+React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#Before & After).)
 
 React has great design systems and libraries for styling (`theme-ui`, `chakra-ui`, `rebasss`, `styled-system`, etc.)
 
