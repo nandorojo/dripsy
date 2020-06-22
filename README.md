@@ -2,6 +2,16 @@
 
 A **super-simple**, **responsive** design system for Expo / React Native Web. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/home).
 
+```jsx
+<Text
+  sx={{
+    fontSize: [14, 16], // 14 on mobile, 16 on tablet +
+  }}
+>
+  Responsive font size?? 🤯
+</Text>
+```
+
 ## Why?
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
@@ -15,18 +25,6 @@ While React Native has some nice component libraries (`react-native-elements`, `
 The goal of this project is to build an unopinionated, responsive design system that looks great in React Native, on **all** devices.
 
 ## What does Dripsy look like?
-
-To make a style responsive, just pass an array of values.
-
-```jsx
-<Text
-  sx={{
-    fontSize: [14, 16],
-  }}
->
-  Responsive font size?? 🤯
-</Text>
-```
 
 ### Create a theme!
 
@@ -45,7 +43,7 @@ export default {
 };
 ```
 
-...and then use your theme values directly in your component:
+### ...and build a beautiful, consistent UI
 
 ```jsx
 <Text
