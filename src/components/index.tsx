@@ -1,15 +1,9 @@
-import { FlatList as RnFlatList, PixelRatio } from 'react-native';
+import { FlatList as RnFlatList } from 'react-native';
 
 import { SxProps } from '@theme-ui/core';
 import styled from 'styled-components/native';
-import { ComponentType, forwardRef } from 'react';
+import React, { ComponentType, forwardRef } from 'react';
 import { css, useBreakpointIndex } from '../css';
-
-// inject styles into each component using the sx prop and the breakpoint
-const mapResponsivePropsToStyle = ({ sx, breakpoint }: Props) => {
-  const style = css(sx, breakpoint);
-  return style();
-};
 
 /**
  * Export React Native components
@@ -33,30 +27,36 @@ function withBreakpointProp<P>(Component: ComponentType<P>) {
   return WithBreakpointProp;
 }
 
-export type Props = SxProps & {
+export type StyledProps = SxProps & {
   breakpoint: number;
+};
+
+// inject styles into each component using the sx prop and the breakpoint
+const mapResponsivePropsToStyle = ({ sx, breakpoint }: StyledProps) => {
+  const style = css(sx, breakpoint);
+  return style();
 };
 
 export function createThemedComponent<P>(Component: ComponentType<P>) {
   return withBreakpointProp(
-    styled(Component)<Props>(mapResponsivePropsToStyle)
+    styled(Component)<StyledProps>(mapResponsivePropsToStyle)
   );
 }
 
 export const View = withBreakpointProp(
-  styled.View<Props>(mapResponsivePropsToStyle)
+  styled.View<StyledProps>(mapResponsivePropsToStyle)
 );
 
 export const Text = withBreakpointProp(
-  styled.Text<Props>(mapResponsivePropsToStyle)
+  styled.Text<StyledProps>(mapResponsivePropsToStyle)
 );
 
 export const ScrollView = withBreakpointProp(
-  styled.ScrollView<Props>(mapResponsivePropsToStyle)
+  styled.ScrollView<StyledProps>(mapResponsivePropsToStyle)
 );
 
 export const TextInput = withBreakpointProp(
-  styled.TextInput<Props>(mapResponsivePropsToStyle)
+  styled.TextInput<StyledProps>(mapResponsivePropsToStyle)
 );
 
 export const FlatList = createThemedComponent(RnFlatList);
@@ -64,11 +64,11 @@ export const FlatList = createThemedComponent(RnFlatList);
 export const Box = View;
 
 export const Button = withBreakpointProp(
-  styled.Button<Props>(mapResponsivePropsToStyle)
+  styled.Button<StyledProps>(mapResponsivePropsToStyle)
 );
 
 export const Flex = withBreakpointProp(
-  styled.View<Props>((props) => {
+  styled.View<StyledProps>((props) => {
     const style = mapResponsivePropsToStyle(props);
 
     return {
@@ -79,5 +79,5 @@ export const Flex = withBreakpointProp(
 );
 
 export const ActivityIndicator = withBreakpointProp(
-  styled.ActivityIndicator<Props>(mapResponsivePropsToStyle)
+  styled.ActivityIndicator<StyledProps>(mapResponsivePropsToStyle)
 );

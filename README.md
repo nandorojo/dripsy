@@ -1,6 +1,17 @@
-# expo-theme-ui
+# 🍷 Dripsy
 
-Make Styled System&#39;s Theme UI work on Expo / React Native.
+A super-simple responsive design system for React Native Web.
+
+**Before ☹️**
+
+```jsx
+import { useState } from 'react';
+const [width, setWidth] = useState();
+
+const ResponsiveBox = () => {
+  return <View />;
+};
+```
 
 ## Installation
 
@@ -11,7 +22,7 @@ npm install expo-theme-ui
 ## Usage
 
 ```js
-import ExpoThemeUi from "expo-theme-ui";
+import ExpoThemeUi from 'expo-theme-ui';
 
 // ...
 
