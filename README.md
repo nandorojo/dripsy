@@ -43,7 +43,7 @@ export default {
 };
 ```
 
-### ...and build a beautiful, consistent UI
+### ...and build a beautiful, responsive UI
 
 ```jsx
 <Text
