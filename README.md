@@ -5,14 +5,14 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 ```jsx
 <Text
   sx={{
-    fontSize: [14, 16], // 14 on mobile, 16 on tablet +
+    fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
   }}
 >
   Responsive font size?? 🤯
 </Text>
 ```
 
-## Why?
+# Why?
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
 
@@ -24,9 +24,9 @@ While React Native has some nice component libraries (`react-native-elements`, `
 
 The goal of this project is to build an unopinionated, responsive design system that looks great in React Native, on **all** devices.
 
-## What does Dripsy look like?
+# What does Dripsy look like?
 
-### Create a theme!
+## Create a theme!
 
 ```js
 export default {
@@ -43,7 +43,7 @@ export default {
 };
 ```
 
-### ...and build a beautiful, consistent UI
+## ...and build a beautiful, responsive UI
 
 ```jsx
 <Text
@@ -59,9 +59,9 @@ export default {
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
-## Before & After
+# Before & After
 
-### Before Dripsy ☹️
+## Before Dripsy ☹️
 
 ```jsx
 import { useState } from 'react';
@@ -88,7 +88,7 @@ const ResponsiveBox = () => {
 };
 ```
 
-### With Dripsy 🤩
+## With Dripsy 🤩
 
 ```jsx
 import { View } from '@nandorojo/dripsy';
@@ -98,7 +98,7 @@ const ResponsiveBox = () => {
 };
 ```
 
-## Installation
+# Installation
 
 ```sh
 yarn add @nandorojo/dripsy
@@ -107,7 +107,7 @@ yarn add @nandorojo/dripsy
 npm i @nandorojo/dripsy
 ```
 
-## Set up
+# Set up
 
 Technically, you don't have to do anything else!
 
@@ -116,6 +116,33 @@ However, you'll likely want to create a custom theme.
 ### Custom theme
 
 Create a `theme.ts` file. Follow the docs from `theme-ui` to see how to theme your app – we use the same API as them.
+
+Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object.
+
+`App.js`
+
+```jsx
+const theme = {
+  colors: {
+    text: '#000',
+    background: '#fff',
+    primary: 'tomato',
+  },
+  fonts: {
+    body: 'system-ui, sans-serif',
+    heading: '"Avenir Next", sans-serif',
+  },
+  spacing: [10, 12, 14],
+};
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your app code goes here! */}
+    </ThemeProvider>
+  );
+}
+```
 
 ### Expo + Next.js
 

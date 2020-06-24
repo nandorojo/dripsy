@@ -126,6 +126,7 @@
   "dependencies": {
     "@react-native-community/hooks": "^2.6.0",
     "@styled-system/css": "^5.0.0-12",
+    "@theme-ui/components": "^0.4.0-rc.1",
     "@theme-ui/core": "^0.4.0-rc.1",
     "@theme-ui/css": "^0.4.0-rc.1",
     "styled-components": "^5.1.1",

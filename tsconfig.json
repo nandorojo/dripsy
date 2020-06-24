@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "expo-theme-ui": ["./src/index"]
+      "@nandorojo/dripsy": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
