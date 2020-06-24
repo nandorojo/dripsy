@@ -1,83 +1,42 @@
-import { FlatList as RnFlatList } from 'react-native';
+import { createThemedComponent } from '../css/create-themed-component';
+import * as Native from 'react-native';
 
-import { SxProps } from '@theme-ui/core';
-import styled from 'styled-components/native';
-import React, { ComponentType, forwardRef } from 'react';
-import { css, useBreakpointIndex } from '../css';
+export const View = createThemedComponent(Native.View);
 
-/**
- * Export React Native components
- */
+export const Text = createThemedComponent(Native.Text, {
+  themeKey: 'text',
+});
 
-// HOC that makes each component responsive using a breakpoint
-function withBreakpointProp<P>(Component: ComponentType<P>) {
-  const WithBreakpointProp = forwardRef<
-    typeof Component,
-    Omit<P, 'breakpoint'>
-  >(function WithBreakpointProp(props, ref) {
-    const breakpoint = useBreakpointIndex();
+export const ScrollView = createThemedComponent(Native.ScrollView);
 
-    return <Component breakpoint={breakpoint} {...(props as P)} ref={ref} />;
-  });
+export const TextInput = createThemedComponent(Native.TextInput);
 
-  WithBreakpointProp.displayName = `Themed.${
-    Component.displayName ?? 'ComponentWithoutDisplayName'
-  }`;
+export const Button = createThemedComponent(Native.Button, {
+  themeKey: 'buttons',
+});
 
-  return WithBreakpointProp;
-}
+export const FlatList = createThemedComponent(Native.FlatList);
 
-export type StyledProps = SxProps & {
-  breakpoint: number;
-};
-
-// inject styles into each component using the sx prop and the breakpoint
-const mapResponsivePropsToStyle = ({ sx, breakpoint }: StyledProps) => {
-  const style = css(sx, breakpoint);
-  return style();
-};
-
-export function createThemedComponent<P>(Component: ComponentType<P>) {
-  return withBreakpointProp(
-    styled(Component)<StyledProps>(mapResponsivePropsToStyle)
-  );
-}
-
-export const View = withBreakpointProp(
-  styled.View<StyledProps>(mapResponsivePropsToStyle)
+export const ActivityIndicator = createThemedComponent(
+  Native.ActivityIndicator
 );
 
-export const Text = withBreakpointProp(
-  styled.Text<StyledProps>(mapResponsivePropsToStyle)
-);
+export const Flex = createThemedComponent(View, {
+  defaultStyle: {
+    flexDirection: 'row',
+  },
+});
 
-export const ScrollView = withBreakpointProp(
-  styled.ScrollView<StyledProps>(mapResponsivePropsToStyle)
-);
+export const Container = createThemedComponent(View, {
+  defaultVariant: 'container',
+  themeKey: 'layout',
+  defaultStyle: {
+    mx: 'auto',
+    maxWidth: 'container',
+    width: '100%',
+  },
+});
 
-export const TextInput = withBreakpointProp(
-  styled.TextInput<StyledProps>(mapResponsivePropsToStyle)
-);
-
-export const FlatList = createThemedComponent(RnFlatList);
+export const Row = Flex;
 
 export const Box = View;
-
-export const Button = withBreakpointProp(
-  styled.Button<StyledProps>(mapResponsivePropsToStyle)
-);
-
-export const Flex = withBreakpointProp(
-  styled.View<StyledProps>((props) => {
-    const style = mapResponsivePropsToStyle(props);
-
-    return {
-      flexDirection: 'row',
-      ...style,
-    };
-  })
-);
-
-export const ActivityIndicator = withBreakpointProp(
-  styled.ActivityIndicator<StyledProps>(mapResponsivePropsToStyle)
-);

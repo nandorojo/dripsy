@@ -5,12 +5,11 @@ import {
   get,
   Theme,
 } from '@theme-ui/css';
-import { SxProps, ThemeProvider, useThemeUI } from '@theme-ui/core';
-import React, { ComponentType, useCallback, ComponentProps } from 'react';
+import { ThemeProvider } from '@theme-ui/core';
+import { useCallback } from 'react';
 import * as Native from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
-import * as ThemeUI from '@theme-ui/components';
-import normalStyled from 'styled-components';
+import { ThemedOptions, StyledProps } from './types';
 
 export { ThemeProvider };
 
@@ -47,18 +46,9 @@ const responsive = (
       continue;
     }
 
-    const nearestBreakpoint = (breakpointIndex: number): number => {
-      // mobile-first breakpoints
-      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0;
-
-      if (!value[breakpointIndex]) {
-        // if this value doesn't have a breakpoint, find the previous, recursively
-        return nearestBreakpoint(breakpointIndex - 1);
-      }
-      return breakpointIndex;
-    };
-
     if (Native.Platform.OS === 'web') {
+      // here we use actual breakpoints
+      // for native, we fake it based on screen width
       const breakpoints =
         (theme && (theme.breakpoints as string[])) || defaultBreakpoints;
       const mediaQueries = [
@@ -69,14 +59,29 @@ const responsive = (
       for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
         const media = mediaQueries[i];
         if (!media) {
+          // @ts-ignore
           next[key] = value[i];
           continue;
         }
+        // @ts-ignore
         next[media] = next[media] || {};
+        // @ts-ignore
         if (value[i] == null) continue;
+        // @ts-ignore
         next[media][key] = value[i];
       }
     }
+
+    const nearestBreakpoint = (breakpointIndex: number): number => {
+      // mobile-first breakpoints
+      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0;
+
+      if (!value[breakpointIndex]) {
+        // if this value doesn't have a breakpoint, find the previous, recursively
+        return nearestBreakpoint(breakpointIndex - 1);
+      }
+      return breakpointIndex;
+    };
 
     const breakpointIndex = nearestBreakpoint(breakpoint);
     // @ts-ignore
@@ -278,7 +283,7 @@ const positiveOrNegative = (scale: object, value: string | number) => {
   return Number(n) * -1;
 };
 
-const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
+export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   props: CssPropsArgument = {}
 ): CSSObject => {
   const theme: Theme = {
@@ -331,7 +336,7 @@ const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   return result;
 };
 
-const useBreakpointIndexNew = () => {
+export const useBreakpointIndex = () => {
   const { width = 0 } = useDimensions().window;
 
   const getIndex = useCallback(() => {
@@ -351,126 +356,123 @@ const useBreakpointIndexNew = () => {
   return getIndex();
 };
 
-type Props<P> = SxProps & {
-  as?: ComponentType<P>;
-  variant?: string;
-  /**
-   * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
-   */
-  // @ts-ignore
-  nativeStyle?: P['style'];
-};
+// type Props<P> = SxProps & {
+//   as?: ComponentType<P>;
+//   variant?: string;
+//   /**
+//    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
+//    */
+//   // @ts-ignore
+//   nativeStyle?: P['style'];
+// };
 
 // inject styles into each component using the sx prop and the breakpoint
-function mapResponsivePropsToStyle<P>({
-  sx,
-  breakpoint,
-}: Pick<Props<P>, 'sx'> & { breakpoint: number }) {
-  const style = css(sx, breakpoint);
-  return style;
-}
+// function mapResponsivePropsToStyle<P>({
+//   sx,
+//   breakpoint,
+// }: Pick<Props<P>, 'sx'> & { breakpoint: number }) {
+//   const style = css(sx, breakpoint);
+//   return style;
+// }
 
-type ThemedOptions = {
-  defaultStyle?: SxProps['sx'];
-  themeKey?: string;
-  defaultVariant?: string;
-};
+// export type StyledProps<P> = SxProps & {
+//   as?: ComponentType<P>;
+//   variant?: string;
+//   /**
+//    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
+//    */
+//   // @ts-ignore
+//   nativeStyle?: P['style'];
+//   breakpoint: number;
+//   theme: Theme;
+// };
 
-export function createThemedComponent<P>(
-  Component: ComponentType<P>,
-  { defaultStyle, themeKey, defaultVariant = 'primary' }: ThemedOptions = {}
+export function mapPropsToStyledComponent<P>(
+  props: StyledProps<P>,
+  { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions
 ) {
-  // without styled-components...
-  const WrappedComponent = React.forwardRef<
-    typeof Component,
-    Props<P> & ComponentProps<typeof Component>
-  >(function Wrapped(prop, ref) {
-    const {
-      sx,
-      as: SuperComponent,
-      variant = defaultVariant,
-      nativeStyle,
-      ...props
-    } = prop;
+  const {
+    breakpoint,
+    sx,
+    theme,
+    variant = defaultVariant,
+    nativeStyle,
+  } = props;
 
-    const { theme } = useThemeUI();
-    const breakpoint = useBreakpointIndexNew();
+  const baseStyle = css(defaultStyle, breakpoint)({ theme });
 
-    const variantStyle = mapResponsivePropsToStyle({
-      sx: get(theme, themeKey + '.' + variant, get(theme, variant)),
-      breakpoint,
-    })({ theme });
+  const variantStyle = css(
+    get(theme, themeKey + '.' + variant, get(theme, variant)),
+    breakpoint
+  )({ theme });
 
-    const baseStyle = mapResponsivePropsToStyle({
-      sx: defaultStyle,
-      breakpoint,
-    })({
-      theme,
-    });
+  const nativeStyles = css(nativeStyle, breakpoint)({ theme });
 
-    const localStyle = mapResponsivePropsToStyle({ sx, breakpoint })({
-      theme,
-    });
+  const superStyle = css(sx, breakpoint)({ theme });
 
-    const TheComponent = SuperComponent || Component;
-
-    return (
-      <TheComponent
-        {...((props as unknown) as P)}
-        ref={ref}
-        style={[baseStyle, variantStyle, nativeStyle, localStyle]}
-      />
-    );
+  return () => ({
+    ...baseStyle,
+    ...variantStyle,
+    ...nativeStyles,
+    ...superStyle,
   });
-  WrappedComponent.displayName = `Themed.${
-    Component.displayName ?? 'NoNameComponent'
-  }`;
-  return WrappedComponent;
 }
 
-function ifWeb<T, Z>(web: T, otherwise: Z) {
-  return Native.Platform.OS === 'web' ? web : otherwise;
-}
+// export function createThemedComponent<P>(
+//   Component: ComponentType<P>,
+//   options: ThemedOptions = {}
+// ) {
+//   // without styled-components...
+//   const WrappedComponent = React.forwardRef<
+//     typeof Component,
+//     Props<P> & ComponentProps<typeof Component>
+//   >(function Wrapped(prop, ref) {
+//     const { sx, as: SuperComponent, variant, nativeStyle, ...props } = prop;
 
-export const View = createThemedComponent(Native.View);
+//     const { theme } = useThemeUI();
+//     const breakpoint = useBreakpointIndexNew();
 
-export const Text = createThemedComponent(Native.Text, {
-  themeKey: 'text',
-});
+//     // const variantStyle = mapResponsivePropsToStyle({
+//     //   sx: get(theme, themeKey + '.' + variant, get(theme, variant)),
+//     //   breakpoint,
+//     // })({ theme });
 
-export const ScrollView = createThemedComponent(Native.ScrollView);
+//     // const baseStyle = mapResponsivePropsToStyle({
+//     //   sx: defaultStyle,
+//     //   breakpoint,
+//     // })({
+//     //   theme,
+//     // });
 
-export const TextInput = createThemedComponent(Native.TextInput);
+//     // const localStyle = mapResponsivePropsToStyle({ sx, breakpoint })({
+//     //   theme,
+//     // });
 
-export const Button = createThemedComponent(Native.Button, {
-  themeKey: 'buttons',
-});
+//     const style = mapPropsToStyledComponent(
+//       { theme, breakpoint, variant, sx, nativeStyle },
+//       options
+//     )();
 
-export const FlatList = createThemedComponent(Native.FlatList);
+//     const TheComponent = SuperComponent || Component;
 
-export const ActivityIndicator = createThemedComponent(
-  Native.ActivityIndicator
-);
+//     return (
+//       <TheComponent
+//         {...((props as unknown) as P)}
+//         ref={ref}
+//         // style={[baseStyle, variantStyle, nativeStyle, localStyle]}
+//         style={style}
+//       />
+//     );
+//   });
+//   WrappedComponent.displayName = `Themed.${
+//     Component.displayName ?? 'NoNameComponent'
+//   }`;
+//   return WrappedComponent;
+// }
 
-export const Flex = createThemedComponent(View, {
-  defaultStyle: {
-    flexDirection: 'row',
-  },
-});
-
-export const Container = createThemedComponent(View, {
-  defaultVariant: 'container',
-  themeKey: 'layout',
-  defaultStyle: {
-    mx: 'auto',
-    maxWidth: 'container',
-    width: '100%',
-  },
-});
-
-export const Row = Flex;
-
-export const Box = View;
+// function ifWeb<T, Z>(web: T, otherwise: Z) {
+//   return Native.Platform.OS === 'web' ? web : otherwise;
+// }
 
 // type ThemedComponentProps<P> = SxProps & {
 //   as: ComponentType<P>;
@@ -502,33 +504,33 @@ export const Box = View;
  */
 
 // HOC that makes each component responsive using a breakpoint
-function withBreakpointProp<P>(Component: ComponentType<P>) {
-  const WithBreakpointProp = React.forwardRef<
-    typeof Component,
-    Omit<P, 'breakpoint'>
-  >(function WithBreakpointProp(props, ref) {
-    const breakpoint = useBreakpointIndexNew();
+// function withBreakpointProp<P>(Component: ComponentType<P>) {
+//   const WithBreakpointProp = React.forwardRef<
+//     typeof Component,
+//     Omit<P, 'breakpoint'>
+//   >(function WithBreakpointProp(props, ref) {
+//     const breakpoint = useBreakpointIndexNew();
 
-    return <Component breakpoint={breakpoint} {...(props as P)} ref={ref} />;
-  });
+//     return <Component breakpoint={breakpoint} {...(props as P)} ref={ref} />;
+//   });
 
-  return WithBreakpointProp;
-}
+//   return WithBreakpointProp;
+// }
 
-function mapPropsToStyledComponent<P>(props: P) {}
+// function mapPropsToStyledComponent<P>(props: P) {}
 
-type StyledProps<P> = SxProps & {
-  as?: ComponentType<P>;
-  variant?: string;
-  /**
-   * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
-   */
-  // @ts-ignore
-  nativeStyle?: P['style'];
-  breakpoint: number;
-};
-export function createStyledComponent<P>(Component: ComponentType<P>) {
-  return withBreakpointProp(
-    normalStyled(Component)<StyledProps<P>>(mapResponsivePropsToStyle)
-  );
-}
+// type StyledProps<P> = SxProps & {
+//   as?: ComponentType<P>;
+//   variant?: string;
+//   /**
+//    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
+//    */
+//   // @ts-ignore
+//   nativeStyle?: P['style'];
+//   breakpoint: number;
+// };
+// export function createStyledComponent<P>(Component: ComponentType<P>) {
+//   return withBreakpointProp(
+//     normalStyled(Component)<StyledProps<P>>(mapResponsivePropsToStyle)
+//   );
+// }

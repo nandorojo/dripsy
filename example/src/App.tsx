@@ -1,30 +1,40 @@
 import React from 'react';
-import { View, Text, ThemeProvider } from '@nandorojo/dripsy';
+import { View, ThemeProvider, Text as DripText } from '@nandorojo/dripsy';
+import * as Native from 'react-native';
+import styled from 'styled-components';
 
 const theme = {
   colors: {
     primary: '#41b87a',
+    secondary: 'black',
+    background: 'white',
   },
 };
+
+const T = styled(Native.Text)(() => ({
+  fontSize: 70,
+}));
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View
         sx={{
-          backgroundColor: (theme) => [theme.colors.primary, 'green'],
+          backgroundColor: () => ['primary', 'blue'],
           height: [400, 800],
         }}
       >
-        <Text
+        <DripText
           sx={{
-            color: 'white',
-            fontSize: [20, 30],
-            variant: '',
+            color: 'secondary',
+            margin: 100,
+            // fontSize: [20, 30],
+            // variant: '',
           }}
         >
-          Hey there!
-        </Text>
+          Hey
+        </DripText>
+        <T>Hi!</T>
       </View>
     </ThemeProvider>
   );
