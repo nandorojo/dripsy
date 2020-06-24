@@ -23,5 +23,5 @@
     "strict": true,
     "target": "esnext"
   },
-  "exclude": ["example", "next"]
+  "exclude": ["next", "example"]
 }

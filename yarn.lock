@@ -1219,6 +1219,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
+"@expo/html-elements@^0.0.0-alpha.5":
+  version "0.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/@expo/html-elements/-/html-elements-0.0.0-alpha.5.tgz#132ccfa5e9150fc510e484d3d9a26fc99adb1370"
+  integrity sha512-2b9iiWyWoiKJF/IOIQwmOusGyiRZsXVT1EVuHwEshNRDWOyfOqg9mpZMlZQBizQywm+l7sDwql4BcRC4o00rbg==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
