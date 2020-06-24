@@ -1,3 +1,7 @@
+🚨 This is still in development.
+
+---
+
 # 🍷 Dripsy
 
 A **super-simple**, **responsive** design system for Expo / React Native Web. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/home).
@@ -12,7 +16,7 @@ A **super-simple**, **responsive** design system for Expo / React Native Web. He
 </Text>
 ```
 
-# Why?
+# 🤔 Why?
 
 Build once, deploy everywhere, is a great philosophy made possible by Expo Web/React Native Web. A big impediment is responsive design.
 
@@ -24,7 +28,7 @@ While React Native has some nice component libraries (`react-native-elements`, `
 
 The goal of this project is to build an unopinionated, responsive design system that looks great in React Native, on **all** devices.
 
-# What does Dripsy look like?
+# 👀 What does Dripsy look like?
 
 ## Create a theme!
 
@@ -34,10 +38,6 @@ export default {
     text: '#000',
     background: '#fff',
     primary: 'tomato',
-  },
-  fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
   },
   spacing: [10, 12, 14],
 };
@@ -49,8 +49,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3],
-    fontFamily: 'heading',
+    padding: [1, 3], // [10, 14] from theme!
   }}
 >
   Themed color!
@@ -59,9 +58,11 @@ export default {
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
-# Before & After
+# 🏆 Before & After
 
 ## Before Dripsy ☹️
+
+This is what it took to make _one_ responsive style...
 
 ```jsx
 import { useState } from 'react';
@@ -76,7 +77,9 @@ const ResponsiveBox = () => {
     const onResize = (event) => {
       setScreenWidth(event.window.width);
     };
-    Dimensions.addEventListener('change');
+    Dimensions.addEventListener('change', onResize);
+
+    return () => Dimensions.removeEventListener('change', onResize);
   }, []);
 
   let width = '100%';
@@ -98,7 +101,7 @@ const ResponsiveBox = () => {
 };
 ```
 
-# Installation
+# 🙉 Installation
 
 ```sh
 yarn add @nandorojo/dripsy
@@ -107,15 +110,50 @@ yarn add @nandorojo/dripsy
 npm i @nandorojo/dripsy
 ```
 
-# Set up
+# 🛠 Set up
 
 Technically, you don't have to do anything else!
 
 However, you'll likely want to create a custom theme.
 
-### Custom theme
+## Custom theme
 
-Create a `theme.ts` file. Follow the docs from `theme-ui` to see how to theme your app – we use the same API as them.
+Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
+
+`App.js`
+
+```jsx
+import { ThemeProvider } from '@nandorojo/dripsy';
+
+const theme = {
+  colors: {
+    text: '#000',
+    background: '#fff',
+    primary: 'tomato',
+  },
+  fonts: {
+    body: 'system-ui, sans-serif',
+    heading: '"Avenir Next", sans-serif',
+  },
+  spacing: [10, 12, 14],
+};
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your app code goes here! */}
+    </ThemeProvider>
+  );
+}
+```
+
+Follow the [docs from `theme-ui`](https://theme-ui.com/theme-spec) to see how to theme your app – we use the same API as them.
+
+My personal preference is to have the entire theme object in one file.
+
+Example theme:
+
+_All theme values are optional. You don't have to use them if you don't want._
 
 Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object.
 
