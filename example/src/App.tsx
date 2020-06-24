@@ -1,25 +1,31 @@
-import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import ExpoThemeUi from 'expo-theme-ui';
+import React from 'react';
+import { View, Text, ThemeProvider } from '@nandorojo/dripsy';
+
+const theme = {
+  colors: {
+    primary: '#41b87a',
+  },
+};
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
-
-  React.useEffect(() => {
-    ExpoThemeUi.multiply(3, 7).then(setResult);
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <ThemeProvider theme={theme}>
+      <View
+        sx={{
+          backgroundColor: (theme) => [theme.colors.primary, 'green'],
+          height: [400, 800],
+        }}
+      >
+        <Text
+          sx={{
+            color: 'white',
+            fontSize: [20, 30],
+            variant: '',
+          }}
+        >
+          Hey there!
+        </Text>
+      </View>
+    </ThemeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

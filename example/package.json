@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nandorojo/dripsy": "/Users/fernandorojo/Developer/summer-q/expo-theme-ui/nandorojo-dripsy-v0.1.2.tgz",
     "expo": "~37.0.3",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
