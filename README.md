@@ -26,6 +26,7 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 - Custom theme variants
 - TypeScript support (TypeScript theme support is in the works too)
 - Insanely simple API (themed, responsive designs in one line!)
+- Works with Animated/Reanimated values
 
 # 🤔 Why?
 
@@ -36,6 +37,8 @@ React Native doesn't have media queries for styles, and trying to micmick it wit
 While React Native has some nice component libraries, it lacks responsive styles that respond to theme changes.
 
 No longer. The goal of this library is to let you go from idea -> universal, themed styles without much effort.
+
+There have been many discussions about what responsive design should look like in React Native. After trying many, many different ways, I'm convinced this is the best.
 
 # 👀 What does Dripsy look like?
 
