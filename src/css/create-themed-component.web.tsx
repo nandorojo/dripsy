@@ -1,6 +1,6 @@
 import React, { forwardRef, ComponentType } from 'react';
 
-import { useBreakpointIndex, mapPropsToStyledComponent } from '.';
+import { mapPropsToStyledComponent } from '.';
 import { useThemeUI } from '@theme-ui/core';
 import styled from 'styled-components';
 import { ThemedOptions, StyledProps } from './types';
@@ -10,17 +10,9 @@ function withBreakpointAndThemeProp<P>(Component: ComponentType<P>) {
     typeof Component,
     Omit<P, 'breakpoint' | 'theme'>
   >(function WithBreakpointProp(props, ref) {
-    const breakpoint = useBreakpointIndex();
     const { theme } = useThemeUI();
 
-    return (
-      <Component
-        theme={theme}
-        breakpoint={breakpoint}
-        {...(props as P)}
-        ref={ref}
-      />
-    );
+    return <Component theme={theme} {...(props as P)} ref={ref} />;
   });
 
   WithBreakpointProp.displayName = `Themed.${

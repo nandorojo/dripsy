@@ -16,6 +16,6 @@ export type StyledProps<P> = SxProps & {
    */
   // @ts-ignore
   nativeStyle?: P['style'];
-  breakpoint: number;
+  breakpoint?: number;
   theme: Theme;
 };

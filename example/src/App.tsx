@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, ThemeProvider, Text as DripText } from '@nandorojo/dripsy';
+import {
+  View,
+  ThemeProvider,
+  Text as DripText,
+  createThemedComponent,
+} from '@nandorojo/dripsy';
 import * as Native from 'react-native';
 import styled from 'styled-components';
 
@@ -9,11 +14,19 @@ const theme = {
     secondary: 'black',
     background: 'white',
   },
+  text: {
+    primary: {
+      fontSize: 40,
+    },
+  },
 };
 
 const T = styled(Native.Text)(() => ({
   fontSize: 70,
 }));
+const G = createThemedComponent(Native.Text, {
+  themeKey: 'text',
+});
 
 export default function App() {
   return (
@@ -24,16 +37,8 @@ export default function App() {
           height: [400, 800],
         }}
       >
-        <DripText
-          sx={{
-            color: 'secondary',
-            margin: 100,
-            // fontSize: [20, 30],
-            // variant: '',
-          }}
-        >
-          Hey
-        </DripText>
+        <DripText></DripText>
+        <G variant="primary">Hey</G>
         <T>Hi!</T>
       </View>
     </ThemeProvider>

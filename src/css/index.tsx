@@ -7,7 +7,7 @@ import {
 } from '@theme-ui/css';
 import { ThemeProvider } from '@theme-ui/core';
 import { useCallback } from 'react';
-import * as Native from 'react-native';
+import { PixelRatio, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { ThemedOptions, StyledProps } from './types';
 
@@ -22,19 +22,16 @@ const defaultTheme = {
 const defaultBreakpoints = [40, 60, 80]
   .map((n) => n + 'em')
   .map(
-    (em) =>
-      `${
-        Native.PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))
-      }px`
+    (em) => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
   );
 
 const responsive = (
   styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
-  breakpoint: number
+  breakpoint?: number
 ) => (theme?: Theme) => {
   const next: Exclude<ThemeUIStyleObject, UseThemeFunction> = {};
 
-  for (const key in styles) {
+  for (let key in styles) {
     const value =
       // @ts-ignore
       typeof styles[key] === 'function' ? styles[key](theme) : styles[key];
@@ -46,7 +43,7 @@ const responsive = (
       continue;
     }
 
-    if (Native.Platform.OS === 'web') {
+    if (Platform.OS === 'web') {
       // here we use actual breakpoints
       // for native, we fake it based on screen width
       const breakpoints =
@@ -83,7 +80,9 @@ const responsive = (
       return breakpointIndex;
     };
 
-    const breakpointIndex = nearestBreakpoint(breakpoint);
+    // if we're on mobile, we do have a breakpoint
+    // so we can override TS here w/ `as number`
+    const breakpointIndex = nearestBreakpoint(breakpoint as number);
     // @ts-ignore
     next[key] = value[breakpointIndex];
   }
@@ -294,7 +293,7 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   const obj = typeof args === 'function' ? args(theme) : args;
   const styles = responsive(obj, breakpoint)(theme);
 
-  for (const key in styles) {
+  for (let key in styles) {
     // @ts-ignore
     const x = styles[key];
     const val = typeof x === 'function' ? x(theme) : x;
@@ -471,7 +470,7 @@ export function mapPropsToStyledComponent<P>(
 // }
 
 // function ifWeb<T, Z>(web: T, otherwise: Z) {
-//   return Native.Platform.OS === 'web' ? web : otherwise;
+//   return Platform.OS === 'web' ? web : otherwise;
 // }
 
 // type ThemedComponentProps<P> = SxProps & {

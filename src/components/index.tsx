@@ -1,25 +1,31 @@
 import { createThemedComponent } from '../css/create-themed-component';
-import * as Native from 'react-native';
+import {
+  View as rView,
+  Text as rText,
+  ScrollView as rScrollView,
+  TextInput as rTextInput,
+  FlatList as rFlatList,
+  ActivityIndicator as rActivityIndicator,
+  Button as rButton,
+} from 'react-native';
 
-export const View = createThemedComponent(Native.View);
+export const View = createThemedComponent(rView);
 
-export const Text = createThemedComponent(Native.Text, {
+export const Text = createThemedComponent(rText, {
   themeKey: 'text',
 });
 
-export const ScrollView = createThemedComponent(Native.ScrollView);
+export const ScrollView = createThemedComponent(rScrollView);
 
-export const TextInput = createThemedComponent(Native.TextInput);
+export const TextInput = createThemedComponent(rTextInput);
 
-export const Button = createThemedComponent(Native.Button, {
+export const Button = createThemedComponent(rButton, {
   themeKey: 'buttons',
 });
 
-export const FlatList = createThemedComponent(Native.FlatList);
+export const FlatList = createThemedComponent(rFlatList);
 
-export const ActivityIndicator = createThemedComponent(
-  Native.ActivityIndicator
-);
+export const ActivityIndicator = createThemedComponent(rActivityIndicator);
 
 export const Flex = createThemedComponent(View, {
   defaultStyle: {
