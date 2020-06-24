@@ -5,7 +5,7 @@ import {
   Text as DripText,
   createThemedComponent,
 } from '@nandorojo/dripsy';
-import * as Native from 'react-native';
+import { Text } from 'react-native';
 import styled from 'styled-components';
 
 const theme = {
@@ -21,10 +21,10 @@ const theme = {
   },
 };
 
-const T = styled(Native.Text)(() => ({
+const T = styled(Text)(() => ({
   fontSize: 70,
 }));
-const G = createThemedComponent(Native.Text, {
+const G = createThemedComponent(Text, {
   themeKey: 'text',
 });
 

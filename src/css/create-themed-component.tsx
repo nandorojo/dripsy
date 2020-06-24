@@ -27,6 +27,8 @@ export function createThemedComponent<P>(
     const { theme } = useThemeUI();
     const breakpoint = useBreakpointIndex();
 
+    console.log('[native] creating themed component');
+
     const style = mapPropsToStyledComponent(
       { theme, breakpoint, variant, sx, nativeStyle },
       options

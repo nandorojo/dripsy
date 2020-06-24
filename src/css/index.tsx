@@ -409,12 +409,16 @@ export function mapPropsToStyledComponent<P>(
 
   const superStyle = css(sx, breakpoint)({ theme });
 
-  return () => ({
+  const style = () => ({
     ...baseStyle,
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,
   });
+
+  console.log('[css][mapPropsToStyledComponent]', style);
+
+  return style;
 }
 
 // export function createThemedComponent<P>(

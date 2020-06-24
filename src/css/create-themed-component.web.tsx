@@ -22,10 +22,18 @@ function withBreakpointAndThemeProp<P>(Component: ComponentType<P>) {
   return WithBreakpointProp;
 }
 
+console.log('chris weber!');
 export function createThemedComponent<P>(
   Component: Parameters<typeof styled>[0],
   options: ThemedOptions = {}
 ) {
+  console.log(
+    '[web] creating themed component',
+    'displayName' in (Component as any)
+      ? (Component as any).displayName
+      : 'no display name',
+    options
+  );
   return withBreakpointAndThemeProp(
     styled(Component)<StyledProps<P>>((props) =>
       mapPropsToStyledComponent(props, options)
