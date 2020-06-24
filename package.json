@@ -1,6 +1,6 @@
 {
   "name": "@nandorojo/dripsy",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -9,10 +9,7 @@
   "source": "src/index.tsx",
   "files": [
     "src",
-    "lib",
-    "android",
-    "ios",
-    "expo-theme-ui.podspec"
+    "lib"
   ],
   "scripts": {
     "test": "jest",
