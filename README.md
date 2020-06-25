@@ -259,12 +259,19 @@ Change your imports from `react-native` to `@nandorojo/dripsy`
 
 ## `createThemedComponent`
 
-Currently, a bunch of the React Native components are supported. That said, I haven't added them all. If you want to add one, go to `src/components` and add one.
+Currently, a bunch of the React Native components are supported. That said, I haven't added them all. If you want to add one, go to `src/components` and add one and submit a PR.
 
-Or, you can use the `createThemedComponent` function.
+Or, you can use the `createThemedComponent` function in your own app.
 
 ```jsx
 import { createThemedComponent } from '@nandorojo/dripsy';
+import { View } from 'react-native'
+
+const CustomView = createThemedComponent(View, {
+  defaultStyle: {
+    flex: 1
+  }
+})
 ```
 
 # How it works
