@@ -41,6 +41,64 @@ No longer. The goal of this library is to let you go from idea -> universal, the
 
 There is no shortage of discussions about what responsive design should look like in React Native. After trying many, many different ways, I'm convinced this is the answer.
 
+
+# 🙉 Installation
+
+```sh
+yarn add @nandorojo/dripsy
+
+# or
+npm i @nandorojo/dripsy
+```
+
+# 🛠 Set up
+
+Technically, you don't have to do anything else!
+
+However, you'll likely want to create a custom theme.
+
+## For Next.js apps
+
+If you're using the expo + next.js integration, there are a few extra steps.
+
+**1. Install dependencies**
+
+```sh
+yarn add next-compose-plugins next-transpile-modules
+```
+
+**2. Edit your `next.config.js` file to look like this:**
+
+```js
+const withPlugins = require('next-compose-plugins');
+const withTM = require('next-transpile-modules')([
+  '@nandorojo/dripsy',
+  // you can add other packages here that need transpiling
+]);
+
+const { withExpo } = require('@expo/next-adapter');
+
+module.exports = withPlugins(
+  [withTM],
+  withExpo({
+    projectRoot: __dirname,
+  })
+);
+```
+
+**3. (Optional) add `InitializeColorMode` to `pages/_document.js`**
+
+If you're using a color mode (such as dark mode) in your app, you'll probably want to add `InitializeColorMode` to avoid a flash of unstyled text.
+
+Just import `InitializeColorMode`, and put it in at the top of your `body` tag in `pages/_document.js`.
+
+Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next/pages/_document.js).
+
+---
+
+That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation).
+
+
 # 👀 What does Dripsy look like?
 
 ## Create a theme!
@@ -115,62 +173,6 @@ const ResponsiveBox = () => {
   return <View sx={{ width: ['100%', '50%'] }} />;
 };
 ```
-
-# 🙉 Installation
-
-```sh
-yarn add @nandorojo/dripsy
-
-# or
-npm i @nandorojo/dripsy
-```
-
-# 🛠 Set up
-
-Technically, you don't have to do anything else!
-
-However, you'll likely want to create a custom theme.
-
-## For Next.js apps
-
-If you're using the expo + next.js integration, there are a few extra steps.
-
-**1. Install dependencies**
-
-```sh
-yarn add next-compose-plugins next-transpile-modules
-```
-
-**2. Edit your `next.config.js` file to look like this:**
-
-```js
-const withPlugins = require('next-compose-plugins');
-const withTM = require('next-transpile-modules')([
-  '@nandorojo/dripsy',
-  // you can add other packages here that need transpiling
-]);
-
-const { withExpo } = require('@expo/next-adapter');
-
-module.exports = withPlugins(
-  [withTM],
-  withExpo({
-    projectRoot: __dirname,
-  })
-);
-```
-
-**3. (Optional) add `InitializeColorMode` to `pages/_document.js`**
-
-If you're using a color mode (such as dark mode) in your app, you'll probably want to add `InitializeColorMode` to avoid a flash of unstyled text.
-
-Just import `InitializeColorMode`, and put it in at the top of your `body` tag in `pages/_document.js`.
-
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next/pages/_document.js).
-
----
-
-That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation).
 
 ## Custom theme
 
