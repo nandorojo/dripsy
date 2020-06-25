@@ -57,6 +57,74 @@ Technically, you don't have to do anything else!
 
 However, you'll likely want to create a custom theme.
 
+## Custom theme
+
+Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
+
+_If you're using Next.js, this goes in `pages/_app.js`_.
+
+`App.js`
+
+```jsx
+import { ThemeProvider } from '@nandorojo/dripsy';
+
+const theme = {
+  colors: {
+    text: '#000',
+    background: '#fff',
+    primary: 'tomato',
+  },
+  fonts: {
+    body: 'system-ui, sans-serif',
+    heading: '"Avenir Next", sans-serif',
+  },
+  spacing: [10, 12, 14],
+};
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your app code goes here! */}
+    </ThemeProvider>
+  );
+}
+```
+
+Follow the [docs from `theme-ui`](https://theme-ui.com/theme-spec) to see how to theme your app – we use the same API as them.
+
+My personal preference is to have the entire theme object in one file.
+
+Example theme:
+
+_All theme values are optional. You don't have to use them if you don't want._
+
+Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object.
+
+`App.js`
+
+```jsx
+const theme = {
+  colors: {
+    text: '#000',
+    background: '#fff',
+    primary: 'tomato',
+  },
+  fonts: {
+    body: 'system-ui, sans-serif',
+    heading: '"Avenir Next", sans-serif',
+  },
+  spacing: [10, 12, 14],
+};
+
+export default function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your app code goes here! */}
+    </ThemeProvider>
+  );
+}
+```
+
 ## For Next.js apps
 
 If you're using the expo + next.js integration, there are a few extra steps.
@@ -174,73 +242,7 @@ const ResponsiveBox = () => {
 };
 ```
 
-## Custom theme
 
-Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
-
-_If you're using Next.js, this goes in `pages/_app.js`_.
-
-`App.js`
-
-```jsx
-import { ThemeProvider } from '@nandorojo/dripsy';
-
-const theme = {
-  colors: {
-    text: '#000',
-    background: '#fff',
-    primary: 'tomato',
-  },
-  fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
-  },
-  spacing: [10, 12, 14],
-};
-
-export default function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      {/* Your app code goes here! */}
-    </ThemeProvider>
-  );
-}
-```
-
-Follow the [docs from `theme-ui`](https://theme-ui.com/theme-spec) to see how to theme your app – we use the same API as them.
-
-My personal preference is to have the entire theme object in one file.
-
-Example theme:
-
-_All theme values are optional. You don't have to use them if you don't want._
-
-Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object.
-
-`App.js`
-
-```jsx
-const theme = {
-  colors: {
-    text: '#000',
-    background: '#fff',
-    primary: 'tomato',
-  },
-  fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
-  },
-  spacing: [10, 12, 14],
-};
-
-export default function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      {/* Your app code goes here! */}
-    </ThemeProvider>
-  );
-}
-```
 
 ### Expo + Next.js
 
