@@ -94,36 +94,7 @@ Follow the [docs from `theme-ui`](https://theme-ui.com/theme-spec) to see how to
 
 My personal preference is to have the entire theme object in one file.
 
-Example theme:
-
 _All theme values are optional. You don't have to use them if you don't want._
-
-Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object.
-
-`App.js`
-
-```jsx
-const theme = {
-  colors: {
-    text: '#000',
-    background: '#fff',
-    primary: 'tomato',
-  },
-  fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
-  },
-  spacing: [10, 12, 14],
-};
-
-export default function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      {/* Your app code goes here! */}
-    </ThemeProvider>
-  );
-}
-```
 
 ## For Next.js apps
 
