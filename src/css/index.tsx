@@ -5,7 +5,7 @@ import {
   get,
   Theme,
 } from '@theme-ui/css';
-import { ThemeProvider } from '@theme-ui/core';
+import { ThemeProvider, SxProps } from '@theme-ui/core';
 import { useCallback } from 'react';
 import { PixelRatio, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
@@ -31,7 +31,7 @@ const responsive = (
 ) => (theme?: Theme) => {
   const next: Exclude<ThemeUIStyleObject, UseThemeFunction> = {};
 
-  for (let key in styles) {
+  for (const key in styles) {
     const value =
       // @ts-ignore
       typeof styles[key] === 'function' ? styles[key](theme) : styles[key];
@@ -293,7 +293,7 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   const obj = typeof args === 'function' ? args(theme) : args;
   const styles = responsive(obj, breakpoint)(theme);
 
-  for (let key in styles) {
+  for (const key in styles) {
     // @ts-ignore
     const x = styles[key];
     const val = typeof x === 'function' ? x(theme) : x;
@@ -355,48 +355,11 @@ export const useBreakpointIndex = () => {
   return getIndex();
 };
 
-// type Props<P> = SxProps & {
-//   as?: ComponentType<P>;
-//   variant?: string;
-//   /**
-//    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
-//    */
-//   // @ts-ignore
-//   nativeStyle?: P['style'];
-// };
-
-// inject styles into each component using the sx prop and the breakpoint
-// function mapResponsivePropsToStyle<P>({
-//   sx,
-//   breakpoint,
-// }: Pick<Props<P>, 'sx'> & { breakpoint: number }) {
-//   const style = css(sx, breakpoint);
-//   return style;
-// }
-
-// export type StyledProps<P> = SxProps & {
-//   as?: ComponentType<P>;
-//   variant?: string;
-//   /**
-//    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
-//    */
-//   // @ts-ignore
-//   nativeStyle?: P['style'];
-//   breakpoint: number;
-//   theme: Theme;
-// };
-
 export function mapPropsToStyledComponent<P>(
   props: StyledProps<P>,
   { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions
 ) {
-  const {
-    breakpoint,
-    sx,
-    theme,
-    variant = defaultVariant,
-    nativeStyle,
-  } = props;
+  const { breakpoint, sx, theme, variant = defaultVariant, style } = props;
 
   const baseStyle = css(defaultStyle, breakpoint)({ theme });
 
@@ -405,135 +368,22 @@ export function mapPropsToStyledComponent<P>(
     breakpoint
   )({ theme });
 
-  const nativeStyles = css(nativeStyle, breakpoint)({ theme });
+  const nativeStyles = css(style, breakpoint)({ theme });
 
   const superStyle = css(sx, breakpoint)({ theme });
 
-  const style = () => ({
+  const styles = () => ({
     ...baseStyle,
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,
   });
 
-  console.log('[css][mapPropsToStyledComponent]', style);
-
-  return style;
+  return styles;
 }
 
-// export function createThemedComponent<P>(
-//   Component: ComponentType<P>,
-//   options: ThemedOptions = {}
-// ) {
-//   // without styled-components...
-//   const WrappedComponent = React.forwardRef<
-//     typeof Component,
-//     Props<P> & ComponentProps<typeof Component>
-//   >(function Wrapped(prop, ref) {
-//     const { sx, as: SuperComponent, variant, nativeStyle, ...props } = prop;
-
-//     const { theme } = useThemeUI();
-//     const breakpoint = useBreakpointIndexNew();
-
-//     // const variantStyle = mapResponsivePropsToStyle({
-//     //   sx: get(theme, themeKey + '.' + variant, get(theme, variant)),
-//     //   breakpoint,
-//     // })({ theme });
-
-//     // const baseStyle = mapResponsivePropsToStyle({
-//     //   sx: defaultStyle,
-//     //   breakpoint,
-//     // })({
-//     //   theme,
-//     // });
-
-//     // const localStyle = mapResponsivePropsToStyle({ sx, breakpoint })({
-//     //   theme,
-//     // });
-
-//     const style = mapPropsToStyledComponent(
-//       { theme, breakpoint, variant, sx, nativeStyle },
-//       options
-//     )();
-
-//     const TheComponent = SuperComponent || Component;
-
-//     return (
-//       <TheComponent
-//         {...((props as unknown) as P)}
-//         ref={ref}
-//         // style={[baseStyle, variantStyle, nativeStyle, localStyle]}
-//         style={style}
-//       />
-//     );
-//   });
-//   WrappedComponent.displayName = `Themed.${
-//     Component.displayName ?? 'NoNameComponent'
-//   }`;
-//   return WrappedComponent;
-// }
-
-// function ifWeb<T, Z>(web: T, otherwise: Z) {
-//   return Platform.OS === 'web' ? web : otherwise;
-// }
-
-// type ThemedComponentProps<P> = SxProps & {
-//   as: ComponentType<P>;
-// } & P;
-
-// function Themed<P>({
-//   as: component,
-//   defaultStyle,
-//   sx,
-//   ...props
-// }: ThemedComponentProps<P> & { defaultStyle?: SxProps['sx'] }) {
-//   const { theme } = useThemeUI();
-//   const breakpoint = useBreakpointIndexNew();
-
-//   const Component = component;
-
-//   return (
-//     <Component
-//       {...((props as unknown) as P)}
-//       style={[
-//         defaultStyle,
-//         mapResponsivePropsToStyle({ breakpoint, sx })({ theme }),
-//       ]}
-//     />
-//   );
-// }
-/**
- * Export React Native components
- */
-
-// HOC that makes each component responsive using a breakpoint
-// function withBreakpointProp<P>(Component: ComponentType<P>) {
-//   const WithBreakpointProp = React.forwardRef<
-//     typeof Component,
-//     Omit<P, 'breakpoint'>
-//   >(function WithBreakpointProp(props, ref) {
-//     const breakpoint = useBreakpointIndexNew();
-
-//     return <Component breakpoint={breakpoint} {...(props as P)} ref={ref} />;
-//   });
-
-//   return WithBreakpointProp;
-// }
-
-// function mapPropsToStyledComponent<P>(props: P) {}
-
-// type StyledProps<P> = SxProps & {
-//   as?: ComponentType<P>;
-//   variant?: string;
-//   /**
-//    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
-//    */
-//   // @ts-ignore
-//   nativeStyle?: P['style'];
-//   breakpoint: number;
-// };
-// export function createStyledComponent<P>(Component: ComponentType<P>) {
-//   return withBreakpointProp(
-//     normalStyled(Component)<StyledProps<P>>(mapResponsivePropsToStyle)
-//   );
-// }
+export class Styles {
+  static create(styles: { [key: string]: SxProps['sx'] } | SxProps['sx']) {
+    return styles;
+  }
+}

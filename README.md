@@ -27,6 +27,7 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 - TypeScript support (TypeScript theme support is in the works too)
 - Insanely simple API (themed, responsive designs in one line!)
 - Works with Animated/Reanimated values
+- Dark mode / custom color modes
 
 # 🤔 Why?
 
@@ -38,7 +39,7 @@ While React Native has some nice component libraries, it lacks responsive styles
 
 No longer. The goal of this library is to let you go from idea -> universal, themed styles without much effort.
 
-There have been many discussions about what responsive design should look like in React Native. After trying many, many different ways, I'm convinced this is the best.
+There is no shortage of discussions about what responsive design should look like in React Native. After trying many, many different ways, I'm convinced this is the answer.
 
 # 👀 What does Dripsy look like?
 
@@ -132,15 +133,15 @@ However, you'll likely want to create a custom theme.
 
 ## For Next.js apps
 
-If you're using the expo + next.js integration, there's one extra step.
+If you're using the expo + next.js integration, there are a few extra steps.
 
-### 1. Install dependencies
+**1. Install dependencies**
 
 ```sh
 yarn add next-compose-plugins next-transpile-modules
 ```
 
-Edit your `next.config.js` file to look like this:
+**2. Edit your `next.config.js` file to look like this:**
 
 ```js
 const withPlugins = require('next-compose-plugins');
@@ -159,11 +160,23 @@ module.exports = withPlugins(
 );
 ```
 
+**3. (Optional) add `InitializeColorMode` to `pages/_document.js`**
+
+If you're using a color mode (such as dark mode) in your app, you'll probably want to add `InitializeColorMode` to avoid a flash of unstyled text.
+
+Just import `InitializeColorMode`, and put it in at the top of your `body` tag in `pages/_document.js`.
+
+Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next/pages/_document.js).
+
+---
+
 That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation).
 
 ## Custom theme
 
 Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
+
+_If you're using Next.js, this goes in `pages/_app.js`_.
 
 `App.js`
 
