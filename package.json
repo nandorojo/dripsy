@@ -1,6 +1,6 @@
 {
-  "name": "@nandorojo/dripsy",
-  "version": "0.1.9",
+  "name": "dripsy",
+  "version": "0.2.0",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
