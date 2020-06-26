@@ -35,13 +35,34 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 
 React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#-before--after).)
 
-While React Native has some nice component libraries, it lacks responsive styles that respond to theme changes.
+While React Native has some great component libraries, it lacks a good theme design system that is responsive and themed.
 
 No longer. The goal of Dripsy is to let you go from idea to universal, themed styles without much effort.
 
 There is no shortage of discussions about what responsive design should look like in React Native.
 
-After trying many, many different ways, I'm convinced this is the answer. I'm curious to see if you do too.
+After trying many, many different ways, I'm convinced this approach is the answer. I'm curious to see if you'll think the same.
+
+---
+
+Another goal is to have a script that detects your theme, and builds TypeScript intellisense into your components based on your custom theme values. But this isn't made yet. I'd love help with it.
+
+For example, if you have a theme like this:
+
+```js
+export default {
+  colors: {
+    primary: 'blue',
+    muted: '#e8e8e8',
+  },
+};
+```
+
+Then you would get intellisense like this:
+
+<img src="https://media.giphy.com/media/cLMi3vFyXkSgnJal3l/giphy.gif" />
+
+_^ The gif might take sec to load._
 
 # 🙉 Installation
 
