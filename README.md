@@ -10,7 +10,7 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 <Text
   sx={{
     fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
-    color: ['primary', null, 'accent'] // `primary` on mobile & tablet, `accent` on desktop
+    color: ['primary', null, 'accent'], // `primary` on mobile & tablet, `accent` on desktop
   }}
 >
   Responsive font size?? 🤯
@@ -33,7 +33,7 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 
 **Build once, deploy everywhere,** is a great philosophy made possible by Expo Web/React Native Web. A large impediment is responsive design.
 
-React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#Before-&-After).)
+React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#-before--after).)
 
 While React Native has some nice component libraries, it lacks responsive styles that respond to theme changes.
 
@@ -67,23 +67,27 @@ _If you're using Next.js, this goes in `pages/_app.js`_.
 `App.js`
 
 ```jsx
-import { ThemeProvider } from '@nandorojo/dripsy'
+import { ThemeProvider } from '@nandorojo/dripsy';
 
 const theme = {
   colors: {
     text: '#000',
     background: '#fff',
-    primary: 'tomato'
+    primary: 'tomato',
   },
   fonts: {
     body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif'
+    heading: '"Avenir Next", sans-serif',
   },
-  spacing: [10, 12, 14]
-}
+  spacing: [10, 12, 14],
+};
 
 export default function App() {
-  return <ThemeProvider theme={theme}>{/* Your app code goes here! */}</ThemeProvider>
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your app code goes here! */}
+    </ThemeProvider>
+  );
 }
 ```
 
@@ -106,20 +110,20 @@ yarn add next-compose-plugins next-transpile-modules
 **2. Edit your `next.config.js` file to look like this:**
 
 ```js
-const withPlugins = require('next-compose-plugins')
+const withPlugins = require('next-compose-plugins');
 const withTM = require('next-transpile-modules')([
-  '@nandorojo/dripsy'
+  '@nandorojo/dripsy',
   // you can add other packages here that need transpiling
-])
+]);
 
-const { withExpo } = require('@expo/next-adapter')
+const { withExpo } = require('@expo/next-adapter');
 
 module.exports = withPlugins(
   [withTM],
   withExpo({
-    projectRoot: __dirname
+    projectRoot: __dirname,
   })
-)
+);
 ```
 
 **3. (Optional) add `InitializeColorMode` to `pages/_document.js`**
@@ -143,19 +147,19 @@ export default {
   colors: {
     text: '#000',
     background: '#fff',
-    primary: 'tomato'
+    primary: 'tomato',
   },
   spacing: [10, 12, 14],
   fontSize: [16, 20, 24],
   text: {
     h1: {
-      fontSize: 3 // this is 24px, taken from `fontSize` above
+      fontSize: 3, // this is 24px, taken from `fontSize` above
     },
     p: {
-      fontSize: 1 // & this is 16px, taken from `fontSize` above
-    }
-  }
-}
+      fontSize: 1, // & this is 16px, taken from `fontSize` above
+    },
+  },
+};
 ```
 
 ## ...and build a beautiful, responsive UI
@@ -164,7 +168,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3] // [10px, 14px] from theme!
+    padding: [1, 3], // [10px, 14px] from theme!
   }}
 >
   Themed color!
@@ -191,7 +195,7 @@ Use the `sx` prop instead of `style` to use themed and responsive styles:
   sx={{
     height: [100, 400],
     backgroundColor: 'primary',
-    marginX: 10
+    marginX: 10,
   }}
 />
 ```
@@ -203,14 +207,14 @@ Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `them
 To use an animated view, simple use the `as` prop.
 
 ```js
-import { View } from '@nandorojo/dripsy'
-import Animated from 'react-native-reanimated'
-import { useValue } from 'react-native-redash'
+import { View } from '@nandorojo/dripsy';
+import Animated from 'react-native-reanimated';
+import { useValue } from 'react-native-redash';
 
 function App() {
-  const height = useValue(0)
-  
-  return <View as={Animated.View} sx={{ height }} />
+  const height = useValue(0);
+
+  return <View as={Animated.View} sx={{ height }} />;
 }
 ```
 
@@ -221,28 +225,30 @@ function App() {
 This is what it took to make _one_ responsive style without Dripsy...
 
 ```jsx
-import { useState } from 'react'
-import { View } from 'react-native'
+import { useState } from 'react';
+import { View } from 'react-native';
 
 const ResponsiveBox = () => {
-  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
+  const [screenWidth, setScreenWidth] = useState(
+    Dimensions.get('window').width
+  );
 
   useEffect(() => {
     const onResize = (event) => {
-      setScreenWidth(event.window.width)
-    }
-    Dimensions.addEventListener('change', onResize)
+      setScreenWidth(event.window.width);
+    };
+    Dimensions.addEventListener('change', onResize);
 
-    return () => Dimensions.removeEventListener('change', onResize)
-  }, [])
+    return () => Dimensions.removeEventListener('change', onResize);
+  }, []);
 
-  let width = '100%'
+  let width = '100%';
   if (screenWidth > 700) {
-    width = '50%'
+    width = '50%';
   }
 
-  return <View style={{ width }} />
-}
+  return <View style={{ width }} />;
+};
 ```
 
 A big issue with using JS-only breakpoints like that is that it won't work on SSR apps using Expo + Next.js. The "solution" would be to lazy load the component, but then you lose the SEO benefits of Next.js. With Dripsy, SSR works fine!
@@ -250,11 +256,11 @@ A big issue with using JS-only breakpoints like that is that it won't work on SS
 ## With Dripsy 🤩
 
 ```jsx
-import { View } from '@nandorojo/dripsy'
+import { View } from '@nandorojo/dripsy';
 
 const ResponsiveBox = () => {
-  return <View sx={{ width: ['100%', '50%'] }} />
-}
+  return <View sx={{ width: ['100%', '50%'] }} />;
+};
 ```
 
 ### Expo + Next.js
@@ -270,14 +276,14 @@ Currently, a bunch of the React Native components are supported. That said, I ha
 Or, you can use the `createThemedComponent` function in your own app.
 
 ```jsx
-import { createThemedComponent } from '@nandorojo/dripsy'
-import { View } from 'react-native'
+import { createThemedComponent } from '@nandorojo/dripsy';
+import { View } from 'react-native';
 
 const CustomView = createThemedComponent(View, {
   defaultStyle: {
-    flex: 1
-  }
-})
+    flex: 1,
+  },
+});
 ```
 
 # How it works

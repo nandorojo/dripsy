@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@nandorojo/dripsy": ["./src/index"]
+      "@nandorojo/dripsy": ["./src/index"],
+      "dripsy": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
