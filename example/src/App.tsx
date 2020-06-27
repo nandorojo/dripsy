@@ -4,7 +4,7 @@ import {
   ThemeProvider,
   Text as DripText,
   createThemedComponent,
-} from '@nandorojo/dripsy';
+} from 'dripsy';
 import { Text } from 'react-native';
 import styled from 'styled-components';
 
@@ -37,7 +37,7 @@ export default function App() {
           height: [400, 800],
         }}
       >
-        <DripText></DripText>
+        <DripText>joi</DripText>
         <G variant="primary">Hey</G>
         <T>Hi!</T>
       </View>

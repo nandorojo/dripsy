@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  ThemeProvider,
-  createThemedComponent,
-  Text,
-} from '@nandorojo/dripsy';
+import { View, ThemeProvider, createThemedComponent, Text } from 'dripsy';
 import * as Native from 'react-native';
 
 const theme = {
