@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.2.1",
+  "version": "0.4.0-alpha.1",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -54,11 +54,13 @@
     "react": "~16.9.0",
     "react-native": "~0.61.5",
     "release-it": "^13.5.8",
+    "styled-components": "^5.1.1",
     "typescript": "^3.8.3"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "styled-components": ">=5"
   },
   "jest": {
     "preset": "react-native",
@@ -129,7 +131,6 @@
     "@theme-ui/components": "^0.4.0-rc.1",
     "@theme-ui/core": "^0.4.0-rc.1",
     "@theme-ui/css": "^0.4.0-rc.1",
-    "styled-components": "^5.1.1",
     "theme-ui": "^0.4.0-rc.1"
   }
 }
