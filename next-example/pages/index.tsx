@@ -27,7 +27,11 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <View sx={{ height: 400, backgroundColor: ['green', 'purple'] }} />
-      <Text variant="primary" sx={{ color: [null, 'purple'] }}>
+      <Text
+        variant="primary"
+        style={[{ alignContent: 'center' }]}
+        sx={{ color: [null, 'purple'], variant: '' }}
+      >
         hello
       </Text>
       <View sx={{ height: 400, backgroundColor: ['primary', 'secondary'] }} />

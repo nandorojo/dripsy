@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@nandorojo/dripsy": "../nandorojo-dripsy-v0.1.6.tgz",
     "@types/styled-components": "^5.1.0",
     "babel-plugin-styled-components": "^1.10.7",
     "expo": "37.0.7",
