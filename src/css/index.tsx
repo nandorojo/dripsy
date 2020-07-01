@@ -383,7 +383,9 @@ export function mapPropsToStyledComponent<P>(
 }
 
 export class Styles {
-  static create(styles: { [key: string]: SxProps['sx'] } | SxProps['sx']) {
+  static create<T>(
+    styles: { [key in keyof T]: SxProps['sx'] }
+  ): { [key in keyof T]: SxProps['sx'] } {
     return styles;
   }
 }
