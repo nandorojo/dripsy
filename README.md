@@ -36,7 +36,7 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 
 React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#-before--after).)
 
-While React Native has some great component libraries, it lacks a good theme design system that is responsive and themed.
+While React Native has some great component libraries, it lacks a good design system that is responsive and themed.
 
 No longer. The goal of Dripsy is to let you go from idea to universal, themed styles without much effort.
 
