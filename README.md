@@ -84,7 +84,7 @@ However, you'll likely want to create a custom theme.
 
 Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
-_If you're using Next.js, this goes in `pages/_app.js`_.
+_If you're using Next.js, this goes in `pages/_app.js`. Also, you should pass the `options={{ ssr: true }}` prop to the `ThemeProvider`._
 
 `App.js`
 
