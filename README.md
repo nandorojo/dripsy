@@ -1,4 +1,4 @@
-🚨 This is still in development.
+🚨 This is still in development. It works, but I still have to document a bunch of stuff.
 
 ---
 
@@ -22,7 +22,7 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 - Responsive styles
 - Universal (Android, iOS, Web) 
 - Works with Expo
-- Works with Next.js / server-side rendering!
+- Works with Next.js / server-side rendering! (more docs on the way for this!)
 - Full theme support
 - Custom theme variants
 - TypeScript support (TypeScript theme support is in the works too)
