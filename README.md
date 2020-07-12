@@ -68,10 +68,10 @@ _^ The gif might take sec to load._
 # 🙉 Installation
 
 ```sh
-yarn add @nandorojo/dripsy
+yarn add dripsy
 
 # or
-npm i @nandorojo/dripsy
+npm i dripsy
 ```
 
 # 🛠 Set up
@@ -89,7 +89,7 @@ _If you're using Next.js, this goes in `pages/_app.js`_.
 `App.js`
 
 ```jsx
-import { ThemeProvider } from '@nandorojo/dripsy';
+import { ThemeProvider } from 'dripsy';
 
 const theme = {
   colors: {
@@ -134,7 +134,7 @@ yarn add next-compose-plugins next-transpile-modules
 ```js
 const withPlugins = require('next-compose-plugins');
 const withTM = require('next-transpile-modules')([
-  '@nandorojo/dripsy',
+  'dripsy',
   // you can add other packages here that need transpiling
 ]);
 
@@ -203,11 +203,11 @@ _Todo: make the theme values show up in TS types for intelliesense._
 
 Dripsy is an almost-drop-in replacement for React Native's UI components.
 
-Change your imports from `react-native` to `@nandorojo/dripsy`
+Change your imports from `react-native` to `dripsy`
 
 ```diff
 - import { View, Text } from 'react-native'
-+ import { View, H1, P } from '@nandorojo/dripsy'
++ import { View, H1, P } from 'dripsy'
 ```
 
 Use the `sx` prop instead of `style` to use themed and responsive styles:
@@ -222,14 +222,14 @@ Use the `sx` prop instead of `style` to use themed and responsive styles:
 />
 ```
 
-Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `theme-ui` [docs]().
+Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `theme-ui` [docs](https://theme-ui.com/theme-spec/).
 
 ### Animated Values
 
 To use an animated view, simple use the `as` prop.
 
 ```js
-import { View } from '@nandorojo/dripsy';
+import { View } from 'dripsy';
 import Animated from 'react-native-reanimated';
 import { useValue } from 'react-native-redash';
 
@@ -278,7 +278,7 @@ A big issue with using JS-only breakpoints like that is that it won't work on SS
 ## With Dripsy 🤩
 
 ```jsx
-import { View } from '@nandorojo/dripsy';
+import { View } from 'dripsy';
 
 const ResponsiveBox = () => {
   return <View sx={{ width: ['100%', '50%'] }} />;
@@ -298,7 +298,7 @@ Currently, a bunch of the React Native components are supported. That said, I ha
 Or, you can use the `createThemedComponent` function in your own app.
 
 ```jsx
-import { createThemedComponent } from '@nandorojo/dripsy';
+import { createThemedComponent } from 'dripsy';
 import { View } from 'react-native';
 
 const CustomView = createThemedComponent(View, {
