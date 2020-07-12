@@ -40,7 +40,7 @@ While React Native has some great component libraries, it lacks a good design sy
 
 No longer. The goal of Dripsy is to let you go from idea to universal, themed styles without much effort.
 
-There is no shortage of discussions about what responsive design should look like in React Native.
+[There](https://github.com/necolas/react-native-web/issues/1177) [is](https://blog.expo.io/media-queries-with-react-native-for-ios-android-and-web-e0b73ed5777b) [no](https://twitter.com/FernandoTheRojo/status/1143897833663270912) [shortage](https://medium.com/miquido/how-to-create-responsive-layouts-in-react-native-7c4cfa15f1de) [of](https://stackoverflow.com/questions/53465796/how-to-handle-responsive-layout-in-react-native) [discussion](https://dev.to/newbiebr/how-to-make-your-react-native-apps-responsive-45d8) [about](https://heartbeat.fritz.ai/handling-responsive-layouts-in-react-native-apps-1494b3f85984) [what](https://uxdesign.cc/implementing-responsive-design-system-to-react-native-238c0cb7503e) [responsive](https://www.npmjs.com/package/react-native-responsive-screen) [design](https://www.telerik.com/blogs/build-mobile-friendly-web-apps-with-react-native-web) [should](https://medium.com/react-native-training/build-responsive-react-native-views-for-any-device-and-support-orientation-change-1c8beba5bc23) [look](https://dzone.com/articles/how-to-add-responsivity-to-react-native-apps) like in React Native.
 
 After trying many, many different ways, I'm convinced this approach is the answer. I'm curious to see if you'll think the same.
 
