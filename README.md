@@ -1,4 +1,4 @@
-🚨 This is still in development.
+🚨 This is still in development. It works, but I still have to document a bunch of stuff.
 
 ---
 
@@ -20,8 +20,9 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 # Features
 
 - Responsive styles
+- Universal (Android, iOS, Web) 
 - Works with Expo
-- Works with Next.js / server-side rendering!
+- Works with Next.js / server-side rendering! (more docs on the way for this)
 - Full theme support
 - Custom theme variants
 - TypeScript support (TypeScript theme support is in the works too)
@@ -35,11 +36,11 @@ A **dead simple**, **responsive** design system for Expo / React Native Web. Hea
 
 React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#-before--after).)
 
-While React Native has some great component libraries, it lacks a good theme design system that is responsive and themed.
+While React Native has some great component libraries, it lacks a good design system that is responsive and themed.
 
 No longer. The goal of Dripsy is to let you go from idea to universal, themed styles without much effort.
 
-There is no shortage of discussions about what responsive design should look like in React Native.
+[There](https://github.com/necolas/react-native-web/issues/1177) [is](https://blog.expo.io/media-queries-with-react-native-for-ios-android-and-web-e0b73ed5777b) [no](https://twitter.com/FernandoTheRojo/status/1143897833663270912) [shortage](https://medium.com/miquido/how-to-create-responsive-layouts-in-react-native-7c4cfa15f1de) [of](https://stackoverflow.com/questions/53465796/how-to-handle-responsive-layout-in-react-native) [discussion](https://dev.to/newbiebr/how-to-make-your-react-native-apps-responsive-45d8) [about](https://heartbeat.fritz.ai/handling-responsive-layouts-in-react-native-apps-1494b3f85984) [what](https://uxdesign.cc/implementing-responsive-design-system-to-react-native-238c0cb7503e) [responsive](https://www.npmjs.com/package/react-native-responsive-screen) [design](https://www.telerik.com/blogs/build-mobile-friendly-web-apps-with-react-native-web) [should](https://medium.com/react-native-training/build-responsive-react-native-views-for-any-device-and-support-orientation-change-1c8beba5bc23) [look](https://dzone.com/articles/how-to-add-responsivity-to-react-native-apps) like in React Native.
 
 After trying many, many different ways, I'm convinced this approach is the answer. I'm curious to see if you'll think the same.
 
@@ -67,10 +68,10 @@ _^ The gif might take sec to load._
 # 🙉 Installation
 
 ```sh
-yarn add @nandorojo/dripsy
+yarn add dripsy
 
 # or
-npm i @nandorojo/dripsy
+npm i dripsy
 ```
 
 # 🛠 Set up
@@ -83,12 +84,12 @@ However, you'll likely want to create a custom theme.
 
 Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
-_If you're using Next.js, this goes in `pages/_app.js`_.
+_If you're using Next.js, this goes in `pages/_app.js`. Also, you should pass the `options={{ ssr: true }}` prop to the `ThemeProvider`._
 
 `App.js`
 
 ```jsx
-import { ThemeProvider } from '@nandorojo/dripsy';
+import { ThemeProvider } from 'dripsy';
 
 const theme = {
   colors: {
@@ -133,7 +134,7 @@ yarn add next-compose-plugins next-transpile-modules
 ```js
 const withPlugins = require('next-compose-plugins');
 const withTM = require('next-transpile-modules')([
-  '@nandorojo/dripsy',
+  'dripsy',
   // you can add other packages here that need transpiling
 ]);
 
@@ -202,11 +203,11 @@ _Todo: make the theme values show up in TS types for intelliesense._
 
 Dripsy is an almost-drop-in replacement for React Native's UI components.
 
-Change your imports from `react-native` to `@nandorojo/dripsy`
+Change your imports from `react-native` to `dripsy`
 
 ```diff
 - import { View, Text } from 'react-native'
-+ import { View, H1, P } from '@nandorojo/dripsy'
++ import { View, H1, P } from 'dripsy'
 ```
 
 Use the `sx` prop instead of `style` to use themed and responsive styles:
@@ -221,14 +222,14 @@ Use the `sx` prop instead of `style` to use themed and responsive styles:
 />
 ```
 
-Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `theme-ui` [docs]().
+Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `theme-ui` [docs](https://theme-ui.com/theme-spec/).
 
 ### Animated Values
 
 To use an animated view, simple use the `as` prop.
 
 ```js
-import { View } from '@nandorojo/dripsy';
+import { View } from 'dripsy';
 import Animated from 'react-native-reanimated';
 import { useValue } from 'react-native-redash';
 
@@ -277,7 +278,7 @@ A big issue with using JS-only breakpoints like that is that it won't work on SS
 ## With Dripsy 🤩
 
 ```jsx
-import { View } from '@nandorojo/dripsy';
+import { View } from 'dripsy';
 
 const ResponsiveBox = () => {
   return <View sx={{ width: ['100%', '50%'] }} />;
@@ -297,7 +298,7 @@ Currently, a bunch of the React Native components are supported. That said, I ha
 Or, you can use the `createThemedComponent` function in your own app.
 
 ```jsx
-import { createThemedComponent } from '@nandorojo/dripsy';
+import { createThemedComponent } from 'dripsy';
 import { View } from 'react-native';
 
 const CustomView = createThemedComponent(View, {
