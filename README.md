@@ -1,7 +1,3 @@
-🚨 This is still in development. It works, but I still have to document a bunch of stuff.
-
----
-
 # 🍷 Dripsy
 
 A **dead simple**, **responsive** design system for Expo / React Native Web. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/home).
