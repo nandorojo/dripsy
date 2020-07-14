@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@nandorojo/dripsy": ["./src/index"],
-      "dripsy": ["./src/index"]
+      "dripsy": ["./src/index"],
+      "@create-themed-component": ["./src/css/create-themed-component"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
