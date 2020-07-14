@@ -12,7 +12,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nandorojo/dripsy": "../nandorojo-dripsy-v0.1.2.tgz",
     "@types/styled-components": "^5.1.0",
     "expo": "~37.0.3",
     "react": "~16.9.0",

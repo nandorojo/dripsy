@@ -10,6 +10,7 @@ import { useCallback } from 'react';
 import { PixelRatio, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
 import { ThemedOptions, StyledProps } from './types';
+import { dripsyOptions } from '../provider';
 
 export { ThemeProvider };
 
@@ -43,7 +44,7 @@ const responsive = (
       continue;
     }
 
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' && dripsyOptions.ssr) {
       // here we use actual breakpoints
       // for native, we fake it based on screen width
       const breakpoints =
@@ -383,7 +384,9 @@ export function mapPropsToStyledComponent<P>(
 }
 
 export class Styles {
-  static create(styles: { [key: string]: SxProps['sx'] } | SxProps['sx']) {
+  static create<T>(
+    styles: { [key in keyof T]: SxProps['sx'] }
+  ): { [key in keyof T]: SxProps['sx'] } {
     return styles;
   }
 }
