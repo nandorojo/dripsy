@@ -40,27 +40,6 @@ No longer. The goal of Dripsy is to let you go from idea to universal, themed st
 
 After trying many, many different ways, I'm convinced this approach is the answer. I'm curious to see if you'll think the same.
 
----
-
-Another goal is to have a script that detects your theme, and builds TypeScript intellisense into your components based on your custom theme values. But this isn't made yet. I'd love help with it.
-
-For example, if you have a theme like this:
-
-```js
-export default {
-  colors: {
-    primary: 'blue',
-    muted: '#e8e8e8',
-  },
-};
-```
-
-Then you would get intellisense like this:
-
-<img src="https://media.giphy.com/media/cLMi3vFyXkSgnJal3l/giphy.gif" />
-
-_^ The gif might take sec to load._
-
 # 🙉 Installation
 
 ```sh
