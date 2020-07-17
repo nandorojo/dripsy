@@ -1,5 +1,5 @@
 import { HR } from '@expo/html-elements';
-import { createThemedComponent } from '@create-themed-component';
+import { createThemedComponent } from '../css/create-themed-component';
 
 export const Divider = createThemedComponent(HR, {
   themeKey: 'hr',

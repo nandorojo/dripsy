@@ -16,10 +16,7 @@ module.exports = async function (env, argv) {
   Object.assign(config.resolve.alias, {
     'react': path.join(node_modules, 'react'),
     'react-native-web': path.join(node_modules, 'react-native-web'),
-    'expo-theme-ui': path.join(
-      root,
-      require('../package.json').source
-    ),
+    'expo-theme-ui': path.join(root, require('../package.json').source),
   });
 
   return config;

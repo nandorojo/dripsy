@@ -1,5 +1,5 @@
 import { Image } from './Image';
-import { createThemedComponent } from '@create-themed-component';
+import { createThemedComponent } from '../css/create-themed-component';
 
 export const Avatar = createThemedComponent(Image, {
   defaultVariant: 'avatar',

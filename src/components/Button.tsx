@@ -1,5 +1,5 @@
 import { Button as rButton } from 'react-native';
-import { createThemedComponent } from '@create-themed-component';
+import { createThemedComponent } from '../css/create-themed-component';
 
 export const Button = createThemedComponent(rButton, {
   themeKey: 'buttons',

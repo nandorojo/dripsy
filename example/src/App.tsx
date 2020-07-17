@@ -16,7 +16,10 @@ const theme = {
   },
   text: {
     primary: {
-      fontSize: 40,
+      'fontSize': 40,
+      ':hover': {
+        color: 'green',
+      },
     },
   },
 };
