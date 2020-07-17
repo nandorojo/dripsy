@@ -1,7 +1,7 @@
 export * from './components';
 export * from './css/create-themed-component';
 
-export { Styles, css } from './css';
+export { Styles, css, useResponsiveValue } from './css';
 export { ThemeProvider } from '@theme-ui/core';
 export { InitializeColorMode, Theme } from 'theme-ui';
 // import React from 'react';
