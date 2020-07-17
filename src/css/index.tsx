@@ -368,7 +368,6 @@ export function useResponsiveValue<T>(
   // options: defaultOptions = {}
 ): T {
   const { theme } = useThemeUI();
-  console.log(theme);
   const array = typeof values === 'function' ? values(theme) : values;
   const index = useBreakpointIndex();
   return array[index >= array.length ? array.length - 1 : index];
