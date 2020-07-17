@@ -15,8 +15,9 @@ function withBreakpointAndThemeProp<P>(Component: ComponentType<P>) {
     return <Component theme={theme} {...(props as P)} ref={ref} />
   })
 
-  WithBreakpointProp.displayName = `Themed.${Component.displayName ??
-    'NoNameComponent'}`
+  WithBreakpointProp.displayName = `Themed.${
+    Component.displayName ?? 'NoNameComponent'
+  }`
 
   return WithBreakpointProp
 }
@@ -26,7 +27,7 @@ export function createThemedComponent<P>(
   options: ThemedOptions = {}
 ) {
   return withBreakpointAndThemeProp(
-    styled(Component)<StyledProps<P>>(props =>
+    styled(Component)<StyledProps<P>>((props) =>
       mapPropsToStyledComponent(props, options)
     )
   )
