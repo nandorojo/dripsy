@@ -5,7 +5,7 @@ import {
   get,
   Theme,
 } from '@theme-ui/css';
-import { ThemeProvider, SxProps } from '@theme-ui/core';
+import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core';
 import { useCallback } from 'react';
 import { PixelRatio, Platform } from 'react-native';
 import { useDimensions } from '@react-native-community/hooks';
@@ -336,6 +336,11 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   return result;
 };
 
+// TODO: Do we need options?
+// type defaultOptions = {
+//   defaultIndex?: number;
+// };
+
 export const useBreakpointIndex = () => {
   const { width = 0 } = useDimensions().window;
 
@@ -355,6 +360,19 @@ export const useBreakpointIndex = () => {
 
   return getIndex();
 };
+
+type Values<T> = ((theme: Theme | null) => T[]) | T[];
+
+export function useResponsiveValue<T>(
+  values: Values<T>
+  // options: defaultOptions = {}
+): T {
+  const { theme } = useThemeUI();
+  console.log(theme);
+  const array = typeof values === 'function' ? values(theme) : values;
+  const index = useBreakpointIndex();
+  return array[index >= array.length ? array.length - 1 : index];
+}
 
 export function mapPropsToStyledComponent<P>(
   props: StyledProps<P>,
