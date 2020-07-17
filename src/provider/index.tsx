@@ -1,24 +1,24 @@
-import React, { ComponentProps } from 'react';
-import { ThemeProvider } from 'theme-ui';
+import React, { ComponentProps } from 'react'
+import { ThemeProvider } from 'theme-ui'
 
 type DripsyOptions = {
-  ssr?: boolean;
-};
+  ssr?: boolean
+}
 
 type Props = ComponentProps<typeof ThemeProvider> & {
-  options?: DripsyOptions;
-};
+  options?: DripsyOptions
+}
 
 export let dripsyOptions: DripsyOptions = {
   ssr: false,
-};
+}
 
 export const setDripsyOptions = (options: Partial<DripsyOptions>) => {
-  dripsyOptions = { ...dripsyOptions, ...options };
-};
+  dripsyOptions = { ...dripsyOptions, ...options }
+}
 
 export function DripsyProvider({ options, ...props }: Props) {
-  if (options) setDripsyOptions(options);
+  if (options) setDripsyOptions(options)
 
-  return <ThemeProvider {...props} />;
+  return <ThemeProvider {...props} />
 }

@@ -1,7 +1,7 @@
-import React, { ComponentType, ComponentProps } from 'react';
-import { ThemedOptions, StyledProps } from './types';
-import { useThemeUI } from '@theme-ui/core';
-import { useBreakpointIndex, mapPropsToStyledComponent } from '.';
+import React, { ComponentType, ComponentProps } from 'react'
+import { ThemedOptions, StyledProps } from './types'
+import { useThemeUI } from '@theme-ui/core'
+import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
 
 // type Props<P> = SxProps & {
 //   as?: ComponentType<P>;
@@ -13,7 +13,7 @@ import { useBreakpointIndex, mapPropsToStyledComponent } from '.';
 //   nativeStyle?: P['style'];
 // };
 
-type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>;
+type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
 export function createThemedComponent<P>(
   Component: ComponentType<P>,
@@ -24,26 +24,25 @@ export function createThemedComponent<P>(
     typeof Component,
     Props<P> & ComponentProps<typeof Component>
   >(function Wrapped(prop, ref) {
-    const { sx, as: SuperComponent, variant, style, ...props } = prop;
+    const { sx, as: SuperComponent, variant, style, ...props } = prop
 
-    const { theme } = useThemeUI();
-    const breakpoint = useBreakpointIndex();
+    const { theme } = useThemeUI()
+    const breakpoint = useBreakpointIndex()
 
     const styles = mapPropsToStyledComponent(
       { theme, breakpoint, variant, sx, style },
       options
-    )();
+    )()
 
-    const TheComponent = SuperComponent || Component;
+    const TheComponent = SuperComponent || Component
 
     return (
       <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
-    );
-  });
+    )
+  })
 
-  WrappedComponent.displayName = `Themed.${
-    Component.displayName ?? 'NoNameComponent'
-  }`;
+  WrappedComponent.displayName = `Themed.${Component.displayName ??
+    'NoNameComponent'}`
 
-  return WrappedComponent;
+  return WrappedComponent
 }
