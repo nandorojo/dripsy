@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -20,7 +20,7 @@
     "example": "yarn --cwd example",
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "local": "yarn prepare && yarn pack && cd example && yarn remove @nandorojo/dripsy && yarn add ../nandorojo-dripsy-v0.1.2.tgz && yarn start",
+    "local": "yarn prepare && yarn pack && cd example && yarn remove dripsy && yarn add ../dripsy-v0.5.1.tgz && yarn start",
     "ssr": "yarn prepare && yarn pack && cd next && yarn add ../nandorojo-dripsy-v0.1.6.tgz && yarn next"
   },
   "keywords": [
@@ -45,21 +45,16 @@
     "@types/react-native": "0.62.7",
     "@types/styled-components": "^5.1.0",
     "commitlint": "^8.3.5",
-    "eslint": "^6.8.0",
     "eslint-config-nando": "^1.0.9",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-prettier": "^3.1.3",
     "jest": "^26.0.1",
-    "prettier": "^2.0.5",
     "react": "~16.9.0",
     "react-native": "~0.61.5",
     "release-it": "^13.5.8",
     "styled-components": "^5.1.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.7"
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*",
     "styled-components": ">=5"
   },
   "jest": {
@@ -69,35 +64,10 @@
       "<rootDir>/lib/"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "@react-native-community",
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
-          "trailingComma": "es5",
-          "useTabs": false
-        }
-      ]
-    }
-  },
   "eslintIgnore": [
     "node_modules/",
     "lib/"
   ],
-  "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
-  },
   "release-it": {
     "git": {
       "commitMessage": "chore: release ${version}",

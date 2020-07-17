@@ -4,92 +4,92 @@ import {
   UseThemeFunction,
   get,
   Theme,
-} from '@theme-ui/css';
-import { ThemeProvider, SxProps } from '@theme-ui/core';
-import { useCallback } from 'react';
-import { PixelRatio, Platform } from 'react-native';
-import { useDimensions } from '@react-native-community/hooks';
-import { ThemedOptions, StyledProps } from './types';
-import { dripsyOptions } from '../provider';
+} from '@theme-ui/css'
+import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
+import { useCallback } from 'react'
+import { PixelRatio, Platform } from 'react-native'
+import { useDimensions } from '@react-native-community/hooks'
+import { ThemedOptions, StyledProps } from './types'
+import { dripsyOptions } from '../provider'
 
-export { ThemeProvider };
+export { ThemeProvider }
 
-type CssPropsArgument = { theme: Theme } | Theme;
+type CssPropsArgument = { theme: Theme } | Theme
 
 const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
-};
+}
 const defaultBreakpoints = [40, 60, 80]
-  .map((n) => n + 'em')
+  .map(n => n + 'em')
   .map(
-    (em) => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
-  );
+    em => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
+  )
 
 const responsive = (
   styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
   breakpoint?: number
 ) => (theme?: Theme) => {
-  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> = {};
+  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
 
   for (const key in styles) {
     const value =
       // @ts-ignore
-      typeof styles[key] === 'function' ? styles[key](theme) : styles[key];
+      typeof styles[key] === 'function' ? styles[key](theme) : styles[key]
 
-    if (value == null) continue;
+    if (value == null) continue
     if (!Array.isArray(value)) {
       // @ts-ignore
-      next[key] = value;
-      continue;
+      next[key] = value
+      continue
     }
 
     if (Platform.OS === 'web' && dripsyOptions.ssr) {
       // here we use actual breakpoints
       // for native, we fake it based on screen width
       const breakpoints =
-        (theme && (theme.breakpoints as string[])) || defaultBreakpoints;
+        (theme && (theme.breakpoints as string[])) || defaultBreakpoints
       const mediaQueries = [
         null,
-        ...breakpoints.map((n) => `@media screen and (min-width: ${n})`),
-      ];
+        ...breakpoints.map(n => `@media screen and (min-width: ${n})`),
+      ]
 
       for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
-        const media = mediaQueries[i];
+        const media = mediaQueries[i]
         if (!media) {
           // @ts-ignore
-          next[key] = value[i];
-          continue;
+          next[key] = value[i]
+          continue
         }
         // @ts-ignore
-        next[media] = next[media] || {};
+        next[media] = next[media] || {}
         // @ts-ignore
-        if (value[i] == null) continue;
+        if (value[i] == null) continue
         // @ts-ignore
-        next[media][key] = value[i];
+        next[media][key] = value[i]
       }
     }
 
     const nearestBreakpoint = (breakpointIndex: number): number => {
       // mobile-first breakpoints
-      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0;
+      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0
 
       if (!value[breakpointIndex]) {
         // if this value doesn't have a breakpoint, find the previous, recursively
-        return nearestBreakpoint(breakpointIndex - 1);
+        return nearestBreakpoint(breakpointIndex - 1)
       }
-      return breakpointIndex;
-    };
+      return breakpointIndex
+    }
 
     // if we're on mobile, we do have a breakpoint
     // so we can override TS here w/ `as number`
-    const breakpointIndex = nearestBreakpoint(breakpoint as number);
+    const breakpointIndex = nearestBreakpoint(breakpoint as number)
     // @ts-ignore
-    next[key] = value[breakpointIndex];
+    next[key] = value[breakpointIndex]
   }
 
-  return next;
-};
+  return next
+}
 
 const aliases = {
   bg: 'backgroundColor',
@@ -107,8 +107,8 @@ const aliases = {
   pl: 'paddingLeft',
   px: 'paddingX',
   py: 'paddingY',
-} as const;
-type Aliases = typeof aliases;
+} as const
+type Aliases = typeof aliases
 
 export const multiples = {
   marginX: ['marginLeft', 'marginRight'],
@@ -116,7 +116,7 @@ export const multiples = {
   paddingX: ['paddingLeft', 'paddingRight'],
   paddingY: ['paddingTop', 'paddingBottom'],
   size: ['width', 'height'],
-};
+}
 
 export const scales = {
   color: 'colors',
@@ -239,8 +239,8 @@ export const scales = {
   // svg
   fill: 'colors',
   stroke: 'colors',
-} as const;
-type Scales = typeof scales;
+} as const
+type Scales = typeof scales
 
 const transforms = [
   'margin',
@@ -266,22 +266,22 @@ const transforms = [
     [curr]: positiveOrNegative,
   }),
   {}
-);
+)
 
 const positiveOrNegative = (scale: object, value: string | number) => {
   if (typeof value !== 'number' || value >= 0) {
     if (typeof value === 'string' && value.startsWith('-')) {
-      const valueWithoutMinus = value.substring(1);
-      const n = get(scale, valueWithoutMinus, valueWithoutMinus);
-      return `-${n}`;
+      const valueWithoutMinus = value.substring(1)
+      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
+      return `-${n}`
     }
-    return get(scale, value, value);
+    return get(scale, value, value)
   }
-  const absolute = Math.abs(value);
-  const n = get(scale, absolute, absolute);
-  if (typeof n === 'string') return '-' + n;
-  return Number(n) * -1;
-};
+  const absolute = Math.abs(value)
+  const n = get(scale, absolute, absolute)
+  if (typeof n === 'string') return '-' + n
+  return Number(n) * -1
+}
 
 export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   props: CssPropsArgument = {}
@@ -289,104 +289,121 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   const theme: Theme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
-  };
-  let result = {};
-  const obj = typeof args === 'function' ? args(theme) : args;
-  const styles = responsive(obj, breakpoint)(theme);
+  }
+  let result = {}
+  const obj = typeof args === 'function' ? args(theme) : args
+  const styles = responsive(obj, breakpoint)(theme)
 
   for (const key in styles) {
     // @ts-ignore
-    const x = styles[key];
-    const val = typeof x === 'function' ? x(theme) : x;
+    const x = styles[key]
+    const val = typeof x === 'function' ? x(theme) : x
 
     if (key === 'variant') {
-      const variant = css(get(theme, val))(theme);
-      result = { ...result, ...variant };
-      continue;
+      const variant = css(get(theme, val))(theme)
+      result = { ...result, ...variant }
+      continue
     }
 
     if (val && typeof val === 'object') {
       // @ts-ignore
-      result[key] = css(val)(theme);
-      continue;
+      result[key] = css(val)(theme)
+      continue
     }
 
-    const prop = key in aliases ? aliases[key as keyof Aliases] : key;
-    const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined;
+    const prop = key in aliases ? aliases[key as keyof Aliases] : key
+    const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
     // @ts-ignore
-    const scale = get(theme, scaleName, get(theme, prop, {}));
-    const transform = get(transforms, prop, get);
-    const value = transform(scale, val, val);
+    const scale = get(theme, scaleName, get(theme, prop, {}))
+    const transform = get(transforms, prop, get)
+    const value = transform(scale, val, val)
 
     // @ts-ignore
     if (multiples[prop]) {
       // @ts-ignore
-      const dirs = multiples[prop];
+      const dirs = multiples[prop]
 
       for (let i = 0; i < dirs.length; i++) {
         // @ts-ignore
-        result[dirs[i]] = value;
+        result[dirs[i]] = value
       }
     } else {
       // @ts-ignore
-      result[prop] = value;
+      result[prop] = value
     }
   }
 
-  return result;
-};
+  return result
+}
+
+// TODO: Do we need options?
+// type defaultOptions = {
+//   defaultIndex?: number;
+// };
 
 export const useBreakpointIndex = () => {
-  const { width = 0 } = useDimensions().window;
+  const { width = 0 } = useDimensions().window
 
   const getIndex = useCallback(() => {
     // return 1;
     // const { width = 700 } = Dimensions.get("window");
     const breakpointPixels = [...defaultBreakpoints]
       .reverse()
-      .find((breakpoint) => width >= Number(breakpoint.replace('px', '')));
+      .find(breakpoint => width >= Number(breakpoint.replace('px', '')))
 
     let breakpoint = defaultBreakpoints.findIndex(
-      (breakpoint) => breakpointPixels === breakpoint
-    );
-    breakpoint = breakpoint === -1 ? 0 : breakpoint + 1;
-    return breakpoint;
-  }, [width]);
+      breakpoint => breakpointPixels === breakpoint
+    )
+    breakpoint = breakpoint === -1 ? 0 : breakpoint + 1
+    return breakpoint
+  }, [width])
 
-  return getIndex();
-};
+  return getIndex()
+}
+
+type Values<T> = ((theme: Theme | null) => T[]) | T[]
+
+export function useResponsiveValue<T>(
+  values: Values<T>
+  // options: defaultOptions = {}
+): T {
+  const { theme } = useThemeUI()
+  const array = typeof values === 'function' ? values(theme) : values
+  const index = useBreakpointIndex()
+  return array[index >= array.length ? array.length - 1 : index]
+}
 
 export function mapPropsToStyledComponent<P>(
   props: StyledProps<P>,
   { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions
 ) {
-  const { breakpoint, sx, theme, variant = defaultVariant, style } = props;
+  const { breakpoint, sx, theme, variant = defaultVariant, style } = props
 
-  const baseStyle = css(defaultStyle, breakpoint)({ theme });
+  const baseStyle = css(defaultStyle, breakpoint)({ theme })
 
   const variantStyle = css(
     get(theme, themeKey + '.' + variant, get(theme, variant)),
     breakpoint
-  )({ theme });
+  )({ theme })
 
-  const nativeStyles = css(style, breakpoint)({ theme });
+  const nativeStyles = css(style, breakpoint)({ theme })
 
-  const superStyle = css(sx, breakpoint)({ theme });
+  const superStyle = css(sx, breakpoint)({ theme })
 
   const styles = () => ({
     ...baseStyle,
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,
-  });
+  })
 
-  return styles;
+  return styles
 }
 
 export class Styles {
   static create<T>(
     styles: { [key in keyof T]: SxProps['sx'] }
   ): { [key in keyof T]: SxProps['sx'] } {
-    return styles;
+    return styles
   }
 }
