@@ -6,8 +6,9 @@ import {
   createThemedComponent,
   useResponsiveValue,
   H1,
+  Button,
+  Text,
 } from 'dripsy'
-import { Text } from 'react-native'
 import styled from 'styled-components'
 
 const theme = {
@@ -65,14 +66,23 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <View
         sx={{
-          backgroundColor: () => ['primary', 'blue'],
+          backgroundColor: () => ['primary', 'white'],
           height: [400, 800],
         }}
       >
-        <DripText as="p">joi</DripText>
+        <H1>Bonjour</H1>
+        <Text>Does this complain?</Text>
+        <DripText>joi</DripText>
         <G variant="primary">Hey</G>
         <T>Hi!</T>
         <ResponsiveSquare />
+        <View>
+          <Button
+            sx={{ backgroundColor: 'green' }}
+            title="Click Me!!!"
+            onPress={() => console.log('Universal button')}
+          />
+        </View>
       </View>
     </ThemeProvider>
   )

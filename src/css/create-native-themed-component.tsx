@@ -41,8 +41,9 @@ export function createThemedComponent<P>(
     )
   })
 
-  WrappedComponent.displayName = `Themed.${Component.displayName ??
-    'NoNameComponent'}`
+  WrappedComponent.displayName = `Themed.${
+    Component.displayName ?? 'NoNameComponent'
+  }`
 
   return WrappedComponent
 }

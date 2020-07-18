@@ -56,6 +56,11 @@ export const A = createThemedComponent(HTML.A, {
   defaultVariant: 'a',
 })
 
+export const P = createThemedComponent(HTML.P, {
+  themeKey: 'text',
+  defaultVariant: 'a',
+})
+
 export const Hr = createThemedComponent(HTML.HR, {
   themeKey: 'hr',
   defaultStyle: {
@@ -69,9 +74,7 @@ export const Hr = createThemedComponent(HTML.HR, {
 
 export const View = createThemedComponent(rView)
 
-export const Text = createThemedComponent(rText, {
-  themeKey: 'text',
-})
+export const Text = P
 
 export const ScrollView = createThemedComponent(rScrollView)
 
