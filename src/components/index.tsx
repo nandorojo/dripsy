@@ -74,7 +74,7 @@ export const Hr = createThemedComponent(HTML.HR, {
 
 export const View = createThemedComponent(rView)
 
-export const Text = P
+export const Text = createThemedComponent(rText)
 
 export const ScrollView = createThemedComponent(rScrollView)
 
@@ -124,7 +124,7 @@ export const ImageBackground = createThemedComponent(rImageBackground, {
   defaultVariant: 'background',
 })
 
-export const Container = createThemedComponent(View, {
+export const Container = createThemedComponent(rView, {
   defaultVariant: 'container',
   themeKey: 'layout',
   defaultStyle: {
@@ -134,13 +134,13 @@ export const Container = createThemedComponent(View, {
   },
 })
 
-export const Flex = createThemedComponent(View, {
+export const Flex = createThemedComponent(rView, {
   defaultStyle: {
     flexDirection: 'row',
   },
 })
 
-export const Card = createThemedComponent(View, {
+export const Card = createThemedComponent(rView, {
   themeKey: 'card',
   defaultVariant: 'primary',
 })

@@ -7,8 +7,10 @@ import {
   useResponsiveValue,
   H1,
   Button,
-  Text,
+  Container,
+  Text as DText,
 } from 'dripsy'
+import { Text } from 'react-native'
 import styled from 'styled-components'
 
 const theme = {
@@ -33,6 +35,7 @@ const theme = {
 const T = styled(Text)(() => ({
   fontSize: 70,
 }))
+
 const G = createThemedComponent(Text, {
   themeKey: 'text',
 })
@@ -41,7 +44,7 @@ const ResponsiveSquare = () => {
   // Return literal values:
   const textColor = useResponsiveValue(['red', 'green', 'blue'])
   // Or provide a function to access theme values:
-  const squareColor = useResponsiveValue((theme) => [
+  const squareColor = useResponsiveValue(theme => [
     theme?.colors?.blue,
     theme?.colors?.red,
     theme?.colors?.green,
@@ -64,26 +67,29 @@ const ResponsiveSquare = () => {
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <View
-        sx={{
-          backgroundColor: () => ['primary', 'white'],
-          height: [400, 800],
-        }}
-      >
-        <H1>Bonjour</H1>
-        <Text>Does this complain?</Text>
-        <DripText>joi</DripText>
-        <G variant="primary">Hey</G>
-        <T>Hi!</T>
-        <ResponsiveSquare />
-        <View>
-          <Button
-            sx={{ backgroundColor: 'green' }}
-            title="Click Me!!!"
-            onPress={() => console.log('Universal button')}
-          />
+      <Container>
+        <View
+          sx={{
+            backgroundColor: () => ['primary', 'white'],
+            height: [400, 800],
+          }}
+        >
+          <H1>Bonjour</H1>
+          <Text>Does this complain?</Text>
+          <DripText>joi</DripText>
+          <DText>Test</DText>
+          <G variant="primary">Hey</G>
+          <T>Hi!</T>
+          <ResponsiveSquare />
+          <View>
+            <Button
+              sx={{ backgroundColor: 'green' }}
+              title="Click Me!!!"
+              onPress={() => console.log('Universal button')}
+            />
+          </View>
         </View>
-      </View>
+      </Container>
     </ThemeProvider>
   )
 }

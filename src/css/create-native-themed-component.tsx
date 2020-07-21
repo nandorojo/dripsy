@@ -22,7 +22,7 @@ export function createThemedComponent<P>(
   // without styled-components...
   const WrappedComponent = React.forwardRef<
     typeof Component,
-    Props<P> & ComponentProps<typeof Component>
+    Props<P> & ComponentProps<typeof Component> & { children?: React.ReactNode }
   >(function Wrapped(prop, ref) {
     const { sx, as: SuperComponent, variant, style, ...props } = prop
 
@@ -41,9 +41,8 @@ export function createThemedComponent<P>(
     )
   })
 
-  WrappedComponent.displayName = `Themed.${
-    Component.displayName ?? 'NoNameComponent'
-  }`
+  WrappedComponent.displayName = `Themed.${Component.displayName ??
+    'NoNameComponent'}`
 
   return WrappedComponent
 }
