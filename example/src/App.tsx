@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   View,
-  DripsyProvider,
+  ThemeProvider,
   Text as DripText,
   createThemedComponent,
   useResponsiveValue,
@@ -66,7 +66,7 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <DripsyProvider theme={theme} options={{ ssr: true }}>
+    <ThemeProvider theme={theme}>
       <Container>
         <View
           sx={{
@@ -90,6 +90,6 @@ export default function App() {
           </View>
         </View>
       </Container>
-    </DripsyProvider>
+    </ThemeProvider>
   )
 }
