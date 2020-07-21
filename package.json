@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.5.2",
+  "version": "0.6.0-alpha.1",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -21,7 +21,7 @@
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn prepare && yarn pack && cd example && yarn remove dripsy && yarn add ../dripsy-v0.5.1.tgz && yarn start",
-    "ssr": "yarn prepare && yarn pack && cd next && yarn add ../nandorojo-dripsy-v0.1.6.tgz && yarn next"
+    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../nandorojo-dripsy-v0.6.0.tgz && yarn next"
   },
   "keywords": [
     "react-native",
@@ -54,8 +54,7 @@
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "react": "*",
-    "styled-components": ">=5"
+    "react": "*"
   },
   "jest": {
     "preset": "react-native",
