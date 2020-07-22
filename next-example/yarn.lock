@@ -71,6 +71,11 @@
   dependencies:
     cross-fetch "3.0.5"
 
+"@artsy/fresnel@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@artsy/fresnel/-/fresnel-1.2.0.tgz#809e5968ed4c58d3fd0b64c58c022bb5a27c5717"
+  integrity sha512-3wrvp1jwk54bvgdFbmoLl10jXSlsYO9HrNJkZvKkhEV1h5AUhTMp6Qp0LrYoQWRHuugCYXQdc3Rj0TOisL+CnQ==
+
 "@babel/code-frame@7.5.5":
   version "7.5.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.5.5.tgz#bc0782f6d69f7b7d49531219699b988f669a8f9d"
@@ -1406,6 +1411,11 @@
     xcode "^2.1.0"
     xml2js "^0.4.23"
 
+"@expo/html-elements@^0.0.0-alpha.5":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/html-elements/-/html-elements-0.0.0.tgz#39088559629141dc9e7127db165bf963900df333"
+  integrity sha512-z1tgdz+Mmt/jzWwq5tIWvu6NGVpD/yMMS7Q20hGcrEAmcfgj599AqKNr1dT2TZGBvTjwVYrr3Yk4ZdR+IvtuDA==
+
 "@expo/image-utils@0.2.19":
   version "0.2.19"
   resolved "https://registry.yarnpkg.com/@expo/image-utils/-/image-utils-0.2.19.tgz#bf9c8d84e9f5e1d448167141a49cbd08147bce6d"
@@ -1953,30 +1963,6 @@
   dependencies:
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
-
-"@nandorojo/dripsy@../nandorojo-dripsy-v0.1.5.tgz":
-  version "0.1.5"
-  resolved "../nandorojo-dripsy-v0.1.5.tgz#4e942ef3723b8dfaeb0e1944a1a55dbf2786b0cb"
-  dependencies:
-    "@react-native-community/hooks" "^2.6.0"
-    "@styled-system/css" "^5.0.0-12"
-    "@theme-ui/components" "^0.4.0-rc.1"
-    "@theme-ui/core" "^0.4.0-rc.1"
-    "@theme-ui/css" "^0.4.0-rc.1"
-    styled-components "^5.1.1"
-    theme-ui "^0.4.0-rc.1"
-
-"@nandorojo/dripsy@../nandorojo-dripsy-v0.1.6.tgz":
-  version "0.1.6"
-  resolved "../nandorojo-dripsy-v0.1.6.tgz#96944c94fd5597f1e57c97d1d3fe2f75b1bd22b8"
-  dependencies:
-    "@react-native-community/hooks" "^2.6.0"
-    "@styled-system/css" "^5.0.0-12"
-    "@theme-ui/components" "^0.4.0-rc.1"
-    "@theme-ui/core" "^0.4.0-rc.1"
-    "@theme-ui/css" "^0.4.0-rc.1"
-    styled-components "^5.1.1"
-    theme-ui "^0.4.0-rc.1"
 
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
@@ -4877,6 +4863,20 @@ dot-prop@^5.2.0:
   integrity sha512-uEUyaDKoSQ1M4Oq8l45hSE26SnTxL6snNnqvK/VWx5wJhmff5z0FUVJDKDanor/6w3kzE3i7XZOk+7wC0EXr1A==
   dependencies:
     is-obj "^2.0.0"
+
+dripsy@^0.6.0-fresnel.2:
+  version "0.6.0-fresnel.2"
+  resolved "https://registry.yarnpkg.com/dripsy/-/dripsy-0.6.0-fresnel.2.tgz#91a615b3235fdea2ad7f0a37196d36d09ce72d65"
+  integrity sha512-g4o9Kru0/afTBA4Pip48wRlwuN7F6YnPHS3qoLSaplwV7IjbXZSQwFQIeHuAEj0wkb9pi6CHxihcaoOLX+BaNg==
+  dependencies:
+    "@artsy/fresnel" "^1.2.0"
+    "@expo/html-elements" "^0.0.0-alpha.5"
+    "@react-native-community/hooks" "^2.6.0"
+    "@styled-system/css" "^5.0.0-12"
+    "@theme-ui/components" "^0.4.0-rc.1"
+    "@theme-ui/core" "^0.4.0-rc.1"
+    "@theme-ui/css" "^0.4.0-rc.1"
+    theme-ui "^0.4.0-rc.1"
 
 duplexer@^0.1.1:
   version "0.1.1"

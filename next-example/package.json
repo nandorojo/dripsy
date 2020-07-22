@@ -2,6 +2,7 @@
   "dependencies": {
     "@types/styled-components": "^5.1.0",
     "babel-plugin-styled-components": "^1.10.7",
+    "dripsy": "^0.6.0-fresnel.2",
     "expo": "37.0.7",
     "next": "9.3.5",
     "next-compose-plugins": "^2.2.0",

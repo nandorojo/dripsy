@@ -20,7 +20,7 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
 }
-const defaultBreakpoints = [40, 60, 80]
+export const defaultBreakpoints = [40, 60, 80]
   .map(n => n + 'em')
   .map(
     em => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
@@ -30,7 +30,13 @@ const responsive = (
   styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
   breakpoint?: number
 ) => (theme?: Theme) => {
-  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
+  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> & {
+    responsiveStyles?: typeof responsiveStyles
+  } = {}
+
+  const responsiveStyles: {
+    [key: string]: Exclude<ThemeUIStyleObject, UseThemeFunction>
+  }[] = []
 
   for (const key in styles) {
     const value =
@@ -44,49 +50,105 @@ const responsive = (
       continue
     }
 
+    // this style value is an array
     if (Platform.OS === 'web' && dripsyOptions.ssr) {
-      // here we use actual breakpoints
-      // for native, we fake it based on screen width
       const breakpoints =
         (theme && (theme.breakpoints as string[])) || defaultBreakpoints
-      const mediaQueries = [
-        null,
-        ...breakpoints.map(n => `@media screen and (min-width: ${n})`),
-      ]
+      const mediaQueries = [0, ...breakpoints]
 
-      for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
-        const media = mediaQueries[i]
-        if (!media) {
-          // @ts-ignore
-          next[key] = value[i]
+      // here we have, say, value = ['red', 'blue', 'green']
+      // and key = "backgroundColor"
+      // for each style value in the style array...
+
+      // this should change to mediaQueries.length now, not value.slice(0, mediaQueries.length).length, right?
+      // for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
+
+      for (let i = 0; i < mediaQueries.length; i++) {
+        // first, make sure this breakpoint has something there, that way we still render the component here
+        // even if there are no unique styles for for that breakpoint.
+        responsiveStyles[i] = responsiveStyles[i] || {}
+
+        // this style value is null (for example, ['blue', null, 'green'], we're on index 1)
+        if (value[i] == null) {
+          const nearestBreakpoint = (breakpointIndex: number): number => {
+            // mobile-first breakpoints
+            if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
+              return 0
+
+            if (!value[breakpointIndex]) {
+              // if this value doesn't have a breakpoint, find the previous, recursively
+              return nearestBreakpoint(breakpointIndex - 1)
+            }
+            return breakpointIndex
+          }
+
+          // since the value is null, get this style value from the prev breakpoint
+          // for instance, ['blue', null, 'green'] should become ['blue, 'blue', 'green']
+          // if the 0th index is null, we just skip it
+          // this is necessary since we need to tell fresnel every style for every breakpoint
+          if (i > 0) {
+            const closestBreakpointIndexWithThisStyleDefined = nearestBreakpoint(
+              i
+            )
+            const styleAtClosestBreakpoint =
+              responsiveStyles[closestBreakpointIndexWithThisStyleDefined]?.[
+                key
+              ]
+
+            if (styleAtClosestBreakpoint) {
+              responsiveStyles[i] = responsiveStyles[i] || {}
+              responsiveStyles[i][key] = styleAtClosestBreakpoint
+            }
+          }
           continue
         }
-        // @ts-ignore
-        next[media] = next[media] || {}
-        // @ts-ignore
-        if (value[i] == null) continue
-        // @ts-ignore
-        next[media][key] = value[i]
+
+        // for this breakpoint index of our responsive styles, edit or create the object
+        responsiveStyles[i][key] = value
+
+        // 🚨🚨🚨🚨 super important!!!
+        // if this style isn't defined for the next breakpoint, we still want it to bubble upward
+        // ...since this is all mobile-first
+        // example: backgroundColor: ['blue', 'yellow'] will have no style after the first two breakpoints...
+        // we would want that to be ['blue', 'yellow', 'yellow', 'yellow'] for whatever the length of the breakpoint array is
+        // since we're going from 0 to higher indices, this is tough. the solution might be to just pre-define it before the next loop
+        // I'll try that for now...
+
+        // only add this value to the next breakpoint if the next breakpoint actually exists
+        // styles will already apply to any breakpoint equal to or greater than the last breakpoint we apply it to
+        if (breakpoints[i + 1]) {
+          responsiveStyles[i + 1] = responsiveStyles[i + 1] || {}
+          if (!responsiveStyles[i + 1][key]) {
+            // if this style exists at the next breakpoint, it will be overridden anyway in the next loop
+            // ...so there's no worry in setting it pre-emptively.
+            responsiveStyles[i + 1][key] = value
+          }
+        }
       }
-    }
+    } else {
+      // if this isn't SSR
+      const nearestBreakpoint = (breakpointIndex: number): number => {
+        // this function is redundant here, but I'll leave it for legibility
+        // mobile-first breakpoints
+        if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
+          return 0
 
-    const nearestBreakpoint = (breakpointIndex: number): number => {
-      // mobile-first breakpoints
-      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0
-
-      if (!value[breakpointIndex]) {
-        // if this value doesn't have a breakpoint, find the previous, recursively
-        return nearestBreakpoint(breakpointIndex - 1)
+        if (!value[breakpointIndex]) {
+          // if this value doesn't have a style at this breakpoint, find the previous, recursively
+          return nearestBreakpoint(breakpointIndex - 1)
+        }
+        return breakpointIndex
       }
-      return breakpointIndex
-    }
 
-    // if we're on mobile, we do have a breakpoint
-    // so we can override TS here w/ `as number`
-    const breakpointIndex = nearestBreakpoint(breakpoint as number)
-    // @ts-ignore
-    next[key] = value[breakpointIndex]
+      // if we're on mobile, we do have a breakpoint
+      // so we can override TS here w/ `as number`
+      const breakpointIndex = nearestBreakpoint(breakpoint as number)
+      // @ts-ignore
+      next[key] = value[breakpointIndex]
+    }
   }
+
+  next.responsiveStyles = responsiveStyles
 
   return next
 }
@@ -285,12 +347,12 @@ const positiveOrNegative = (scale: object, value: string | number) => {
 
 export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
   props: CssPropsArgument = {}
-): CSSObject => {
+): CSSObject & { responsiveStyles?: CSSObject[] } => {
   const theme: Theme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
   }
-  let result = {}
+  let result: { responsiveStyles?: CSSObject[] } & CSSObject = {}
   const obj = typeof args === 'function' ? args(theme) : args
   const styles = responsive(obj, breakpoint)(theme)
 
@@ -308,6 +370,26 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
     if (val && typeof val === 'object') {
       // @ts-ignore
       result[key] = css(val)(theme)
+      continue
+    }
+
+    // if we're using SSR and have responsive styles to go through...
+    // we have an array of style objects that need theming!
+    // TODO: FIX I think this is causing a stack overflow. Something is off.
+    if (key === 'responsiveStyles' && styles.responsiveStyles?.length) {
+      // at this point, styles.responsiveStyles, given to us by `responsive()`, should be an array of style objects
+      // for each breakpoint item...
+      for (let i = 0; i < styles.responsiveStyles.length; i++) {
+        // this should be a raw style object
+        // i.e. { backgroundColor: 'primary' }
+        const breakpointStyles = styles.responsiveStyles[i]
+
+        result.responsiveStyles = result.responsiveStyles || []
+        // theme it!
+        // I think we need to pass this value through css() again to make it extract theme values...
+        // but this appears to be causing the infinite loop...
+        result.responsiveStyles[i] = css(breakpointStyles)(theme)
+      }
       continue
     }
 

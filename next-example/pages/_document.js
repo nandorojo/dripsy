@@ -1,10 +1,10 @@
 // Based on https://github.com/zeit/next.js/tree/canary/examples/with-react-native-web
 // and https://github.com/expo/expo-cli/blob/master/packages/webpack-config/web-default/index.html
-import NextDocument, { Head, Main, NextScript } from 'next/document';
-import * as React from 'react';
-import { InitializeColorMode } from '@nandorojo/dripsy';
+import NextDocument, { Head, Main, NextScript } from 'next/document'
+import * as React from 'react'
+import { InitializeColorMode } from 'dripsy'
 
-import { AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native'
 
 export const style = `
 /**
@@ -44,21 +44,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: scrollbar;
 }
-`;
+`
 
 export async function getInitialProps({ renderPage }) {
-  AppRegistry.registerComponent('Main', () => Main);
-  const { getStyleElement } = AppRegistry.getApplication('Main');
-  const page = renderPage();
+  AppRegistry.registerComponent('Main', () => Main)
+  const { getStyleElement } = AppRegistry.getApplication('Main')
+  const page = renderPage()
   const styles = [
     <style dangerouslySetInnerHTML={{ __html: style }} />,
     getStyleElement(),
-  ];
-  return { ...page, styles: React.Children.toArray(styles) };
+  ]
+  return { ...page, styles: React.Children.toArray(styles) }
 }
 
 export class Document extends NextDocument {
-  static getInitialProps = getInitialProps;
+  static getInitialProps = getInitialProps
   render() {
     return (
       <html>
@@ -71,8 +71,8 @@ export class Document extends NextDocument {
           <NextScript />
         </body>
       </html>
-    );
+    )
   }
 }
 
-export default Document;
+export default Document
