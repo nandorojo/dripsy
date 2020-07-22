@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.6.0-alpha.3",
+  "version": "0.6.0-fresnel.1",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -94,6 +94,7 @@
     ]
   },
   "dependencies": {
+    "@artsy/fresnel": "^1.2.0",
     "@expo/html-elements": "^0.0.0-alpha.5",
     "@react-native-community/hooks": "^2.6.0",
     "@styled-system/css": "^5.0.0-12",
