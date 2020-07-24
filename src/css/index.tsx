@@ -94,7 +94,6 @@ const responsive = (
       }
     } else {
       // since we aren't on web, we let RN handle the breakpoints with JS
-      console.log('[responsive] NOT SSR', Platform.OS)
 
       const nearestBreakpoint = (breakpointIndex: number): number => {
         // mobile-first breakpoints
@@ -115,9 +114,6 @@ const responsive = (
       next[key] = value[breakpointIndex]
     }
   }
-
-  if (next.responsiveSSRStyles)
-    console.log('[css/responsive]', next.responsiveSSRStyles)
 
   return next
 }
