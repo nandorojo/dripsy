@@ -145,7 +145,7 @@ export const Card = createThemedComponent(rView, {
   defaultVariant: 'primary',
 })
 
-export const Button = createThemedComponent(rButton, {
+export const Button = createThemedComponent(rTouchableHighlight, {
   themeKey: 'buttons',
   defaultVariant: 'primary',
   defaultStyle: {
