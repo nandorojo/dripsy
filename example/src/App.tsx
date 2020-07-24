@@ -1,13 +1,17 @@
-import React from 'react';
+import React from 'react'
 import {
   View,
   ThemeProvider,
   Text as DripText,
   createThemedComponent,
   useResponsiveValue,
-} from 'dripsy';
-import { Text } from 'react-native';
-import styled from 'styled-components';
+  DripsyProvider,
+  setDripsyOptions,
+} from 'dripsy'
+import { Text } from 'react-native'
+import styled from 'styled-components'
+
+setDripsyOptions({ ssr: true })
 
 const theme = {
   colors: {
@@ -23,24 +27,21 @@ const theme = {
       fontSize: 40,
     },
   },
-};
+}
 
-const T = styled(Text)(() => ({
-  fontSize: 70,
-}));
 const G = createThemedComponent(Text, {
   themeKey: 'text',
-});
+})
 
 const ResponsiveSquare = () => {
   // Return literal values:
-  const textColor = useResponsiveValue(['red', 'green', 'blue']);
+  const textColor = useResponsiveValue(['red', 'green', 'blue'])
   // Or provide a function to access theme values:
-  const squareColor = useResponsiveValue((theme) => [
+  const squareColor = useResponsiveValue(theme => [
     theme?.colors?.blue,
     theme?.colors?.red,
     theme?.colors?.green,
-  ]);
+  ])
 
   return (
     <View
@@ -53,12 +54,12 @@ const ResponsiveSquare = () => {
     >
       <DripText sx={{ color: textColor }}>Hello</DripText>
     </View>
-  );
-};
+  )
+}
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <DripsyProvider options={{ ssr: true }} theme={theme}>
       <View
         sx={{
           backgroundColor: () => ['primary', 'blue'],
@@ -67,9 +68,9 @@ export default function App() {
       >
         <DripText>joi</DripText>
         <G variant="primary">Hey</G>
-        <T>Hi!</T>
+        <G>Hi!</G>
         <ResponsiveSquare />
       </View>
-    </ThemeProvider>
-  );
+    </DripsyProvider>
+  )
 }
