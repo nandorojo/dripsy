@@ -2,6 +2,9 @@ import React, { ComponentProps, useContext } from 'react'
 import { ThemeProvider } from 'theme-ui'
 import { createMedia } from '@artsy/fresnel'
 import { Platform } from 'react-native'
+import { defaultBreakpoints } from '../css/breakpoints'
+
+console.log('[[[[[provider]]]]]', { defaultBreakpoints })
 
 const {
   MediaContextProvider,
@@ -11,9 +14,9 @@ const {
   breakpoints: {
     // temporary breakpoints for testing fresnel, will update this logic once it works
     '0': 0,
-    '1': 768,
-    '2': 1024,
-    '3': 1192,
+    '1': defaultBreakpoints[1],
+    '2': defaultBreakpoints[1],
+    '3': defaultBreakpoints[1],
   },
 })
 
