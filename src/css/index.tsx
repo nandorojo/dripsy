@@ -47,11 +47,9 @@ const responsive = (
     }
 
     if (Platform.OS === 'web') {
-      // this will only affect SSR styles
-      // if this app is not SSR, this is a no-op
       next.responsiveSSRStyles = next.responsiveSSRStyles || []
 
-      // here we format styles for potentially using them on SSR
+      // fixed breakpoints for now, not customizable
       // const breakpoints =
       //   (Array.isArray(theme?.breakpoints) && theme?.breakpoints) ||
       //   defaultBreakpoints
