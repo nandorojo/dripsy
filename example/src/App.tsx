@@ -8,12 +8,16 @@ import {
   DripsyProvider,
   setDripsyOptions,
 } from 'dripsy'
-import { Text } from 'react-native'
+import { Text, Platform } from 'react-native'
 import styled from 'styled-components'
 
 setDripsyOptions({ ssr: true })
 
 const theme = {
+  useBodyStyles: false,
+  useLocalStorage: false,
+  useCustomProperties: false,
+  useColorSchemeMediaQuery: false,
   colors: {
     primary: '#41b87a',
     secondary: 'black',
