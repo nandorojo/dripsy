@@ -26,7 +26,6 @@
     "@babel/core": "^7.9.6",
     "@babel/runtime": "^7.9.6",
     "babel-preset-expo": "~8.1.0",
-    "expo-cli": "^3.17.18",
-    "theme-ui": "^0.3.1"
+    "expo-cli": "^3.17.18"
   }
 }
