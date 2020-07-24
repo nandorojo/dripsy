@@ -1,7 +1,10 @@
-import React, { ComponentType, ComponentProps } from 'react'
+import React, { ComponentType, ComponentProps, useMemo } from 'react'
 import { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
+import { useIsSSR, SSRMediaQuery } from '../provider'
+import { SSRComponent } from './ssr-component'
+import { Platform } from 'react-native'
 
 // type Props<P> = SxProps & {
 //   as?: ComponentType<P>;
@@ -28,13 +31,48 @@ export function createThemedComponent<P>(
 
     const { theme } = useThemeUI()
     const breakpoint = useBreakpointIndex()
+    const ssr = useIsSSR()
 
-    const styles = mapPropsToStyledComponent(
-      { theme, breakpoint, variant, sx, style },
-      options
-    )()
+    const { responsiveSSRStyles, ...styles } = useMemo(
+      () =>
+        mapPropsToStyledComponent(
+          {
+            theme,
+            breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
+            variant,
+            sx,
+            style,
+          },
+          options
+        )(),
+      [breakpoint, ssr, style, sx, theme, variant]
+    )
+
+    console.log('[create-themed]', {
+      responsiveSSRStyles,
+      web: Platform.OS === 'web',
+      ssr,
+    })
 
     const TheComponent = SuperComponent || Component
+
+    console.log(
+      'will render SSR media query',
+      Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length
+    )
+
+    if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
+      console.log('[create-themed]🚨🚨🚨🚨sssrrrr')
+      return (
+        <SSRComponent
+          Component={TheComponent}
+          responsiveStyles={responsiveSSRStyles}
+          style={styles}
+          ref={ref}
+          {...props}
+        />
+      )
+    }
 
     return (
       <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
@@ -44,5 +82,5 @@ export function createThemedComponent<P>(
   WrappedComponent.displayName = `Themed.${Component.displayName ??
     'NoNameComponent'}`
 
-  return WrappedComponent
+  return React.memo(WrappedComponent)
 }
