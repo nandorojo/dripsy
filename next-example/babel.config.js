@@ -3,27 +3,4 @@
 
 module.exports = {
   presets: ['@expo/next-adapter/babel'],
-  env: {
-    development: {
-      plugins: [
-        [
-          'styled-components',
-          { ssr: true, displayName: true, preprocess: false },
-        ],
-      ],
-      presets: ['@expo/next-adapter/babel'],
-    },
-    production: {
-      plugins: [
-        [
-          'styled-components',
-          { ssr: true, displayName: true, preprocess: false },
-        ],
-      ],
-      presets: ['@expo/next-adapter/babel'],
-    },
-  },
-  plugins: [
-    ['styled-components', { ssr: true, displayName: true, preprocess: false }],
-  ],
-};
+}

@@ -21,6 +21,13 @@ import {
 import { createThemedComponent } from '../css/create-themed-component'
 import * as HTML from '@expo/html-elements'
 
+export const View = createThemedComponent(rView)
+
+export const Text = createThemedComponent(rText, {
+  themeKey: 'text',
+  defaultVariant: 'body',
+})
+
 export const H1 = createThemedComponent(HTML.H1, {
   themeKey: 'text',
   defaultVariant: 'h1',
@@ -71,10 +78,6 @@ export const Hr = createThemedComponent(HTML.HR, {
     borderBottom: '1px solid',
   },
 })
-
-export const View = createThemedComponent(rView)
-
-export const Text = createThemedComponent(rText)
 
 export const ScrollView = createThemedComponent(rScrollView)
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import {
   ThemeUIStyleObject,
   CSSObject,
@@ -7,10 +8,10 @@ import {
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
 import { useCallback } from 'react'
-import { PixelRatio, Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
-import { dripsyOptions } from '../provider'
+import { defaultBreakpoints } from './breakpoints'
 
 export { ThemeProvider }
 
@@ -20,17 +21,19 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
 }
-const defaultBreakpoints = [40, 60, 80]
-  .map(n => n + 'em')
-  .map(
-    em => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
-  )
+
+export type ResponsiveSSRStyles = Exclude<
+  ThemeUIStyleObject,
+  UseThemeFunction
+>[]
 
 const responsive = (
   styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
-  breakpoint?: number
+  { breakpoint }: { breakpoint?: number } = {}
 ) => (theme?: Theme) => {
-  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
+  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> & {
+    responsiveSSRStyles?: ResponsiveSSRStyles
+  } = {}
 
   for (const key in styles) {
     const value =
@@ -44,48 +47,71 @@ const responsive = (
       continue
     }
 
-    if (Platform.OS === 'web' && dripsyOptions.ssr) {
-      // here we use actual breakpoints
-      // for native, we fake it based on screen width
-      const breakpoints =
-        (theme && (theme.breakpoints as string[])) || defaultBreakpoints
-      const mediaQueries = [
-        null,
-        ...breakpoints.map(n => `@media screen and (min-width: ${n})`),
-      ]
+    if (Platform.OS === 'web') {
+      next.responsiveSSRStyles = next.responsiveSSRStyles || []
 
-      for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
-        const media = mediaQueries[i]
-        if (!media) {
-          // @ts-ignore
-          next[key] = value[i]
-          continue
+      // fixed breakpoints for now, not customizable
+      // const breakpoints =
+      //   (Array.isArray(theme?.breakpoints) && theme?.breakpoints) ||
+      //   defaultBreakpoints
+      const mediaQueries = [0, ...defaultBreakpoints]
+
+      for (let i = 0; i < mediaQueries.length; i++) {
+        next.responsiveSSRStyles[i] = next.responsiveSSRStyles[i] || {}
+
+        let styleAtThisMediaQuery = value[i]
+        // say we have value value = ['blue', null, 'green']
+        // then styleAtThisMediaQuery[1] = null
+        // we want it to be blue, since it's mobile-first
+        if (styleAtThisMediaQuery == null) {
+          if (i === 0) {
+            // if we're at the first breakpoint, and it's null, just do nothing
+            // for later values, we'll extract this value from the previous value
+            continue
+          }
+          // if we're after the first breakpoint, let's extract this style value from a previous breakpoint
+          const nearestBreakpoint = (breakpointIndex: number): number => {
+            // mobile-first breakpoints
+            if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
+              return 0
+
+            if (!value[breakpointIndex]) {
+              // if this value doesn't have a breakpoint, find the previous, recursively
+              return nearestBreakpoint(breakpointIndex - 1)
+            }
+            return breakpointIndex
+          }
+          const previousBreakpoint = nearestBreakpoint(i)
+          const styleAtPreviousMediaQuery = value[previousBreakpoint]
+          if (styleAtPreviousMediaQuery) {
+            styleAtThisMediaQuery = styleAtPreviousMediaQuery
+          }
         }
+
         // @ts-ignore
-        next[media] = next[media] || {}
-        // @ts-ignore
-        if (value[i] == null) continue
-        // @ts-ignore
-        next[media][key] = value[i]
+        next.responsiveSSRStyles[i][key] = styleAtThisMediaQuery
       }
-    }
+    } else {
+      // since we aren't on web, we let RN handle the breakpoints with JS
 
-    const nearestBreakpoint = (breakpointIndex: number): number => {
-      // mobile-first breakpoints
-      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0
+      const nearestBreakpoint = (breakpointIndex: number): number => {
+        // mobile-first breakpoints
+        if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
+          return 0
 
-      if (!value[breakpointIndex]) {
-        // if this value doesn't have a breakpoint, find the previous, recursively
-        return nearestBreakpoint(breakpointIndex - 1)
+        if (!value[breakpointIndex]) {
+          // if this value doesn't have a breakpoint, find the previous, recursively
+          return nearestBreakpoint(breakpointIndex - 1)
+        }
+        return breakpointIndex
       }
-      return breakpointIndex
-    }
 
-    // if we're on mobile, we do have a breakpoint
-    // so we can override TS here w/ `as number`
-    const breakpointIndex = nearestBreakpoint(breakpoint as number)
-    // @ts-ignore
-    next[key] = value[breakpointIndex]
+      // if we're on mobile, we do have a breakpoint
+      // so we can override TS here w/ `as number`
+      const breakpointIndex = nearestBreakpoint(breakpoint as number)
+      // @ts-ignore
+      next[key] = value[breakpointIndex]
+    }
   }
 
   return next
@@ -283,16 +309,20 @@ const positiveOrNegative = (scale: object, value: string | number) => {
   return Number(n) * -1
 }
 
-export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
+export const css = (
+  args: ThemeUIStyleObject = {},
+  breakpoint?: number
+  // { ssr }: { ssr?: boolean } = {}
+) => (
   props: CssPropsArgument = {}
-): CSSObject => {
+): CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } => {
   const theme: Theme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
   }
-  let result = {}
+  let result: CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } = {}
   const obj = typeof args === 'function' ? args(theme) : args
-  const styles = responsive(obj, breakpoint)(theme)
+  const styles = responsive(obj, { breakpoint })(theme)
 
   for (const key in styles) {
     // @ts-ignore
@@ -302,6 +332,14 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
     if (key === 'variant') {
       const variant = css(get(theme, val))(theme)
       result = { ...result, ...variant }
+      continue
+    }
+
+    if (key === 'responsiveSSRStyles' && styles.responsiveSSRStyles) {
+      result.responsiveSSRStyles = styles.responsiveSSRStyles.map(
+        // here we extract theme values for each item
+        breakpointStyle => css(breakpointStyle)(theme)
+      )
       continue
     }
 
@@ -349,7 +387,7 @@ export const useBreakpointIndex = () => {
     // const { width = 700 } = Dimensions.get("window");
     const breakpointPixels = [...defaultBreakpoints]
       .reverse()
-      .find(breakpoint => width >= Number(breakpoint.replace('px', '')))
+      .find(breakpoint => width >= breakpoint)
 
     let breakpoint = defaultBreakpoints.findIndex(
       breakpoint => breakpointPixels === breakpoint
@@ -386,7 +424,10 @@ export function mapPropsToStyledComponent<P>(
     breakpoint
   )({ theme })
 
-  const nativeStyles = css(style, breakpoint)({ theme })
+  const nativeStyles = css(
+    Array.isArray(style) ? StyleSheet.flatten(style) : style,
+    breakpoint
+  )({ theme })
 
   const superStyle = css(sx, breakpoint)({ theme })
 

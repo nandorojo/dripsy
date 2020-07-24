@@ -49,6 +49,12 @@ yarn add dripsy
 npm i dripsy
 ```
 
+If you're using Next.js / the experimental SSR mode:
+
+```sh
+yarn add styled-components
+```
+
 # 🛠 Set up
 
 Technically, you don't have to do anything else!

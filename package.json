@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.5.2",
+  "version": "0.6.0-fresnel-2.1",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -20,7 +20,7 @@
     "example": "yarn --cwd example",
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "local": "yarn prepare && yarn pack && cd example && yarn remove dripsy && yarn add ../dripsy-v0.5.1.tgz && yarn start",
+    "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
     "ssr": "yarn prepare && yarn pack && cd next && yarn add ../nandorojo-dripsy-v0.1.6.tgz && yarn next"
   },
   "keywords": [
@@ -41,21 +41,21 @@
     "@react-native-community/eslint-config": "^1.1.0",
     "@release-it/conventional-changelog": "^1.1.4",
     "@types/jest": "^25.2.1",
-    "@types/react": "^16.9.19",
-    "@types/react-native": "0.62.7",
+    "@types/react": "^16.9.43",
+    "@types/react-native": "^0.63.2",
     "@types/styled-components": "^5.1.0",
     "commitlint": "^8.3.5",
     "eslint-config-nando": "^1.0.9",
     "jest": "^26.0.1",
-    "react": "~16.9.0",
+    "react": "^16.13.1",
     "react-native": "~0.61.5",
     "release-it": "^13.5.8",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "react": "*",
-    "styled-components": ">=5"
+    "react": "^16.13.1",
+    "react-native": "~0.61.5"
   },
   "jest": {
     "preset": "react-native",
@@ -95,6 +95,7 @@
     ]
   },
   "dependencies": {
+    "@artsy/fresnel": "^1.2.0",
     "@expo/html-elements": "^0.0.0-alpha.5",
     "@react-native-community/hooks": "^2.6.0",
     "@styled-system/css": "^5.0.0-12",
