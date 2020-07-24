@@ -2,7 +2,7 @@ import React, { ComponentType, ComponentProps, useMemo } from 'react'
 import { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
-import { useIsSSR, SSRMediaQuery } from '../provider'
+// import { useIsSSR } from '../provider'
 import { SSRComponent } from './ssr-component'
 import { Platform } from 'react-native'
 
@@ -31,7 +31,8 @@ export function createThemedComponent<P>(
 
     const { theme } = useThemeUI()
     const breakpoint = useBreakpointIndex()
-    const ssr = useIsSSR()
+    // const ssr = useIsSSR()
+    const ssr = Platform.OS === 'web'
 
     const { responsiveSSRStyles, ...styles } = useMemo(
       () =>
@@ -48,28 +49,17 @@ export function createThemedComponent<P>(
       [breakpoint, ssr, style, sx, theme, variant]
     )
 
-    console.log('[create-themed]', {
-      responsiveSSRStyles,
-      web: Platform.OS === 'web',
-      ssr,
-    })
-
     const TheComponent = SuperComponent || Component
 
-    console.log(
-      'will render SSR media query',
-      Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length
-    )
-
     if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
-      console.log('[create-themed]🚨🚨🚨🚨sssrrrr')
       return (
         <SSRComponent
+          {...props}
+          // @ts-ignore
           Component={TheComponent}
           responsiveStyles={responsiveSSRStyles}
           style={styles}
           ref={ref}
-          {...props}
         />
       )
     }

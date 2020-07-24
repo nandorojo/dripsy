@@ -3,7 +3,11 @@ import { ThemeProvider } from 'theme-ui'
 import { createMedia } from '@artsy/fresnel'
 import { Platform } from 'react-native'
 
-const { MediaContextProvider, Media: SSRMediaQuery } = createMedia({
+const {
+  MediaContextProvider,
+  Media: SSRMediaQuery,
+  createMediaStyle,
+} = createMedia({
   breakpoints: {
     // temporary breakpoints for testing fresnel, will update this logic once it works
     '0': 0,
@@ -13,7 +17,13 @@ const { MediaContextProvider, Media: SSRMediaQuery } = createMedia({
   },
 })
 
-export { SSRMediaQuery }
+const ssrStyleReset = createMediaStyle()
+
+const SSRStyleReset = () => (
+  <style type="text/css" dangerouslySetInnerHTML={{ __html: ssrStyleReset }} />
+)
+
+export { SSRMediaQuery, SSRStyleReset }
 
 type DripsyOptions = {
   ssr?: boolean
@@ -37,9 +47,7 @@ export function DripsyProvider({ options, ...props }: Props) {
   if (options) setDripsyOptions(options)
 
   const ResponsiveContextProvider =
-    Platform.OS === 'web' && dripsyOptions.ssr
-      ? MediaContextProvider
-      : React.Fragment
+    Platform.OS === 'web' ? MediaContextProvider : React.Fragment
 
   return (
     <ResponsiveContextProvider>

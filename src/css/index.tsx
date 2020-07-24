@@ -7,10 +7,10 @@ import {
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
 import { useCallback } from 'react'
-import { PixelRatio, Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
-import { dripsyOptions } from '../provider'
+import { defaultBreakpoints } from './breakpoints'
 
 export { ThemeProvider }
 
@@ -20,11 +20,6 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
 }
-const defaultBreakpoints = [40, 60, 80]
-  .map(n => n + 'em')
-  .map(
-    em => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
-  )
 
 export type ResponsiveSSRStyles = Exclude<
   ThemeUIStyleObject,
@@ -33,7 +28,7 @@ export type ResponsiveSSRStyles = Exclude<
 
 const responsive = (
   styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
-  { breakpoint, ssr }: { breakpoint?: number; ssr?: boolean } = {}
+  { breakpoint }: { breakpoint?: number } = {}
 ) => (theme?: Theme) => {
   const next: Exclude<ThemeUIStyleObject, UseThemeFunction> & {
     responsiveSSRStyles?: ResponsiveSSRStyles
@@ -57,7 +52,9 @@ const responsive = (
       next.responsiveSSRStyles = next.responsiveSSRStyles || []
 
       // here we format styles for potentially using them on SSR
-      const breakpoints = theme?.breakpoints || defaultBreakpoints
+      // const breakpoints =
+      //   (Array.isArray(theme?.breakpoints) && theme?.breakpoints) ||
+      //   defaultBreakpoints
       const mediaQueries = [0, ...defaultBreakpoints]
 
       for (let i = 0; i < mediaQueries.length; i++) {
@@ -94,46 +91,10 @@ const responsive = (
 
         // @ts-ignore
         next.responsiveSSRStyles[i][key] = styleAtThisMediaQuery
-
-        // now, we pre-emptively set the next breakpoint's style to this style
-        // this lets us
-
-        console.log('[css][responsive] style created', {
-          [key]: styleAtThisMediaQuery,
-          query: i,
-        })
       }
-    }
-
-    // if (Platform.OS === 'web' && dripsyOptions.ssr) {
-    //   // here we use actual breakpoints
-    //   // for native, we fake it based on screen width
-    //   const breakpoints =
-    //     (theme && (theme.breakpoints as string[])) || defaultBreakpoints
-    //   const mediaQueries = [
-    //     null,
-    //     ...breakpoints.map(n => `@media screen and (min-width: ${n})`),
-    //   ]
-
-    //   for (let i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
-    //     const media = mediaQueries[i]
-    //     if (!media) {
-    //       // @ts-ignore
-    //       next[key] = value[i]
-    //       continue
-    //     }
-    //     // @ts-ignore
-    //     // next[media] = next[media] || {}
-    //     // @ts-ignore
-    //     if (value[i] == null) continue
-    //     // @ts-ignore
-    //     // next[media][key] = value[i]
-    //   }
-    // }
-
-    if (typeof breakpoint === 'number') {
-      // this means we're either on mobile, or we're not on SSR
-      console.log('[responsive] NOT SSR')
+    } else {
+      // since we aren't on web, we let RN handle the breakpoints with JS
+      console.log('[responsive] NOT SSR', Platform.OS)
 
       const nearestBreakpoint = (breakpointIndex: number): number => {
         // mobile-first breakpoints
@@ -415,10 +376,6 @@ export const css = (
     }
   }
 
-  if (result.responsiveSSRStyles) {
-    console.log('[css][css] is this an array?', result.responsiveSSRStyles)
-  }
-
   return result
 }
 
@@ -435,7 +392,7 @@ export const useBreakpointIndex = () => {
     // const { width = 700 } = Dimensions.get("window");
     const breakpointPixels = [...defaultBreakpoints]
       .reverse()
-      .find(breakpoint => width >= Number(breakpoint.replace('px', '')))
+      .find(breakpoint => width >= breakpoint)
 
     let breakpoint = defaultBreakpoints.findIndex(
       breakpoint => breakpointPixels === breakpoint
@@ -472,7 +429,10 @@ export function mapPropsToStyledComponent<P>(
     breakpoint
   )({ theme })
 
-  const nativeStyles = css(style, breakpoint)({ theme })
+  const nativeStyles = css(
+    Array.isArray(style) ? StyleSheet.flatten(style) : style,
+    breakpoint
+  )({ theme })
 
   const superStyle = css(sx, breakpoint)({ theme })
 
