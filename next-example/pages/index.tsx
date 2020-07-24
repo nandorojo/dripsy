@@ -26,9 +26,14 @@ const ThemedText = createThemedComponent(Native.Text, {
 export default function App() {
   return (
     <DripsyProvider options={{ ssr: true }} theme={theme}>
-      <View sx={{ height: 400, backgroundColor: ['green', 'purple'] }} />
+      <View
+        sx={{
+          height: 400,
+          backgroundColor: ['green', 'purple', null, 'black', 'red'],
+        }}
+      />
 
-      <Text sx={{ fontSize: [100, 200] }}>Hi</Text>
+      {/* <Text sx={{ fontSize: [100, 200] }}>Hi</Text> */}
 
       {/* <View sx={{ height: 400, backgroundColor: 'orange' }}>
       <View sx={{ height: 100, backgroundColor: ['primary', 'secondary'] }} />

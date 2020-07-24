@@ -51,7 +51,10 @@ export async function getInitialProps({ renderPage }) {
   const { getStyleElement } = AppRegistry.getApplication('Main')
   const page = renderPage()
   const styles = [
-    <style dangerouslySetInnerHTML={{ __html: style }} />,
+    <style
+      key="base-style-reset"
+      dangerouslySetInnerHTML={{ __html: style }}
+    />,
     getStyleElement(),
   ]
   return { ...page, styles: React.Children.toArray(styles) }
@@ -63,8 +66,8 @@ export class Document extends NextDocument {
     return (
       <html>
         <Head>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <SSRStyleReset />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         </Head>
         <body>
           <Main />

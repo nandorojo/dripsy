@@ -2,6 +2,8 @@
 
 ## TODO figure out if web with non-SSR should use the normal dripsy API or the fresnel way. Probably the normal way, not fresnel, since there is extra web config.
 
+- TODO make it work for only ssr, not normal web, since there will be no web reset on normal web with react helmet etc.
+
 Once you've already completed the installation steps for `dripsy` & wrapped your app with `DripsyProvider`, you can do the final simple steps to get it ready for your Next.js app.
 
 **Step 0. Install next with expo:**
