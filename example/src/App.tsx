@@ -63,7 +63,7 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <DripsyProvider theme={theme}>
+    <DripsyProvider theme={theme} options={{ ssr: true }}>
       <View
         sx={{
           backgroundColor: () => ['primary', 'blue'],
