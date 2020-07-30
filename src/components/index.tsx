@@ -1,31 +1,22 @@
+import { createThemedComponent } from '../css/create-themed-component'
 import {
+  // TODO I could import * as Native, but would that break tree shaking?
   View as rView,
   Text as rText,
   ScrollView as rScrollView,
+  TextInput as rTextInput,
   FlatList as rFlatList,
   ActivityIndicator as rActivityIndicator,
-  SafeAreaView as rSafeAreaView,
-  KeyboardAvoidingView as rKeyboardAvoidingView,
-  Picker as rPicker,
-  SectionList as rSectionList,
-  StatusBar as rStatusBar,
-  TouchableHighlight as rTouchableHighlight,
-  TouchableOpacity as rTouchableOpacity,
-  TouchableWithoutFeedback as rTouchableWithoutFeedback,
-  VirtualizedList as rVirtualizedList,
-  YellowBox as rYellowBox,
-  Image as rImage,
-  ImageBackground as rImageBackground,
   Button as rButton,
+  SafeAreaView as rSafeAreaView,
 } from 'react-native'
-import { createThemedComponent } from '../css/create-themed-component'
+
 import * as HTML from '@expo/html-elements'
 
 export const View = createThemedComponent(rView)
 
 export const Text = createThemedComponent(rText, {
   themeKey: 'text',
-  defaultVariant: 'body',
 })
 
 export const H1 = createThemedComponent(HTML.H1, {
@@ -63,68 +54,22 @@ export const A = createThemedComponent(HTML.A, {
   defaultVariant: 'a',
 })
 
-export const P = createThemedComponent(HTML.P, {
-  themeKey: 'text',
-  defaultVariant: 'a',
-})
-
-export const Hr = createThemedComponent(HTML.HR, {
-  themeKey: 'hr',
-  defaultStyle: {
-    color: 'gray',
-    m: 0,
-    my: 2,
-    border: 0,
-    borderBottom: '1px solid',
-  },
-})
-
 export const ScrollView = createThemedComponent(rScrollView)
+
+export const TextInput = createThemedComponent(rTextInput)
+
+export const Button = createThemedComponent(rButton, {
+  themeKey: 'buttons',
+})
 
 export const FlatList = createThemedComponent(rFlatList)
 
 export const ActivityIndicator = createThemedComponent(rActivityIndicator)
 
-export const SafeAreaView = createThemedComponent(rSafeAreaView)
-
-export const Picker = createThemedComponent(rPicker)
-
-export const SectionList = createThemedComponent(rSectionList)
-
-export const StatusBar = createThemedComponent(rStatusBar)
-
-export const KeyboardAvoidingView = createThemedComponent(rKeyboardAvoidingView)
-
-export const TouchableHighlight = createThemedComponent(rTouchableHighlight)
-
-export const TouchableOpacity = createThemedComponent(rTouchableOpacity)
-
-export const TouchableWithoutFeedback = createThemedComponent(
-  rTouchableWithoutFeedback
-)
-
-export const VirtualizedList = createThemedComponent(rVirtualizedList)
-
-export const YellowBox = createThemedComponent(rYellowBox)
-
-export const Image = createThemedComponent(rImage, {
-  themeKey: 'images',
+export const Flex = createThemedComponent(rView, {
   defaultStyle: {
-    maxWidth: '100%',
-    height: 'auto',
+    flexDirection: 'row',
   },
-})
-
-export const Avatar = createThemedComponent(rImage, {
-  defaultVariant: 'avatar',
-  defaultStyle: {
-    borderRadius: 9999,
-  },
-})
-
-export const ImageBackground = createThemedComponent(rImageBackground, {
-  themeKey: 'images',
-  defaultVariant: 'background',
 })
 
 export const Container = createThemedComponent(rView, {
@@ -137,40 +82,8 @@ export const Container = createThemedComponent(rView, {
   },
 })
 
-export const Flex = createThemedComponent(rView, {
-  defaultStyle: {
-    flexDirection: 'row',
-  },
-})
-
-export const Card = createThemedComponent(rView, {
-  themeKey: 'card',
-  defaultVariant: 'primary',
-})
-
-export const Button = createThemedComponent(rButton, {
-  themeKey: 'buttons',
-  defaultVariant: 'primary',
-  defaultStyle: {
-    appearance: 'none',
-    display: 'inline-block',
-    textAlign: 'center',
-    lineHeight: 'inherit',
-    textDecoration: 'none',
-    fontSize: 'inherit',
-    px: 3,
-    py: 2,
-    color: 'white',
-    bg: 'primary',
-    border: 0,
-    borderRadius: 4,
-  },
-})
+export const SafeAreaView = createThemedComponent(rSafeAreaView)
 
 export const Row = Flex
 
 export const Box = View
-
-export const Divider = Hr
-
-export const Link = A
