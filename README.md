@@ -49,12 +49,6 @@ yarn add dripsy
 npm i dripsy
 ```
 
-If you're using Next.js / the experimental SSR mode:
-
-```sh
-yarn add styled-components
-```
-
 # 🛠 Set up
 
 Technically, you don't have to do anything else!
@@ -62,6 +56,8 @@ Technically, you don't have to do anything else!
 However, you'll likely want to create a custom theme.
 
 ## Custom theme
+
+🚨 Please know that this section's API will have breaking changes soon.
 
 Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
