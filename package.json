@@ -47,14 +47,14 @@
     "commitlint": "^8.3.5",
     "eslint-config-nando": "^1.0.9",
     "jest": "^26.0.1",
-    "react": "^16.13.1",
+    "metro-react-native-babel-preset": "^0.61.0",
+    "react": "16.9.0",
     "react-native": "~0.61.5",
     "release-it": "^13.5.8",
-    "styled-components": "^5.1.1",
     "typescript": "^3.9.7"
   },
   "peerDependencies": {
-    "react": "^16.13.1",
+    "react": "16.9.0",
     "react-native": "~0.61.5"
   },
   "jest": {
@@ -98,8 +98,6 @@
     "@artsy/fresnel": "^1.2.0",
     "@expo/html-elements": "^0.0.0-alpha.5",
     "@react-native-community/hooks": "^2.6.0",
-    "@styled-system/css": "^5.0.0-12",
-    "@theme-ui/components": "^0.4.0-rc.1",
     "@theme-ui/core": "^0.4.0-rc.1",
     "@theme-ui/css": "^0.4.0-rc.1"
   }
