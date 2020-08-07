@@ -20,6 +20,7 @@ import {
   Button as rButton,
   Switch as rSwitch,
   ViewProps,
+  TextInput as rTextInput,
 } from 'react-native'
 import { createThemedComponent } from '../css/create-themed-component'
 import * as HTML from '@expo/html-elements'
@@ -107,7 +108,15 @@ export const VirtualizedList = createThemedComponent(rVirtualizedList)
 
 export const YellowBox = createThemedComponent(rYellowBox)
 
-export const Switch = createThemedComponent(rSwitch)
+export const Switch = createThemedComponent(rSwitch, {
+  themeKey: 'switch',
+  defaultStyle: {},
+})
+
+export const TextInput = createThemedComponent(rTextInput, {
+  themeKey: 'input',
+  defaultStyle: {},
+})
 
 export const Image = createThemedComponent(rImage, {
   themeKey: 'images',
