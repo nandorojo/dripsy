@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   View as rView,
   Text as rText,
@@ -18,6 +19,7 @@ import {
   ImageBackground as rImageBackground,
   Button as rButton,
   Switch as rSwitch,
+  ViewProps,
 } from 'react-native'
 import { createThemedComponent } from '../css/create-themed-component'
 import * as HTML from '@expo/html-elements'
@@ -142,6 +144,27 @@ export const Flex = createThemedComponent(rView, {
     flexDirection: 'row',
   },
 })
+
+// TODO: Replace any with sx prop
+export const Badge = createThemedComponent(
+  ({
+    text,
+    textStyles,
+    ...props
+  }: ViewProps & { text?: string; textStyles: any }) => (
+    <Flex {...props}>
+      <Text sx={{ color: 'white', textStyles }}>{text}</Text>
+    </Flex>
+  ),
+  {
+    defaultVariant: 'primary',
+    themeKey: 'badge',
+    defaultStyle: {
+      bg: 'primary',
+      padding: 2,
+    },
+  }
+)
 
 export const Card = createThemedComponent(rView, {
   themeKey: 'card',
