@@ -17,6 +17,7 @@ import {
   Image as rImage,
   ImageBackground as rImageBackground,
   Button as rButton,
+  Switch as rSwitch,
 } from 'react-native'
 import { createThemedComponent } from '../css/create-themed-component'
 import * as HTML from '@expo/html-elements'
@@ -104,6 +105,8 @@ export const VirtualizedList = createThemedComponent(rVirtualizedList)
 
 export const YellowBox = createThemedComponent(rYellowBox)
 
+export const Switch = createThemedComponent(rSwitch)
+
 export const Image = createThemedComponent(rImage, {
   themeKey: 'images',
   defaultStyle: {
@@ -171,3 +174,5 @@ export const Box = View
 export const Divider = Hr
 
 export const Link = A
+
+export const Heading = H2
