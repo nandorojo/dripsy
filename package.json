@@ -21,7 +21,7 @@
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
-    "ssr": "yarn prepare && yarn pack && cd next && yarn add ../nandorojo-dripsy-v0.1.6.tgz && yarn next"
+    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next"
   },
   "keywords": [
     "react-native",
@@ -48,14 +48,14 @@
     "eslint-config-nando": "^1.0.9",
     "jest": "^26.0.1",
     "metro-react-native-babel-preset": "^0.61.0",
-    "react": "16.9.0",
-    "react-native": "~0.61.5",
     "release-it": "^13.5.8",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "react": "16.9.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz"
   },
   "peerDependencies": {
     "react": "16.9.0",
-    "react-native": "~0.61.5"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz"
   },
   "jest": {
     "preset": "react-native",
