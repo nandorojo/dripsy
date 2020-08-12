@@ -6,11 +6,12 @@ import {
   Theme,
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
-import { useCallback } from 'react'
+import { useCallback, createElement } from 'react'
 import { PixelRatio, Platform } from 'react-native'
 import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
 import { dripsyOptions } from '../provider'
+import { createThemeComponent } from './create-themed-component'
 
 export { ThemeProvider }
 
@@ -398,6 +399,33 @@ export function mapPropsToStyledComponent<P>(
   })
 
   return styles
+}
+
+const getCSS = props => {
+  if (!props.sx && !props.css) return undefined
+  return theme => {
+    const styles = css(props.sx)(theme)
+    const raw = typeof props.css === 'function' ? props.css(theme) : props.css
+    return [styles, raw]
+  }
+}
+
+const parseProps = props => {
+  if (!props) return null
+  const next: typeof props & { css?: InterpolationWithTheme<any> } = {}
+  for (const key in props) {
+    if (key === 'sx') continue
+    next[key] = props[key]
+  }
+  const css = getCSS(props)
+  if (css) next.css = css
+  return next
+}
+
+export const jsx = (type, props, ...children) => {
+  return createThemeComponent(
+    createElement(type, { ...parseProps(props) }, ...children)
+  )
 }
 
 export class Styles {
