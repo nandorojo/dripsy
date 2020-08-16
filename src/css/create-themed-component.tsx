@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React, { ComponentType, ComponentProps, useMemo } from 'react'
 import { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'

@@ -17,7 +17,6 @@ export const View = createThemedComponent(rView)
 
 export const Text = createThemedComponent(rText, {
   themeKey: 'text',
-  defaultVariant: 'body',
 })
 
 export const H1 = createThemedComponent(HTML.H1, {

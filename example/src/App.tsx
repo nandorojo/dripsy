@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   View,
-  ThemeProvider,
   Text as DripText,
   createThemedComponent,
   useResponsiveValue,
@@ -9,11 +8,14 @@ import {
   setDripsyOptions,
 } from 'dripsy'
 import { Text } from 'react-native'
-import styled from 'styled-components'
 
 setDripsyOptions({ ssr: true })
 
 const theme = {
+  useBodyStyles: false,
+  useLocalStorage: false,
+  useCustomProperties: false,
+  useColorSchemeMediaQuery: false,
   colors: {
     primary: '#41b87a',
     secondary: 'black',
@@ -59,7 +61,7 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <DripsyProvider options={{ ssr: true }} theme={theme}>
+    <DripsyProvider theme={theme} options={{ ssr: true }}>
       <View
         sx={{
           backgroundColor: () => ['primary', 'blue'],
