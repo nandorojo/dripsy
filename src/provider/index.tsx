@@ -1,7 +1,7 @@
 import React, { ComponentProps, useContext } from 'react'
-import { ThemeProvider } from 'theme-ui'
 import { createMedia } from '@artsy/fresnel'
 import { Platform } from 'react-native'
+import { ThemeProvider } from '@theme-ui/core'
 import { defaultBreakpoints } from '../css/breakpoints'
 
 const {

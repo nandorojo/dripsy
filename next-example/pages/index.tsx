@@ -33,12 +33,12 @@ export default function App() {
         }}
       />
 
-      {/* <Text sx={{ fontSize: [100, 200] }}>Hi</Text> */}
+      <Text sx={{ fontSize: [100, 200] }}>Hi</Text>
 
-      {/* <View sx={{ height: 400, backgroundColor: 'orange' }}>
-      <View sx={{ height: 100, backgroundColor: ['primary', 'secondary'] }} />
-      </View> */}
-      {/* <View sx={{ height: 400, backgroundColor: ['primary', 'secondary'] }} /> */}
+      <View sx={{ height: 400, backgroundColor: 'orange' }}>
+        <View sx={{ height: 100, backgroundColor: ['primary', 'secondary'] }} />
+      </View>
+      <View sx={{ height: 400, backgroundColor: ['primary', 'secondary'] }} />
     </DripsyProvider>
   )
 }
