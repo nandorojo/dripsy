@@ -1,5 +1,4 @@
 import React, { ComponentProps, ComponentType } from 'react'
-import { Text } from 'react-native'
 import { SxProps } from 'theme-ui'
 import { createThemedComponent } from './create-themed-component'
 import { StyledProps } from './types'
@@ -23,13 +22,17 @@ export function styled<P>(
   Component: ComponentType<P>,
   { themeKey }: { themeKey?: string } = {}
 ) {
-  return (sx: ((props: P) => SxProps['sx']) | SxProps['sx']) => {
+  return (
+    sx:
+      | ((props: ComponentProps<typeof Component>) => SxProps['sx'])
+      | SxProps['sx']
+  ) => {
     const Styled = React.forwardRef<
       typeof Component,
       Props<P> & ComponentProps<typeof Component>
     >(function Styled(props, ref) {
       const Themed = createThemedComponent(Component, {
-        defaultStyle: typeof sx === 'function' ? sx(props as P) : sx,
+        defaultStyle: typeof sx === 'function' ? sx(props) : sx,
         themeKey,
       })
       // @ts-ignore
