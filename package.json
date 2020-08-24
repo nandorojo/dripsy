@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.7.2-fresnel-2.1",
+  "version": "0.7.2-fresnel-2.2",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
