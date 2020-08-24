@@ -20,8 +20,7 @@ const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
 }
-const defaultBreakpoints = [40, 60, 80]
-  .map(n => n + 'em')
+const defaultBreakpoints = ['40em', '60em', '80em']
   .map(
     em => `${PixelRatio.getFontScale() * 16 * Number(em.replace('em', ''))}px`
   )
@@ -343,15 +342,19 @@ export const css = (args: ThemeUIStyleObject = {}, breakpoint = 0) => (
 
 export const useBreakpointIndex = () => {
   const { width = 0 } = useDimensions().window
+  const { theme } = useThemeUI()
 
   const getIndex = useCallback(() => {
     // return 1;
     // const { width = 700 } = Dimensions.get("window");
-    const breakpointPixels = [...defaultBreakpoints]
+    const breakpoints =
+        (theme && (theme.breakpoints as string[])) || defaultBreakpoints
+
+    const breakpointPixels = [...breakpoints]
       .reverse()
       .find(breakpoint => width >= Number(breakpoint.replace('px', '')))
 
-    let breakpoint = defaultBreakpoints.findIndex(
+    let breakpoint = breakpoints.findIndex(
       breakpoint => breakpointPixels === breakpoint
     )
     breakpoint = breakpoint === -1 ? 0 : breakpoint + 1

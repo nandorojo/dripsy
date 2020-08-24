@@ -18,7 +18,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 # Features
 
 - Responsive styles
-- Universal (Android, iOS, Web) 
+- Universal (Android, iOS, Web)
 - Works with Expo
 - Works with Next.js / server-side rendering (experimental)
 - Full theme support
@@ -81,6 +81,7 @@ const theme = {
     heading: '"Avenir Next", sans-serif',
   },
   spacing: [10, 12, 14],
+  breakpoints: ['640px', '960px', '1280px'],
 };
 
 export default function App() {
