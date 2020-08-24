@@ -97,6 +97,7 @@
     "@expo/html-elements": "^0.0.0-alpha.5",
     "@react-native-community/hooks": "^2.6.0",
     "@theme-ui/core": "^0.4.0-rc.1",
-    "@theme-ui/css": "^0.4.0-rc.1"
+    "@theme-ui/css": "^0.4.0-rc.1",
+    "theme-ui": "^0.4.0-rc.3"
   }
 }
