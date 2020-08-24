@@ -1,5 +1,6 @@
-import React from 'react'
-import { View, DripsyProvider, createThemedComponent, Text } from 'dripsy'
+// import React from 'react'
+/** @jsx jsx */
+import { View, DripsyProvider, createThemedComponent, Text, jsx } from 'dripsy'
 import * as Native from 'react-native'
 
 const theme = {

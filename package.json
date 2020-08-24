@@ -21,7 +21,7 @@
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
-    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next"
+    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.7.4-fresnel-2.2.tgz && yarn next"
   },
   "keywords": [
     "react-native",
