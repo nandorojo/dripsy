@@ -1,6 +1,10 @@
-import React, { ComponentType } from 'react'
+import React, { ComponentProps, ComponentType } from 'react'
+import { Text } from 'react-native'
 import { SxProps } from 'theme-ui'
 import { createThemedComponent } from './create-themed-component'
+import { StyledProps } from './types'
+
+type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
 /**
  * `styled` is little more than a recreation of `createThemedComponent`, with a nicer API. It does the same thing, but looks a bit nicer to use and has a clean name 😇
@@ -15,24 +19,24 @@ import { createThemedComponent } from './create-themed-component'
  * ```
  *
  */
-export function styled<P>(Component: ComponentType<P>) {
-  const StyledComponent = (
-    sx: ((props: P) => SxProps['sx']) | SxProps['sx']
-  ) => {
+export function styled<P>(
+  Component: ComponentType<P>,
+  { themeKey }: { themeKey?: string } = {}
+) {
+  return (sx: ((props: P) => SxProps['sx']) | SxProps['sx']) => {
     const Styled = React.forwardRef<
       typeof Component,
-      P & { themeKey?: string }
-    >(function Styled({ themeKey, ...props }, ref) {
-      const Themed = createThemedComponent<P>(Component, {
+      Props<P> & ComponentProps<typeof Component>
+    >(function Styled(props, ref) {
+      const Themed = createThemedComponent(Component, {
         defaultStyle: typeof sx === 'function' ? sx(props as P) : sx,
         themeKey,
       })
       // @ts-ignore
-      return <Themed ref={ref} {...props} />
+      return <Themed {...((props as unknown) as P)} ref={ref} />
     })
+    Styled.displayName = `DripsyStyled.${Component.displayName}`
 
     return Styled
   }
-  StyledComponent.displayName = `DripsyStyled.${Component.displayName}`
-  return StyledComponent
 }
