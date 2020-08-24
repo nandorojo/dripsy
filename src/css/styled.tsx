@@ -16,17 +16,19 @@ import { createThemedComponent } from './create-themed-component'
  *
  */
 export function styled<P>(Component: ComponentType<P>) {
-  const StyledComponent = (sx: (props: P) => SxProps['sx'] | SxProps['sx']) => {
+  const StyledComponent = (
+    sx: ((props: P) => SxProps['sx']) | SxProps['sx']
+  ) => {
     const Styled = React.forwardRef<
       typeof Component,
       P & { themeKey?: string }
-    >(({ themeKey, ...props }, ref) => {
-      const StyledComponent = createThemedComponent(Component, {
+    >(function Styled({ themeKey, ...props }, ref) {
+      const Themed = createThemedComponent<P>(Component, {
         defaultStyle: typeof sx === 'function' ? sx(props as P) : sx,
         themeKey,
       })
       // @ts-ignore
-      return <StyledComponent ref={ref} {...props} />
+      return <Themed ref={ref} {...props} />
     })
 
     return Styled
