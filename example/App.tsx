@@ -6,7 +6,6 @@ import {
 	useResponsiveValue,
 	DripsyProvider,
 	setDripsyOptions,
-	TestFunction,
 } from 'dripsy'
 import { Text } from 'react-native'
 
