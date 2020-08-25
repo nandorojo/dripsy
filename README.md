@@ -133,7 +133,7 @@ If you're using a color mode (such as dark mode) in your app, you'll probably wa
 
 Just import `InitializeColorMode`, and put it in at the top of your `body` tag in `pages/_document.js`.
 
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next/pages/_document.js).
+Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next-example/pages/_document.js).
 
 ---
 
