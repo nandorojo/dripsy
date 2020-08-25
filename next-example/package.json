@@ -23,6 +23,7 @@
     "ios": "expo start --ios",
     "web": "expo web",
     "eject": "expo eject",
+    "next:dev": "yarn next dev",
     "postinstall": "expo-yarn-workspaces postinstall"
   },
   "private": true

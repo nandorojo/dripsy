@@ -9,6 +9,7 @@
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn workspace dripsy-example start",
+    "next": "yarn workspaces dripsy-next-example dev",
     "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next",
     "postinstall": "expo-yarn-workspaces check-workspace-dependencies"
   },
@@ -38,8 +39,8 @@
     "@types/react": "^16.9.43",
     "@types/react-native": "^0.63.2",
     "commitlint": "^8.3.5",
-    "expo-yarn-workspaces": "^1.2.1",
     "eslint-config-nando": "^1.0.9",
+    "expo-yarn-workspaces": "^1.2.1",
     "jest": "^26.0.1",
     "metro-react-native-babel-preset": "^0.61.0",
     "release-it": "^13.5.8",
