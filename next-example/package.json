@@ -1,4 +1,7 @@
 {
+  "name": "next-dripsy-example",
+  "version": "0.0.1",
+  "main": "__generated__/AppEntry.js",
   "dependencies": {
     "dripsy": "*",
     "expo": "37.0.7",
@@ -19,7 +22,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "postinstall": "expo-yarn-workspaces postinstall"
   },
   "private": true
 }

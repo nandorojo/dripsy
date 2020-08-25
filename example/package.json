@@ -1,5 +1,5 @@
 {
-  "name": "expo-theme-ui-example",
+  "name": "dripsy-example",
   "description": "Example app for expo-theme-ui",
   "version": "0.0.1",
   "private": true,
@@ -27,4 +27,5 @@
     "babel-preset-expo": "~8.1.0",
     "expo-cli": "^3.17.18"
   }
+  
 }

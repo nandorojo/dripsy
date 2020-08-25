@@ -4,13 +4,13 @@
     "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
-    "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
-    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next"
+    "local": "yarn workspace dripsy-example start",
+    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next",
+    "postinstall": "expo-yarn-workspaces check-workspace-dependencies"
   },
   "workspaces": [
     "packages/*",
@@ -38,8 +38,8 @@
     "@types/react": "^16.9.43",
     "@types/react-native": "^0.63.2",
     "commitlint": "^8.3.5",
-    "eslint-config-nando": "^1.0.9",
     "expo-yarn-workspaces": "^1.2.1",
+    "eslint-config-nando": "^1.0.9",
     "jest": "^26.0.1",
     "metro-react-native-babel-preset": "^0.61.0",
     "release-it": "^13.5.8",
@@ -81,5 +81,10 @@
       "module",
       "typescript"
     ]
+  },
+  "resolutions": {
+    "@theme-ui/core": "0.4.0-rc.1",
+    "@theme-ui/css": "0.4.0-rc.1",
+    "@theme-ui/mdx": "0.4.0-rc.1"
   }
 }
