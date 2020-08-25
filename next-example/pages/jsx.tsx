@@ -1,5 +1,4 @@
-// import React from 'react'
-/** @jsx jsx */
+import React from 'react'
 import { View, DripsyProvider, createThemedComponent, Text, jsx } from 'dripsy'
 import * as Native from 'react-native'
 

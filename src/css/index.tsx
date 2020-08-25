@@ -7,7 +7,7 @@ import {
   Theme,
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
-import { useCallback } from 'react'
+import { useCallback, createElement } from 'react'
 import { Platform, StyleSheet } from 'react-native'
 import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
@@ -463,11 +463,11 @@ const parseProps = props => {
   return next
 }
 
-export const jsx = (type, props, ...children) => {
-  return createThemedComponent(
-    createThemedComponent(type, { ...parseProps(props) }, ...children)
+export const jsx = (type, props, ...children) =>
+  createThemedComponent(
+    createElement(type, { ...parseProps(props, theme) }, ...children),
+    {}
   )
-}
 
 export class Styles {
   static create<T>(

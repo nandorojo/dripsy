@@ -14,6 +14,11 @@
     "@babel/core": "7.9.0",
     "@expo/next-adapter": "2.1.0"
   },
+  "resolutions": {
+    "@theme-ui/core": "0.4.0-rc.1",
+    "@theme-ui/css": "0.4.0-rc.1",
+    "@theme-ui/mdx": "0.4.0-rc.1"
+  },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
