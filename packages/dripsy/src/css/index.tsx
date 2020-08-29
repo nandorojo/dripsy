@@ -282,30 +282,6 @@ export const scales = {
 } as const
 type Scales = typeof scales
 
-// const cssToReactNativeTransforms = [
-// 	'background',
-// 	'border',
-// 	'borderColor',
-// 	'borderRadius',
-// 	'borderWidth',
-// 	'boxShadow',
-// 	'flex',
-// 	'flexFlow',
-// 	'font',
-// 	'fontFamily',
-// 	'fontVariant',
-// 	'fontWeight',
-// 	'margin',
-// 	'padding',
-// 	'placeContent',
-// 	'shadowOffset',
-// 	'textShadow',
-// 	'textShadowOffset',
-// 	'textDecoration',
-// 	'textDecorationLine',
-// 	'transform',
-// ]
-
 const transforms = [
 	'margin',
 	'marginTop',
@@ -331,6 +307,30 @@ const transforms = [
 	}),
 	{}
 )
+
+// const cssTransforms = [
+// 	'background',
+// 	'border',
+// 	'borderColor',
+// 	'borderRadius',
+// 	'borderWidth',
+// 	'boxShadow',
+// 	'flex',
+// 	'flexFlow',
+// 	'font',
+// 	'fontFamily',
+// 	'fontVariant',
+// 	'fontWeight',
+// 	'margin',
+// 	'padding',
+// 	'placeContent',
+// 	'shadowOffset',
+// 	'textShadow',
+// 	'textShadowOffset',
+// 	'textDecoration',
+// 	'textDecorationLine',
+// 	'transform',
+// ]
 
 const positiveOrNegative = (scale: object, value: string | number) => {
 	if (typeof value !== 'number' || value >= 0) {
