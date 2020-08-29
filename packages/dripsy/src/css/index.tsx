@@ -7,14 +7,21 @@ import {
 	Theme,
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
-import { useCallback } from 'react'
-import { Platform, StyleSheet } from 'react-native'
-import { useDimensions } from '@react-native-community/hooks'
+import {
+	useEffect,
+	useRef,
+	useState,
+	createElement,
+	FunctionComponent,
+	ReactChild,
+} from 'react'
+import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
+// import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
-import { jsx } from './jsx'
+import { createThemedComponent } from './create-themed-component'
 
-export { ThemeProvider, jsx }
+export { ThemeProvider }
 
 type CssPropsArgument = { theme: Theme } | Theme
 
@@ -382,28 +389,86 @@ export const css = (
 }
 
 // TODO: Do we need options?
-// type defaultOptions = {
-//   defaultIndex?: number;
-// };
+type DefaultOptions = {
+	/**
+	 * @default `0`.
+	 *
+	 * Pass an optional index as the first one. This is useful if you think you know what device users will be on.
+	 */
+	defaultIndex?: number
+	/**
+	 * You're safe to ignore this. It's for internal use.
+	 *
+	 * ## Why?
+	 *
+	 * Since we don't use the RN `Dimensions` API hook on web to determine styles, we need the option to disable this listener on web.
+	 */
+	__shouldDisableListenerOnWeb?: boolean
+}
 
-export const useBreakpointIndex = () => {
-	const { width = 0 } = useDimensions().window
+export const useBreakpointIndex = ({
+	defaultIndex = 0,
+	__shouldDisableListenerOnWeb = false,
+}: DefaultOptions = {}) => {
+	// const { width = 0 } = useDimensions().window
 
-	const getIndex = useCallback(() => {
-		// return 1;
-		// const { width = 700 } = Dimensions.get("window");
-		const breakpointPixels = [...defaultBreakpoints]
-			.reverse()
-			.find((breakpoint) => width >= breakpoint)
+	// const getIndex = useCallback(() => {
+	//   // return 1;
+	//   // const { width = 700 } = Dimensions.get("window");
+	//   const breakpointPixels = [...defaultBreakpoints]
+	//     .reverse()
+	//     .find(breakpoint => width >= breakpoint)
 
-		let breakpoint = defaultBreakpoints.findIndex(
-			(breakpoint) => breakpointPixels === breakpoint
-		)
-		breakpoint = breakpoint === -1 ? 0 : breakpoint + 1
-		return breakpoint
-	}, [width])
+	//   let breakpoint = defaultBreakpoints.findIndex(
+	//     breakpoint => breakpointPixels === breakpoint
+	//   )
+	//   breakpoint = breakpoint === -1 ? 0 : breakpoint + 1
+	//   return breakpoint
+	// }, [width])
 
-	return getIndex()
+	const [index, setIndex] = useState(defaultIndex)
+
+	const indexRef = useRef(index)
+
+	useEffect(() => {
+		indexRef.current = index
+	}, [index])
+
+	useEffect(() => {
+		const shouldDisableListener =
+			Platform.OS === 'web' && __shouldDisableListenerOnWeb
+
+		const onChange = ({
+			window: { width },
+		}: {
+			window: ScaledSize
+			screen: ScaledSize
+		}) => {
+			const breakpointPixels = [...defaultBreakpoints]
+				.reverse()
+				.find((breakpoint) => width >= breakpoint)
+
+			let breakpointIndex = defaultBreakpoints.findIndex(
+				(breakpoint) => breakpointPixels === breakpoint
+			)
+			breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
+			if (breakpointIndex !== indexRef.current) {
+				setIndex(breakpointIndex)
+			}
+			// return breakpoint
+		}
+		if (!shouldDisableListener) {
+			Dimensions.addEventListener('change', onChange)
+		}
+		return () => {
+			if (!shouldDisableListener) {
+				Dimensions.removeEventListener('change', onChange)
+			}
+		}
+	}, [__shouldDisableListenerOnWeb])
+
+	return index
+	// return getIndex()
 }
 
 type Values<T> = ((theme: Theme | null) => T[]) | T[]
@@ -446,6 +511,18 @@ export function mapPropsToStyledComponent<P>(
 	})
 
 	return styles
+}
+
+export function jsx(
+	type: FunctionComponent,
+	props: Record<string, any>,
+	...children: ReactChild[]
+) {
+	return createElement.apply(null, [
+		createThemedComponent(type),
+		props,
+		...children,
+	])
 }
 
 export class Styles {
