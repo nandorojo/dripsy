@@ -20,7 +20,9 @@ export function createThemedComponent<P>(
     const { sx, as: SuperComponent, variant, style, ...props } = prop
 
     const { theme } = useThemeUI()
-    const breakpoint = useBreakpointIndex()
+    const breakpoint = useBreakpointIndex({
+      __shouldDisableListenerOnWeb: true,
+    })
     // const ssr = useIsSSR()
     // change/remove this later maybe
     const ssr = Platform.OS === 'web'

@@ -23,7 +23,10 @@ export function styled<P>(
   { themeKey }: { themeKey?: string } = {}
 ) {
   return (
-    sx: ((props: Props<P>) => Required<SxProps>['sx']) | Required<SxProps>['sx']
+    sx: // | ((
+    //     props: Props<P> & ComponentProps<typeof Component>
+    //   ) => Required<SxProps>['sx'])
+    Required<SxProps>['sx']
   ) => {
     const Styled = React.forwardRef<
       typeof Component,
