@@ -12,8 +12,9 @@ import { Platform, StyleSheet } from 'react-native'
 import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
+import { jsx } from './jsx'
 
-export { ThemeProvider }
+export { ThemeProvider, jsx }
 
 type CssPropsArgument = { theme: Theme } | Theme
 

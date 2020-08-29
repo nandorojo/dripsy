@@ -1,4 +1,4 @@
-import React from 'react'
+/** @jsx jsx */
 import {
 	View,
 	Text as DripText,
@@ -6,6 +6,7 @@ import {
 	useResponsiveValue,
 	DripsyProvider,
 	setDripsyOptions,
+	jsx,
 } from 'dripsy'
 import { Text } from 'react-native'
 
@@ -60,7 +61,6 @@ const ResponsiveSquare = () => {
 }
 
 export default function App() {
-	TestFunction()
 	return (
 		<DripsyProvider theme={theme} options={{ ssr: true }}>
 			<View
@@ -69,6 +69,9 @@ export default function App() {
 					height: [400, 800],
 				}}
 			>
+				<Text
+					sx={{ color: ['blue', 'red'] }}
+				>{`こんにちは (Kon'nichiwa) JSX`}</Text>
 				<DripText>joi</DripText>
 				<G variant="primary">Hey</G>
 				<G>Hi!</G>
