@@ -7,7 +7,14 @@ import {
 	Theme,
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
-import { useEffect, useRef, useState } from 'react'
+import {
+	useEffect,
+	useRef,
+	useState,
+	createElement,
+	FunctionComponent,
+	ReactChild,
+} from 'react'
 import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
 // import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
