@@ -9,59 +9,73 @@ import { Platform } from 'react-native'
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
 export function createThemedComponent<P>(
-  Component: ComponentType<P>,
-  options: ThemedOptions = {}
+	Component: ComponentType<P>,
+	options: ThemedOptions = {}
 ) {
-  // without styled-components...
-  const WrappedComponent = React.forwardRef<
-    typeof Component,
-    Props<P> & ComponentProps<typeof Component>
-  >(function Wrapped(prop, ref) {
-    const { sx, as: SuperComponent, variant, style, ...props } = prop
+	// without styled-components...
+	const WrappedComponent = React.forwardRef<
+		typeof Component,
+		Props<P> & ComponentProps<typeof Component>
+	>(function Wrapped(prop, ref) {
+		const { sx, as: SuperComponent, variant, style, ...props } = prop
 
-    const { theme } = useThemeUI()
-    const breakpoint = useBreakpointIndex()
-    // const ssr = useIsSSR()
-    // change/remove this later maybe
-    const ssr = Platform.OS === 'web'
+		// Check for the as component to be of type string
+		if (typeof SuperComponent === 'string')
+			console.warn(
+				'Using a string to set the component type might cause unintended side effects. Please use @expo/html-elements instead.'
+			)
 
-    const { responsiveSSRStyles, ...styles } = useMemo(
-      () =>
-        mapPropsToStyledComponent(
-          {
-            theme,
-            breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
-            variant,
-            sx,
-            style,
-          },
-          options
-        )(),
-      [breakpoint, ssr, style, sx, theme, variant]
-    )
+		const { theme } = useThemeUI()
+		const breakpoint = useBreakpointIndex()
+		// const ssr = useIsSSR()
+		// change/remove this later maybe
+		const ssr = Platform.OS === 'web'
 
-    const TheComponent = SuperComponent || Component
+		const { responsiveSSRStyles, ...styles } = useMemo(
+			() =>
+				mapPropsToStyledComponent(
+					{
+						theme,
+						breakpoint:
+							Platform.OS === 'web' && ssr
+								? undefined
+								: breakpoint,
+						variant,
+						sx,
+						style,
+					},
+					options
+				)(),
+			[breakpoint, ssr, style, sx, theme, variant]
+		)
 
-    if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
-      return (
-        <SSRComponent
-          {...props}
-          // @ts-ignore
-          Component={TheComponent}
-          responsiveStyles={responsiveSSRStyles}
-          style={styles}
-          ref={ref}
-        />
-      )
-    }
+		const TheComponent = SuperComponent || Component
 
-    return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
-    )
-  })
+		if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
+			return (
+				<SSRComponent
+					{...props}
+					// @ts-ignore
+					Component={TheComponent}
+					responsiveStyles={responsiveSSRStyles}
+					style={styles}
+					ref={ref}
+				/>
+			)
+		}
 
-  WrappedComponent.displayName = `Themed.${Component.displayName ??
-    'NoNameComponent'}`
+		return (
+			<TheComponent
+				{...((props as unknown) as P)}
+				ref={ref}
+				style={styles}
+			/>
+		)
+	})
 
-  return React.memo(WrappedComponent)
+	WrappedComponent.displayName = `Themed.${
+		Component.displayName ?? 'NoNameComponent'
+	}`
+
+	return React.memo(WrappedComponent)
 }

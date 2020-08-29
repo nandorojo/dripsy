@@ -95,6 +95,7 @@
 		"@react-native-community/hooks": "^2.6.0",
 		"@theme-ui/core": "0.4.0-rc.1",
 		"@theme-ui/css": "0.4.0-rc.1",
+		"css-to-react-native": "^3.0.0",
 		"theme-ui": "0.4.0-rc.1"
 	}
 }

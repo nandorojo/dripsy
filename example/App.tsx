@@ -7,6 +7,7 @@ import {
 	DripsyProvider,
 	setDripsyOptions,
 	jsx,
+	Container,
 } from 'dripsy'
 import { Text } from 'react-native'
 
@@ -63,20 +64,37 @@ const ResponsiveSquare = () => {
 export default function App() {
 	return (
 		<DripsyProvider theme={theme} options={{ ssr: true }}>
-			<View
-				sx={{
-					backgroundColor: () => ['primary', 'blue'],
-					height: [400, 800],
-				}}
-			>
-				<Text
-					sx={{ color: ['blue', 'red'] }}
-				>{`こんにちは (Kon'nichiwa) JSX`}</Text>
-				<DripText>joi</DripText>
-				<G variant="primary">Hey</G>
-				<G>Hi!</G>
-				<ResponsiveSquare />
-			</View>
+			<Container>
+				<View
+					sx={{
+						backgroundColor: () => ['primary', 'white'],
+						height: [400, 800],
+					}}
+				>
+					<Text
+						sx={{ color: ['blue', 'red'] }}
+					>{`こんにちは (Kon'nichiwa) JSX`}</Text>
+					<DripText>joi</DripText>
+					<G variant="primary">Hey</G>
+					<G>Hi!</G>
+					<View
+						sx={{ bg: 'white' }}
+						style={{
+							shadowColor: '#000',
+							shadowOffset: {
+								width: 0,
+								height: 2,
+							},
+							shadowOpacity: 0.25,
+							shadowRadius: 3.84,
+							// elevation: 5,
+						}}
+					>
+						<Text>Card</Text>
+					</View>
+					<ResponsiveSquare />
+				</View>
+			</Container>
 		</DripsyProvider>
 	)
 }

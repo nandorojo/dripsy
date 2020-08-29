@@ -20,6 +20,7 @@ import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
 import { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
 import { createThemedComponent } from './create-themed-component'
+// import { getStylesForProperty } from 'css-to-react-native'
 
 export { ThemeProvider }
 
@@ -281,6 +282,30 @@ export const scales = {
 } as const
 type Scales = typeof scales
 
+// const cssToReactNativeTransforms = [
+// 	'background',
+// 	'border',
+// 	'borderColor',
+// 	'borderRadius',
+// 	'borderWidth',
+// 	'boxShadow',
+// 	'flex',
+// 	'flexFlow',
+// 	'font',
+// 	'fontFamily',
+// 	'fontVariant',
+// 	'fontWeight',
+// 	'margin',
+// 	'padding',
+// 	'placeContent',
+// 	'shadowOffset',
+// 	'textShadow',
+// 	'textShadowOffset',
+// 	'textDecoration',
+// 	'textDecorationLine',
+// 	'transform',
+// ]
+
 const transforms = [
 	'margin',
 	'marginTop',
@@ -321,6 +346,11 @@ const positiveOrNegative = (scale: object, value: string | number) => {
 	if (typeof n === 'string') return '-' + n
 	return Number(n) * -1
 }
+
+// const cssToReactNative = (scale: object, value: string | number) => {
+// 	console.log(scale, value)
+// 	return value
+// }
 
 export const css = (
 	args: ThemeUIStyleObject = {},
@@ -363,11 +393,14 @@ export const css = (
 		}
 
 		const prop = key in aliases ? aliases[key as keyof Aliases] : key
+
 		const scaleName =
 			prop in scales ? scales[prop as keyof Scales] : undefined
 		// @ts-ignore
 		const scale = get(theme, scaleName, get(theme, prop, {}))
+
 		const transform = get(transforms, prop, get)
+
 		const value = transform(scale, val, val)
 
 		// @ts-ignore
