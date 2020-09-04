@@ -2,7 +2,7 @@ export * from './components'
 export * from './css/create-themed-component'
 export * from './provider'
 
-export { Styles, css, useResponsiveValue, useBreakpointIndex, jsx } from './css'
+export { Styles, css, useResponsiveValue, useBreakpointIndex } from './css'
 
 // export { ThemeProvider, Th } from '@theme-ui/core'
 // export { InitializeColorMode } from 'theme-ui'

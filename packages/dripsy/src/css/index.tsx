@@ -546,18 +546,6 @@ export function mapPropsToStyledComponent<P>(
 	return styles
 }
 
-export function jsx(
-	type: FunctionComponent,
-	props: Record<string, any>,
-	...children: ReactChild[]
-) {
-	return createElement.apply(null, [
-		createThemedComponent(type),
-		props,
-		...children,
-	])
-}
-
 export class Styles {
 	static create<T>(
 		styles: { [key in keyof T]: SxProps['sx'] }

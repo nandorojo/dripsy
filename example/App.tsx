@@ -1,4 +1,4 @@
-/** @jsx jsx */
+import React from 'react'
 import {
 	View,
 	Text as DripText,
@@ -6,7 +6,6 @@ import {
 	useResponsiveValue,
 	DripsyProvider,
 	setDripsyOptions,
-	jsx,
 	Container,
 } from 'dripsy'
 import { Text } from 'react-native'
