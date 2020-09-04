@@ -4,17 +4,18 @@
 		"test": "jest",
 		"lint": "eslint --ext .js,.ts,.tsx .",
 		"dripsy:prepare": "yarn workspace dripsy prepare",
-		"expo:start": "yarn workspace dripsy-example start",
+		"expo:": "yarn workspace dripsy-example start",
 		"expo:web": "yarn workspace dripsy-example web",
 		"expo:ios": "yarn workspace dripsy-example ios",
 		"expo:android": "yarn workspace dripsy-example android",
 		"next": "yarn workspaces dripsy-next-example dev",
+		"next:ios": "yarn workspaces dripsy-next-example ios",
+		"next:android": "yarn workspaces dripsy-next-example android",
 		"postinstall": "expo-yarn-workspaces check-workspace-dependencies"
 	},
 	"workspaces": [
 		"packages/*",
-		"example",
-		"next-example"
+		"examples/*"
 	],
 	"keywords": [
 		"react-native",

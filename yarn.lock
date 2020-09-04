@@ -3450,7 +3450,7 @@
     "@styled-system/space" "^5.1.2"
     "@theme-ui/css" "^0.4.0-rc.3"
 
-"@theme-ui/core@0.4.0-rc.1", "@theme-ui/core@^0.4.0-rc.1":
+"@theme-ui/core@0.4.0-rc.1", "@theme-ui/core@^0.4.0-rc.1", "@theme-ui/core@^0.4.0-rc.3":
   version "0.4.0-rc.1"
   resolved "https://registry.yarnpkg.com/@theme-ui/core/-/core-0.4.0-rc.1.tgz#52bab9e4ed9c35a19092992e5dd3b52c6b7e89c2"
   integrity sha512-4Kjv0zi5/wGcD7H7I0CTCziSvf8Brrgmc9IdgtjEuz99wNx8u5XmXtIV9slPUW4MzVY7RShbYfrj34t5vkRJdA==
@@ -3459,42 +3459,17 @@
     "@theme-ui/css" "^0.4.0-rc.1"
     deepmerge "^4.2.2"
 
-"@theme-ui/core@^0.4.0-rc.3":
-  version "0.4.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@theme-ui/core/-/core-0.4.0-rc.3.tgz#2b5ba105efa1704e2e18bdbf18bdec437de5d532"
-  integrity sha512-JeOunIjTAX21FPQmSI+6Ln722apMU5mxNtR53+rQV5TPg17lfSu5g3qdMqdE19gxkBR7Ij7UhILmeUtavVb9iA==
-  dependencies:
-    "@emotion/core" "^10.0.0"
-    "@theme-ui/css" "^0.4.0-rc.3"
-    deepmerge "^4.2.2"
-
-"@theme-ui/css@0.4.0-rc.1", "@theme-ui/css@^0.4.0-rc.1":
+"@theme-ui/css@0.4.0-rc.1", "@theme-ui/css@^0.4.0-rc.1", "@theme-ui/css@^0.4.0-rc.3":
   version "0.4.0-rc.1"
   resolved "https://registry.yarnpkg.com/@theme-ui/css/-/css-0.4.0-rc.1.tgz#96105db23dcba421a334228d00e9d672fa73511d"
   integrity sha512-kDfFlqpc5gm54NDF3SMvcWcXlM4EdrgfOHyiiesdr2SBd42Ns3THLHbkdXcjMt+TJuBFisZFHisF17dir7qAFA==
   dependencies:
     csstype "^2.5.7"
 
-"@theme-ui/css@^0.4.0-rc.3":
-  version "0.4.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@theme-ui/css/-/css-0.4.0-rc.3.tgz#02b66c43bfaedebbfb317433726ebb8f734d1fd0"
-  integrity sha512-nd8wGdardLlJm92IYYrJyLIQXi3ADk+TPBM83j7W08bsWVdwuv+J24G0v3qvxeBZdIofaXSnZoWC/YzViMSL0A==
-  dependencies:
-    csstype "^2.5.7"
-
-"@theme-ui/mdx@^0.4.0-rc.1":
+"@theme-ui/mdx@0.4.0-rc.1", "@theme-ui/mdx@^0.4.0-rc.1", "@theme-ui/mdx@^0.4.0-rc.3":
   version "0.4.0-rc.1"
   resolved "https://registry.yarnpkg.com/@theme-ui/mdx/-/mdx-0.4.0-rc.1.tgz#ce9b6a15dde889ba4f3db6051b56f3d4e24488f8"
   integrity sha512-bVxtwawmUp3rFaEjVe72+H5q7StkJDpaY0WMrEwNXwa9myfQ5zMD97ORh37fev0wVhZqJy/fslFrFZF/szEnyw==
-  dependencies:
-    "@emotion/core" "^10.0.0"
-    "@emotion/styled" "^10.0.0"
-    "@mdx-js/react" "^1.0.0"
-
-"@theme-ui/mdx@^0.4.0-rc.3":
-  version "0.4.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@theme-ui/mdx/-/mdx-0.4.0-rc.3.tgz#2bddd021ac66123a32d457c7c23067168016858b"
-  integrity sha512-1JXUuQRb0jfbT9VNmlmJ6q/b6HYcGL2hwlVVBxojvhrBZGgMgyBvTZtMJXKk/OKlnzsos2zjL37aaxSXmKCu4Q==
   dependencies:
     "@emotion/core" "^10.0.0"
     "@emotion/styled" "^10.0.0"
