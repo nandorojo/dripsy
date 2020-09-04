@@ -7,20 +7,11 @@ import {
 	Theme,
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
-import {
-	useEffect,
-	useRef,
-	useState,
-	createElement,
-	FunctionComponent,
-	ReactChild,
-} from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
 // import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
-import { createThemedComponent } from './create-themed-component'
-// import { getStylesForProperty } from 'css-to-react-native'
 
 export { ThemeProvider }
 
@@ -308,30 +299,6 @@ const transforms = [
 	{}
 )
 
-// const cssTransforms = [
-// 	'background',
-// 	'border',
-// 	'borderColor',
-// 	'borderRadius',
-// 	'borderWidth',
-// 	'boxShadow',
-// 	'flex',
-// 	'flexFlow',
-// 	'font',
-// 	'fontFamily',
-// 	'fontVariant',
-// 	'fontWeight',
-// 	'margin',
-// 	'padding',
-// 	'placeContent',
-// 	'shadowOffset',
-// 	'textShadow',
-// 	'textShadowOffset',
-// 	'textDecoration',
-// 	'textDecorationLine',
-// 	'transform',
-// ]
-
 const positiveOrNegative = (scale: object, value: string | number) => {
 	if (typeof value !== 'number' || value >= 0) {
 		if (typeof value === 'string' && value.startsWith('-')) {
@@ -346,11 +313,6 @@ const positiveOrNegative = (scale: object, value: string | number) => {
 	if (typeof n === 'string') return '-' + n
 	return Number(n) * -1
 }
-
-// const cssToReactNative = (scale: object, value: string | number) => {
-// 	console.log(scale, value)
-// 	return value
-// }
 
 export const css = (
 	args: ThemeUIStyleObject = {},
@@ -393,14 +355,11 @@ export const css = (
 		}
 
 		const prop = key in aliases ? aliases[key as keyof Aliases] : key
-
 		const scaleName =
 			prop in scales ? scales[prop as keyof Scales] : undefined
 		// @ts-ignore
 		const scale = get(theme, scaleName, get(theme, prop, {}))
-
 		const transform = get(transforms, prop, get)
-
 		const value = transform(scale, val, val)
 
 		// @ts-ignore

@@ -19,14 +19,10 @@ export function createThemedComponent<P>(
 	>(function Wrapped(prop, ref) {
 		const { sx, as: SuperComponent, variant, style, ...props } = prop
 
-		// Check for the as component to be of type string
-		if (typeof SuperComponent === 'string')
-			console.warn(
-				'Using a string to set the component type might cause unintended side effects. Please use @expo/html-elements instead.'
-			)
-
 		const { theme } = useThemeUI()
-		const breakpoint = useBreakpointIndex()
+		const breakpoint = useBreakpointIndex({
+			__shouldDisableListenerOnWeb: true,
+		})
 		// const ssr = useIsSSR()
 		// change/remove this later maybe
 		const ssr = Platform.OS === 'web'
