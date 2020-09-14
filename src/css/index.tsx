@@ -489,6 +489,7 @@ export function mapPropsToStyledComponent<P>(
 
   const superStyle = css(sx, breakpoint)({ theme })
 
+  // TODO optimize with StyleSheet.create()
   const styles = () => ({
     ...baseStyle,
     ...variantStyle,
