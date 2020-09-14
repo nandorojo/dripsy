@@ -32,27 +32,10 @@ const SSR = React.forwardRef(function SSRComponent<T>(
           <SSRMediaQuery
             key={`ssr-media-query-${breakpointIndex}`}
             {...responsiveProps}
-            // style
           >
             {(classNames, renderChildren) => {
-              // const {
-              //   responsiveSSRStyles: containerResponsiveStyles,
-              //   ...containerStyle
-              // } = containerStyles
-              // const containerBreakpointStyle =
-              //   containerResponsiveStyles?.[breakpointIndex] ?? {}
-
               return (
-                <div
-                  // className={classNames}
-                  // // @ts-ignore
-                  // style={{
-                  //   ...(containerStyle ?? {}),
-                  //   ...containerBreakpointStyle,
-                  // }}
-                  className={classNames}
-                  sx={containerStyles}
-                >
+                <div className={classNames} sx={containerStyles}>
                   {!!renderChildren ? (
                     <Component
                       {...((props as unknown) as T)}
