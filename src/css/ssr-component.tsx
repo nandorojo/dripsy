@@ -1,4 +1,6 @@
-import React, { ComponentProps, ComponentType } from 'react'
+/** @jsx jsx */
+import { jsx, SxProps } from 'theme-ui'
+import React, { ComponentProps, ComponentType, Fragment } from 'react'
 import { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider'
 
@@ -6,14 +8,15 @@ type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
+  containerStyles?: SxProps['sx']
 }
 
 const SSR = React.forwardRef(function SSRComponent<T>(
-  { responsiveStyles, Component, style, ...props }: Props<T>,
+  { responsiveStyles, Component, style, containerStyles, ...props }: Props<T>,
   ref: T
 ) {
   return (
-    <>
+    <Fragment>
       {responsiveStyles.map((breakpointStyle = {}, breakpointIndex) => {
         const responsiveProps: Omit<
           ComponentProps<typeof SSRMediaQuery>,
@@ -27,20 +30,43 @@ const SSR = React.forwardRef(function SSRComponent<T>(
         }
         return (
           <SSRMediaQuery
-            key={`ssr-media-query-${
-              Component.displayName
-            }-${breakpointIndex}-${JSON.stringify(breakpointStyle)}`}
+            key={`ssr-media-query-${breakpointIndex}`}
             {...responsiveProps}
+            // style
           >
-            <Component
-              {...((props as unknown) as T)}
-              ref={ref}
-              style={[style, breakpointStyle]}
-            />
+            {(classNames, renderChildren) => {
+              // const {
+              //   responsiveSSRStyles: containerResponsiveStyles,
+              //   ...containerStyle
+              // } = containerStyles
+              // const containerBreakpointStyle =
+              //   containerResponsiveStyles?.[breakpointIndex] ?? {}
+
+              return (
+                <div
+                  // className={classNames}
+                  // // @ts-ignore
+                  // style={{
+                  //   ...(containerStyle ?? {}),
+                  //   ...containerBreakpointStyle,
+                  // }}
+                  className={classNames}
+                  sx={containerStyles}
+                >
+                  {!!renderChildren ? (
+                    <Component
+                      {...((props as unknown) as T)}
+                      ref={ref}
+                      style={[style, breakpointStyle]}
+                    />
+                  ) : null}
+                </div>
+              )
+            }}
           </SSRMediaQuery>
         )
       })}
-    </>
+    </Fragment>
   )
 })
 
