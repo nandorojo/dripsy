@@ -18,4 +18,8 @@ export type StyledProps<P> = SxProps & {
   style?: P['style'] extends [] ? P['style'][0] : P['style']
   breakpoint?: number
   theme: Theme
+  /**
+   * This styles the `div` that wraps your responsive item. CSS values are fine here, and they can also be responsive.
+   */
+  webContainerSx?: SxProps['sx']
 }
