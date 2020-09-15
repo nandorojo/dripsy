@@ -445,6 +445,10 @@ export const useBreakpointIndex = ({
     }
     if (!shouldDisableListener) {
       Dimensions.addEventListener('change', onChange)
+      onChange({
+        window: Dimensions.get('window'),
+        screen: Dimensions.get('screen'),
+      })
     }
     return () => {
       if (!shouldDisableListener) {
