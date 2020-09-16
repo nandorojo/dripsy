@@ -66,7 +66,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                     // This might be a bad idea; I'm not sure if flex functions the same on Web and RN.
                     // But it helps you use the webContainerSx prop less. So I'll sit on it for now...
                     // https://github.com/necolas/react-native-web/issues/1227
-                    flex: breakpointStyle.flex,
+                    flex: breakpointStyle.flex ?? style.flex,
                     ...containerStyles,
                   }}
                 >
