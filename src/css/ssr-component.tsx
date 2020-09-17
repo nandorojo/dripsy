@@ -60,7 +60,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                     minHeight: 0,
                     minWidth: 0,
                     padding: 0,
-                    position: 'relative',
+                    // position: 'relative', Remove this to not mess with absolute position
                     zIndex: 0,
                     // @ts-ignore Experimental: forward the flex value from the View in case this item should stretch.
                     // This might be a bad idea; I'm not sure if flex functions the same on Web and RN.
