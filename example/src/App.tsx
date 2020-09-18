@@ -1,19 +1,21 @@
 import React from 'react'
 import {
   View,
-  ThemeProvider,
   Text as DripText,
   createThemedComponent,
   useResponsiveValue,
-  H1,
-  Button,
-  Container,
-  Text as DText,
+  DripsyProvider,
+  setDripsyOptions,
 } from 'dripsy'
 import { Text } from 'react-native'
-import styled from 'styled-components'
+
+setDripsyOptions({ ssr: true })
 
 const theme = {
+  useBodyStyles: false,
+  useLocalStorage: false,
+  useCustomProperties: false,
+  useColorSchemeMediaQuery: false,
   colors: {
     primary: '#41b87a',
     secondary: 'black',
@@ -25,16 +27,9 @@ const theme = {
   text: {
     primary: {
       fontSize: 40,
-      ':hover': {
-        color: 'green',
-      },
     },
   },
 }
-
-const T = styled(Text)(() => ({
-  fontSize: 70,
-}))
 
 const G = createThemedComponent(Text, {
   themeKey: 'text',
@@ -66,30 +61,18 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <View
-          sx={{
-            backgroundColor: () => ['primary', 'white'],
-            height: [400, 800],
-          }}
-        >
-          <H1>Bonjour</H1>
-          <Text>Does this complain?</Text>
-          <DripText>joi</DripText>
-          <DText>Test</DText>
-          <G variant="primary">Hey</G>
-          <T>Hi!</T>
-          <ResponsiveSquare />
-          <View>
-            <Button
-              sx={{ backgroundColor: 'green' }}
-              title="Click Me!!!"
-              onPress={() => console.log('Universal button')}
-            />
-          </View>
-        </View>
-      </Container>
-    </ThemeProvider>
+    <DripsyProvider theme={theme} options={{ ssr: true }}>
+      <View
+        sx={{
+          backgroundColor: () => ['primary', 'blue'],
+          height: [400, 800],
+        }}
+      >
+        <DripText>joi</DripText>
+        <G variant="primary">Hey</G>
+        <G>Hi!</G>
+        <ResponsiveSquare />
+      </View>
+    </DripsyProvider>
   )
 }
