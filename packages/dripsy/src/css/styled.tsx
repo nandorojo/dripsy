@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React, { ComponentProps, ComponentType } from 'react'
 import { SxProps } from '@theme-ui/core'
 import { createThemedComponent } from './create-themed-component'
