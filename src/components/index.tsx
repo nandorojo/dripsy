@@ -62,7 +62,7 @@ export const A = createThemedComponent(HTML.A, {
 
 export const P = createThemedComponent(HTML.P, {
   themeKey: 'text',
-  defaultVariant: 'a',
+  defaultVariant: 'p',
 })
 
 export const Hr = createThemedComponent(HTML.HR, {
@@ -178,25 +178,6 @@ export const Badge = createThemedComponent(
 export const Card = createThemedComponent(rView, {
   themeKey: 'card',
   defaultVariant: 'primary',
-})
-
-export const Button = createThemedComponent(rTouchableOpacity, {
-  themeKey: 'buttons',
-  defaultVariant: 'primary',
-  defaultStyle: {
-    appearance: 'none',
-    display: 'inline-block',
-    textAlign: 'center',
-    lineHeight: 'inherit',
-    textDecoration: 'none',
-    fontSize: 'inherit',
-    px: 3,
-    py: 2,
-    color: 'white',
-    bg: 'primary',
-    border: 0,
-    borderRadius: 4,
-  },
 })
 
 export const Row = Flex
