@@ -23,7 +23,6 @@
 	"devDependencies": {
 		"@babel/core": "^7.9.6",
 		"@babel/runtime": "^7.9.6",
-		"babel-loader": "^8.1.0",
 		"babel-preset-expo": "~8.1.0",
 		"expo-cli": "^3.17.18"
 	}
