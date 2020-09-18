@@ -8,7 +8,6 @@ const { withExpo } = require('@expo/next-adapter')
 
 const path = require('path')
 const fs = require('fs')
-const createExpoWebpackConfigAsync = require('@expo/webpack-config')
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 
 const node_modules = path.resolve(__dirname, '../..', 'node_modules')
@@ -17,7 +16,7 @@ const packages = path.resolve(__dirname, '../..', 'packages')
 module.exports = withPlugins([
 	withExpo({
 		projectRoot: __dirname,
-		webpack: async (config, argv) => {
+		webpack: async (config) => {
 			config.module.rules.push({
 				test: /\.(js|ts|tsx)$/,
 				include: /(packages|next-example)\/.+/,
