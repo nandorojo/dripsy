@@ -8,9 +8,9 @@
 		"expo:web": "yarn workspace dripsy-example web",
 		"expo:ios": "yarn workspace dripsy-example ios",
 		"expo:android": "yarn workspace dripsy-example android",
-		"next": "yarn workspaces dripsy-next-example dev",
-		"next:ios": "yarn workspaces dripsy-next-example ios",
-		"next:android": "yarn workspaces dripsy-next-example android",
+		"next": "yarn workspace next-dripsy-example web",
+		"next:ios": "yarn workspace next-dripsy-example ios",
+		"next:android": "yarn workspace next-dripsy-example android",
 		"postinstall": "expo-yarn-workspaces check-workspace-dependencies"
 	},
 	"workspaces": [
