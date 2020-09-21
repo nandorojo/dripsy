@@ -99,7 +99,7 @@ const responsive = (
         if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
           return 0
 
-        if (!value[breakpointIndex]) {
+        if (value[breakpointIndex] == null) {
           // if this value doesn't have a breakpoint, find the previous, recursively
           return nearestBreakpoint(breakpointIndex - 1)
         }
