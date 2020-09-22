@@ -20,7 +20,10 @@ type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
  */
 export function styled<P>(
   Component: ComponentType<P>,
-  { themeKey }: { themeKey?: string } = {}
+  {
+    themeKey,
+    defaultVariant,
+  }: { themeKey?: string; defaultVariant?: string } = {}
 ) {
   return (
     sx: // | ((
@@ -35,6 +38,7 @@ export function styled<P>(
       const Themed = createThemedComponent(Component, {
         defaultStyle: typeof sx === 'function' ? sx(props) : sx,
         themeKey,
+        defaultVariant,
       })
       // @ts-ignore
       return <Themed {...((props as unknown) as P)} ref={ref} />
