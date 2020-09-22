@@ -16,7 +16,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 # Features
 
 - Responsive styles
-- Universal (Android, iOS, Web) 
+- Universal (Android, iOS, Web)
 - Works with Expo
 - Works with Next.js / server-side rendering (experimental)
 - Full theme support
@@ -49,11 +49,7 @@ yarn add dripsy
 npm i dripsy
 ```
 
-If you're using Next.js / the experimental SSR mode:
-
-```sh
-yarn add styled-components
-```
+If you're using Next.js or another SSR app, scroll down to see how to configure.
 
 # 🛠 Set up
 
@@ -63,14 +59,14 @@ However, you'll likely want to create a custom theme.
 
 ## Custom theme
 
-Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
+Wrap your entire app with the `DripsyProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
-_If you're using Next.js, this goes in `pages/_app.js`. Also, you should pass the `options={{ ssr: true }}` prop to the `ThemeProvider`._
+If you're using Next.js, this goes in `pages/_app.js`.
 
 `App.js`
 
 ```jsx
-import { ThemeProvider } from 'dripsy';
+import { DripsyProvider } from 'dripsy'
 
 const theme = {
   colors: {
@@ -83,14 +79,14 @@ const theme = {
     heading: '"Avenir Next", sans-serif',
   },
   spacing: [10, 12, 14],
-};
+}
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <DripsyProvider theme={theme}>
       {/* Your app code goes here! */}
-    </ThemeProvider>
-  );
+    </DripsyProvider>
+  )
 }
 ```
 
@@ -100,9 +96,11 @@ My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
 
-## For Next.js apps
+## For SSR apps (Next.js, Gatsby, etc)
 
-If you're using the expo + next.js integration, there are a few extra steps.
+If you are not using Gatsby, skip down to #3 below.
+
+Steps 1 & 2 are required for Next.js apps (for example, if you're using Expo + Next.js.)
 
 **1. Install dependencies**
 
@@ -113,33 +111,43 @@ yarn add next-compose-plugins next-transpile-modules
 **2. Edit your `next.config.js` file to look like this:**
 
 ```js
-const withPlugins = require('next-compose-plugins');
+const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')([
   'dripsy',
   // you can add other packages here that need transpiling
-]);
+])
 
-const { withExpo } = require('@expo/next-adapter');
+const { withExpo } = require('@expo/next-adapter')
 
 module.exports = withPlugins(
   [withTM],
   withExpo({
     projectRoot: __dirname,
   })
-);
+)
 ```
 
-**3. (Optional) add `InitializeColorMode` to `pages/_document.js`**
+3. Add `SSRStyleReset` to the top of your `body`
 
-If you're using a color mode (such as dark mode) in your app, you'll probably want to add `InitializeColorMode` to avoid a flash of unstyled text.
+Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
 
-Just import `InitializeColorMode`, and put it in at the top of your `body` tag in `pages/_document.js`.
+```jsx
+import { SSRStyleReset } from 'dripsy'
+;<body>
+  <SSRStyleReset />
+  <YourApp />
+</body>
+```
+
+If you're using Next.js, this should go in `pages/_document.js`.
 
 Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next/pages/_document.js).
 
+We'll add other library examples here too, such as Gatsby.
+
 ---
 
-That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation).
+That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation) to help with navigation.
 
 # 👀 What does Dripsy look like?
 
@@ -162,7 +170,7 @@ export default {
       fontSize: 1, // & this is 16px, taken from `fontSize` above
     },
   },
-};
+}
 ```
 
 ## ...and build a beautiful, responsive UI
@@ -210,14 +218,14 @@ Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `them
 To use an animated view, simple use the `as` prop.
 
 ```js
-import { View } from 'dripsy';
-import Animated from 'react-native-reanimated';
-import { useValue } from 'react-native-redash';
+import { View } from 'dripsy'
+import Animated from 'react-native-reanimated'
+import { useValue } from 'react-native-redash'
 
 function App() {
-  const height = useValue(0);
+  const height = useValue(0)
 
-  return <View as={Animated.View} sx={{ height }} />;
+  return <View as={Animated.View} sx={{ height }} />
 }
 ```
 
@@ -228,30 +236,28 @@ function App() {
 This is what it took to make _one_ responsive style without Dripsy...
 
 ```jsx
-import { useState } from 'react';
-import { View } from 'react-native';
+import { useState } from 'react'
+import { View } from 'react-native'
 
 const ResponsiveBox = () => {
-  const [screenWidth, setScreenWidth] = useState(
-    Dimensions.get('window').width
-  );
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
 
   useEffect(() => {
-    const onResize = (event) => {
-      setScreenWidth(event.window.width);
-    };
-    Dimensions.addEventListener('change', onResize);
+    const onResize = event => {
+      setScreenWidth(event.window.width)
+    }
+    Dimensions.addEventListener('change', onResize)
 
-    return () => Dimensions.removeEventListener('change', onResize);
-  }, []);
+    return () => Dimensions.removeEventListener('change', onResize)
+  }, [])
 
-  let width = '100%';
+  let width = '100%'
   if (screenWidth > 700) {
-    width = '50%';
+    width = '50%'
   }
 
-  return <View style={{ width }} />;
-};
+  return <View style={{ width }} />
+}
 ```
 
 A big issue with using JS-only breakpoints like that is that it won't work on SSR apps using Expo + Next.js. The "solution" would be to lazy load the component, but then you lose the SEO benefits of Next.js. With Dripsy, SSR works fine!
@@ -259,11 +265,11 @@ A big issue with using JS-only breakpoints like that is that it won't work on SS
 ## With Dripsy 🤩
 
 ```jsx
-import { View } from 'dripsy';
+import { View } from 'dripsy'
 
 const ResponsiveBox = () => {
-  return <View sx={{ width: ['100%', '50%'] }} />;
-};
+  return <View sx={{ width: ['100%', '50%'] }} />
+}
 ```
 
 ### Expo + Next.js
@@ -279,37 +285,27 @@ Currently, a bunch of the React Native components are supported. That said, I ha
 Or, you can use the `createThemedComponent` function in your own app.
 
 ```jsx
-import { createThemedComponent } from 'dripsy';
-import { View } from 'react-native';
+import { createThemedComponent } from 'dripsy'
+import { View } from 'react-native'
 
 const CustomView = createThemedComponent(View, {
   defaultStyle: {
     flex: 1,
   },
-});
+})
 ```
 
 # How it works
 
 First, this library is super inspired by `theme-ui`, and uses many of its low-level functions and methodologies.
 
-Practically speaking, this library uses the `Dimensions` api on Android & iOS, and uses actual CSS breakpoints on web. The CSS breakpoints are made possible by `styled-components`. This means that you get actually-native web breakpoints. That matters, because server-size rendered apps will have startup issues if you use JS-based media queries that require React to rehydrate on when it opens.
+Practically speaking, this library uses the `Dimensions` api on Android & iOS, and uses actual CSS breakpoints on web. The CSS breakpoints are made possible by `@artsy/fresnel`. This means that you get actually-native web breakpoints. That matters, because server-size rendered apps will have startup issues if you use JS-based media queries that require React to rehydrate on when it opens.
 
 On Native, there is nothing too fancy going on. We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic!
 
 ## Contributing
 
 This is a really new project. I'd love your help and contributions.
-
-Under the hood, this library uses `styled-components/native`.
-
-## TODO
-
-- Add theme variants for certain element types
-- Add typing for theme values
-  - Maybe add support for custom theme values to be typed too, with a CLI that edits the NPM package? 🧐
-    - It could have a `postinstall` script in package.json.
-- Add SSR support (for the Expo + Next.js integration.) Currently, the responsive style doesn't rehydrate on the client when the page loads.
 
 ## License
 
