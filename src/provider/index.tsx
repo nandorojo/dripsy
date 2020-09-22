@@ -1,7 +1,7 @@
 import React, { ComponentProps, useContext } from 'react'
 import { createMedia } from '@artsy/fresnel'
 import { Platform } from 'react-native'
-import { ThemeProvider } from '@theme-ui/core'
+import { ThemeProvider as ThemeUIProvider } from '@theme-ui/core'
 import { defaultBreakpoints } from '../css/breakpoints'
 
 const {
@@ -33,7 +33,7 @@ type DripsyOptions = {
   ssr?: boolean
 }
 
-type Props = ComponentProps<typeof ThemeProvider> & {
+type Props = ComponentProps<typeof ThemeUIProvider> & {
   options?: DripsyOptions
 }
 
@@ -56,10 +56,17 @@ export function DripsyProvider({ options, ...props }: Props) {
   return (
     <ResponsiveContextProvider>
       <DripsyContext.Provider value={{ ssr: !!options?.ssr }}>
-        <ThemeProvider {...props} />
+        <ThemeUIProvider {...props} />
       </DripsyContext.Provider>
     </ResponsiveContextProvider>
   )
+}
+
+export function ThemeProvider(props: ComponentProps<typeof DripsyProvider>) {
+  console.warn(
+    '🍷 [Dripsy] ThemeProvider is deprecated, please use DripsyProvider instead. ThemeProvider will be removed next release.'
+  )
+  return <DripsyProvider {...props} />
 }
 
 export const useIsSSR = () => !!useContext(DripsyContext).ssr
