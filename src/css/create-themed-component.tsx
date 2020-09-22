@@ -23,6 +23,7 @@ export function createThemedComponent<P>(
       variant,
       style,
       webContainerSx,
+      themeKey = options.themeKey,
       ...props
     } = prop
 
@@ -44,7 +45,10 @@ export function createThemedComponent<P>(
             sx,
             style,
           },
-          options
+          {
+            ...options,
+            themeKey,
+          }
         )(),
       [breakpoint, ssr, style, sx, theme, variant]
     )

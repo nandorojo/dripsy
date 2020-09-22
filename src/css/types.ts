@@ -11,6 +11,7 @@ export type ThemedOptions = {
 export type StyledProps<P> = SxProps & {
   as?: ComponentType<P>
   variant?: string
+  themeKey?: string
   /**
    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
    */
