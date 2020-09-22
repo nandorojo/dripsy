@@ -50,7 +50,7 @@ export function createThemedComponent<P>(
             themeKey,
           }
         )(),
-      [breakpoint, ssr, style, sx, theme, variant]
+      [breakpoint, ssr, style, sx, theme, themeKey, variant]
     )
 
     const TheComponent = SuperComponent || Component
