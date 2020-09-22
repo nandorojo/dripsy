@@ -62,6 +62,9 @@ export function DripsyProvider({ options, ...props }: Props) {
   )
 }
 
+/**
+ * @deprecated use DripsyProvider instead
+ */
 export function ThemeProvider(props: ComponentProps<typeof DripsyProvider>) {
   console.warn(
     '🍷 [Dripsy] ThemeProvider is deprecated, please use DripsyProvider instead. ThemeProvider will be removed next release.'
