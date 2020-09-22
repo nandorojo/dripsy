@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "0.7.22-recursive",
+  "version": "0.7.22-recursive-2",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -97,6 +97,7 @@
     "@react-native-community/hooks": "^2.6.0",
     "@theme-ui/core": "^0.4.0-rc.1",
     "@theme-ui/css": "^0.4.0-rc.1",
+    "hoist-non-react-statics": "^3.3.2",
     "theme-ui": "^0.4.0-rc.3"
   }
 }
