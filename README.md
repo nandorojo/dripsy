@@ -2,6 +2,8 @@
 
 A **dead-simple**, **responsive** design system for Expo / React Native Web. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/home).
 
+**Style once, run anywhere.**
+
 ```jsx
 <Text
   sx={{
@@ -49,12 +51,6 @@ yarn add dripsy
 npm i dripsy
 ```
 
-If you're using Next.js / the experimental SSR mode:
-
-```sh
-yarn add styled-components
-```
-
 # 🛠 Set up
 
 Technically, you don't have to do anything else!
@@ -62,6 +58,8 @@ Technically, you don't have to do anything else!
 However, you'll likely want to create a custom theme.
 
 ## Custom theme
+
+🚨 Please know that this section's API will have breaking changes soon.
 
 Wrap your entire app with the `ThemeProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
@@ -135,7 +133,7 @@ If you're using a color mode (such as dark mode) in your app, you'll probably wa
 
 Just import `InitializeColorMode`, and put it in at the top of your `body` tag in `pages/_document.js`.
 
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next/pages/_document.js).
+Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next-example/pages/_document.js).
 
 ---
 
