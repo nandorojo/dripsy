@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@nandorojo/dripsy": ["./src/index"],
       "dripsy": ["./src/index"]
     },
     "allowUnreachableCode": false,
@@ -23,6 +22,5 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext"
-  },
-  "exclude": ["next-example", "example"]
+  }
 }

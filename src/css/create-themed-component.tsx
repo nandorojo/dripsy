@@ -1,10 +1,84 @@
-import { createThemedComponent as createNativeComponent } from './create-native-themed-component'
-import { createThemedComponent as createSSRComponent } from './create-native-themed-component'
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+import React, { ComponentType, ComponentProps, useMemo } from 'react'
+import { ThemedOptions, StyledProps } from './types'
+import { useThemeUI } from '@theme-ui/core'
+import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
+import { SSRComponent } from './ssr-component'
 import { Platform } from 'react-native'
-import { dripsyOptions } from '../provider'
 
-export let createThemedComponent = createNativeComponent
+type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
-if (Platform.OS === 'web' && dripsyOptions.ssr === true) {
-  createThemedComponent = createSSRComponent
+export function createThemedComponent<P>(
+  Component: ComponentType<P>,
+  options: ThemedOptions = {}
+) {
+  // without styled-components...
+  const WrappedComponent = React.forwardRef<
+    typeof Component,
+    Props<P> & ComponentProps<typeof Component>
+  >(function Wrapped(prop, ref) {
+    const {
+      sx,
+      as: SuperComponent,
+      variant,
+      style,
+      webContainerSx,
+      themeKey = options.themeKey,
+      ...props
+    } = prop
+
+    const { theme } = useThemeUI()
+    const breakpoint = useBreakpointIndex({
+      __shouldDisableListenerOnWeb: true,
+    })
+    // const ssr = useIsSSR()
+    // change/remove this later maybe
+    const ssr = Platform.OS === 'web'
+
+    const { responsiveSSRStyles, ...styles } = useMemo(
+      () =>
+        mapPropsToStyledComponent(
+          {
+            theme,
+            breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
+            variant,
+            sx,
+            style,
+          },
+          {
+            ...options,
+            themeKey,
+          }
+        )(),
+      [breakpoint, ssr, style, sx, theme, themeKey, variant]
+    )
+
+    const TheComponent = SuperComponent || Component
+
+    if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
+      return (
+        <SSRComponent
+          {...props}
+          Component={TheComponent as React.ComponentType<unknown>}
+          responsiveStyles={responsiveSSRStyles}
+          style={styles}
+          ref={ref}
+          containerStyles={
+            webContainerSx as ComponentProps<
+              typeof SSRComponent
+            >['containerStyles']
+          }
+        />
+      )
+    }
+
+    return (
+      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
+    )
+  })
+
+  WrappedComponent.displayName = `Themed.${Component.displayName ??
+    'NoNameComponent'}`
+
+  return React.memo(WrappedComponent)
 }

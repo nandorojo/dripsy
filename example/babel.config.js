@@ -1,5 +1,10 @@
-module.exports = function (api) {
-  api.cache(true);
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path')
+const pak = require('../package.json')
+
+module.exports = function(api) {
+  api.cache(true)
+
   return {
     presets: ['babel-preset-expo'],
     plugins: [
@@ -7,10 +12,11 @@ module.exports = function (api) {
         'module-resolver',
         {
           alias: {
-            dripsy: '../src',
+            // For development, we want to alias the library to the source
+            [pak.name]: path.join(__dirname, '..', pak.source),
           },
         },
       ],
     ],
-  };
-};
+  }
+}
