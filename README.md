@@ -98,9 +98,9 @@ My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
 
-## For SSR apps (Next.js, Gatsby, etc)
+## For SSR apps (Next.js, Gatsby, etc.)
 
-If you are not using Gatsby, skip down to #3 below.
+If you are not using Next.js, skip down to #3 below.
 
 Steps 1 & 2 are required for Next.js apps (for example, if you're using Expo + Next.js.)
 
