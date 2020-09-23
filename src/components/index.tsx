@@ -1,176 +1,89 @@
-import {
-  View as rView,
-  Text as rText,
-  ScrollView as rScrollView,
-  FlatList as rFlatList,
-  ActivityIndicator as rActivityIndicator,
-  SafeAreaView as rSafeAreaView,
-  KeyboardAvoidingView as rKeyboardAvoidingView,
-  Picker as rPicker,
-  SectionList as rSectionList,
-  StatusBar as rStatusBar,
-  TouchableHighlight as rTouchableHighlight,
-  TouchableOpacity as rTouchableOpacity,
-  TouchableWithoutFeedback as rTouchableWithoutFeedback,
-  VirtualizedList as rVirtualizedList,
-  YellowBox as rYellowBox,
-  Image as rImage,
-  ImageBackground as rImageBackground,
-  Button as rButton,
-} from 'react-native'
 import { createThemedComponent } from '../css/create-themed-component'
+import {
+	// TODO I could import * as Native, but would that break tree shaking?
+	View as rView,
+	Text as rText,
+	ScrollView as rScrollView,
+	TextInput as rTextInput,
+	FlatList as rFlatList,
+	ActivityIndicator as rActivityIndicator,
+	Button as rButton,
+	SafeAreaView as rSafeAreaView,
+} from 'react-native'
+
 import * as HTML from '@expo/html-elements'
 
 export const View = createThemedComponent(rView)
 
 export const Text = createThemedComponent(rText, {
-  themeKey: 'text',
-  defaultVariant: 'body',
+	themeKey: 'text',
 })
 
 export const H1 = createThemedComponent(HTML.H1, {
-  themeKey: 'text',
-  defaultVariant: 'h1',
+	themeKey: 'text',
+	defaultVariant: 'h1',
 })
 
 export const H2 = createThemedComponent(HTML.H2, {
-  themeKey: 'text',
-  defaultVariant: 'h2',
+	themeKey: 'text',
+	defaultVariant: 'h2',
 })
 
 export const H3 = createThemedComponent(HTML.H3, {
-  themeKey: 'text',
-  defaultVariant: 'h3',
+	themeKey: 'text',
+	defaultVariant: 'h3',
 })
 
 export const H4 = createThemedComponent(HTML.H4, {
-  themeKey: 'text',
-  defaultVariant: 'h4',
+	themeKey: 'text',
+	defaultVariant: 'h4',
 })
 
 export const H5 = createThemedComponent(HTML.H5, {
-  themeKey: 'text',
-  defaultVariant: 'h5',
+	themeKey: 'text',
+	defaultVariant: 'h5',
 })
 
 export const H6 = createThemedComponent(HTML.H6, {
-  themeKey: 'text',
-  defaultVariant: 'h6',
+	themeKey: 'text',
+	defaultVariant: 'h6',
 })
 
 export const A = createThemedComponent(HTML.A, {
-  themeKey: 'text',
-  defaultVariant: 'a',
-})
-
-export const P = createThemedComponent(HTML.P, {
-  themeKey: 'text',
-  defaultVariant: 'a',
-})
-
-export const Hr = createThemedComponent(HTML.HR, {
-  themeKey: 'hr',
-  defaultStyle: {
-    color: 'gray',
-    m: 0,
-    my: 2,
-    border: 0,
-    borderBottom: '1px solid',
-  },
+	themeKey: 'text',
+	defaultVariant: 'a',
 })
 
 export const ScrollView = createThemedComponent(rScrollView)
+
+export const TextInput = createThemedComponent(rTextInput)
+
+export const Button = createThemedComponent(rButton, {
+	themeKey: 'buttons',
+})
 
 export const FlatList = createThemedComponent(rFlatList)
 
 export const ActivityIndicator = createThemedComponent(rActivityIndicator)
 
-export const SafeAreaView = createThemedComponent(rSafeAreaView)
-
-export const Picker = createThemedComponent(rPicker)
-
-export const SectionList = createThemedComponent(rSectionList)
-
-export const StatusBar = createThemedComponent(rStatusBar)
-
-export const KeyboardAvoidingView = createThemedComponent(rKeyboardAvoidingView)
-
-export const TouchableHighlight = createThemedComponent(rTouchableHighlight)
-
-export const TouchableOpacity = createThemedComponent(rTouchableOpacity)
-
-export const TouchableWithoutFeedback = createThemedComponent(
-  rTouchableWithoutFeedback
-)
-
-export const VirtualizedList = createThemedComponent(rVirtualizedList)
-
-export const YellowBox = createThemedComponent(rYellowBox)
-
-export const Image = createThemedComponent(rImage, {
-  themeKey: 'images',
-  defaultStyle: {
-    maxWidth: '100%',
-    height: 'auto',
-  },
-})
-
-export const Avatar = createThemedComponent(rImage, {
-  defaultVariant: 'avatar',
-  defaultStyle: {
-    borderRadius: 9999,
-  },
-})
-
-export const ImageBackground = createThemedComponent(rImageBackground, {
-  themeKey: 'images',
-  defaultVariant: 'background',
+export const Flex = createThemedComponent(rView, {
+	defaultStyle: {
+		flexDirection: 'row',
+	},
 })
 
 export const Container = createThemedComponent(rView, {
-  defaultVariant: 'container',
-  themeKey: 'layout',
-  defaultStyle: {
-    mx: 'auto',
-    maxWidth: 'container',
-    width: '100%',
-  },
+	defaultVariant: 'container',
+	themeKey: 'layout',
+	defaultStyle: {
+		mx: 'auto',
+		maxWidth: 'container',
+		width: '100%',
+	},
 })
 
-export const Flex = createThemedComponent(rView, {
-  defaultStyle: {
-    flexDirection: 'row',
-  },
-})
-
-export const Card = createThemedComponent(rView, {
-  themeKey: 'card',
-  defaultVariant: 'primary',
-})
-
-export const Button = createThemedComponent(rTouchableHighlight, {
-  themeKey: 'buttons',
-  defaultVariant: 'primary',
-  defaultStyle: {
-    appearance: 'none',
-    display: 'inline-block',
-    textAlign: 'center',
-    lineHeight: 'inherit',
-    textDecoration: 'none',
-    fontSize: 'inherit',
-    px: 3,
-    py: 2,
-    color: 'white',
-    bg: 'primary',
-    border: 0,
-    borderRadius: 4,
-  },
-})
+export const SafeAreaView = createThemedComponent(rSafeAreaView)
 
 export const Row = Flex
 
 export const Box = View
-
-export const Divider = Hr
-
-export const Link = A

@@ -17,10 +17,20 @@ export function createThemedComponent<P>(
     typeof Component,
     Props<P> & ComponentProps<typeof Component>
   >(function Wrapped(prop, ref) {
-    const { sx, as: SuperComponent, variant, style, ...props } = prop
+    const {
+      sx,
+      as: SuperComponent,
+      variant,
+      style,
+      webContainerSx,
+      themeKey = options.themeKey,
+      ...props
+    } = prop
 
     const { theme } = useThemeUI()
-    const breakpoint = useBreakpointIndex()
+    const breakpoint = useBreakpointIndex({
+      __shouldDisableListenerOnWeb: true,
+    })
     // const ssr = useIsSSR()
     // change/remove this later maybe
     const ssr = Platform.OS === 'web'
@@ -35,9 +45,12 @@ export function createThemedComponent<P>(
             sx,
             style,
           },
-          options
+          {
+            ...options,
+            themeKey,
+          }
         )(),
-      [breakpoint, ssr, style, sx, theme, variant]
+      [breakpoint, ssr, style, sx, theme, themeKey, variant]
     )
 
     const TheComponent = SuperComponent || Component
@@ -46,11 +59,15 @@ export function createThemedComponent<P>(
       return (
         <SSRComponent
           {...props}
-          // @ts-ignore
-          Component={TheComponent}
+          Component={TheComponent as React.ComponentType<unknown>}
           responsiveStyles={responsiveSSRStyles}
           style={styles}
           ref={ref}
+          containerStyles={
+            webContainerSx as ComponentProps<
+              typeof SSRComponent
+            >['containerStyles']
+          }
         />
       )
     }
