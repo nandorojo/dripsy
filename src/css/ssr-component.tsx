@@ -48,27 +48,31 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                   // these styles match the reset from react-native-web's View
                   // https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/View/index.js
                   // This isn't guaranteed to match RNW, but it's probably as good as this library can do.
-                  sx={{
-                    alignItems: 'stretch',
-                    border: '0 solid black',
-                    boxSizing: 'border-box',
-                    display: 'flex',
-                    flexBasis: 'auto',
-                    flexDirection: 'column',
-                    flexShrink: 0,
-                    margin: 0,
-                    minHeight: 0,
-                    minWidth: 0,
-                    padding: 0,
-                    // position: 'relative', Remove this to not mess with absolute position
-                    zIndex: 0,
-                    // @ts-ignore Experimental: forward the flex value from the View in case this item should stretch.
-                    // This might be a bad idea; I'm not sure if flex functions the same on Web and RN.
-                    // But it helps you use the webContainerSx prop less. So I'll sit on it for now...
-                    // https://github.com/necolas/react-native-web/issues/1227
-                    // flex: breakpointStyle.flex ?? style.flex, This has weird effects.
-                    ...containerStyles,
-                  }}
+                  sx={
+                    renderChildren
+                      ? {
+                          alignItems: 'stretch',
+                          border: '0 solid black',
+                          boxSizing: 'border-box',
+                          display: 'flex',
+                          flexBasis: 'auto',
+                          flexDirection: 'column',
+                          flexShrink: 0,
+                          margin: 0,
+                          minHeight: 0,
+                          minWidth: 0,
+                          padding: 0,
+                          // position: 'relative', Remove this to not mess with absolute position
+                          zIndex: 0,
+                          // @ts-ignore Experimental: forward the flex value from the View in case this item should stretch.
+                          // This might be a bad idea; I'm not sure if flex functions the same on Web and RN.
+                          // But it helps you use the webContainerSx prop less. So I'll sit on it for now...
+                          // https://github.com/necolas/react-native-web/issues/1227
+                          // flex: breakpointStyle.flex ?? style.flex, This has weird effects.
+                          ...containerStyles,
+                        }
+                      : undefined
+                  }
                 >
                   {!!renderChildren ? (
                     <Component
