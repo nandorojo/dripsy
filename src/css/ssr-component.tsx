@@ -42,7 +42,6 @@ const SSR = React.forwardRef(function SSRComponent<T>(
             {(classNames, renderChildren) => {
               return (
                 <div
-                  className={classNames}
                   // here we're using theme-ui's JSX to style this div, which wraps our items
                   // I'm adding some reset styles to it so that it defaults to matching a view.
                   // these styles match the reset from react-native-web's View
@@ -73,6 +72,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                         }
                       : undefined
                   }
+                  className={classNames}
                 >
                   {!!renderChildren ? (
                     <Component
