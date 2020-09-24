@@ -163,7 +163,7 @@ export default {
     primary: 'tomato',
   },
   spacing: [10, 12, 14],
-  fontSize: [16, 20, 24],
+  fontSizes: [16, 20, 24],
   text: {
     h1: {
       fontSize: 3, // this is 24px, taken from `fontSize` above
