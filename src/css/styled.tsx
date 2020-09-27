@@ -3,7 +3,7 @@ import { SxProps } from '@theme-ui/core'
 import { createThemedComponent } from './create-themed-component'
 import { StyledProps } from './types'
 
-type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
+// type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
 /**
  * `styled` is little more than a recreation of `createThemedComponent`, with a nicer API. It does the same thing, but looks a bit nicer to use and has a clean name 😇
@@ -31,19 +31,25 @@ export function styled<P>(
     //   ) => Required<SxProps>['sx'])
     Required<SxProps>['sx']
   ) => {
-    const Styled = React.forwardRef<
-      typeof Component,
-      Props<P> & ComponentProps<typeof Component>
-    >(function Styled(props, ref) {
-      const Themed = createThemedComponent(Component, {
-        defaultStyle: typeof sx === 'function' ? sx(props) : sx,
-        themeKey,
-        defaultVariant,
-      })
-      // @ts-ignore
-      return <Themed {...((props as unknown) as P)} ref={ref} />
+    // const Styled = React.forwardRef<
+    //   typeof Component,
+    //   Props<P> & ComponentProps<typeof Component>
+    // >(function Styled(props, ref) {
+    //   const Themed = createThemedComponent(Component, {
+    //     defaultStyle: typeof sx === 'function' ? sx(props) : sx,
+    //     themeKey,
+    //     defaultVariant,
+    //   })
+    //   // @ts-ignore
+    //   return <Themed {...((props as unknown) as P)} ref={ref} />
+    // })
+    // Styled.displayName = `DripsyStyled.${Component.displayName}`
+
+    const Styled = createThemedComponent(Component, {
+      defaultVariant,
+      themeKey,
+      defaultStyle: sx,
     })
-    Styled.displayName = `DripsyStyled.${Component.displayName}`
 
     return Styled
   }
