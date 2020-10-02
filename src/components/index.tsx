@@ -85,10 +85,6 @@ export const Hr = createThemedComponent(HTML.HR, {
 
 export const ScrollView = createThemedComponent(rScrollView)
 
-export const Button = createThemedComponent(rButton, {
-	themeKey: 'buttons',
-})
-
 export const FlatList = createThemedComponent(rFlatList)
 
 export const ActivityIndicator = createThemedComponent(rActivityIndicator)
