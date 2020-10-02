@@ -281,7 +281,29 @@ If you're using the Expo + Next.js integration, you'll have to [follow the steps
 
 # API
 
+> 🚨 More docs coming here!!!
+
+## `styled`
+
+```jsx
+import { View } from 'react-native'
+import { styled } from 'dripsy' 
+
+const StyledView = styled(View)({
+  flex: 1,
+  bg: 'primary'
+})
+
+// This uses the theme.layout.container styles!
+const StyledView2 = styled(View, { themeKey: 'layout', defaultVariant: 'container' })({
+  flex: 1,
+  bg: 'primary'
+})
+```
+
 ## `createThemedComponent`
+
+> Prefer `styled`.
 
 Currently, a bunch of the React Native components are supported. That said, I haven't added them all. If you want to add one, go to `src/components` and add one and submit a PR.
 
