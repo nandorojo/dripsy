@@ -34,7 +34,7 @@ export default function App() {
       />
 
       <Text sx={{ fontSize: [100, 200] }}>Hi</Text>
-
+      <ThemedText>Nice</ThemedText>
       <View sx={{ height: 400, backgroundColor: 'orange' }}>
         <View sx={{ height: 100, backgroundColor: ['primary', 'secondary'] }} />
       </View>

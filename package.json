@@ -1,10 +1,10 @@
 {
   "name": "dripsy",
-  "version": "0.6.0-fresnel-2.1",
+  "version": "0.8.0-fresnel-2",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
-  "types": "lib/typescript/index.d.ts",
+  "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index.tsx",
   "source": "src/index.tsx",
   "files": [
@@ -43,7 +43,6 @@
     "@types/jest": "^25.2.1",
     "@types/react": "^16.9.43",
     "@types/react-native": "^0.63.2",
-    "@types/styled-components": "^5.1.0",
     "commitlint": "^8.3.5",
     "eslint-config-nando": "^1.0.9",
     "jest": "^26.0.1",
@@ -97,6 +96,8 @@
     "@expo/html-elements": "^0.0.0-alpha.5",
     "@react-native-community/hooks": "^2.6.0",
     "@theme-ui/core": "^0.4.0-rc.1",
-    "@theme-ui/css": "^0.4.0-rc.1"
+    "@theme-ui/css": "^0.4.0-rc.1",
+    "hoist-non-react-statics": "^3.3.2",
+    "theme-ui": "^0.4.0-rc.3"
   }
 }

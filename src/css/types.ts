@@ -11,6 +11,7 @@ export type ThemedOptions = {
 export type StyledProps<P> = SxProps & {
   as?: ComponentType<P>
   variant?: string
+  themeKey?: string
   /**
    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
    */
@@ -18,4 +19,8 @@ export type StyledProps<P> = SxProps & {
   style?: P['style'] extends [] ? P['style'][0] : P['style']
   breakpoint?: number
   theme: Theme
+  /**
+   * This styles the `div` that wraps your responsive item. CSS values are fine here, and they can also be responsive.
+   */
+  webContainerSx?: SxProps['sx']
 }
