@@ -24,6 +24,8 @@ import {
 
 import * as HTML from '@expo/html-elements'
 
+export * from './Button'
+
 export const View = createThemedComponent(rView)
 
 export const Text = createThemedComponent(rText, {
