@@ -1,9 +1,12 @@
 import { SxProps } from '@theme-ui/core'
 import { Theme } from '@theme-ui/css'
 import { ComponentType } from 'react'
+// import { SxStyleProp } from 'theme-ui'
 
-export type ThemedOptions = {
-  defaultStyle?: SxProps['sx']
+export type ThemedOptions<T> = {
+  defaultStyle?:
+    | SxProps['sx']
+    | ((props: T) => Required<Required<SxProps>['sx']>)
   themeKey?: string
   defaultVariant?: string
 }

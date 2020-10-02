@@ -8,14 +8,14 @@ import { Platform } from 'react-native'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
-export function createThemedComponent<P>(
+export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
-  options: ThemedOptions = {}
+  { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
 ) {
   // without styled-components...
   const WrappedComponent = React.forwardRef<
     typeof Component,
-    Props<P> & ComponentProps<typeof Component>
+    Props<P> & ComponentProps<typeof Component> & T
   >(function Wrapped(prop, ref) {
     const {
       sx,
@@ -26,6 +26,8 @@ export function createThemedComponent<P>(
       themeKey = options.themeKey,
       ...props
     } = prop
+    const defaultStyle =
+      typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
     const { theme } = useThemeUI()
     const breakpoint = useBreakpointIndex({
@@ -37,7 +39,7 @@ export function createThemedComponent<P>(
 
     const { responsiveSSRStyles, ...styles } = useMemo(
       () =>
-        mapPropsToStyledComponent(
+        mapPropsToStyledComponent<P, T>(
           {
             theme,
             breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
@@ -48,9 +50,10 @@ export function createThemedComponent<P>(
           {
             ...options,
             themeKey,
+            defaultStyle,
           }
         )(),
-      [breakpoint, ssr, style, sx, theme, themeKey, variant]
+      [breakpoint, defaultStyle, ssr, style, sx, theme, themeKey, variant]
     )
 
     const TheComponent = SuperComponent || Component

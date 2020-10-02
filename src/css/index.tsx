@@ -473,9 +473,9 @@ export function useResponsiveValue<T>(
   return array[index >= array.length ? array.length - 1 : index]
 }
 
-export function mapPropsToStyledComponent<P>(
+export function mapPropsToStyledComponent<P, T>(
   props: StyledProps<P>,
-  { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions
+  { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions<T>
 ) {
   const { breakpoint, sx, theme, variant = defaultVariant, style } = props
 
