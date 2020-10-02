@@ -189,6 +189,25 @@ export default {
 </Text>
 ```
 
+### ...you can even use "HTML" elements
+
+```jsx
+import { H1, H2, P } from 'dripsy'
+
+<H1
+  sx={{
+    color: 'text', // #000 from theme!
+    fontSize: 2    // 24px from theme!
+  }}
+>
+  
+</H1>
+```
+
+Credit to Evan Bacon for @expo/html-elements, used above!
+
+----
+
 _Todo: make the theme values show up in TS types for intelliesense._
 
 ## Usage
