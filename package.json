@@ -99,5 +99,6 @@
     "@theme-ui/css": "^0.4.0-rc.1",
     "hoist-non-react-statics": "^3.3.2",
     "theme-ui": "^0.4.0-rc.3"
-  }
+  },
+  "sideEffects": false
 }
