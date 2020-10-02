@@ -135,7 +135,8 @@ Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
 
 ```jsx
 import { SSRStyleReset } from 'dripsy'
-;<body>
+
+<body>
   <SSRStyleReset />
   <YourApp />
 </body>
