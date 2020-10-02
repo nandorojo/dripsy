@@ -275,10 +275,6 @@ const ResponsiveBox = () => {
 }
 ```
 
-### Expo + Next.js
-
-If you're using the Expo + Next.js integration, you'll have to [follow the steps](https://docs.expo.io/guides/using-styled-components/#usage-with-nextjs) to use styled components with Next.js + Expo.
-
 # API
 
 > 🚨 More docs coming here!!!
