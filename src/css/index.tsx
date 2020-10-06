@@ -493,10 +493,11 @@ export function mapPropsToStyledComponent<P, T>(
   } = props
 
   // overrride the defaults with added ones; don't get rid of them altogether
-  const multipleVariants = [...defaultVariants]
+  let multipleVariants = [...defaultVariants]
   if (variants?.length) {
-    multipleVariants.push(...variants)
+    multipleVariants = [...variants]
   }
+  multipleVariants.filter(Boolean)
 
   const baseStyle = css(defaultStyle, breakpoint)({ theme })
 
