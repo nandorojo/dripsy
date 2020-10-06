@@ -475,9 +475,28 @@ export function useResponsiveValue<T>(
 
 export function mapPropsToStyledComponent<P, T>(
   props: StyledProps<P>,
-  { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions<T>
+  options: ThemedOptions<T>
 ) {
-  const { breakpoint, sx, theme, variant = defaultVariant, style } = props
+  const {
+    themeKey,
+    defaultStyle,
+    defaultVariant = 'primary',
+    defaultVariants = [],
+  } = options
+  const {
+    breakpoint,
+    sx,
+    theme,
+    variant = defaultVariant,
+    style,
+    variants,
+  } = props
+
+  // overrride the defaults with added ones; don't get rid of them altogether
+  const multipleVariants = [...defaultVariants]
+  if (variants?.length) {
+    multipleVariants.push(...variants)
+  }
 
   const baseStyle = css(defaultStyle, breakpoint)({ theme })
 
@@ -485,6 +504,21 @@ export function mapPropsToStyledComponent<P, T>(
     get(theme, themeKey + '.' + variant, get(theme, variant)),
     breakpoint
   )({ theme })
+
+  const multipleVariantsStyle = multipleVariants
+    .map(variantKey =>
+      css(
+        get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
+        breakpoint
+      )({ theme })
+    )
+    .reduce(
+      (prev = {}, next = {}) => ({
+        ...prev,
+        ...next,
+      }),
+      {}
+    )
 
   const nativeStyles = css(
     Array.isArray(style) ? StyleSheet.flatten(style) : style,
@@ -494,8 +528,10 @@ export function mapPropsToStyledComponent<P, T>(
   const superStyle = css(sx, breakpoint)({ theme })
 
   // TODO optimize with StyleSheet.create()
+  // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
   const styles = () => ({
     ...baseStyle,
+    ...multipleVariantsStyle,
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,
