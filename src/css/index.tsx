@@ -497,7 +497,7 @@ export function mapPropsToStyledComponent<P, T>(
   if (variants?.length) {
     multipleVariants = [...variants]
   }
-  multipleVariants.filter(Boolean)
+  multipleVariants = multipleVariants.filter(Boolean)
 
   const baseStyle = css(defaultStyle, breakpoint)({ theme })
 
