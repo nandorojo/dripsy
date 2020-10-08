@@ -8,7 +8,7 @@ import {
 } from '@theme-ui/css'
 import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
 import { useEffect, useRef, useState } from 'react'
-import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
+import { Dimensions, Platform, ScaledSize } from 'react-native'
 // import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
