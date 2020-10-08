@@ -11,7 +11,9 @@ type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
   { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
-) {
+): React.ForwardRefExoticComponent<
+  Props<P> & ComponentProps<typeof Component> & T & P
+> {
   // without styled-components...
   const WrappedComponent = React.forwardRef<
     typeof Component,
@@ -88,12 +90,13 @@ export function createThemedComponent<P, T>(
     }
 
     return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={[styles]} />
+      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
     )
   })
 
   WrappedComponent.displayName = `Themed.${Component.displayName ??
     'NoNameComponent'}`
 
+  // @ts-ignore
   return React.memo(WrappedComponent)
 }
