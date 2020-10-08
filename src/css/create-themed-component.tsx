@@ -29,6 +29,11 @@ export function createThemedComponent<P, T>(
       variants = options.defaultVariants,
       ...props
     } = prop
+    if (__DEV__ && typeof SuperComponent === 'string') {
+      console.error(
+        `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
+      )
+    }
     const defaultStyle =
       typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
