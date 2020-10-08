@@ -3,14 +3,13 @@ import { jsx, SxProps } from 'theme-ui'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
 import { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider'
-import { StyledProps } from './types'
 
 type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
   containerStyles?: SxProps['sx']
-  nativeStyle?: StyledProps<T>['style']
+  // nativeStyle?: StyledProps<T>['style']
 }
 
 const SSR = React.forwardRef(function SSRComponent<T>(
@@ -19,7 +18,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
     Component,
     style,
     containerStyles = {},
-    nativeStyle,
+    // nativeStyle,
     ...props
   }: Props<T>,
   ref: T
@@ -81,7 +80,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                     <Component
                       {...((props as unknown) as T)}
                       ref={ref}
-                      style={[nativeStyle, style, breakpointStyle]}
+                      style={[style, breakpointStyle]}
                     />
                   ) : null}
                 </div>
