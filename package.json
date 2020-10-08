@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "1.1.0-multiple-variants.11",
+  "version": "1.1.0-multiple-variants.12",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
