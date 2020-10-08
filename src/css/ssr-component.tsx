@@ -9,6 +9,7 @@ type Props<T> = {
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
   containerStyles?: SxProps['sx']
+  // nativeStyle?: StyledProps<T>['style']
 }
 
 const SSR = React.forwardRef(function SSRComponent<T>(
@@ -17,6 +18,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
     Component,
     style,
     containerStyles = {},
+    // nativeStyle,
     ...props
   }: Props<T>,
   ref: T

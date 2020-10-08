@@ -47,6 +47,12 @@ const responsive = (
       continue
     }
 
+    if (key === 'transform') {
+      // @ts-ignore
+      next[key] = value
+      continue
+    }
+
     if (Platform.OS === 'web') {
       next.responsiveSSRStyles = next.responsiveSSRStyles || []
 
@@ -343,6 +349,11 @@ export const css = (
       continue
     }
 
+    if (key === 'transform') {
+      result[key] = val
+      continue
+    }
+
     if (val && typeof val === 'object') {
       // @ts-ignore
       result[key] = css(val)(theme)
@@ -475,9 +486,29 @@ export function useResponsiveValue<T>(
 
 export function mapPropsToStyledComponent<P, T>(
   props: StyledProps<P>,
-  { themeKey, defaultStyle, defaultVariant = 'primary' }: ThemedOptions<T>
+  options: ThemedOptions<T>
 ) {
-  const { breakpoint, sx, theme, variant = defaultVariant, style } = props
+  const {
+    themeKey,
+    defaultStyle,
+    defaultVariant = 'primary',
+    defaultVariants = [],
+  } = options
+  const {
+    breakpoint,
+    sx,
+    theme,
+    variant = defaultVariant,
+    style,
+    variants,
+  } = props
+
+  // overrride the defaults with added ones; don't get rid of them altogether
+  let multipleVariants = [...defaultVariants]
+  if (variants?.length) {
+    multipleVariants = [...variants]
+  }
+  multipleVariants = multipleVariants.filter(Boolean)
 
   const baseStyle = css(defaultStyle, breakpoint)({ theme })
 
@@ -486,16 +517,35 @@ export function mapPropsToStyledComponent<P, T>(
     breakpoint
   )({ theme })
 
+  const multipleVariantsStyle = multipleVariants
+    .map(variantKey =>
+      css(
+        get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
+        breakpoint
+      )({ theme })
+    )
+    .reduce(
+      (prev = {}, next = {}) => ({
+        ...prev,
+        ...next,
+      }),
+      {}
+    )
+
   const nativeStyles = css(
-    Array.isArray(style) ? StyleSheet.flatten(style) : style,
+    Array.isArray(style)
+      ? StyleSheet.flatten(style)
+      : StyleSheet.flatten([style]),
     breakpoint
   )({ theme })
 
   const superStyle = css(sx, breakpoint)({ theme })
 
   // TODO optimize with StyleSheet.create()
+  // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
   const styles = () => ({
     ...baseStyle,
+    ...multipleVariantsStyle,
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,

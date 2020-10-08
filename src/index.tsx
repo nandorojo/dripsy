@@ -12,3 +12,4 @@ export type { Theme } from 'theme-ui'
 export { styled } from './css/styled'
 
 export { useThemeUI as useDripsyTheme } from 'theme-ui'
+export { remToPixels } from './utils/rem-to-pts'

@@ -24,6 +24,7 @@ export function createThemedComponent<P, T>(
       style,
       webContainerSx,
       themeKey = options.themeKey,
+      variants = options.defaultVariants,
       ...props
     } = prop
     const defaultStyle =
@@ -46,6 +47,7 @@ export function createThemedComponent<P, T>(
             variant,
             sx,
             style,
+            variants,
           },
           {
             ...options,
@@ -53,7 +55,17 @@ export function createThemedComponent<P, T>(
             defaultStyle,
           }
         )(),
-      [breakpoint, defaultStyle, ssr, style, sx, theme, themeKey, variant]
+      [
+        breakpoint,
+        defaultStyle,
+        ssr,
+        style,
+        sx,
+        theme,
+        themeKey,
+        variant,
+        variants,
+      ]
     )
 
     const TheComponent = SuperComponent || Component
@@ -76,7 +88,7 @@ export function createThemedComponent<P, T>(
     }
 
     return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
+      <TheComponent {...((props as unknown) as P)} ref={ref} style={[styles]} />
     )
   })
 

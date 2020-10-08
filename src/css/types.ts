@@ -9,6 +9,10 @@ export type ThemedOptions<T> = {
     | ((props: T) => Required<Required<SxProps>['sx']>)
   themeKey?: string
   defaultVariant?: string
+  /**
+   * List of multiple variants
+   */
+  defaultVariants?: string[]
 }
 
 export type StyledProps<P> = SxProps & {
@@ -18,6 +22,7 @@ export type StyledProps<P> = SxProps & {
   /**
    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
    */
+  // TODO uhh fix this mess
   // @ts-ignore
   style?: P['style'] extends [] ? P['style'][0] : P['style']
   breakpoint?: number
@@ -26,4 +31,5 @@ export type StyledProps<P> = SxProps & {
    * This styles the `div` that wraps your responsive item. CSS values are fine here, and they can also be responsive.
    */
   webContainerSx?: SxProps['sx']
+  variants?: string[]
 }
