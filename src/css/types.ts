@@ -22,6 +22,7 @@ export type StyledProps<P> = SxProps & {
   /**
    * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
    */
+  // TODO uhh fix this mess
   // @ts-ignore
   style?: P['style'] extends [] ? P['style'][0] : P['style']
   breakpoint?: number

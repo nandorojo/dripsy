@@ -46,6 +46,14 @@ const responsive = (
       next[key] = value
       continue
     }
+    // for single value arrays, just add it to the style
+    // example: flex: [1]
+    // we do this since we create more dom nodes otherwise
+    if (value.length === 1) {
+      // @ts-ignore
+      next[key] = value[0]
+      continue
+    }
 
     if (Platform.OS === 'web') {
       next.responsiveSSRStyles = next.responsiveSSRStyles || []
@@ -488,7 +496,7 @@ export function mapPropsToStyledComponent<P, T>(
     sx,
     theme,
     variant = defaultVariant,
-    style,
+    // style,
     variants,
   } = props
 
@@ -521,10 +529,10 @@ export function mapPropsToStyledComponent<P, T>(
       {}
     )
 
-  const nativeStyles = css(
-    Array.isArray(style) ? StyleSheet.flatten(style) : style,
-    breakpoint
-  )({ theme })
+  // const nativeStyles = css(
+  //   Array.isArray(style) ? StyleSheet.flatten(style) : style,
+  //   breakpoint
+  // )({ theme })
 
   const superStyle = css(sx, breakpoint)({ theme })
 
@@ -534,7 +542,7 @@ export function mapPropsToStyledComponent<P, T>(
     ...baseStyle,
     ...multipleVariantsStyle,
     ...variantStyle,
-    ...nativeStyles,
+    // ...nativeStyles,
     ...superStyle,
   })
 

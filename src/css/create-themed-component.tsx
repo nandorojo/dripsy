@@ -21,7 +21,7 @@ export function createThemedComponent<P, T>(
       sx,
       as: SuperComponent,
       variant,
-      style,
+      style: nativeStyle,
       webContainerSx,
       themeKey = options.themeKey,
       variants = options.defaultVariants,
@@ -46,7 +46,7 @@ export function createThemedComponent<P, T>(
             breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
             variant,
             sx,
-            style,
+            // style,
             variants,
           },
           {
@@ -59,7 +59,7 @@ export function createThemedComponent<P, T>(
         breakpoint,
         defaultStyle,
         ssr,
-        style,
+        // style,
         sx,
         theme,
         themeKey,
@@ -78,6 +78,7 @@ export function createThemedComponent<P, T>(
           responsiveStyles={responsiveSSRStyles}
           style={styles}
           ref={ref}
+          nativeStyle={nativeStyle}
           containerStyles={
             webContainerSx as ComponentProps<
               typeof SSRComponent
@@ -88,7 +89,11 @@ export function createThemedComponent<P, T>(
     }
 
     return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
+      <TheComponent
+        {...((props as unknown) as P)}
+        ref={ref}
+        style={[nativeStyle, styles]}
+      />
     )
   })
 
