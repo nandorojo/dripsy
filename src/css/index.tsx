@@ -47,6 +47,12 @@ const responsive = (
       continue
     }
 
+    if (key === 'transform') {
+      // @ts-ignore
+      next[key] = value
+      continue
+    }
+
     if (Platform.OS === 'web') {
       next.responsiveSSRStyles = next.responsiveSSRStyles || []
 
@@ -340,6 +346,11 @@ export const css = (
         // here we extract theme values for each item
         breakpointStyle => css(breakpointStyle)(theme)
       )
+      continue
+    }
+
+    if (key === 'transform') {
+      result[key] = val
       continue
     }
 
