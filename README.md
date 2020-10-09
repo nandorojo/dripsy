@@ -20,7 +20,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Responsive styles
 - Universal (Android, iOS, Web)
 - Works with Expo
-- Works with Next.js / server-side rendering (experimental)
+- Works with Next.js / server-side rendering
 - Full theme support
 - Custom theme variants
 - TypeScript support (TypeScript theme support is in the works too)
@@ -135,7 +135,8 @@ Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
 
 ```jsx
 import { SSRStyleReset } from 'dripsy'
-;<body>
+
+<body>
   <SSRStyleReset />
   <YourApp />
 </body>
@@ -163,7 +164,7 @@ export default {
     primary: 'tomato',
   },
   spacing: [10, 12, 14],
-  fontSize: [16, 20, 24],
+  fontSizes: [16, 20, 24],
   text: {
     h1: {
       fontSize: 3, // this is 24px, taken from `fontSize` above
@@ -187,6 +188,25 @@ export default {
   Themed color!
 </Text>
 ```
+
+### ...you can even use "HTML" elements
+
+```jsx
+import { H1, H2, P } from 'dripsy'
+
+<H1
+  sx={{
+    color: 'text', // #000 from theme!
+    fontSize: 2    // 24px from theme!
+  }}
+>
+  
+</H1>
+```
+
+Credit to Evan Bacon for @expo/html-elements, used above!
+
+----
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
@@ -274,13 +294,31 @@ const ResponsiveBox = () => {
 }
 ```
 
-### Expo + Next.js
-
-If you're using the Expo + Next.js integration, you'll have to [follow the steps](https://docs.expo.io/guides/using-styled-components/#usage-with-nextjs) to use styled components with Next.js + Expo.
-
 # API
 
+> 🚨 More docs coming here!!!
+
+## `styled`
+
+```jsx
+import { View } from 'react-native'
+import { styled } from 'dripsy' 
+
+const StyledView = styled(View)({
+  flex: 1,
+  bg: 'primary'
+})
+
+// This uses the theme.layout.container styles!
+const StyledView2 = styled(View, { themeKey: 'layout', defaultVariant: 'container' })({
+  flex: 1,
+  bg: 'primary'
+})
+```
+
 ## `createThemedComponent`
+
+> Prefer `styled`.
 
 Currently, a bunch of the React Native components are supported. That said, I haven't added them all. If you want to add one, go to `src/components` and add one and submit a PR.
 

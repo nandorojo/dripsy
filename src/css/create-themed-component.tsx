@@ -8,14 +8,16 @@ import { Platform } from 'react-native'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
-export function createThemedComponent<P>(
+export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
-  options: ThemedOptions = {}
-) {
+  { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
+): React.ForwardRefExoticComponent<
+  Props<P> & ComponentProps<typeof Component> & T & P
+> {
   // without styled-components...
   const WrappedComponent = React.forwardRef<
     typeof Component,
-    Props<P> & ComponentProps<typeof Component>
+    Props<P> & ComponentProps<typeof Component> & T
   >(function Wrapped(prop, ref) {
     const {
       sx,
@@ -24,8 +26,16 @@ export function createThemedComponent<P>(
       style,
       webContainerSx,
       themeKey = options.themeKey,
+      variants = options.defaultVariants,
       ...props
     } = prop
+    if (__DEV__ && typeof SuperComponent === 'string') {
+      console.error(
+        `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
+      )
+    }
+    const defaultStyle =
+      typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
     const { theme } = useThemeUI()
     const breakpoint = useBreakpointIndex({
@@ -37,20 +47,32 @@ export function createThemedComponent<P>(
 
     const { responsiveSSRStyles, ...styles } = useMemo(
       () =>
-        mapPropsToStyledComponent(
+        mapPropsToStyledComponent<P, T>(
           {
             theme,
             breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
             variant,
             sx,
             style,
+            variants,
           },
           {
             ...options,
             themeKey,
+            defaultStyle,
           }
         )(),
-      [breakpoint, ssr, style, sx, theme, themeKey, variant]
+      [
+        breakpoint,
+        defaultStyle,
+        ssr,
+        style,
+        sx,
+        theme,
+        themeKey,
+        variant,
+        variants,
+      ]
     )
 
     const TheComponent = SuperComponent || Component
@@ -80,5 +102,6 @@ export function createThemedComponent<P>(
   WrappedComponent.displayName = `Themed.${Component.displayName ??
     'NoNameComponent'}`
 
+  // @ts-ignore
   return React.memo(WrappedComponent)
 }
