@@ -151,6 +151,9 @@ export const multiples = {
 }
 
 export const scales = {
+  // RN SPECIFIC SCALES FIRST
+  textShadowColor: 'colors',
+  // REST
   color: 'colors',
   backgroundColor: 'colors',
   borderColor: 'colors',
