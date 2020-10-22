@@ -6,9 +6,9 @@ import {
   ScrollView as rScrollView,
   TextInput as rTextInput,
   FlatList as rFlatList,
-  ActivityIndicator as rActivityIndicator,
   Button as rButton,
   SafeAreaView as rSafeAreaView,
+  Image as rImage,
 } from 'react-native'
 
 import {
@@ -21,11 +21,15 @@ import {
   A as ExpoA,
 } from '@expo/html-elements'
 
+import Indicator from './activity-indicator'
+
 export const View = createThemedComponent(rView)
 
 export const Text = createThemedComponent(rText, {
   themeKey: 'text',
 })
+
+export const Image = createThemedComponent(rImage)
 
 export const H1 = createThemedComponent(ExpoH1, {
   themeKey: 'text',
@@ -72,7 +76,7 @@ export const Button = createThemedComponent(rButton, {
 
 export const FlatList = createThemedComponent(rFlatList)
 
-export const ActivityIndicator = createThemedComponent(rActivityIndicator)
+export const ActivityIndicator = createThemedComponent(Indicator)
 
 export const Flex = createThemedComponent(rView, {
   defaultStyle: {

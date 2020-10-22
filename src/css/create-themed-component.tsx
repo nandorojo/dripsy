@@ -12,7 +12,12 @@ export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
   { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
 ): React.ForwardRefExoticComponent<
-  Props<P> & ComponentProps<typeof Component> & T & P
+  Props<P> &
+    ComponentProps<typeof Component> &
+    T &
+    P &
+    // needed for the ref field in TS
+    React.RefAttributes<typeof Component>
 > {
   // without styled-components...
   const WrappedComponent = React.forwardRef<

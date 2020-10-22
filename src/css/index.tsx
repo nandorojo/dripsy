@@ -484,6 +484,34 @@ export function useResponsiveValue<T>(
   return array[index >= array.length ? array.length - 1 : index]
 }
 
+/**
+ * This hook is useful when you need to know the responsive value from an array, but on the fly, rather than by rerendering your component.
+ */
+// export function useStaticResponsiveValue() {
+//   const { theme } = useThemeUI()
+
+//   return useCallback(
+//     <T extends any>(values: Values<T>) => {
+//       const { width } = Dimensions.get('window')
+//       const getBreakpointIndex = () => {
+//         const breakpointPixels = [...defaultBreakpoints]
+//           .reverse()
+//           .find(breakpoint => width >= breakpoint)
+
+//         let breakpointIndex = defaultBreakpoints.findIndex(
+//           breakpoint => breakpointPixels === breakpoint
+//         )
+//         breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
+//         return breakpointIndex
+//       }
+//       const array = typeof values === 'function' ? values(theme) : values
+//       const index = getBreakpointIndex()
+//       return array[index >= array.length ? array.length - 1 : index]
+//     },
+//     [theme]
+//   )
+// }
+
 export function mapPropsToStyledComponent<P, T>(
   props: StyledProps<P>,
   options: ThemedOptions<T>
