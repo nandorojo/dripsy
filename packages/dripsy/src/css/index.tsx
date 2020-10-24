@@ -344,7 +344,7 @@ export const css = (
     if (key === 'responsiveSSRStyles' && styles.responsiveSSRStyles) {
       result.responsiveSSRStyles = styles.responsiveSSRStyles.map(
         // here we extract theme values for each item
-        breakpointStyle => css(breakpointStyle)(theme)
+        (breakpointStyle) => css(breakpointStyle)(theme)
       )
       continue
     }
@@ -443,10 +443,10 @@ export const useBreakpointIndex = ({
     }) => {
       const breakpointPixels = [...defaultBreakpoints]
         .reverse()
-        .find(breakpoint => width >= breakpoint)
+        .find((breakpoint) => width >= breakpoint)
 
       let breakpointIndex = defaultBreakpoints.findIndex(
-        breakpoint => breakpointPixels === breakpoint
+        (breakpoint) => breakpointPixels === breakpoint
       )
       breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
       if (breakpointIndex !== indexRef.current) {
@@ -518,7 +518,7 @@ export function mapPropsToStyledComponent<P, T>(
   )({ theme })
 
   const multipleVariantsStyle = multipleVariants
-    .map(variantKey =>
+    .map((variantKey) =>
       css(
         get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
         breakpoint
