@@ -70,6 +70,10 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                           // But it helps you use the webContainerSx prop less. So I'll sit on it for now...
                           // https://github.com/necolas/react-native-web/issues/1227
                           // flex: breakpointStyle.flex ?? style.flex, This has weird effects.
+
+                          // this prevents the container from catching any touches.
+                          // without this, we might get in the way of a View's pointerEvents="box-none"
+                          pointerEvents: 'none',
                           ...containerStyles,
                         }
                       : undefined

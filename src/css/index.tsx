@@ -318,6 +318,35 @@ const positiveOrNegative = (scale: object, value: string | number) => {
   return Number(n) * -1
 }
 
+/**
+ * Here we remove web style keys from components to prevent annoying errors
+ */
+const filterWebStyleKeys = (
+  styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
+): Exclude<ThemeUIStyleObject, UseThemeFunction> => {
+  if (Platform.OS === 'web') {
+    return styleProp
+  }
+
+  // avoid prop mutations
+  const finalStyles = { ...styleProp }
+  const webOnlyKeys = [
+    'animationKeyFrames',
+    'transitionProperty',
+    'whiteSpace',
+    'userSelect',
+    'transitionDuration',
+    'transitionTimingFunction',
+  ]
+  webOnlyKeys.forEach(key => {
+    if (finalStyles?.[key as keyof typeof styleProp]) {
+      delete finalStyles?.[key as keyof typeof styleProp]
+    }
+  })
+
+  return finalStyles
+}
+
 export const css = (
   args: ThemeUIStyleObject = {},
   breakpoint?: number
@@ -331,7 +360,8 @@ export const css = (
   }
   let result: CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } = {}
   const obj = typeof args === 'function' ? args(theme) : args
-  const styles = responsive(obj, { breakpoint })(theme)
+  const filteredOutWebKeys = filterWebStyleKeys(obj)
+  const styles = responsive(filteredOutWebKeys, { breakpoint })(theme)
 
   for (const key in styles) {
     // @ts-ignore
