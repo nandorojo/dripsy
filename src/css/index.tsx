@@ -12,10 +12,16 @@ import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
 // import { useDimensions } from '@react-native-community/hooks'
 import { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
+import { DripsyTheme } from 'src/utils/types'
 
 export { ThemeProvider }
 
-type CssPropsArgument = { theme: Theme } | Theme
+type CssPropsArgument = ({ theme: Theme } | Theme) & {
+  /**
+   * We use this for a custom font family.
+   */
+  fontFamily?: string
+}
 
 const defaultTheme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -354,7 +360,7 @@ export const css = (
 ) => (
   props: CssPropsArgument = {}
 ): CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } => {
-  const theme: Theme = {
+  const theme: DripsyTheme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
   }
@@ -400,6 +406,55 @@ export const css = (
     const transform = get(transforms, prop, get)
     const value = transform(scale, val, val)
 
+    if (key === 'fontWeight' && (styles as any)?.fontWeight) {
+      // let's check if we have a custom font that corresponds to this font weight
+      // we have a custom font for this family in our theme
+      // example: if we pass fontWeight: 'bold', and fontFamily: 'arial', this will be true for themes that have
+      // customFonts: {arial: {bold: 'arialBold'}}
+      // we also pass the font-family from other CSS props here at the top of the function, so fall back to that if it exists
+      const fontFamilyKey =
+        ((styles as any)?.fontFamily as string) ?? props?.fontFamily
+      if (fontFamilyKey) {
+        // either the raw value, or one from our theme
+        const fontWeight = value
+        if (fontFamilyKey) {
+          // first, check if our theme has a font with this name. If not, just use the normal name.
+          // for instance, if we pass fontFamily: 'body', and our theme has:
+          // { fonts: {body: 'arial'}} (<- in this case, if fontFamilyKey = 'body', we get 'arial' back)
+          // then we'd want to get fonts.body = 'arial'
+          // however, if we're just writing fontFamily: 'arial' instead of 'body', we need no alias
+          const fontFamily =
+            (theme?.fonts as any)?.[fontFamilyKey] ?? fontFamilyKey
+          if (fontFamily) {
+            if (typeof fontFamily !== 'string') {
+              console.error(
+                `[dripsy] error. Passed font family name that was not a string. This value should either be a string which corresponds to a key of your theme.fonts, or, it should be a string that corresponds to a raw font name. Your font will not be applied, please resolve this.`
+              )
+              continue
+            }
+            const customFontFamilyForWeight =
+              theme?.customFonts?.[fontFamily]?.[fontWeight]
+            if (customFontFamilyForWeight) {
+              // ok, now we just need to set the fontFamily to this value. oof
+              // following the comment above, in this case, we set fontFamily: `arialBold`
+              ;(result as any).fontFamily = customFontFamilyForWeight
+              continue
+            }
+          }
+        }
+      }
+    }
+
+    if (key === 'fontFamily') {
+      // ok, building off of fontWeight prior
+      // we just need to check if we've already set the fontFamily based on the weight
+      // if we have, continue. Otherwise, set it
+
+      if (result?.fontFamily) {
+        continue
+      }
+      // ok, no font-family set yet, so let's continue.
+    }
     // @ts-ignore
     if (multiples[prop]) {
       // @ts-ignore
@@ -567,23 +622,27 @@ export function mapPropsToStyledComponent<P, T>(
   // overrride the defaults with added ones; don't get rid of them altogether
   let multipleVariants = [...defaultVariants]
   if (variants?.length) {
-    multipleVariants = [...variants]
+    multipleVariants = [...defaultVariants, ...variants]
   }
   multipleVariants = multipleVariants.filter(Boolean)
-
-  const baseStyle = css(defaultStyle, breakpoint)({ theme })
 
   const variantStyle = css(
     get(theme, themeKey + '.' + variant, get(theme, variant)),
     breakpoint
   )({ theme })
 
+  // get the font-family from the variant, and pass it to the other styles as a fallback.
+  // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
+  const { fontFamily } = variantStyle
+
+  const baseStyle = css(defaultStyle, breakpoint)({ theme, fontFamily })
+
   const multipleVariantsStyle = multipleVariants
     .map(variantKey =>
       css(
         get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
         breakpoint
-      )({ theme })
+      )({ theme, fontFamily })
     )
     .reduce(
       (prev = {}, next = {}) => ({
@@ -598,9 +657,9 @@ export function mapPropsToStyledComponent<P, T>(
       ? StyleSheet.flatten(style)
       : StyleSheet.flatten([style]),
     breakpoint
-  )({ theme })
+  )({ theme, fontFamily })
 
-  const superStyle = css(sx, breakpoint)({ theme })
+  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
 
   // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
