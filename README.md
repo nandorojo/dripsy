@@ -17,6 +17,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 # Features
 
+- [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally 
 - Responsive styles
 - Universal (Android, iOS, Web, & more)
 - Works with Expo
