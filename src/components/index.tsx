@@ -25,9 +25,14 @@ import Indicator from './activity-indicator'
 
 export const View = createThemedComponent(rView)
 
+const defaultFontStyle = {
+  fontFamily: 'root',
+}
+
 export const Text = createThemedComponent(rText, {
   themeKey: 'text',
   defaultVariant: 'body',
+  defaultStyle: defaultFontStyle,
 })
 
 export const Image = createThemedComponent(rImage)
@@ -35,36 +40,43 @@ export const Image = createThemedComponent(rImage)
 export const H1 = createThemedComponent(ExpoH1, {
   themeKey: 'text',
   defaultVariant: 'h1',
+  defaultStyle: defaultFontStyle,
 })
 
 export const H2 = createThemedComponent(ExpoH2, {
   themeKey: 'text',
   defaultVariant: 'h2',
+  defaultStyle: defaultFontStyle,
 })
 
 export const H3 = createThemedComponent(ExpoH3, {
   themeKey: 'text',
   defaultVariant: 'h3',
+  defaultStyle: defaultFontStyle,
 })
 
 export const H4 = createThemedComponent(ExpoH4, {
   themeKey: 'text',
   defaultVariant: 'h4',
+  defaultStyle: defaultFontStyle,
 })
 
 export const H5 = createThemedComponent(ExpoH5, {
   themeKey: 'text',
   defaultVariant: 'h5',
+  defaultStyle: defaultFontStyle,
 })
 
 export const H6 = createThemedComponent(ExpoH6, {
   themeKey: 'text',
   defaultVariant: 'h6',
+  defaultStyle: defaultFontStyle,
 })
 
 export const A = createThemedComponent(ExpoA, {
   themeKey: 'text',
   defaultVariant: 'a',
+  defaultStyle: defaultFontStyle,
 })
 
 export const ScrollView = createThemedComponent(rScrollView)
@@ -72,6 +84,7 @@ export const ScrollView = createThemedComponent(rScrollView)
 export const TextInput = createThemedComponent(rTextInput, {
   themeKey: 'forms',
   defaultVariant: 'input',
+  defaultStyle: defaultFontStyle,
 })
 
 export const Button = createThemedComponent(rButton, {

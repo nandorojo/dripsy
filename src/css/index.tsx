@@ -406,6 +406,32 @@ export const css = (
     const transform = get(transforms, prop, get)
     const value = transform(scale, val, val)
 
+    if (key === 'fontFamily') {
+      // ok, building off of fontWeight prior
+      // we just need to check if we've already set the fontFamily based on the weight
+      // if we have, continue. Otherwise, set it
+
+      if (result?.fontFamily) {
+        continue
+      }
+
+      if (value === 'root') {
+        // if we're setting this font to the `root` font,
+        // make sure it actually exists
+        // why? because by default, our text sets the `root` style
+        // however, this only applies if you have a custom font
+        // if you don't have a custom font named root, we shold ignore the fontFamily: 'root' definition
+        if (!(theme?.fonts as any)?.root) {
+          // techincally speaking, if value === 'root', this means that we already know there's no custom root font
+          // why? bc value extracts the theme values. Since `root` is a reserved word in dripsy, we know this wouldn't work.
+          // however, we still check to make sure. It's also easier to understand if I forget later,
+          // ...or if someone accidentally names a font `root` even though the docs say not to
+          continue
+        }
+      }
+      // ok, no font-family set yet, so let's continue.
+    }
+
     if (key === 'fontWeight' && (styles as any)?.fontWeight) {
       // let's check if we have a custom font that corresponds to this font weight
       // we have a custom font for this family in our theme
@@ -453,17 +479,6 @@ export const css = (
           }
         }
       }
-    }
-
-    if (key === 'fontFamily') {
-      // ok, building off of fontWeight prior
-      // we just need to check if we've already set the fontFamily based on the weight
-      // if we have, continue. Otherwise, set it
-
-      if (result?.fontFamily) {
-        continue
-      }
-      // ok, no font-family set yet, so let's continue.
     }
     // @ts-ignore
     if (multiples[prop]) {
