@@ -30,12 +30,11 @@ export type DripsyTheme = Theme & {
     *     arial: {
     *       bold: 'arialBold',
     *       '400': 'arial',
-    *       default: '400' // if no font family is specified, we use this, or fallback to 400
+    *       default: 'arial' // if no font family is specified, we use this, or fallback to 400
     *     }
     *   },
     *   fonts: {
     *     body: 'arial',
-    *     heading: 'arialBold'
     *   },
     *   text: {
     *     body: {
