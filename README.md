@@ -18,8 +18,9 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 # Features
 
 - Responsive styles
-- Universal (Android, iOS, Web)
+- Universal (Android, iOS, Web, & more)
 - Works with Expo
+- Works with Vanilla React Native
 - Works with Next.js / server-side rendering
 - Full theme support
 - Custom theme variants
