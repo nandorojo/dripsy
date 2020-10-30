@@ -27,6 +27,7 @@ export const View = createThemedComponent(rView)
 
 export const Text = createThemedComponent(rText, {
   themeKey: 'text',
+  defaultVariant: 'body',
 })
 
 export const Image = createThemedComponent(rImage)
@@ -68,7 +69,10 @@ export const A = createThemedComponent(ExpoA, {
 
 export const ScrollView = createThemedComponent(rScrollView)
 
-export const TextInput = createThemedComponent(rTextInput)
+export const TextInput = createThemedComponent(rTextInput, {
+  themeKey: 'forms',
+  defaultVariant: 'input',
+})
 
 export const Button = createThemedComponent(rButton, {
   themeKey: 'buttons',
