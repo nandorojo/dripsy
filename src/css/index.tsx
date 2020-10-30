@@ -412,34 +412,44 @@ export const css = (
       // example: if we pass fontWeight: 'bold', and fontFamily: 'arial', this will be true for themes that have
       // customFonts: {arial: {bold: 'arialBold'}}
       // we also pass the font-family from other CSS props here at the top of the function, so fall back to that if it exists
-      const fontFamilyKey =
+      const fontFamilyKeyFromStyles =
         ((styles as any)?.fontFamily as string) ?? props?.fontFamily
-      if (fontFamilyKey) {
-        // either the raw value, or one from our theme
+
+      // default font for all text styles
+      const rootFontFamilyFromTheme = (theme?.fonts as any)?.root
+
+      // either the raw value, or one from our theme
+      if (fontFamilyKeyFromStyles || rootFontFamilyFromTheme) {
         const fontWeight = value
-        if (fontFamilyKey) {
+        let fontFamily
+        if (fontFamilyKeyFromStyles) {
           // first, check if our theme has a font with this name. If not, just use the normal name.
           // for instance, if we pass fontFamily: 'body', and our theme has:
           // { fonts: {body: 'arial'}} (<- in this case, if fontFamilyKey = 'body', we get 'arial' back)
           // then we'd want to get fonts.body = 'arial'
           // however, if we're just writing fontFamily: 'arial' instead of 'body', we need no alias
-          const fontFamily =
-            (theme?.fonts as any)?.[fontFamilyKey] ?? fontFamilyKey
-          if (fontFamily) {
-            if (typeof fontFamily !== 'string') {
-              console.error(
-                `[dripsy] error. Passed font family name that was not a string. This value should either be a string which corresponds to a key of your theme.fonts, or, it should be a string that corresponds to a raw font name. Your font will not be applied, please resolve this.`
-              )
-              continue
-            }
-            const customFontFamilyForWeight =
-              theme?.customFonts?.[fontFamily]?.[fontWeight]
-            if (customFontFamilyForWeight) {
-              // ok, now we just need to set the fontFamily to this value. oof
-              // following the comment above, in this case, we set fontFamily: `arialBold`
-              ;(result as any).fontFamily = customFontFamilyForWeight
-              continue
-            }
+          fontFamily =
+            (theme?.fonts as any)?.[fontFamilyKeyFromStyles] ??
+            fontFamilyKeyFromStyles
+        } else if (rootFontFamilyFromTheme) {
+          fontFamily = rootFontFamilyFromTheme
+        }
+        // const fontFamily =
+        //   (theme?.fonts as any)?.[fontFamilyKey] ?? fontFamilyKey
+        if (fontFamily) {
+          if (typeof fontFamily !== 'string') {
+            console.error(
+              `[dripsy] error. Passed font family name that was not a string. This value should either be a string which corresponds to a key of your theme.fonts, or, it should be a string that corresponds to a raw font name. Your font will not be applied, please resolve this.`
+            )
+            continue
+          }
+          const customFontFamilyForWeight =
+            theme?.customFonts?.[fontFamily]?.[fontWeight]
+          if (customFontFamilyForWeight) {
+            // ok, now we just need to set the fontFamily to this value. oof
+            // following the comment above, in this case, we set fontFamily: `arialBold`
+            ;(result as any).fontFamily = customFontFamilyForWeight
+            continue
           }
         }
       }
