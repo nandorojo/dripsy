@@ -345,8 +345,10 @@ No longer. All of your custom font definitions can live in a single `theme` vari
 ## 1. Add your font to your `theme.fonts`
 
 There are two options for this:
-a) Provide a single `root` font in your `theme.fonts` (easiest, recommended)
-b) Provide multiple fonts (only use this if you're using multiple custom fonts)
+
+**a)** Provide a single `root` font in your `theme.fonts` (easiest, recommended)
+
+**b)** Provide multiple fonts (only use this if you're using multiple custom fonts)
 
 ### 1.a) Provide a single `root` in your `theme.fonts` (easiest, recommended)
 
