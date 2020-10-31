@@ -476,12 +476,12 @@ There are 2 important details when it comes to the naming.:
 - What does this mean? In step 3, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
 - In the example above, we would import our font using `expo-font`, and name it `arial`. You can skip down to step #3 to see what I mean. We need to make these the same to ensure that we always fall back to the correct default font. If we don't do this, then React Native will raise an error, saying it could not find the custom font.
 
-### 2.b) Provide multiple fonts (only use this if you're using multiple custom fonts)
+### 1b) Provide multiple fonts (only use this if you're using multiple custom fonts)
 
 If you have multiple custom fonts you'd like to use, this step is for you.
 
 1. Follow the same steps as step #2.a.
-2. Add your other fonts to `theme.customFonts`, just like step #2a.
+2. Add your other fonts to `theme.customFonts`, just like step #1a.
 
 ```js
 const theme = {
@@ -523,7 +523,7 @@ const theme = {
 
 This tells Dripsy we have 2 custom fonts, named `arial` and `sans`. These are custom names made by you. They will be used in your app later to reference which font you're picking.
 
-**2. Loading in fonts with `expo-font` (or whatever loader you prefer)**
+## 2. Loading in fonts with `expo-font` (or whatever loader you prefer)
 
 As an added step (to include in docs later), you can use expo-font to actually load the fonts in:
 
