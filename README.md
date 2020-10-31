@@ -481,15 +481,10 @@ There are 2 important details when it comes to the naming.:
 If you have multiple custom fonts you'd like to use, this step is for you.
 
 1. Follow the same steps as step #2.a.
-2. Add your other fonts to `theme.customFonts`, just like step 2#.a.
-3. In addition to your `root` font in `theme.customFonts`, you can add others:
+2. Add your other fonts to `theme.customFonts`, just like step #2a.
 
 ```js
 const theme = {
-  fonts: {
-    root: 'arial',
-    heading: 'sans'
-  },
   customFonts: {
     arial: {
       ... from step 2.a
@@ -507,6 +502,22 @@ const theme = {
       '900': 'sansBlack',
     },
   },
+  fonts: {
+    root: 'arial',
+    heading: 'sans'
+  },
+  text: {
+    h1: {
+      // use sans here
+      fontFamily: 'heading'
+    },
+    h2: {
+      fontFamily: 'heading'
+    },
+    h3: {
+      fontFamily: 'heading'
+    },
+  }
 }
 ```
 
