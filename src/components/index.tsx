@@ -19,6 +19,7 @@ import {
   H5 as ExpoH5,
   H6 as ExpoH6,
   A as ExpoA,
+  P as ExpoP,
 } from '@expo/html-elements'
 
 import Indicator from './activity-indicator'
@@ -76,6 +77,12 @@ export const H6 = createThemedComponent(ExpoH6, {
 export const A = createThemedComponent(ExpoA, {
   themeKey: 'text',
   defaultVariant: 'a',
+  defaultStyle: defaultFontStyle,
+})
+
+export const P = createThemedComponent(ExpoP, {
+  themeKey: 'text',
+  defaultVariant: 'p',
   defaultStyle: defaultFontStyle,
 })
 

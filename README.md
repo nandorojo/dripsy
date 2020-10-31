@@ -17,7 +17,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 # Features
 
-- [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally 
+- [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally
 - Responsive styles
 - Universal (Android, iOS, Web, & more)
 - Works with Expo
@@ -137,8 +137,7 @@ Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
 
 ```jsx
 import { SSRStyleReset } from 'dripsy'
-
-<body>
+;<body>
   <SSRStyleReset />
   <YourApp />
 </body>
@@ -195,20 +194,17 @@ export default {
 
 ```jsx
 import { H1, H2, P } from 'dripsy'
-
-<H1
+;<H1
   sx={{
     color: 'text', // #000 from theme!
-    fontSize: 2    // 24px from theme!
+    fontSize: 2, // 24px from theme!
   }}
->
-  
-</H1>
+></H1>
 ```
 
 Credit to Evan Bacon for @expo/html-elements, used above!
 
-----
+---
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
@@ -304,17 +300,20 @@ const ResponsiveBox = () => {
 
 ```jsx
 import { View } from 'react-native'
-import { styled } from 'dripsy' 
+import { styled } from 'dripsy'
 
 const StyledView = styled(View)({
   flex: 1,
-  bg: 'primary'
+  bg: 'primary',
 })
 
 // This uses the theme.layout.container styles!
-const StyledView2 = styled(View, { themeKey: 'layout', defaultVariant: 'container' })({
+const StyledView2 = styled(View, {
+  themeKey: 'layout',
+  defaultVariant: 'container',
+})({
   flex: 1,
-  bg: 'primary'
+  bg: 'primary',
 })
 ```
 
@@ -368,7 +367,7 @@ const theme = {
     },
   },
   fonts: {
-    root: 'arial' // <- this string must match the key you set in custom fonts above!
+    root: 'arial', // <- this string must match the key you set in custom fonts above!
   },
 }
 ```
@@ -391,21 +390,51 @@ const theme = {
     },
   },
   fonts: {
-    root: 'arial'
+    root: 'arial',
   },
   // this is new here:
   fontWeights: {
-    black: '900'
-  }
+    black: '900',
+  },
 }
 ```
 
 Now that we've added the `black` shorthand to our `fontWeights`, we can use it anywhere in our app. The string `900` corresponds to `theme.customFonts.arial['900']`.
 
+**Recommended** when using web, add a fallback for your fonts:
+
+```ts
+const webFont = (font: string) =>
+  Platform.select({
+    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
+    default: font,
+  })
+
+const theme = {
+  customFonts: {
+    arial: {
+      bold: webFont('arialBold'),
+      default: webFont('arial'),
+      normal: webFont('arial')',
+      '400': webFont('arial')',
+      '500': webFont('arialMedium'),
+      '600': webFont('arialBold'),
+      '700': webFont('arialBold'),
+      '800': webFont('arialBold'),
+      '900': webFont('arialBlack'),
+    },
+  },
+}
+```
+
+You can now style your fonts like so:
+
 ```jsx
 import { Text } from 'dripsy'
 
-const Black = () => <Text sx={{ fontWeight: 'black' }}>This font weight is 900!</Text>
+const Black = () => (
+  <Text sx={{ fontWeight: 'black' }}>This font weight is 900!</Text>
+)
 ```
 
 You can also use this shorthand when creating custom text variants in your theme. For instance, if you want to make a bold & caps text variant:
@@ -428,7 +457,9 @@ const theme = {
 ```jsx
 import { Text } from 'dripsy'
 
-const BoldCaps = () => <Text variant="thickCaps">This font weight is 900, & it's capitalized!</Text>
+const BoldCaps = () => (
+  <Text variant="thickCaps">This font weight is 900, & it's capitalized!</Text>
+)
 ```
 
 #### Considerations for naming conventions
@@ -436,19 +467,20 @@ const BoldCaps = () => <Text variant="thickCaps">This font weight is 900, & it's
 Notice how the `theme.fonts.root` is `arial`. This tells Dripsy to check for `theme.customFonts.arial`. If you wanted to name it something different, you could. However, you can't name it `root`. That's the only exception.
 
 There are 2 important details when it comes to the naming.:
-1) The name of your customFont **must** match the name you pass to `theme.fonts.root`. In the example above, I picked the name `arial`.
-2) The name you use to load in your font at its default weight (often `400` or `default`) **must also match** the key you pass to `theme.customFonts`.
-  - What does this mean? In step 3, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
-  - In the example above, we would import our font using `expo-font`, and name it `arial`. You can skip down to step #3 to see what I mean. We need to make these the same to ensure that we always fall back to the correct default font. If we don't do this, then React Native will raise an error, saying it could not find the custom font.
 
+1. The name of your customFont **must** match the name you pass to `theme.fonts.root`. In the example above, I picked the name `arial`.
+2. The name you use to load in your font at its default weight (often `400` or `default`) **must also match** the key you pass to `theme.customFonts`.
+
+- What does this mean? In step 3, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
+- In the example above, we would import our font using `expo-font`, and name it `arial`. You can skip down to step #3 to see what I mean. We need to make these the same to ensure that we always fall back to the correct default font. If we don't do this, then React Native will raise an error, saying it could not find the custom font.
 
 ### 2.b) Provide multiple fonts (only use this if you're using multiple custom fonts)
 
 If you have multiple custom fonts you'd like to use, this step is for you.
 
-1) Follow the same steps as step #2.a.
-2) Add your other fonts to `theme.customFonts`, just like step 2#.a.
-3) In addition to your `root` font in `theme.customFonts`, you can add others:
+1. Follow the same steps as step #2.a.
+2. Add your other fonts to `theme.customFonts`, just like step 2#.a.
+3. In addition to your `root` font in `theme.customFonts`, you can add others:
 
 ```js
 const theme = {
@@ -497,7 +529,7 @@ export default function Fonts({ children }: { children: React.ReactNode }) {
 
     // same goes here, load in the default font name with the one that matches your theme.customFonts
     ['arial']: require('./public/fonts/arialBook.ttf'),
-    ['arialBold']: require('./public/fonts/arialBold.ttf')
+    ['arialBold']: require('./public/fonts/arialBold.ttf'),
   })
 
   if (!loaded) return null
@@ -505,7 +537,6 @@ export default function Fonts({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 ```
-
 
 And then in your app:
 
@@ -546,19 +577,19 @@ const theme = {
     },
   },
   fonts: {
-    root: 'arial'
+    root: 'arial',
   },
   text: {
     body: {
       // this edits all <Text> components
       fontWeight: 'bold',
-      color: 'cyan'
+      color: 'cyan',
     },
     h1: {
       // this edits all <H1> components
-      fontWeight: '900'
-    }
-  }
+      fontWeight: '900',
+    },
+  },
 }
 ```
 
@@ -567,7 +598,9 @@ You can also style like normal throughout your app, and watch your font weights 
 ```jsx
 import { Text } from 'dripsy'
 
-const Bold = () => <Text>Whoa, this is a custom bold font (& it's color is cyan)</Text>
+const Bold = () => (
+  <Text>Whoa, this is a custom bold font (& it's color is cyan)</Text>
+)
 ```
 
 For context, without dripsy, you'd have to do this:
@@ -575,7 +608,9 @@ For context, without dripsy, you'd have to do this:
 ```jsx
 import { Text } from 'react-native'
 
-const Bold = () => <Text style={{ fontFamily: 'arialBold' }}>Lame, this isn't easy.</Text>
+const Bold = () => (
+  <Text style={{ fontFamily: 'arialBold' }}>Lame, this isn't easy.</Text>
+)
 ```
 
 You probably don't want to make your `text.body` bold, since this will style your entire app's `Text`, but you could make a custom variant in `theme.text`, like so:
@@ -596,7 +631,9 @@ In your component:
 ```jsx
 import { Text } from 'react-native'
 
-const Thick = () => <Text variant="thick">Hey, this is bold. That's all it takes.</Text>
+const Thick = () => (
+  <Text variant="thick">Hey, this is bold. That's all it takes.</Text>
+)
 ```
 
 # How it works
