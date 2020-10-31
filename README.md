@@ -374,7 +374,33 @@ const theme = {
 }
 ```
 
-You can also alias your fontWeights to make it easier, just like theme-ui:
+**Recommended** when using web, add a fallback for your fonts:
+
+```ts
+const webFont = (font: string) =>
+  Platform.select({
+    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
+    default: font,
+  })
+
+const theme = {
+  customFonts: {
+    arial: {
+      bold: webFont('arialBold'),
+      default: webFont('arial'),
+      normal: webFont('arial')',
+      '400': webFont('arial')',
+      '500': webFont('arialMedium'),
+      '600': webFont('arialBold'),
+      '700': webFont('arialBold'),
+      '800': webFont('arialBold'),
+      '900': webFont('arialBlack'),
+    },
+  },
+}
+```
+
+You can also alias your `fontWeights` to make it easier, just like [`theme-ui`](https://theme-ui.com/theming/#typography):
 
 ```js
 const theme = {
@@ -402,32 +428,6 @@ const theme = {
 ```
 
 Now that we've added the `black` shorthand to our `fontWeights`, we can use it anywhere in our app. The string `900` corresponds to `theme.customFonts.arial['900']`.
-
-**Recommended** when using web, add a fallback for your fonts:
-
-```ts
-const webFont = (font: string) =>
-  Platform.select({
-    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
-    default: font,
-  })
-
-const theme = {
-  customFonts: {
-    arial: {
-      bold: webFont('arialBold'),
-      default: webFont('arial'),
-      normal: webFont('arial')',
-      '400': webFont('arial')',
-      '500': webFont('arialMedium'),
-      '600': webFont('arialBold'),
-      '700': webFont('arialBold'),
-      '800': webFont('arialBold'),
-      '900': webFont('arialBlack'),
-    },
-  },
-}
-```
 
 You can now style your fonts like so:
 
