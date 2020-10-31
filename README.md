@@ -468,12 +468,12 @@ const BoldCaps = () => (
 
 Notice how the `theme.fonts.root` is `arial`. This tells Dripsy to check for `theme.customFonts.arial`. If you wanted to name it something different, you could. However, you can't name it `root`. That's the only exception.
 
-There are 2 important details when it comes to the naming.:
+There are 2 important details when it comes to the naming:
 
 1. The name of your customFont **must** match the name you pass to `theme.fonts.root`. In the example above, I picked the name `arial`.
 2. The name you use to load in your font at its default weight (often `400` or `default`) **must also match** the key you pass to `theme.customFonts`.
 
-- What does this mean? In step 3, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
+- **Explanation** In step 2, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
 - In the example above, we would import our font using `expo-font`, and name it `arial`. You can skip down to step #3 to see what I mean. We need to make these the same to ensure that we always fall back to the correct default font. If we don't do this, then React Native will raise an error, saying it could not find the custom font.
 
 ### 1b) Provide multiple fonts (only use this if you're using multiple custom fonts)
