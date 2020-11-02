@@ -82,7 +82,7 @@ const theme = {
     body: 'system-ui, sans-serif',
     heading: '"Avenir Next", sans-serif',
   },
-  spacing: [10, 12, 14],
+  space: [10, 12, 14],
 }
 
 export default function App() {
