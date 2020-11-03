@@ -34,7 +34,7 @@ export function createThemedComponent<P, T>(
       variants = options.defaultVariants,
       ...props
     } = prop
-    if (__DEV__ && typeof SuperComponent === 'string') {
+    if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
       console.error(
         `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
       )
@@ -108,5 +108,8 @@ export function createThemedComponent<P, T>(
     'NoNameComponent'}`
 
   // @ts-ignore
-  return React.memo(WrappedComponent)
+  // return React.memo(WrappedComponent)
+  // no need for this. we always break it w children and sx anyway
+  //  might end up making it slower
+  return WrappedComponent
 }
