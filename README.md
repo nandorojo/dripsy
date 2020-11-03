@@ -30,6 +30,12 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Works with Animated/Reanimated values
 - Dark mode / custom color modes
 
+# Examples
+
+More examples coming soon!
+
+- Create a browser mockup with Dripsy: [Snack](https://snack.expo.io/@nandorojo/dripsy-browser-mockup)
+
 # 🤔 Why?
 
 **Build once, deploy everywhere,** is a great philosophy made possible by Expo Web/React Native Web. A large impediment is responsive design.
@@ -82,7 +88,7 @@ const theme = {
     body: 'system-ui, sans-serif',
     heading: '"Avenir Next", sans-serif',
   },
-  spacing: [10, 12, 14],
+  space: [10, 12, 14],
 }
 
 export default function App() {
