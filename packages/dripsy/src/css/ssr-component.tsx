@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, SxProps } from 'theme-ui'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
-import { ResponsiveSSRStyles } from '.'
+import type { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider'
 
 type Props<T> = {
@@ -65,11 +65,20 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                           padding: 0,
                           // position: 'relative', Remove this to not mess with absolute position
                           zIndex: 0,
-                          // @ts-ignore Experimental: forward the flex value from the View in case this item should stretch.
+                          // Experimental: forward the flex value from the View in case this item should stretch.
                           // This might be a bad idea; I'm not sure if flex functions the same on Web and RN.
                           // But it helps you use the webContainerSx prop less. So I'll sit on it for now...
                           // https://github.com/necolas/react-native-web/issues/1227
-                          // flex: breakpointStyle.flex ?? style.flex, This has weird effects.
+                          // flex: breakpointStyle.flex ?? style.flex,
+                          // This has weird effects. I decided against it.
+
+                          // this prevents the container from catching any touches.
+                          // without this, we might get in the way of a View's pointerEvents="box-none"
+                          pointerEvents: 'none!important',
+                          '& *': {
+                            // reset chilren to accept pointer events again 😇
+                            pointerEvents: 'auto',
+                          },
                           ...containerStyles,
                         }
                       : undefined

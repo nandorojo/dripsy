@@ -17,9 +17,11 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 # Features
 
+- [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally
 - Responsive styles
-- Universal (Android, iOS, Web)
+- Universal (Android, iOS, Web, & more)
 - Works with Expo
+- Works with Vanilla React Native
 - Works with Next.js / server-side rendering
 - Full theme support
 - Custom theme variants
@@ -28,7 +30,13 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Works with Animated/Reanimated values
 - Dark mode / custom color modes
 
-# 🤔 Why?
+# Examples
+
+More examples coming soon!
+
+- Create a browser mockup with Dripsy: [Snack](https://snack.expo.io/@nandorojo/dripsy-browser-mockup)
+
+# 🤔 Why
 
 **Build once, deploy everywhere,** is a great philosophy made possible by Expo Web/React Native Web. A large impediment is responsive design.
 
@@ -80,7 +88,7 @@ const theme = {
     body: 'system-ui, sans-serif',
     heading: '"Avenir Next", sans-serif',
   },
-  spacing: [10, 12, 14],
+  space: [10, 12, 14],
 }
 
 export default function App() {
@@ -135,8 +143,7 @@ Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
 
 ```jsx
 import { SSRStyleReset } from 'dripsy'
-
-<body>
+;<body>
   <SSRStyleReset />
   <YourApp />
 </body>
@@ -152,9 +159,9 @@ We'll add other library examples here too, such as Gatsby.
 
 That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation) to help with navigation.
 
-# 👀 What does Dripsy look like?
+# 👀 What does Dripsy look like
 
-## Create a theme!
+## Create a theme
 
 ```js
 export default {
@@ -193,20 +200,17 @@ export default {
 
 ```jsx
 import { H1, H2, P } from 'dripsy'
-
-<H1
+;<H1
   sx={{
     color: 'text', // #000 from theme!
-    fontSize: 2    // 24px from theme!
+    fontSize: 2, // 24px from theme!
   }}
->
-  
-</H1>
+></H1>
 ```
 
 Credit to Evan Bacon for @expo/html-elements, used above!
 
-----
+---
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
@@ -265,7 +269,7 @@ const ResponsiveBox = () => {
   const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
 
   useEffect(() => {
-    const onResize = event => {
+    const onResize = (event) => {
       setScreenWidth(event.window.width)
     }
     Dimensions.addEventListener('change', onResize)
@@ -302,17 +306,20 @@ const ResponsiveBox = () => {
 
 ```jsx
 import { View } from 'react-native'
-import { styled } from 'dripsy' 
+import { styled } from 'dripsy'
 
 const StyledView = styled(View)({
   flex: 1,
-  bg: 'primary'
+  bg: 'primary',
 })
 
 // This uses the theme.layout.container styles!
-const StyledView2 = styled(View, { themeKey: 'layout', defaultVariant: 'container' })({
+const StyledView2 = styled(View, {
+  themeKey: 'layout',
+  defaultVariant: 'container',
+})({
   flex: 1,
-  bg: 'primary'
+  bg: 'primary',
 })
 ```
 
@@ -335,13 +342,326 @@ const CustomView = createThemedComponent(View, {
 })
 ```
 
+# Using Custom Fonts [New! 🏄‍♂️]
+
+Dripsy lets you globally control your fonts in React Native. Before Dripsy, this was a huge pain. You had to manually set the `fontFamily` name to a string that corresponds to your actual font file name. If you ever changed custom fonts, you'd need to edit all your files that had it, or create an unnecessary `CustomText` component.
+
+No longer. All of your custom font definitions can live in a single `theme` variable. Once you add your fonts to your theme, you can load them with `expo-font` (or your loader of choice).
+
+## 1. Add your font to your `theme.fonts`
+
+There are two options for this:
+
+**a)** Provide a single `root` font in your `theme.fonts` (easiest, recommended)
+
+**b)** Provide multiple fonts (only use this if you're using multiple custom fonts)
+
+### 1.a) Provide a single `root` in your `theme.fonts` (easiest, recommended)
+
+```js
+const theme = {
+  customFonts: {
+    arial: {
+      // I recommend setting every weight here
+      bold: 'arialBold',
+      default: 'arial',
+      normal: 'arial',
+      400: 'arial',
+      500: 'arialMedium',
+      600: 'arialBold',
+      700: 'arialBold',
+      800: 'arialBold',
+      900: 'arialBlack',
+    },
+  },
+  fonts: {
+    root: 'arial', // <- this string must match the key you set in custom fonts above!
+  },
+}
+```
+
+**Recommended** when using web, add a fallback for your fonts:
+
+```ts
+const webFont = (font: string) =>
+  Platform.select({
+    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
+    default: font,
+  })
+
+const theme = {
+  customFonts: {
+    arial: {
+      bold: webFont('arialBold'),
+      default: webFont('arial'),
+      normal: webFont('arial')',
+      '400': webFont('arial')',
+      '500': webFont('arialMedium'),
+      '600': webFont('arialBold'),
+      '700': webFont('arialBold'),
+      '800': webFont('arialBold'),
+      '900': webFont('arialBlack'),
+    },
+  },
+}
+```
+
+You can also alias your `fontWeights` to make it easier, just like [`theme-ui`](https://theme-ui.com/theming/#typography):
+
+```js
+const theme = {
+  customFonts: {
+    arial: {
+      bold: 'arialBold',
+      default: 'arial',
+      normal: 'arial',
+      400: 'arial',
+      500: 'arialMedium',
+      600: 'arialBold',
+      700: 'arialBold',
+      800: 'arialBold',
+      900: 'arialBlack',
+    },
+  },
+  fonts: {
+    root: 'arial',
+  },
+  // this is new here:
+  fontWeights: {
+    black: '900',
+  },
+}
+```
+
+Now that we've added the `black` shorthand to our `fontWeights`, we can use it anywhere in our app. The string `900` corresponds to `theme.customFonts.arial['900']`.
+
+You can now style your fonts like so:
+
+```jsx
+import { Text } from 'dripsy'
+
+const Black = () => (
+  <Text sx={{ fontWeight: 'black' }}>This font weight is 900!</Text>
+)
+```
+
+You can also use this shorthand when creating custom text variants in your theme. For instance, if you want to make a bold & caps text variant:
+
+```js
+const theme = {
+  ...
+  fontWeights: {
+    black: '900'
+  },
+  text: {
+    thickCaps: {
+      fontWeight: 'bold',
+      textTransformation: 'uppercase'
+    }
+  }
+}
+```
+
+```jsx
+import { Text } from 'dripsy'
+
+const BoldCaps = () => (
+  <Text variant="thickCaps">This font weight is 900, & it's capitalized!</Text>
+)
+```
+
+#### Considerations for naming conventions
+
+Notice how the `theme.fonts.root` is `arial`. This tells Dripsy to check for `theme.customFonts.arial`. If you wanted to name it something different, you could. However, you can't name it `root`. That's the only exception.
+
+There are 2 important details when it comes to the naming:
+
+1. The name of your customFont **must** match the name you pass to `theme.fonts.root`. In the example above, I picked the name `arial`.
+2. The name you use to load in your font at its default weight (often `400` or `default`) **must also match** the key you pass to `theme.customFonts`.
+
+- **Explanation** In step 2, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
+- In the example above, we would import our font using `expo-font`, and name it `arial`. You can skip down to step #3 to see what I mean. We need to make these the same to ensure that we always fall back to the correct default font. If we don't do this, then React Native will raise an error, saying it could not find the custom font.
+
+### 1b) Provide multiple fonts (only use this if you're using multiple custom fonts)
+
+If you have multiple custom fonts you'd like to use, this step is for you.
+
+1. Follow the same steps as step #2.a.
+2. Add your other fonts to `theme.customFonts`, just like step #1a.
+
+```js
+const theme = {
+  customFonts: {
+    arial: {
+      ... from step 2.a
+    },
+    // these are new
+    sans: {
+      bold: 'sansBold',
+      default: 'sans',
+      normal: 'sans',
+      '400': 'sans',
+      '500': 'sans',
+      '600': 'sansBold',
+      '700': 'sansBold',
+      '800': 'sansBold',
+      '900': 'sansBlack',
+    },
+  },
+  fonts: {
+    root: 'arial',
+    heading: 'sans'
+  },
+  text: {
+    h1: {
+      // use sans here
+      fontFamily: 'heading'
+    },
+    h2: {
+      fontFamily: 'heading'
+    },
+    h3: {
+      fontFamily: 'heading'
+    },
+  }
+}
+```
+
+This tells Dripsy we have 2 custom fonts, named `arial` and `sans`. These are custom names made by you. They will be used in your app later to reference which font you're picking.
+
+## 2. Loading in fonts with `expo-font` (or whatever loader you prefer)
+
+As an added step (to include in docs later), you can use expo-font to actually load the fonts in:
+
+```tsx
+// fonts.tsx
+import React from 'react'
+import { useFonts } from 'expo-font'
+
+export default function Fonts({ children }: { children: React.ReactNode }) {
+  const [loaded] = useFonts({
+    // 🚨🚨🚨 the name (`sans`) of the default weight here should equal the key from theme.customFonts!
+    // otherwise, you will need to explicitly set the fontWeight everywhere
+    // since we have theme.customFonts.sans, we name this `sans`
+    ['sans']: require('./public/fonts/sansBook.ttf'),
+    ['sansBold']: require('./public/fonts/arialBlack.ttf'),
+
+    // same goes here, load in the default font name with the one that matches your theme.customFonts
+    ['arial']: require('./public/fonts/arialBook.ttf'),
+    ['arialBold']: require('./public/fonts/arialBold.ttf'),
+  })
+
+  if (!loaded) return null
+
+  return <>{children}</>
+}
+```
+
+And then in your app:
+
+```tsx
+// App.tsx
+import Fonts from './fonts'
+
+export default function App() {
+  return (
+    <Fonts>
+      <YourAppHere />
+    </Fonts>
+  )
+}
+```
+
+Important note, mentioned in #2.a above. The name of the default font you use in `useFonts` must match the key for the font in your `theme.customFonts`. Otherwise, you will get errors, and errors suck.
+
+Another caveat: you cannot name a font "root". Dripsy uses this field to identify your root font, so please do not name a font `root` when you load it in. Any other word works.
+
+## 3. Using and customizing your custom fonts in your app
+
+Now that we've defined our fonts in our theme, we can use them anywhere in our app. To globally style all text, you could add a `theme.text.body` field:
+
+```js
+const theme = {
+  customFonts: {
+    arial: {
+      bold: 'arialBold',
+      default: 'arial',
+      normal: 'arial',
+      400: 'arial',
+      500: 'arialMedium',
+      600: 'arialBold',
+      700: 'arialBold',
+      800: 'arialBold',
+      900: 'arialBlack',
+    },
+  },
+  fonts: {
+    root: 'arial',
+  },
+  text: {
+    body: {
+      // this edits all <Text> components
+      fontWeight: 'bold',
+      color: 'cyan',
+    },
+    h1: {
+      // this edits all <H1> components
+      fontWeight: '900',
+    },
+  },
+}
+```
+
+You can also style like normal throughout your app, and watch your font weights change elegantly:
+
+```jsx
+import { Text } from 'dripsy'
+
+const Bold = () => (
+  <Text>Whoa, this is a custom bold font (& it's color is cyan)</Text>
+)
+```
+
+For context, without dripsy, you'd have to do this:
+
+```jsx
+import { Text } from 'react-native'
+
+const Bold = () => (
+  <Text style={{ fontFamily: 'arialBold' }}>Lame, this isn't easy.</Text>
+)
+```
+
+You probably don't want to make your `text.body` bold, since this will style your entire app's `Text`, but you could make a custom variant in `theme.text`, like so:
+
+```js
+const theme = {
+  ...,
+  text: {
+    thick: {
+      fontWeight: 'bold'
+    }
+  }
+}
+```
+
+In your component:
+
+```jsx
+import { Text } from 'react-native'
+
+const Thick = () => (
+  <Text variant="thick">Hey, this is bold. That's all it takes.</Text>
+)
+```
+
 # How it works
 
 First, this library is super inspired by `theme-ui`, and uses many of its low-level functions and methodologies.
 
 Practically speaking, this library uses the `Dimensions` api on Android & iOS, and uses actual CSS breakpoints on web. The CSS breakpoints are made possible by `@artsy/fresnel`. This means that you get actually-native web breakpoints. That matters, because server-size rendered apps will have startup issues if you use JS-based media queries that require React to rehydrate on when it opens.
 
-On Native, there is nothing too fancy going on. We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic!
+On Native, there is nothing too fancy going on. We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic! Plus, you get all the awesome theming abilities baked in. If you're using this in native, the theming alone is a great use case.
 
 ## Contributing
 

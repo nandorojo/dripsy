@@ -1,6 +1,6 @@
-import { ComponentType } from 'react'
+import type { ComponentType } from 'react'
 import { createThemedComponent } from './create-themed-component'
-import { ThemedOptions } from './types'
+import type { ThemedOptions } from './types'
 
 // type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 

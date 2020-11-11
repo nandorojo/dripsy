@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React, { ComponentType, ComponentProps, useMemo } from 'react'
-import { ThemedOptions, StyledProps } from './types'
+import type { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
 import { SSRComponent } from './ssr-component'
@@ -12,7 +12,12 @@ export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
   { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
 ): React.ForwardRefExoticComponent<
-  Props<P> & ComponentProps<typeof Component> & T & P
+  Props<P> &
+    ComponentProps<typeof Component> &
+    T &
+    P &
+    // needed for the ref field in TS
+    React.RefAttributes<typeof Component>
 > {
   // without styled-components...
   const WrappedComponent = React.forwardRef<
@@ -29,7 +34,7 @@ export function createThemedComponent<P, T>(
       variants = options.defaultVariants,
       ...props
     } = prop
-    if (__DEV__ && typeof SuperComponent === 'string') {
+    if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
       console.error(
         `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
       )
@@ -99,9 +104,13 @@ export function createThemedComponent<P, T>(
     )
   })
 
-  WrappedComponent.displayName = `Themed.${Component.displayName ??
-    'NoNameComponent'}`
+  WrappedComponent.displayName = `Themed.${
+    Component.displayName ?? 'NoNameComponent'
+  }`
 
   // @ts-ignore
-  return React.memo(WrappedComponent)
+  // return React.memo(WrappedComponent)
+  // no need for this. we always break it w children and sx anyway
+  //  might end up making it slower
+  return WrappedComponent
 }
