@@ -6,6 +6,7 @@ import {
   useResponsiveValue,
   DripsyProvider,
   Container,
+  Theme,
 } from 'dripsy'
 import { Text } from 'react-native'
 
@@ -29,6 +30,17 @@ const theme = {
   },
   sizes: {
     container: 700,
+  },
+  shadows: {
+    md: {
+      shadowOffset: {
+        width: 0,
+        height: 10,
+      },
+      shadowOpacity: 0.8,
+      shadowRadius: 14,
+      elevation: 25,
+    },
   },
 }
 
@@ -62,7 +74,7 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <DripsyProvider theme={theme} options={{ ssr: true }}>
+    <DripsyProvider theme={(theme as unknown) as Theme} options={{ ssr: true }}>
       <Container>
         <View
           sx={{
@@ -74,17 +86,13 @@ export default function App() {
           <G variant="primary">Hey</G>
           <G>Hi!</G>
           <View
-            sx={{ bg: 'white' }}
-            style={{
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              // elevation: 5,
-            }}
+            sx={{ bg: 'white', boxShadow: 'md' }}
+            style={
+              {
+                // sha
+                // elevation: 5,
+              }
+            }
           >
             <Text>Card</Text>
           </View>

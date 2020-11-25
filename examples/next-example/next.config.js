@@ -18,7 +18,7 @@ const packages = path.resolve(__dirname, '../..', 'packages')
 module.exports = withPlugins([
   withExpo({
     projectRoot: __dirname,
-    webpack: async (config) => {
+    webpack: (config) => {
       config.module.rules.push({
         test: /\.(js|ts|tsx)$/,
         include: /(packages|next-example)\/.+/,
