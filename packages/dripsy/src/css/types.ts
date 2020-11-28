@@ -1,6 +1,6 @@
-import { SxProps } from '@theme-ui/core'
-import { Theme } from '@theme-ui/css'
-import { ComponentType } from 'react'
+import type { SxProps } from '@theme-ui/core'
+import type { Theme } from '@theme-ui/css'
+import type { ComponentType } from 'react'
 // import { SxStyleProp } from 'theme-ui'
 
 export type ThemedOptions<T> = {

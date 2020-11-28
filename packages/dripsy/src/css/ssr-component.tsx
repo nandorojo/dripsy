@@ -49,6 +49,8 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                   // these styles match the reset from react-native-web's View
                   // https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/View/index.js
                   // This isn't guaranteed to match RNW, but it's probably as good as this library can do.
+                  // TODO: Figure out why this is throwing a type error
+                  // @ts-ignore
                   sx={
                     renderChildren
                       ? {

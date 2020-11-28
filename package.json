@@ -4,14 +4,7 @@
     "test": "jest",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "format": "prettier --write packages/**",
-    "dripsy:prepare": "yarn workspace dripsy prepare",
-    "expo": "yarn workspace dripsy-example start",
-    "expo:web": "yarn workspace dripsy-example web",
-    "expo:ios": "yarn workspace dripsy-example ios",
-    "expo:android": "yarn workspace dripsy-example android",
-    "next": "yarn workspace next-dripsy-example web",
-    "next:ios": "yarn workspace next-dripsy-example ios",
-    "next:android": "yarn workspace next-dripsy-example android",
+    "prepare": "lerna run prepare",
     "bootstrap": "lerna bootstrap",
     "release": "lerna publish",
     "postinstall": "expo-yarn-workspaces check-workspace-dependencies"
@@ -49,7 +42,7 @@
     "lerna": "^3.22.1",
     "metro-react-native-babel-preset": "^0.61.0",
     "release-it": "^13.5.8",
-    "typescript": "^3.9.7"
+    "typescript": "^4.1.2"
   },
   "jest": {
     "preset": "react-native",
