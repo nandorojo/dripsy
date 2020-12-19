@@ -9,6 +9,7 @@ import {
   Button as rButton,
   SafeAreaView as rSafeAreaView,
   Image as rImage,
+  Pressable as rPressable,
 } from 'react-native'
 
 import {
@@ -93,6 +94,8 @@ export const TextInput = createThemedComponent(rTextInput, {
   defaultVariant: 'input',
   defaultStyle: defaultFontStyle,
 })
+
+export const Pressable = createThemedComponent(rPressable)
 
 export const Button = createThemedComponent(rButton, {
   themeKey: 'buttons',
