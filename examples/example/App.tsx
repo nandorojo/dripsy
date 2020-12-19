@@ -7,6 +7,7 @@ import {
   DripsyProvider,
   Container,
   Theme,
+  Pressable,
 } from 'dripsy'
 import { Text } from 'react-native'
 
@@ -82,18 +83,16 @@ export default function App() {
             height: [400, 800],
           }}
         >
-          <DripText>joi</DripText>
+          <Pressable>
+            {({ pressed }) => (
+              <DripText sx={{ cursor: 'pointer' }}>
+                {pressed ? 'Joi!' : 'Press Me'}
+              </DripText>
+            )}
+          </Pressable>
           <G variant="primary">Hey</G>
           <G>Hi!</G>
-          <View
-            sx={{ bg: 'white', boxShadow: 'md' }}
-            style={
-              {
-                // sha
-                // elevation: 5,
-              }
-            }
-          >
+          <View sx={{ bg: 'white', boxShadow: 'md' }}>
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />

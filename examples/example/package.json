@@ -13,12 +13,12 @@
 		"postinstall": "expo-yarn-workspaces postinstall"
 	},
 	"dependencies": {
-		"expo": "~37.0.3",
+		"expo": "^40.0.0",
 		"react": "~16.9.0",
 		"react-dom": "~16.9.0",
 		"react-native": "~0.61.5",
 		"react-native-unimodules": "~0.9.0",
-		"react-native-web": "~0.11.7"
+		"react-native-web": "^0.14.10"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.9.6",

@@ -1,4 +1,5 @@
 import { createThemedComponent } from '../css/create-themed-component'
+import { styled } from '../css/styled'
 import {
   // TODO I could import * as Native, but would that break tree shaking?
   View as rView,
@@ -9,7 +10,7 @@ import {
   Button as rButton,
   SafeAreaView as rSafeAreaView,
   Image as rImage,
-  // Pressable as rPressable,
+  Pressable as rPressable,
 } from 'react-native'
 
 import {
@@ -95,7 +96,7 @@ export const TextInput = createThemedComponent(rTextInput, {
   defaultStyle: defaultFontStyle,
 })
 
-// export const Pressable = createThemedComponent(rPressable)
+export const Pressable = createThemedComponent(rPressable)
 
 export const Button = createThemedComponent(rButton, {
   themeKey: 'buttons',
