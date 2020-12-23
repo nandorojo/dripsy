@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, SxProps } from 'theme-ui'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
-import { ResponsiveSSRStyles } from '.'
+import type { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider'
 
 type Props<T> = {
