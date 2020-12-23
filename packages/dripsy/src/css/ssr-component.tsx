@@ -1,7 +1,7 @@
 /** @jsx jsx */
 import { jsx, SxProps } from 'theme-ui'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
-import type { ResponsiveSSRStyles } from '.'
+import { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider'
 
 type Props<T> = {
@@ -50,6 +50,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                   // https://github.com/necolas/react-native-web/blob/master/packages/react-native-web/src/exports/View/index.js
                   // This isn't guaranteed to match RNW, but it's probably as good as this library can do.
                   // TODO: Figure out why this is throwing a type error
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                   // @ts-ignore
                   sx={
                     renderChildren

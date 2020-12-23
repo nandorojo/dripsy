@@ -1,5 +1,4 @@
 import { createThemedComponent } from '../css/create-themed-component'
-import { styled } from '../css/styled'
 import {
   // TODO I could import * as Native, but would that break tree shaking?
   View as rView,

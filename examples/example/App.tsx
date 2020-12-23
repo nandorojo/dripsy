@@ -8,6 +8,7 @@ import {
   Container,
   Theme,
   Pressable,
+  H4,
 } from 'dripsy'
 import { Text } from 'react-native'
 
@@ -83,6 +84,7 @@ export default function App() {
             height: [400, 800],
           }}
         >
+          <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4>
           <Pressable>
             {({ pressed }) => (
               <DripText sx={{ cursor: 'pointer' }}>

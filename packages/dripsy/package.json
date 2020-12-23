@@ -35,21 +35,7 @@
     "url": "https://github.com/nandorojo/expo-theme-ui/issues"
   },
   "homepage": "https://github.com/nandorojo/expo-theme-ui#readme",
-  "devDependencies": {
-    "@commitlint/config-conventional": "^8.3.4",
-    "@react-native-community/bob": "^0.11.2",
-    "@react-native-community/eslint-config": "^1.1.0",
-    "@release-it/conventional-changelog": "^1.1.4",
-    "@types/jest": "^25.2.1",
-    "@types/react": "^16.9.43",
-    "@types/react-native": "^0.63.2",
-    "commitlint": "^8.3.5",
-    "eslint-config-nando": "^1.0.9",
-    "jest": "^26.0.1",
-    "metro-react-native-babel-preset": "^0.61.0",
-    "release-it": "^13.5.8",
-    "typescript": "^4.1.2"
-  },
+  "devDependencies": {},
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -93,7 +79,7 @@
   },
   "dependencies": {
     "@artsy/fresnel": "^1.2.0",
-    "@expo/html-elements": "^0.0.0-alpha.5",
+    "@expo/html-elements": "^0.0.1",
     "@react-native-community/hooks": "^2.6.0",
     "@theme-ui/core": "^0.4.0-rc.1",
     "@theme-ui/css": "^0.4.0-rc.1",

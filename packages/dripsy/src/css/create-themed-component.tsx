@@ -105,7 +105,6 @@ export function createThemedComponent<P, T>(
   })
 
   WrappedComponent.displayName = `Themed.${
-    // Optional chaining here prevents the Pressable component causing a crash on older versions of RNW
     Component?.displayName ?? 'NoNameComponent'
   }`
 
