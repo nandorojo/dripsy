@@ -1,4 +1,6 @@
 {
   "extends": "../../tsconfig",
-  "compilerOptions": {}
+  "compilerOptions": {
+    "outDir": "./lib/typescript"
+  }
 }
