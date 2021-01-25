@@ -7,7 +7,7 @@ import {
   DripsyProvider,
   Container,
   Theme,
-  Pressable,
+  // Pressable,
   H4,
 } from 'dripsy'
 import { Text } from 'react-native'
@@ -85,13 +85,13 @@ export default function App() {
           }}
         >
           <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4>
-          <Pressable>
+          {/* <Pressable>
             {({ pressed }) => (
               <DripText sx={{ cursor: 'pointer' }}>
                 {pressed ? 'Joi!' : 'Press Me'}
               </DripText>
             )}
-          </Pressable>
+          </Pressable> */}
           <G variant="primary">Hey</G>
           <G>Hi!</G>
           <View sx={{ bg: 'white', boxShadow: 'md' }}>
