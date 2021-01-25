@@ -36,7 +36,7 @@ More examples coming soon!
 
 - Create a browser mockup with Dripsy: [Snack](https://snack.expo.io/@nandorojo/dripsy-browser-mockup)
 
-# 🤔 Why
+# 🤔 Why?
 
 **Build once, deploy everywhere,** is a great philosophy made possible by Expo Web/React Native Web. A large impediment is responsive design.
 
