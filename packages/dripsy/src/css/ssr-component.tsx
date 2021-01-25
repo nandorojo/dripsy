@@ -78,7 +78,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                           // this prevents the container from catching any touches.
                           // without this, we might get in the way of a View's pointerEvents="box-none"
                           pointerEvents: 'none!important',
-                          '& *': {
+                          '& > *': {
                             // reset chilren to accept pointer events again 😇
                             pointerEvents: 'auto',
                           },
