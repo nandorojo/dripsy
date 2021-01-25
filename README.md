@@ -159,9 +159,9 @@ We'll add other library examples here too, such as Gatsby.
 
 That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation) to help with navigation.
 
-# 👀 What does Dripsy look like?
+# 👀 What does Dripsy look like
 
-## Create a theme!
+## Create a theme
 
 ```js
 export default {
@@ -269,7 +269,7 @@ const ResponsiveBox = () => {
   const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
 
   useEffect(() => {
-    const onResize = event => {
+    const onResize = (event) => {
       setScreenWidth(event.window.width)
     }
     Dimensions.addEventListener('change', onResize)
@@ -366,12 +366,12 @@ const theme = {
       bold: 'arialBold',
       default: 'arial',
       normal: 'arial',
-      '400': 'arial',
-      '500': 'arialMedium',
-      '600': 'arialBold',
-      '700': 'arialBold',
-      '800': 'arialBold',
-      '900': 'arialBlack',
+      400: 'arial',
+      500: 'arialMedium',
+      600: 'arialBold',
+      700: 'arialBold',
+      800: 'arialBold',
+      900: 'arialBlack',
     },
   },
   fonts: {
@@ -415,12 +415,12 @@ const theme = {
       bold: 'arialBold',
       default: 'arial',
       normal: 'arial',
-      '400': 'arial',
-      '500': 'arialMedium',
-      '600': 'arialBold',
-      '700': 'arialBold',
-      '800': 'arialBold',
-      '900': 'arialBlack',
+      400: 'arial',
+      500: 'arialMedium',
+      600: 'arialBold',
+      700: 'arialBold',
+      800: 'arialBold',
+      900: 'arialBlack',
     },
   },
   fonts: {
@@ -587,12 +587,12 @@ const theme = {
       bold: 'arialBold',
       default: 'arial',
       normal: 'arial',
-      '400': 'arial',
-      '500': 'arialMedium',
-      '600': 'arialBold',
-      '700': 'arialBold',
-      '800': 'arialBold',
-      '900': 'arialBlack',
+      400: 'arial',
+      500: 'arialMedium',
+      600: 'arialBold',
+      700: 'arialBold',
+      800: 'arialBold',
+      900: 'arialBlack',
     },
   },
   fonts: {
