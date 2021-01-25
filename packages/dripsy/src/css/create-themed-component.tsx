@@ -46,16 +46,14 @@ export function createThemedComponent<P, T>(
     const breakpoint = useBreakpointIndex({
       __shouldDisableListenerOnWeb: true,
     })
-    // const ssr = useIsSSR()
     // change/remove this later maybe
-    const ssr = Platform.OS === 'web'
 
     const { responsiveSSRStyles, ...styles } = useMemo(
       () =>
         mapPropsToStyledComponent<P, T>(
           {
             theme,
-            breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
+            breakpoint: Platform.OS === 'web' ? undefined : breakpoint,
             variant,
             sx,
             style,
@@ -67,22 +65,12 @@ export function createThemedComponent<P, T>(
             defaultStyle,
           }
         )(),
-      [
-        breakpoint,
-        defaultStyle,
-        ssr,
-        style,
-        sx,
-        theme,
-        themeKey,
-        variant,
-        variants,
-      ]
+      [breakpoint, defaultStyle, style, sx, theme, themeKey, variant, variants]
     )
 
     const TheComponent = SuperComponent || Component
 
-    if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
+    if (Platform.OS === 'web' && !!responsiveSSRStyles?.length) {
       return (
         <SSRComponent
           {...props}
