@@ -5,6 +5,7 @@ import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
 import { SSRComponent } from './ssr-component'
 import { Platform } from 'react-native'
+import Hoverable from '../pseudo-events/Hoverable'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
@@ -72,23 +73,35 @@ export function createThemedComponent<P, T>(
 
     if (Platform.OS === 'web' && !!responsiveSSRStyles?.length) {
       return (
-        <SSRComponent
-          {...props}
-          Component={TheComponent as React.ComponentType<unknown>}
-          responsiveStyles={responsiveSSRStyles}
-          style={styles}
-          ref={ref}
-          containerStyles={
-            webContainerSx as ComponentProps<
-              typeof SSRComponent
-            >['containerStyles']
-          }
-        />
+        <Hoverable isHoverable={false}>
+          {({ isHovered }) => (
+            <SSRComponent
+              {...props}
+              Component={TheComponent as React.ComponentType<unknown>}
+              responsiveStyles={responsiveSSRStyles}
+              style={styles}
+              ref={ref}
+              containerStyles={
+                webContainerSx as ComponentProps<
+                  typeof SSRComponent
+                >['containerStyles']
+              }
+            />
+          )}
+        </Hoverable>
       )
     }
 
     return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
+      <Hoverable isHoverable={false}>
+        {({ isHovered }) => (
+          <TheComponent
+            {...((props as unknown) as P)}
+            ref={ref}
+            style={styles}
+          />
+        )}
+      </Hoverable>
     )
   })
 
