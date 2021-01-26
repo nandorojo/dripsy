@@ -422,7 +422,7 @@ const theme = {
 export default theme
 ```
 
-#### Considerations
+### Hover support consideration
 
 One thing to keep in mind: hover styles do not support Dripsy's responsive array syntax at this time. Please refrain from passing array styles to `&:hover` or the `hovered` prop, unless it is a `transform`, which doesn't support responsive styles.
 
