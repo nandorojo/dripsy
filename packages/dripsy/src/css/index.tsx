@@ -649,7 +649,7 @@ export function mapPropsToStyledComponent<P, T>(
     hovered: hoveredProp = {},
   } = props
 
-  const sx = { ...sxProp }
+  const sx = { ...sxProp } as typeof sxProp
 
   // initialize hover styles
   let finalHoverStyles: ThemeUIStyleObject = {}
@@ -772,8 +772,6 @@ export function mapPropsToStyledComponent<P, T>(
   // isolate out hover styles
   // support both &:hover syntax as well as the hover prop.
 
-  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
-
   // important to call this after the variants
   addPseudoElementToStyle(sx, 'your sx prop', '&:hover')
   addPseudoElementToStyle(
@@ -782,6 +780,8 @@ export function mapPropsToStyledComponent<P, T>(
     'your hovered prop',
     '&:hover'
   )
+
+  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
 
   // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
