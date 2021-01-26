@@ -17,6 +17,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 # Features
 
+- [(New in 1.5.x)](#hover-support) Hover support for web (`hovered` prop, and `&:hover` for variants.)
 - [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally
 - Responsive styles
 - Universal (Android, iOS, Web, & more)
@@ -24,7 +25,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Works with Vanilla React Native
 - Works with Next.js / server-side rendering
 - Full theme support
-- Custom theme variants
+- Custom theme variants (including multiple variants!)
 - TypeScript support (TypeScript theme support is in the works too)
 - Insanely simple API (themed, responsive designs in one line!)
 - Works with Animated/Reanimated values
@@ -341,6 +342,89 @@ const CustomView = createThemedComponent(View, {
   },
 })
 ```
+
+# Hover support 🖐
+
+As of `1.5.x`, Dripsy provides out-of-the-box support for hover events. See more [here](https://github.com/nandorojo/dripsy/pull/69).
+
+To add hover styles directly, use the `hovered` prop on any Dripsy component:
+
+```tsx
+<View hovered={{ backgroundColor: 'primary' }} />
+```
+
+You can also use the `&:hover` syntax inside of `sx`:
+
+```tsx
+<View
+  sx={{
+    backgroundColor: 'primary',
+    '&:hover': { backgroundColor: 'text', transform: [{ scale: 1.1 }] },
+  }}
+/>
+```
+
+The `&:hover` syntax might be more familiar if you're used to CSS in JS. It is identical to the `hovered` prop. It's up to you to choose which you prefer. If you'll be using `&:hover` in your theme a lot, maybe stick to that syntax for consistency.
+
+## Hover support in your theme
+
+If you want to add hover styles to your theme, you can freely use the `&:hover` key inside of your variants.
+
+```ts
+// theme.ts
+const theme = {
+  ...,
+  text: {
+    scalable: {
+      '&:hover': {
+        transform: [{ scale: 1.1 }]
+      }
+    }
+  }
+}
+
+export default theme
+```
+
+You can now apply this `variant` to any `Text` element:
+
+```tsx
+<View variant="scalable" />
+```
+
+If you have multiple variants, just pass a `variants` array:
+
+```tsx
+<View variants={['scalable', 'some-other-variant']} />
+```
+
+### Animating your hover styles
+
+You can use `react-native-web`'s transition support to add smooth transitions when users hover:
+
+```ts
+// theme.ts
+const theme = {
+  ...,
+  text: {
+    scalable: {
+      transform: [{ scale: 1 }],
+      // smoothly transition our scale when someone hovers
+      transitionProperty: 'transform',
+      transitionDuration: '250ms',
+      '&:hover': {
+        transform: [{ scale: 1.1 }]
+      }
+    }
+  }
+}
+
+export default theme
+```
+
+#### Considerations
+
+One thing to keep in mind: hover styles do not support Dripsy's responsive array syntax at this time. Please refrain from passing array styles to `&:hover` or the `hovered` prop, unless it is a `transform`, which doesn't support responsive styles.
 
 # Using Custom Fonts [New! 🏄‍♂️]
 

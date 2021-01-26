@@ -94,7 +94,28 @@ const HoverableVariantSquare = () => {
 }
 
 const HoverableMultipleVariantsSquare = () => {
-  return <View variants={['hover-square', 'hovered-red']} />
+  return (
+    <View
+      // try commenting out one of the variants, or the hovered prop
+      variants={['hover-square', 'hovered-red']}
+      // you can use the 'hovered' prop
+      hovered={{
+        bg: 'cyan',
+      }}
+      sx={{
+        transitionProperty: 'transform, background-color',
+        transitionDuration: '250ms',
+        // or you can use '&:hover' in 'sx'
+        '&:hover': {
+          transform: [
+            {
+              scale: 1.1,
+            },
+          ],
+        },
+      }}
+    />
+  )
 }
 
 export default function App() {

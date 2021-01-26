@@ -716,14 +716,6 @@ export function mapPropsToStyledComponent<P, T>(
     }
   }
 
-  addPseudoElementToStyle(sx, 'your sx prop', '&:hover')
-  addPseudoElementToStyle(
-    // polyfill the "hovered" prop, as if it were in a style object
-    { '&:hover': hoveredProp },
-    'your hovered prop',
-    '&:hover'
-  )
-
   // overrride the defaults with added ones; don't get rid of them altogether
   let multipleVariants = [...defaultVariants]
   if (variants?.length) {
@@ -781,6 +773,15 @@ export function mapPropsToStyledComponent<P, T>(
   // support both &:hover syntax as well as the hover prop.
 
   const superStyle = css(sx, breakpoint)({ theme, fontFamily })
+
+  // important to call this after the variants
+  addPseudoElementToStyle(sx, 'your sx prop', '&:hover')
+  addPseudoElementToStyle(
+    // polyfill the "hovered" prop, as if it were in a style object
+    { '&:hover': hoveredProp },
+    'your hovered prop',
+    '&:hover'
+  )
 
   // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
