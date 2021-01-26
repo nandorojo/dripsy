@@ -649,6 +649,7 @@ export function mapPropsToStyledComponent<P, T>(
     hovered: hoveredProp = {},
   } = props
 
+  // avoid unintentional mutations
   const sx = { ...sxProp } as typeof sxProp
 
   // initialize hover styles
