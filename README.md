@@ -389,13 +389,13 @@ export default theme
 You can now apply this `variant` to any `Text` element:
 
 ```tsx
-<View variant="scalable" />
+<Text variant="scalable" />
 ```
 
 If you have multiple variants, just pass a `variants` array:
 
 ```tsx
-<View variants={['scalable', 'some-other-variant']} />
+<Text variants={['scalable', 'some-other-variant']} />
 ```
 
 ### Animating your hover styles
