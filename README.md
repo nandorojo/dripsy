@@ -398,7 +398,7 @@ If you have multiple variants, just pass a `variants` array:
 <Text variants={['scalable', 'some-other-variant']} />
 ```
 
-### Animating your hover styles
+## Animating your hover styles
 
 You can use `react-native-web`'s transition support to add smooth transitions when users hover:
 
