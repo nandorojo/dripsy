@@ -33,13 +33,19 @@ export function createThemedComponent<P, T>(
       webContainerSx,
       themeKey = options.themeKey,
       variants = options.defaultVariants,
+      hovered,
       ...props
     } = prop
-    if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
+    if (
+      typeof __DEV__ !== 'undefined' &&
+      __DEV__ &&
+      typeof SuperComponent === 'string'
+    ) {
       console.error(
         `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
       )
     }
+
     const defaultStyle =
       typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
@@ -49,7 +55,12 @@ export function createThemedComponent<P, T>(
     })
     // change/remove this later maybe
 
-    const { responsiveSSRStyles, ...styles } = useMemo(
+    const {
+      responsiveSSRStyles,
+      hoverStyles,
+      isHoverable,
+      ...styles
+    } = useMemo(
       () =>
         mapPropsToStyledComponent<P, T>(
           {
@@ -59,6 +70,7 @@ export function createThemedComponent<P, T>(
             sx,
             style,
             variants,
+            hovered,
           },
           {
             ...options,
@@ -66,7 +78,17 @@ export function createThemedComponent<P, T>(
             defaultStyle,
           }
         )(),
-      [breakpoint, defaultStyle, style, sx, theme, themeKey, variant, variants]
+      [
+        breakpoint,
+        defaultStyle,
+        style,
+        sx,
+        theme,
+        themeKey,
+        variant,
+        variants,
+        hovered,
+      ]
     )
 
     const TheComponent = SuperComponent || Component
@@ -74,32 +96,41 @@ export function createThemedComponent<P, T>(
     if (Platform.OS === 'web' && !!responsiveSSRStyles?.length) {
       return (
         // TODO make isHoverable = Object.keys(hoverStyles).length > 0
-        <Hoverable isHoverable={false}>
-          {({ isHovered }) => (
-            <SSRComponent
-              {...props}
-              Component={TheComponent as React.ComponentType<unknown>}
-              responsiveStyles={responsiveSSRStyles}
-              style={styles}
-              ref={ref}
-              containerStyles={
-                webContainerSx as ComponentProps<
-                  typeof SSRComponent
-                >['containerStyles']
-              }
-            />
-          )}
+        <Hoverable isHoverable={isHoverable}>
+          {({ isHovered }) => {
+            if (isHoverable) {
+              console.log('[create-themed-component]', {
+                isHovered,
+                hoverStyles,
+              })
+            }
+            return (
+              <SSRComponent
+                {...props}
+                Component={TheComponent as React.ComponentType<unknown>}
+                responsiveStyles={responsiveSSRStyles}
+                style={styles}
+                hoverStyles={isHovered && hoverStyles}
+                ref={ref}
+                containerStyles={
+                  webContainerSx as ComponentProps<
+                    typeof SSRComponent
+                  >['containerStyles']
+                }
+              />
+            )
+          }}
         </Hoverable>
       )
     }
 
     return (
-      <Hoverable isHoverable={false}>
+      <Hoverable isHoverable={isHoverable}>
         {({ isHovered }) => (
           <TheComponent
             {...((props as unknown) as P)}
             ref={ref}
-            style={styles}
+            style={[styles, isHovered && hoverStyles]}
           />
         )}
       </Hoverable>

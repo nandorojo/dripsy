@@ -80,11 +80,30 @@ export default function App() {
       <Container>
         <View
           sx={{
-            backgroundColor: () => ['primary', 'white'],
-            height: [400, 800],
+            backgroundColor: ['primary', 'white'],
+            height: 700,
+            transitionProperty: 'background-color',
+            transitionDuration: '250ms',
+          }}
+          hovered={{
+            backgroundColor: 'pink',
           }}
         >
-          <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4>
+          <H4
+            sx={{
+              color: 'text',
+              mb: 2,
+              mt: 0,
+              fontSize: 5,
+              '&:hover': {
+                color: 'primary',
+              },
+              transitionProperty: 'color',
+              transitionDuration: '250ms',
+            }}
+          >
+            OK
+          </H4>
           {/* <Pressable>
             {({ pressed }) => (
               <DripText sx={{ cursor: 'pointer' }}>

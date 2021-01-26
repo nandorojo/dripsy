@@ -637,11 +637,12 @@ export function mapPropsToStyledComponent<P, T>(
   } = options
   const {
     breakpoint,
-    sx,
+    sx = {},
     theme,
     variant = defaultVariant,
     style,
     variants,
+    hovered: hoveredProp = {},
   } = props
 
   // overrride the defaults with added ones; don't get rid of them altogether
@@ -684,7 +685,72 @@ export function mapPropsToStyledComponent<P, T>(
     breakpoint
   )({ theme, fontFamily })
 
-  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
+  // isolate out hover styles
+  // support both &:hover syntax as well as the hover prop.
+  const { ['&:hover']: sxHover, ...sxWithoutHover } = sx
+
+  const superStyle = css(sxWithoutHover, breakpoint)({ theme, fontFamily })
+
+  // initialize hover styles
+  let hoverStyles: ThemeUIStyleObject = {}
+  /**
+   * If users use responsive styles in hover, give them a warning, since that isn't supported yet.
+   */
+  const invariantResponsiveStyles = (
+    stylePropName: string,
+    event: 'hover',
+    responsiveStyles?: ResponsiveSSRStyles
+  ) => {
+    if (
+      responsiveStyles?.filter(
+        (responsiveStyle) => Object.keys(responsiveStyle).length
+      ).length
+    ) {
+      console.warn(
+        '[dripsy] Responsive arrays are not available for ' +
+          event +
+          ' styles at this time. You passed these responsive values to ' +
+          stylePropName +
+          ': ',
+        Object.values(responsiveStyles[0]).join(', '),
+        ' These styles will be ignored.'
+      )
+    }
+  }
+
+  // omit responsiveSSRStyles for now
+  const {
+    responsiveSSRStyles: sxResponsiveSSRStylesHovered,
+    ...superStyleHover
+  } = css(sxHover, breakpoint)({ theme, fontFamily })
+
+  invariantResponsiveStyles(
+    'your sx prop',
+    'hover',
+    sxResponsiveSSRStylesHovered
+  )
+
+  // omit responsiveSSRStyles for now
+  const {
+    responsiveSSRStyles: hoveredPropResponsiveSSRStyles,
+    ...hoveredPropStyleHover
+    // users might use the hovered prop directly
+  } = css(hoveredProp, breakpoint)({ theme, fontFamily })
+
+  invariantResponsiveStyles(
+    'your hovered prop',
+    'hover',
+    hoveredPropResponsiveSSRStyles
+  )
+
+  hoverStyles = {
+    ...superStyleHover,
+    ...hoveredPropStyleHover,
+  }
+
+  if (Object.values(hoveredProp).length) {
+    console.log('[mapPropsToStyledComponent]', { hoveredProp, hoverStyles })
+  }
 
   // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
@@ -694,6 +760,8 @@ export function mapPropsToStyledComponent<P, T>(
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,
+    hoverStyles,
+    isHoverable: !!Object.keys(hoverStyles).length,
   })
 
   return styles

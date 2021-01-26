@@ -8,6 +8,7 @@ type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
+  hoverStyles: unknown
   containerStyles?: SxProps['sx']
   // nativeStyle?: StyledProps<T>['style']
 }
@@ -18,6 +19,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
     Component,
     style,
     containerStyles = {},
+    hoverStyles,
     // nativeStyle,
     ...props
   }: Props<T>,
@@ -92,7 +94,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                     <Component
                       {...((props as unknown) as T)}
                       ref={ref}
-                      style={[style, breakpointStyle]}
+                      style={[style, breakpointStyle, hoverStyles]}
                     />
                   ) : null}
                 </div>

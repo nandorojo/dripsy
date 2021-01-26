@@ -18,6 +18,7 @@ export type StyledProps<P> = {
   sx?: ThemeUIStyleObject & {
     '&:hover'?: ThemeUIStyleObject
   }
+  hovered?: ThemeUIStyleObject
   as?: ComponentType<P>
   variant?: string
   themeKey?: string
