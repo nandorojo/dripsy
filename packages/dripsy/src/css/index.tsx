@@ -10,7 +10,11 @@ import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
 import { useEffect, useRef, useState } from 'react'
 import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
 // import { useDimensions } from '@react-native-community/hooks'
-import type { ThemedOptions, StyledProps } from './types'
+import type {
+  ThemedOptions,
+  StyledProps,
+  StyleWithPseudoElements,
+} from './types'
 import { defaultBreakpoints } from './breakpoints'
 import type { DripsyTheme } from '../utils/types'
 
@@ -652,10 +656,12 @@ export function mapPropsToStyledComponent<P, T>(
   }
   multipleVariants = multipleVariants.filter(Boolean)
 
-  const variantStyle = css(
-    get(theme, themeKey + '.' + variant, get(theme, variant)),
-    breakpoint
-  )({ theme })
+  const resolvedVariant = get(
+    theme,
+    themeKey + '.' + variant,
+    get(theme, variant)
+  )
+  const variantStyle = css(resolvedVariant, breakpoint)({ theme })
 
   // get the font-family from the variant, and pass it to the other styles as a fallback.
   // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
@@ -664,12 +670,14 @@ export function mapPropsToStyledComponent<P, T>(
   const baseStyle = css(defaultStyle, breakpoint)({ theme, fontFamily })
 
   const multipleVariantsStyle = multipleVariants
-    .map((variantKey) =>
-      css(
-        get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
-        breakpoint
-      )({ theme, fontFamily })
-    )
+    .map((variantKey) => {
+      const resolvedVariant = get(
+        theme,
+        themeKey + '.' + variantKey,
+        get(theme, variantKey)
+      )
+      return css(resolvedVariant, breakpoint)({ theme, fontFamily })
+    })
     .reduce(
       (prev = {}, next = {}) => ({
         ...prev,
@@ -693,64 +701,67 @@ export function mapPropsToStyledComponent<P, T>(
 
   // initialize hover styles
   let hoverStyles: ThemeUIStyleObject = {}
-  /**
-   * If users use responsive styles in hover, give them a warning, since that isn't supported yet.
-   */
-  const invariantResponsiveStyles = (
+
+  const addPseudoElementToStyle = (
+    styleProp: StyleWithPseudoElements = {},
     stylePropName: string,
-    event: 'hover',
-    responsiveStyles?: ResponsiveSSRStyles
+    event: '&:hover'
   ) => {
-    if (
-      responsiveStyles?.filter(
+    /**
+     * If users use responsive styles in hover, give them a warning, since that isn't supported yet.
+     */
+    const invariantResponsiveStyles = (
+      stylePropName: string,
+      event: '&:hover',
+      responsiveStyles: ResponsiveSSRStyles = []
+    ) => {
+      const hasInvalidResponsiveStyles = responsiveStyles.some(
         (responsiveStyle) => Object.keys(responsiveStyle).length
-      ).length
-    ) {
-      console.warn(
-        '[dripsy] Responsive arrays are not available for ' +
-          event +
-          ' styles at this time. You passed these responsive values to ' +
-          stylePropName +
-          ': ',
-        Object.values(responsiveStyles[0]).join(', '),
-        ' These styles will be ignored.'
       )
+      if (hasInvalidResponsiveStyles) {
+        console.warn(
+          '[dripsy] Responsive arrays are not available for ' +
+            event +
+            ' styles at this time. You passed these responsive values to ' +
+            stylePropName +
+            ': ',
+          Object.values(responsiveStyles[0]).join(', '),
+          ' These styles will be ignored.'
+        )
+      }
+    }
+
+    // get the styles corresponding to this event
+    // omit responsiveSSRStyles for now
+    const { [event]: hoveredStyle } = styleProp
+    const {
+      responsiveSSRStyles: themedPseudoElementResponsiveStyle,
+      ...themedPseudoElementStyle
+    } = css(hoveredStyle, breakpoint)({ theme, fontFamily })
+
+    invariantResponsiveStyles(
+      stylePropName,
+      event,
+      themedPseudoElementResponsiveStyle
+    )
+
+    if (event === '&:hover') {
+      hoverStyles = {
+        ...hoverStyles,
+        ...themedPseudoElementStyle,
+      }
+      // delete the pseudo event from the object
+      delete styleProp[event]
     }
   }
 
-  // omit responsiveSSRStyles for now
-  const {
-    responsiveSSRStyles: sxResponsiveSSRStylesHovered,
-    ...superStyleHover
-  } = css(sxHover, breakpoint)({ theme, fontFamily })
-
-  invariantResponsiveStyles(
-    'your sx prop',
-    'hover',
-    sxResponsiveSSRStylesHovered
-  )
-
-  // omit responsiveSSRStyles for now
-  const {
-    responsiveSSRStyles: hoveredPropResponsiveSSRStyles,
-    ...hoveredPropStyleHover
-    // users might use the hovered prop directly
-  } = css(hoveredProp, breakpoint)({ theme, fontFamily })
-
-  invariantResponsiveStyles(
+  addPseudoElementToStyle(sx, 'your sx prop', '&:hover')
+  addPseudoElementToStyle(
+    // polyfill the "hover" prop, as if it were in a style object
+    { '&:hover': hoveredProp },
     'your hovered prop',
-    'hover',
-    hoveredPropResponsiveSSRStyles
+    '&:hover'
   )
-
-  hoverStyles = {
-    ...superStyleHover,
-    ...hoveredPropStyleHover,
-  }
-
-  if (Object.values(hoveredProp).length) {
-    console.log('[mapPropsToStyledComponent]', { hoveredProp, hoverStyles })
-  }
 
   // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!

@@ -14,10 +14,12 @@ export type ThemedOptions<T> = {
   defaultVariants?: string[]
 }
 
+export type StyleWithPseudoElements = ThemeUIStyleObject & {
+  '&:hover'?: ThemeUIStyleObject
+}
+
 export type StyledProps<P> = {
-  sx?: ThemeUIStyleObject & {
-    '&:hover'?: ThemeUIStyleObject
-  }
+  sx?: StyleWithPseudoElements
   hovered?: ThemeUIStyleObject
   as?: ComponentType<P>
   variant?: string

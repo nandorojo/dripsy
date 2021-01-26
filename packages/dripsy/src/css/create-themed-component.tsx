@@ -98,12 +98,6 @@ export function createThemedComponent<P, T>(
         // TODO make isHoverable = Object.keys(hoverStyles).length > 0
         <Hoverable isHoverable={isHoverable}>
           {({ isHovered }) => {
-            if (isHoverable) {
-              console.log('[create-themed-component]', {
-                isHovered,
-                hoverStyles,
-              })
-            }
             return (
               <SSRComponent
                 {...props}
@@ -126,13 +120,15 @@ export function createThemedComponent<P, T>(
 
     return (
       <Hoverable isHoverable={isHoverable}>
-        {({ isHovered }) => (
-          <TheComponent
-            {...((props as unknown) as P)}
-            ref={ref}
-            style={[styles, isHovered && hoverStyles]}
-          />
-        )}
+        {({ isHovered }) => {
+          return (
+            <TheComponent
+              {...((props as unknown) as P)}
+              ref={ref}
+              style={[styles, isHovered && hoverStyles]}
+            />
+          )
+        }}
       </Hoverable>
     )
   })
