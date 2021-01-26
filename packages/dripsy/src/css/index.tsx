@@ -741,11 +741,8 @@ export function mapPropsToStyledComponent<P, T>(
 
   const multipleVariantsStyle = multipleVariants
     .map((variantKey) => {
-      const resolvedVariant = get(
-        theme,
-        themeKey + '.' + variantKey,
-        get(theme, variantKey)
-      )
+      const resolvedVariant =
+        get(theme, themeKey + '.' + variantKey, get(theme, variantKey)) || {}
       addPseudoElementToStyle(
         // avoid mutating the theme
         { ...resolvedVariant },
