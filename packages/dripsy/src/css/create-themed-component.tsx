@@ -95,7 +95,6 @@ export function createThemedComponent<P, T>(
 
     if (Platform.OS === 'web' && !!responsiveSSRStyles?.length) {
       return (
-        // TODO make isHoverable = Object.keys(hoverStyles).length > 0
         <Hoverable isHoverable={isHoverable}>
           {({ isHovered }) => {
             return (
