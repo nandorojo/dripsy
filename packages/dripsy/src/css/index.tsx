@@ -693,11 +693,11 @@ export function mapPropsToStyledComponent<P, T>(
 
     // get the styles corresponding to this event
     // omit responsiveSSRStyles for now
-    const { [event]: hoveredStyle } = styleProp
+    const { [event]: pseudoEventStyle } = styleProp
     const {
       responsiveSSRStyles: themedPseudoElementResponsiveStyle,
       ...themedPseudoElementStyle
-    } = css(hoveredStyle, breakpoint)({ theme, fontFamily })
+    } = css(pseudoEventStyle, breakpoint)({ theme, fontFamily })
 
     invariantResponsiveStyles(
       stylePropName,
