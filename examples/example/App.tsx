@@ -44,6 +44,16 @@ const theme = {
       elevation: 25,
     },
   },
+  ['hover-square']: {
+    height: 100,
+    width: 100,
+    bg: 'primary',
+    transitionProperty: 'background-color',
+    transitionDuration: '250ms',
+    '&:hover': {
+      bg: 'black',
+    },
+  },
 }
 
 const G = createThemedComponent(Text, {
@@ -72,6 +82,14 @@ const ResponsiveSquare = () => {
       <DripText sx={{ color: textColor }}>Hello</DripText>
     </View>
   )
+}
+
+const HoverableVariantSquare = () => {
+  return <View variant="hover-square" />
+}
+
+const HoverableMultipleVariantsSquare = () => {
+  return <View variants={['hover-square']} />
 }
 
 export default function App() {
@@ -117,6 +135,8 @@ export default function App() {
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />
+          <HoverableVariantSquare />
+          <HoverableMultipleVariantsSquare />
         </View>
       </Container>
     </DripsyProvider>

@@ -641,7 +641,7 @@ export function mapPropsToStyledComponent<P, T>(
   } = options
   const {
     breakpoint,
-    sx = {},
+    sx: sxProp = {},
     theme,
     variant = defaultVariant,
     style,
@@ -649,61 +649,21 @@ export function mapPropsToStyledComponent<P, T>(
     hovered: hoveredProp = {},
   } = props
 
-  // overrride the defaults with added ones; don't get rid of them altogether
-  let multipleVariants = [...defaultVariants]
-  if (variants?.length) {
-    multipleVariants = [...defaultVariants, ...variants]
-  }
-  multipleVariants = multipleVariants.filter(Boolean)
-
-  const resolvedVariant = get(
-    theme,
-    themeKey + '.' + variant,
-    get(theme, variant)
-  )
-  const variantStyle = css(resolvedVariant, breakpoint)({ theme })
-
-  // get the font-family from the variant, and pass it to the other styles as a fallback.
-  // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
-  const { fontFamily } = variantStyle
-
-  const baseStyle = css(defaultStyle, breakpoint)({ theme, fontFamily })
-
-  const multipleVariantsStyle = multipleVariants
-    .map((variantKey) => {
-      const resolvedVariant = get(
-        theme,
-        themeKey + '.' + variantKey,
-        get(theme, variantKey)
-      )
-      return css(resolvedVariant, breakpoint)({ theme, fontFamily })
-    })
-    .reduce(
-      (prev = {}, next = {}) => ({
-        ...prev,
-        ...next,
-      }),
-      {}
-    )
-
-  const nativeStyles = css(
-    Array.isArray(style)
-      ? StyleSheet.flatten(style)
-      : StyleSheet.flatten([style]),
-    breakpoint
-  )({ theme, fontFamily })
-
-  // isolate out hover styles
-  // support both &:hover syntax as well as the hover prop.
-  const { ['&:hover']: sxHover, ...sxWithoutHover } = sx
-
-  const superStyle = css(sxWithoutHover, breakpoint)({ theme, fontFamily })
+  const sx = { ...sxProp }
 
   // initialize hover styles
-  let hoverStyles: ThemeUIStyleObject = {}
+  let finalHoverStyles: ThemeUIStyleObject = {}
 
   const addPseudoElementToStyle = (
+    /**
+     * The raw style prop.
+     */
     styleProp: StyleWithPseudoElements = {},
+    /**
+     * We use this to warn users if they're doing something wrong w this style.
+     *
+     * It should be an english description `your sx prop` to describe where this style came from.
+     */
     stylePropName: string,
     event: '&:hover'
   ) => {
@@ -746,22 +706,81 @@ export function mapPropsToStyledComponent<P, T>(
     )
 
     if (event === '&:hover') {
-      hoverStyles = {
-        ...hoverStyles,
+      finalHoverStyles = {
+        ...finalHoverStyles,
         ...themedPseudoElementStyle,
       }
       // delete the pseudo event from the object
+      // be careful not to mutate objects unintentionally...
       delete styleProp[event]
     }
   }
 
   addPseudoElementToStyle(sx, 'your sx prop', '&:hover')
   addPseudoElementToStyle(
-    // polyfill the "hover" prop, as if it were in a style object
+    // polyfill the "hovered" prop, as if it were in a style object
     { '&:hover': hoveredProp },
     'your hovered prop',
     '&:hover'
   )
+
+  // overrride the defaults with added ones; don't get rid of them altogether
+  let multipleVariants = [...defaultVariants]
+  if (variants?.length) {
+    multipleVariants = [...defaultVariants, ...variants]
+  }
+  multipleVariants = multipleVariants.filter(Boolean)
+
+  const resolvedVariant =
+    get(theme, themeKey + '.' + variant, get(theme, variant)) || {}
+  addPseudoElementToStyle(
+    // avoid mutating the theme
+    { ...resolvedVariant },
+    `the variant named "${variant}"`,
+    '&:hover'
+  )
+  const variantStyle = css(resolvedVariant, breakpoint)({ theme })
+
+  // get the font-family from the variant, and pass it to the other styles as a fallback.
+  // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
+  const { fontFamily } = variantStyle
+
+  const baseStyle = css(defaultStyle, breakpoint)({ theme, fontFamily })
+
+  const multipleVariantsStyle = multipleVariants
+    .map((variantKey) => {
+      const resolvedVariant = get(
+        theme,
+        themeKey + '.' + variantKey,
+        get(theme, variantKey)
+      )
+      addPseudoElementToStyle(
+        // avoid mutating the theme
+        { ...resolvedVariant },
+        `the variant named "${variantKey}"`,
+        '&:hover'
+      )
+      return css(resolvedVariant, breakpoint)({ theme, fontFamily })
+    })
+    .reduce(
+      (prev = {}, next = {}) => ({
+        ...prev,
+        ...next,
+      }),
+      {}
+    )
+
+  const nativeStyles = css(
+    Array.isArray(style)
+      ? StyleSheet.flatten(style)
+      : StyleSheet.flatten([style]),
+    breakpoint
+  )({ theme, fontFamily })
+
+  // isolate out hover styles
+  // support both &:hover syntax as well as the hover prop.
+
+  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
 
   // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
@@ -771,8 +790,8 @@ export function mapPropsToStyledComponent<P, T>(
     ...variantStyle,
     ...nativeStyles,
     ...superStyle,
-    hoverStyles,
-    isHoverable: !!Object.keys(hoverStyles).length,
+    hoverStyles: finalHoverStyles,
+    isHoverable: !!Object.keys(finalHoverStyles).length,
   })
 
   return styles
