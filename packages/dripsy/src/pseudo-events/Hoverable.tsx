@@ -62,7 +62,7 @@ HoverableProps) {
       ? children({ isHovered: isHoverable && showHover && isHovered })
       : children
 
-  if (!isHoverable || Platform.OS !== 'web') <>{child}</>
+  if (!isHoverable || Platform.OS !== 'web') return <>{child}</>
 
   return React.cloneElement(React.Children.only(child), {
     onMouseEnter: handleMouseEnter,
