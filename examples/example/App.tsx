@@ -54,6 +54,11 @@ const theme = {
       bg: 'black',
     },
   },
+  ['hovered-red']: {
+    '&:hover': {
+      bg: 'red',
+    },
+  },
 }
 
 const G = createThemedComponent(Text, {
@@ -89,7 +94,7 @@ const HoverableVariantSquare = () => {
 }
 
 const HoverableMultipleVariantsSquare = () => {
-  return <View variants={['hover-square']} />
+  return <View variants={['hover-square', 'hovered-red']} />
 }
 
 export default function App() {
