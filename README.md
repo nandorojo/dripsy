@@ -655,6 +655,29 @@ const Thick = () => (
 )
 ```
 
+## Using custom fonts on web
+
+To improve the performance of loading your fonts on web, you can add something like this to the `head` of your HTML:
+
+```jsx
+<link
+  rel="preload"
+  href="/fonts/circ/CircularStd-Book.ttf"
+  as="font"
+  crossOrigin=""
+/>
+<link
+  rel="preload"
+  href="/fonts/circ/CircularStd-Medium.ttf"
+  as="font"
+  crossOrigin=""
+/> 
+```
+
+Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
+
+If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component.
+
 # How it works
 
 First, this library is super inspired by `theme-ui`, and uses many of its low-level functions and methodologies.
