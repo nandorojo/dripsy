@@ -85,10 +85,23 @@ const theme = {
     primary: 'tomato',
   },
   fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
+    root: 'circular',
+  },
+  // custom fonts are easy!
+  customFonts: {
+    circular: {
+      default: 'Circular-StdBook',
+      bold: 'Circular-StdBold',
+      black: 'Circular-StdBlack'
+    }
   },
   space: [10, 12, 14],
+  text: {
+    thick: {
+      fontFamily: 'root',
+      fontWeight: 'black' // 'Circular-StdBlack'
+    }
+  }
 }
 
 export default function App() {
