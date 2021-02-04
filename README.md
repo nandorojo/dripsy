@@ -164,7 +164,7 @@ import { SSRStyleReset } from 'dripsy'
 
 If you're using Next.js, this should go in `pages/_document.js`.
 
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next-example/pages/_document.js).
+Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/examples/next-example/pages/_document.js).
 
 We'll add other library examples here too, such as Gatsby.
 
