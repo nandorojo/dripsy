@@ -455,7 +455,7 @@ const theme = {
   },
   text: {
     thickCaps: {
-      fontWeight: 'bold',
+      fontWeight: 'black',
       textTransformation: 'uppercase'
     }
   }
