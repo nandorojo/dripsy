@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "outDir": "./lib/typescript",
+    "paths": {
+      "react-native/node_modules/@types/react": ["../node_modules/@types/react"]
+    }
+  }
+}

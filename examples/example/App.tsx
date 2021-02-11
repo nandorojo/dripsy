@@ -7,6 +7,7 @@ import {
   DripsyProvider,
   Container,
   Theme,
+  LinearGradient,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
@@ -43,6 +44,10 @@ const theme = {
       shadowRadius: 14,
       elevation: 25,
     },
+  },
+  linearGradients: {
+    strong: ['primary', 'secondary'],
+    light: ['red', 'green'],
   },
 }
 
@@ -98,6 +103,14 @@ export default function App() {
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />
+          <LinearGradient
+            sx={{
+              height: 300,
+              width: 300,
+            }}
+            gradient="light"
+            colors={['primary', 'secondary']}
+          />
         </View>
       </Container>
     </DripsyProvider>

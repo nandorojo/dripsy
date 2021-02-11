@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient'
 import type { SxProps } from '@theme-ui/core'
 import type { Theme } from '@theme-ui/css'
 import type { ComponentType } from 'react'
