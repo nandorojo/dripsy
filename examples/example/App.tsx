@@ -7,9 +7,9 @@ import {
   DripsyProvider,
   Container,
   Theme,
-  // Pressable,
-  H4,
 } from 'dripsy'
+// Import from core
+import { H4 } from '@dripsy/core'
 import { Text } from 'react-native'
 
 const theme = {
