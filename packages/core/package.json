@@ -76,8 +76,8 @@
     ]
   },
   "peerDependencies": {
-    "react": "16.13.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz"
+    "react-native": "0.63.4",
+    "react-native-web": "~0.14.10"
   },
   "dependencies": {
     "@artsy/fresnel": "^1.2.0",
