@@ -1,29 +1,29 @@
 {
-	"name": "dripsy-example",
-	"description": "Example app for expo-theme-ui",
-	"version": "0.0.1",
-	"private": true,
-	"main": "__generated__/AppEntry.js",
-	"scripts": {
-		"android": "expo start --android",
-		"ios": "expo start --ios",
-		"web": "expo start --web",
-		"start": "expo start",
-		"test": "jest",
-		"postinstall": "expo-yarn-workspaces postinstall"
-	},
-	"dependencies": {
-		"expo": "^40.0.0",
-		"react": "~16.9.0",
-		"react-dom": "~16.9.0",
-		"react-native": "~0.61.5",
-		"react-native-unimodules": "~0.9.0",
-		"react-native-web": "^0.14.10"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.9.6",
-		"@babel/runtime": "^7.9.6",
-		"babel-preset-expo": "~8.1.0",
-		"expo-cli": "^3.17.18"
-	}
+  "name": "dripsy-example",
+  "description": "Example app for expo-theme-ui",
+  "version": "0.0.1",
+  "private": true,
+  "main": "__generated__/AppEntry.js",
+  "scripts": {
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "start": "expo start",
+    "test": "jest",
+    "postinstall": "expo-yarn-workspaces postinstall"
+  },
+  "dependencies": {
+    "expo": "^40.0.0",
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0",
+    "react-native": "~0.61.5",
+    "react-native-unimodules": "~0.9.0",
+    "react-native-web": "0.14.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/runtime": "^7.9.6",
+    "babel-preset-expo": "~8.1.0",
+    "expo-cli": "^3.17.18"
+  }
 }
