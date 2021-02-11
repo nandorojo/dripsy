@@ -18,6 +18,7 @@ const {
     '2': defaultBreakpoints[1],
     '3': defaultBreakpoints[2],
     '4': defaultBreakpoints[3],
+    '5': defaultBreakpoints[4],
   },
 })
 
