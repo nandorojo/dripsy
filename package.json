@@ -5,6 +5,7 @@
     "lint": "eslint --ext .js,.ts,.tsx .",
     "format": "prettier --write packages/**",
     "prepare": "lerna run prepare",
+    "publish": "lerna run publish",
     "bootstrap": "lerna bootstrap",
     "release": "lerna publish",
     "postinstall": "expo-yarn-workspaces check-workspace-dependencies"
