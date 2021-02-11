@@ -2,27 +2,15 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@nandorojo/dripsy": ["./src/index"],
-      "dripsy": ["./src/index"]
+      "@dripsy/*": ["./packages/*/src"],
+      "dripsy": ["./packages/dripsy/src"]
     },
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["esnext"],
-    "module": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-native",
+    "lib": ["dom", "esnext"],
     "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noStrictGenericChecks": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
-  },
-  "exclude": ["next-example", "example"]
+    "experimentalDecorators": true
+  }
 }
