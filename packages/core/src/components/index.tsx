@@ -23,6 +23,7 @@ import {
 } from '@expo/html-elements'
 
 import Indicator from './activity-indicator'
+export { default as Pressable } from './pressable'
 
 export const View = createThemedComponent(rView)
 
