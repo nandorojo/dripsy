@@ -35,9 +35,6 @@
     "url": "https://github.com/nandorojo/expo-theme-ui/issues"
   },
   "homepage": "https://github.com/nandorojo/expo-theme-ui#readme",
-  "devDependencies": {
-    "typescript": "^4.1.2"
-  },
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -74,6 +71,9 @@
       "module",
       "typescript"
     ]
+  },
+  "devDependencies": {
+    "typescript": "^4.1.2"
   },
   "dependencies": {
     "@dripsy/core": "*"
