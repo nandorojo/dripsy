@@ -1,7 +1,7 @@
 {
   "name": "dripsy-example",
   "description": "Example app for expo-theme-ui",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "private": true,
   "main": "__generated__/AppEntry.js",
   "scripts": {
