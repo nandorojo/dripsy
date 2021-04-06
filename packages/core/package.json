@@ -81,8 +81,8 @@
     "@artsy/fresnel": "^1.2.0",
     "@expo/html-elements": "^0.0.1",
     "@react-native-community/hooks": "^2.6.0",
-    "@theme-ui/core": "^0.4.0-rc.1",
-    "@theme-ui/css": "^0.4.0-rc.1"
+    "@theme-ui/core": "^0.6.2",
+    "@theme-ui/css": "^0.6.2"
   },
   "sideEffects": false
 }
