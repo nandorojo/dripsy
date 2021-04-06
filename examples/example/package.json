@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "expo": "^40.0.0",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-native": "0.63.4",
-    "react-native-unimodules": "~0.12.0",
-    "react-native-web": "~0.14.10"
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0",
+    "react-native": "~0.61.5",
+    "react-native-unimodules": "~0.9.0",
+    "react-native-web": "^0.14.10"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
