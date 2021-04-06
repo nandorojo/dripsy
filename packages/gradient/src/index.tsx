@@ -1,6 +1,6 @@
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { styled, useDripsyTheme } from 'dripsy'
+import { styled, useDripsyTheme } from '@dripsy/core'
 
 type Props = Omit<React.ComponentProps<typeof LinearGradient>, 'colors'> & {
   gradient?: string
