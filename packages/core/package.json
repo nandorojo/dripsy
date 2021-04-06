@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/core",
-  "version": "1.4.17",
+  "version": "1.5.3",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -35,9 +35,6 @@
     "url": "https://github.com/nandorojo/expo-theme-ui/issues"
   },
   "homepage": "https://github.com/nandorojo/expo-theme-ui#readme",
-  "devDependencies": {
-    "typescript": "^4.1.2"
-  },
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -75,9 +72,10 @@
       "typescript"
     ]
   },
-  "peerDependencies": {
+  "devDependencies": {
     "react-native": "0.63.4",
-    "react-native-web": "~0.14.10"
+    "react-native-web": "~0.14.10",
+    "typescript": "^4.1.2"
   },
   "dependencies": {
     "@artsy/fresnel": "^1.2.0",

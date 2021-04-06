@@ -1,6 +1,7 @@
 export * from './components'
 export * from './css/create-themed-component'
 export * from './provider'
+export { setBreakpoints } from './css/breakpoints'
 
 export { Styles, css, useResponsiveValue, useBreakpointIndex } from './css'
 // export { ThemeProvider, Th } from '@theme-ui/core'
