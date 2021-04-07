@@ -9,7 +9,7 @@
   "source": "src/index.ts",
   "files": [
     "src",
-    "lib"
+    "build"
   ],
   "scripts": {
     "build": "expo-module build",
