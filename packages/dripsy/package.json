@@ -2,14 +2,13 @@
   "name": "dripsy",
   "version": "1.5.5",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index.tsx",
-  "source": "src/index.tsx",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
   "files": [
     "src",
-    "lib"
+    "build"
   ],
   "scripts": {
     "typescript": "tsc --noEmit",
