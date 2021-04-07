@@ -5,8 +5,8 @@
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index.tsx",
-  "source": "src/index.tsx",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
   "files": [
     "src",
     "lib"
@@ -16,7 +16,6 @@
     "clean": "expo-module clean",
     "test": "expo-module test",
     "prepare": "expo-module prepare",
-    "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module",
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .js,.ts,.tsx .",

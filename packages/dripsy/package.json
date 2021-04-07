@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "1.5.5-tree-shaking.1",
+  "version": "1.5.5",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
