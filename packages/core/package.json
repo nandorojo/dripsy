@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/core",
-  "version": "1.5.6-alpha.2+4038c1a",
+  "version": "1.5.5-alpha.2+4038c1a",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
