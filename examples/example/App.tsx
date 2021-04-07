@@ -76,7 +76,7 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <DripsyProvider theme={(theme as unknown) as Theme} options={{ ssr: true }}>
+    <DripsyProvider theme={(theme as unknown) as Theme}>
       <Container>
         <View
           sx={{
