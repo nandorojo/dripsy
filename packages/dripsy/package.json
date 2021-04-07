@@ -12,16 +12,20 @@
     "lib"
   ],
   "scripts": {
-    "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
-    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next"
+    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next",
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
   },
   "keywords": [
     "react-native",

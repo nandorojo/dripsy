@@ -2,7 +2,7 @@
 import { jsx, SxProps } from '@theme-ui/core'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
 import type { ResponsiveSSRStyles } from '.'
-import { SSRMediaQuery } from '../provider'
+import { SSRMediaQuery } from '../provider/fresnel'
 
 type Props<T> = {
   Component: ComponentType<T>
@@ -24,7 +24,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
   ref: T
 ) {
   return (
-    <Fragment>
+    <>
       {responsiveStyles.map((breakpointStyle = {}, breakpointIndex) => {
         const responsiveProps: Omit<
           ComponentProps<typeof SSRMediaQuery>,
@@ -101,7 +101,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
           </SSRMediaQuery>
         )
       })}
-    </Fragment>
+    </>
   )
 })
 
