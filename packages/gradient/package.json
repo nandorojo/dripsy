@@ -76,7 +76,7 @@
     ]
   },
   "dependencies": {
-    "@dripsy/core": "*",
+    "@dripsy/core": "^1.5.3",
     "expo-linear-gradient": "^9.0.0"
   },
   "sideEffects": false
