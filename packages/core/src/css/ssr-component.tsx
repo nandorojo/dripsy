@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx, SxProps } from '@theme-ui/core'
+import { jsx, SxProp } from '@theme-ui/core'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
 import type { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider'
@@ -8,7 +8,7 @@ type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
-  containerStyles?: SxProps['sx']
+  containerStyles?: SxProp['sx']
   // nativeStyle?: StyledProps<T>['style']
 }
 
@@ -90,7 +90,8 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                 >
                   {!!renderChildren ? (
                     <Component
-                      {...((props as unknown) as T)}
+                      {...props}
+                      // {...((props as unknown) as T)}
                       ref={ref}
                       style={[style, breakpointStyle]}
                     />

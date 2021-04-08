@@ -2,11 +2,11 @@
 import {
   ThemeUIStyleObject,
   CSSObject,
-  UseThemeFunction,
+  ThemeDerivedStyles,
   get,
   Theme,
 } from '@theme-ui/css'
-import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
+import { ThemeProvider, SxProp, useThemeUI } from '@theme-ui/core'
 import { useEffect, useRef, useState } from 'react'
 import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
 // import { useDimensions } from '@react-native-community/hooks'
@@ -30,14 +30,14 @@ const defaultTheme = {
 
 export type ResponsiveSSRStyles = Exclude<
   ThemeUIStyleObject,
-  UseThemeFunction
+  ThemeDerivedStyles
 >[]
 
 const responsive = (
-  styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
+  styles: Exclude<ThemeUIStyleObject, ThemeDerivedStyles>,
   { breakpoint }: { breakpoint?: number } = {}
 ) => (theme?: Theme) => {
-  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> & {
+  const next: Exclude<ThemeUIStyleObject, ThemeDerivedStyles> & {
     responsiveSSRStyles?: ResponsiveSSRStyles
   } = {}
 
@@ -309,7 +309,10 @@ const transforms = [
   {}
 )
 
-const positiveOrNegative = (scale: object, value: string | number) => {
+const positiveOrNegative = (
+  scale: Record<string, unknown>,
+  value: string | number
+) => {
   if (typeof value !== 'number' || value >= 0) {
     if (typeof value === 'string' && value.startsWith('-')) {
       const valueWithoutMinus = value.substring(1)
@@ -328,8 +331,8 @@ const positiveOrNegative = (scale: object, value: string | number) => {
  * Here we remove web style keys from components to prevent annoying errors
  */
 const filterWebStyleKeys = (
-  styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
-): Exclude<ThemeUIStyleObject, UseThemeFunction> => {
+  styleProp: Exclude<ThemeUIStyleObject, ThemeDerivedStyles> = {}
+): Exclude<ThemeUIStyleObject, ThemeDerivedStyles> => {
   if (Platform.OS === 'web') {
     return styleProp
   }
@@ -370,8 +373,7 @@ export const css = (
   const styles = responsive(filteredOutWebKeys, { breakpoint })(theme)
 
   for (const key in styles) {
-    // @ts-ignore
-    const x = styles[key]
+    const x = styles[key as keyof typeof styles]
     const val = typeof x === 'function' ? x(theme) : x
 
     if (key === 'variant') {
@@ -401,7 +403,6 @@ export const css = (
 
     const prop = key in aliases ? aliases[key as keyof Aliases] : key
     const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
-    // @ts-ignore
     const scale = get(theme, scaleName, get(theme, prop, {}))
     const transform = get(transforms, prop, get)
     const value = transform(scale, val, val)
@@ -701,8 +702,8 @@ export function mapPropsToStyledComponent<P, T>(
 
 export class Styles {
   static create<T>(
-    styles: { [key in keyof T]: SxProps['sx'] }
-  ): { [key in keyof T]: SxProps['sx'] } {
+    styles: { [key in keyof T]: SxProp['sx'] }
+  ): { [key in keyof T]: SxProp['sx'] } {
     return styles
   }
 }
