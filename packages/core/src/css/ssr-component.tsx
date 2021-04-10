@@ -24,7 +24,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
   ref: T
 ) {
   return (
-    <Fragment>
+    <>
       {responsiveStyles.map((breakpointStyle = {}, breakpointIndex) => {
         const responsiveProps: Omit<
           ComponentProps<typeof SSRMediaQuery>,
@@ -101,7 +101,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
           </SSRMediaQuery>
         )
       })}
-    </Fragment>
+    </>
   )
 })
 

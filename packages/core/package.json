@@ -1,21 +1,23 @@
 {
   "name": "@dripsy/core",
-  "version": "1.5.5",
+  "version": "1.5.5-alpha.6",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
-  "main": "lib/commonjs/index.js",
-  "module": "lib/module/index.js",
-  "types": "lib/typescript/index.d.ts",
-  "react-native": "src/index.tsx",
-  "source": "src/index.tsx",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
   "files": [
     "src",
-    "lib"
+    "build"
   ],
   "scripts": {
-    "test": "jest",
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "expo-module": "expo-module",
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
@@ -84,5 +86,6 @@
     "@theme-ui/core": "^0.4.0-rc.1",
     "@theme-ui/css": "^0.4.0-rc.1"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "gitHead": "4038c1a7a2934a65396011772b3ddfbc6f4f7555"
 }
