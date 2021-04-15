@@ -11,12 +11,22 @@ declare module 'react-native' {
 
 const StyledPressable = styled(NativePressable)({})
 const Press = React.forwardRef(function Pressable(
-  { sx = {}, disabled, ...props }: ComponentProps<typeof StyledPressable>,
+  {
+    sx = {},
+    style,
+    disabled,
+    ...props
+  }: ComponentProps<typeof StyledPressable>,
   ref: ComponentProps<typeof NativePressable>['ref']
 ) {
+  // TODO: Pressable accepts a function as a style with the computed properties figure out a way to pass these along
+  if (style)
+    console.error(
+      `[dripsy] Hey there. Looks like you used an invalid prop "style". The style prop isn't supported on the pressable component. If this is a problem feel free to open an issue on github.`
+    )
+
   return (
     <StyledPressable
-      // TODO: Pressable accepts a function as a style with the computed properties figure out a way to pass these along
       {...props}
       // TODO: Figure out why the pressable type if wrong
       ref={ref as any}
