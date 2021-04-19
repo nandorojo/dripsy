@@ -343,6 +343,7 @@ const filterWebStyleKeys = (
     'userSelect',
     'transitionDuration',
     'transitionTimingFunction',
+    'cursor',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
@@ -696,13 +697,13 @@ export function mapPropsToStyledComponent<P, T>(
     ...superStyle,
   })
 
-  return styles
+  return styles()
 }
 
 export class Styles {
-  static create<T>(
-    styles: { [key in keyof T]: SxProps['sx'] }
-  ): { [key in keyof T]: SxProps['sx'] } {
+  static create<T extends { [key: string]: NonNullable<SxProps['sx']> }>(
+    styles: T
+  ): T {
     return styles
   }
 }

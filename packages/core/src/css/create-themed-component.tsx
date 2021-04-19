@@ -4,9 +4,16 @@ import type { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
 import { SSRComponent } from './ssr-component'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
+
+const cache: Record<
+  string,
+  {
+    dripsyStyle: Record<string, unknown>
+  }
+> = {}
 
 export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
@@ -50,35 +57,59 @@ export function createThemedComponent<P, T>(
     // change/remove this later maybe
     const ssr = Platform.OS === 'web'
 
-    const { responsiveSSRStyles, ...styles } = useMemo(
-      () =>
-        mapPropsToStyledComponent<P, T>(
-          {
-            theme,
-            breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
-            variant,
-            sx,
-            style,
-            variants,
-          },
-          {
-            ...options,
-            themeKey,
-            defaultStyle,
-          }
-        )(),
-      [
-        breakpoint,
-        defaultStyle,
-        ssr,
-        style,
-        sx,
+    const { responsiveSSRStyles, ...styles } = mapPropsToStyledComponent<P, T>(
+      {
         theme,
-        themeKey,
+        breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
         variant,
+        sx,
+        style,
         variants,
-      ]
+      },
+      {
+        ...options,
+        themeKey,
+        defaultStyle,
+      }
     )
+    const stylesString = JSON.stringify(styles || {})
+    const cachedStyle = useMemo(() => {
+      if (!cache.hasOwnProperty(stylesString) || !cache[stylesString]) {
+        cache[stylesString] = StyleSheet.create({
+          dripsyStyle: JSON.parse(stylesString),
+        })
+      }
+      return cache[stylesString].dripsyStyle
+    }, [stylesString])
+    // const { responsiveSSRStyles, ...styles } = useMemo(
+    //   () =>
+    //     mapPropsToStyledComponent<P, T>(
+    //       {
+    //         theme,
+    //         breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
+    //         variant,
+    //         sx,
+    //         style,
+    //         variants,
+    //       },
+    //       {
+    //         ...options,
+    //         themeKey,
+    //         defaultStyle,
+    //       }
+    //     )(),
+    //   [
+    //     breakpoint,
+    //     defaultStyle,
+    //     ssr,
+    //     style,
+    //     sx,
+    //     theme,
+    //     themeKey,
+    //     variant,
+    //     variants,
+    //   ]
+    // )
 
     const TheComponent = SuperComponent || Component
 
@@ -88,7 +119,7 @@ export function createThemedComponent<P, T>(
           {...props}
           Component={TheComponent as React.ComponentType<unknown>}
           responsiveStyles={responsiveSSRStyles}
-          style={styles}
+          style={cachedStyle}
           ref={ref}
           containerStyles={
             webContainerSx as ComponentProps<
@@ -100,11 +131,15 @@ export function createThemedComponent<P, T>(
     }
 
     return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
+      <TheComponent
+        {...((props as unknown) as P)}
+        ref={ref}
+        style={cachedStyle}
+      />
     )
   })
 
-  WrappedComponent.displayName = `Themed.${
+  WrappedComponent.displayName = `Dripsy.${
     Component?.displayName ?? 'NoNameComponent'
   }`
 
