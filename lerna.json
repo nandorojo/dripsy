@@ -1,8 +1,10 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/*"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "1.5.6",
+  "version": "1.5.7",
   "command": {
     "publish": {
       "allowBranch": "master",
