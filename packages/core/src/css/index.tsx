@@ -346,14 +346,6 @@ const filterWebStyleKeys = (
     'transitionTimingFunction',
     'cursor',
     'animationDuration',
-    'borderEndColor',
-    'borderEndStyle',
-    'borderEndWidth',
-    'borderStartColor',
-    'borderStartStyle',
-    'borderStartWidth',
-    'borderBottomEndRadius',
-    'borderBottomStartRadius',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
