@@ -164,6 +164,7 @@ yarn add next-compose-plugins next-transpile-modules
 const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')([
   'dripsy',
+  '@dripsy/core'
   // you can add other packages here that need transpiling
 ])
 
