@@ -2,18 +2,20 @@
 import React, { ComponentType, ComponentProps, useMemo } from 'react'
 import type { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
-import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
+import { useBreakpointIndex } from './use-breakpoint-index'
 import { SSRComponent } from './ssr-component'
 import { Platform, StyleSheet } from 'react-native'
+import { StyleSheetCache } from './cache'
+import { mapPropsToStyledComponent } from '.'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
-const cache: Record<
-  string,
-  {
-    dripsyStyle: Record<string, unknown>
-  }
-> = {}
+// const cache: Record<
+//   string,
+//   {
+//     dripsyStyle: Record<string, unknown>
+//   }
+// > = {}
 
 export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
@@ -43,7 +45,7 @@ export function createThemedComponent<P, T>(
     } = prop
     if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
       console.error(
-        `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
+        `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" can't be string. Please pass a valid React component. HTML elements are not supported.`
       )
     }
     const defaultStyle =
@@ -72,44 +74,7 @@ export function createThemedComponent<P, T>(
         defaultStyle,
       }
     )
-    const stylesString = JSON.stringify(styles || {})
-    const cachedStyle = useMemo(() => {
-      if (!cache.hasOwnProperty(stylesString) || !cache[stylesString]) {
-        cache[stylesString] = StyleSheet.create({
-          dripsyStyle: JSON.parse(stylesString),
-        })
-      }
-      return cache[stylesString].dripsyStyle
-    }, [stylesString])
-    // const { responsiveSSRStyles, ...styles } = useMemo(
-    //   () =>
-    //     mapPropsToStyledComponent<P, T>(
-    //       {
-    //         theme,
-    //         breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
-    //         variant,
-    //         sx,
-    //         style,
-    //         variants,
-    //       },
-    //       {
-    //         ...options,
-    //         themeKey,
-    //         defaultStyle,
-    //       }
-    //     )(),
-    //   [
-    //     breakpoint,
-    //     defaultStyle,
-    //     ssr,
-    //     style,
-    //     sx,
-    //     theme,
-    //     themeKey,
-    //     variant,
-    //     variants,
-    //   ]
-    // )
+    const cachedStyle = StyleSheetCache.get(styles)
 
     const TheComponent = SuperComponent || Component
 
@@ -144,8 +109,5 @@ export function createThemedComponent<P, T>(
   }`
 
   // @ts-ignore
-  // return React.memo(WrappedComponent)
-  // no need for this. we always break it w children and sx anyway
-  //  might end up making it slower
   return WrappedComponent
 }
