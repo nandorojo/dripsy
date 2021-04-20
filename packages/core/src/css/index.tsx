@@ -344,6 +344,7 @@ const filterWebStyleKeys = (
     'transitionDuration',
     'transitionTimingFunction',
     'cursor',
+    'animationDuration',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
