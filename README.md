@@ -119,6 +119,33 @@ My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
 
+## For Expo Web / React Native Web (non-SSR apps)
+
+If you're using 1.4 or lower, you're done. However, starting v1.5, you need to customize webpack like so:
+
+If you're using `expo start:web`, this section is for you. If you're using Expo + Next.js, skip to the next section.
+
+`yarn add -D @expo/webpack-config`
+
+Create a custom `webpack.config.js` file: 
+
+```js
+const createExpoWebpackConfigAsync = require('@expo/webpack-config')
+
+module.exports = async function (env, argv) {
+  const config = await createExpoWebpackConfigAsync(
+    {
+      ...env,
+      babel: { dangerouslyAddModulePathsToTranspile: ['dripsy', '@dripsy'] },
+    },
+    argv
+  )
+
+  return config
+}
+```
+
+
 ## For SSR apps (Next.js, Gatsby, etc.)
 
 If you are not using Next.js, skip down to #3 below.
