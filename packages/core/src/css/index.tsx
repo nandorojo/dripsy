@@ -337,6 +337,7 @@ const filterWebStyleKeys = (
   // avoid prop mutations
   const finalStyles = { ...styleProp }
   const webOnlyKeys = [
+    // from https://necolas.github.io/react-native-web/docs/styling/#non-standard-properties
     'animationKeyFrames',
     'transitionProperty',
     'whiteSpace',
@@ -345,6 +346,14 @@ const filterWebStyleKeys = (
     'transitionTimingFunction',
     'cursor',
     'animationDuration',
+    'borderEndColor',
+    'borderEndStyle',
+    'borderEndWidth',
+    'borderStartColor',
+    'borderStartStyle',
+    'borderStartWidth',
+    'borderBottomEndRadius',
+    'borderBottomStartRadius',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
