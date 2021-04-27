@@ -28,6 +28,11 @@ const theme = {
   text: {
     primary: {
       fontSize: 40,
+      color: 'green',
+    },
+    secondary: {
+      fontSize: 60,
+      color: 'blue',
     },
   },
   sizes: {
@@ -92,7 +97,7 @@ export default function App() {
               </DripText>
             )}
           </Pressable> */}
-          <G variant="primary">Hey</G>
+          <G variants={['secondary']}>Hey</G>
           <G>Hi!</G>
           <View sx={{ bg: 'white', boxShadow: 'md' }}>
             <Text>Card</Text>
