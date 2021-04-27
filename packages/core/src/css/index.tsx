@@ -542,10 +542,10 @@ export function mapPropsToStyledComponent<P, T>(
   // Override the defaults with added ones; don't get rid of them altogether
   let multipleVariants = [...defaultVariants, defaultVariant]
   if (variants?.length) {
-    multipleVariants = [...defaultVariants, defaultVariant, ...variants]
+    multipleVariants = [...multipleVariants, ...variants]
   }
   // If a variant exists make it take precedence
-  if (variant) multipleVariants.push(variant)
+  if (variant) multipleVariants = [...multipleVariants, variant]
   multipleVariants = multipleVariants.filter(Boolean)
 
   const variantStyle = css(
