@@ -537,24 +537,19 @@ export function mapPropsToStyledComponent<P, T>(
     defaultVariant = 'primary',
     defaultVariants = [],
   } = options
-  const {
-    breakpoint,
-    sx,
-    theme,
-    variant = defaultVariant,
-    style,
-    variants,
-  } = props
+  const { breakpoint, sx, theme, variant, style, variants } = props
 
-  // overrride the defaults with added ones; don't get rid of them altogether
-  let multipleVariants = [...defaultVariants]
+  // Override the defaults with added ones; don't get rid of them altogether
+  let multipleVariants = [...defaultVariants, defaultVariant]
   if (variants?.length) {
-    multipleVariants = [...defaultVariants, ...variants]
+    multipleVariants = [...defaultVariants, defaultVariant, ...variants]
   }
+  // If a variant exists make it take precedence
+  if (variant) multipleVariants.push(variant)
   multipleVariants = multipleVariants.filter(Boolean)
 
   const variantStyle = css(
-    get(theme, themeKey + '.' + variant, get(theme, variant)),
+    get(theme, themeKey + '.' + variant, get(theme, variant ?? defaultVariant)),
     breakpoint
   )({ theme })
 
@@ -592,7 +587,6 @@ export function mapPropsToStyledComponent<P, T>(
   const styles = () => ({
     ...baseStyle,
     ...multipleVariantsStyle,
-    ...variantStyle,
     ...nativeStyles,
     ...superStyle,
   })
