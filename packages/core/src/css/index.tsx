@@ -336,7 +336,7 @@ const filterWebStyleKeys = (
   const finalStyles = { ...styleProp }
   const webOnlyKeys = [
     // from https://necolas.github.io/react-native-web/docs/styling/#non-standard-properties
-    'animationKeyFrames',
+    'animationKeyframes',
     'transitionProperty',
     'whiteSpace',
     'userSelect',
