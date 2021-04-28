@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.11](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.10...v1.5.11) (2021-04-28)
+
+
+### Bug Fixes
+
+* typo ([48286b5](https://github.com/nandorojo/expo-theme-ui/commit/48286b509386f914b51fad322444c5b1d75253e4))
+
+
+
+
+
 ## [1.5.10](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.9...v1.5.10) (2021-04-20)
 
 **Note:** Version bump only for package @dripsy/core
