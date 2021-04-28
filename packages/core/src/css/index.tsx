@@ -406,6 +406,11 @@ export const css = (
       continue
     }
 
+    if (typeof val === 'boolean') {
+      // StyleSheet doesn't allow booleans
+      continue
+    }
+
     const prop = key in aliases ? aliases[key as keyof Aliases] : key
     const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
     // @ts-ignore
