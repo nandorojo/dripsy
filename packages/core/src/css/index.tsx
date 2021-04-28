@@ -323,7 +323,7 @@ const positiveOrNegative = (scale: object, value: string | number) => {
 }
 
 /**
- * Here we remove web style keys from components to prevent annoying errors
+ * Here we remove web style keys from components to prevent annoying errors on native
  */
 const filterWebStyleKeys = (
   styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
@@ -337,6 +337,7 @@ const filterWebStyleKeys = (
   const webOnlyKeys = [
     // from https://necolas.github.io/react-native-web/docs/styling/#non-standard-properties
     'animationKeyframes',
+    'animationFillMode',
     'transitionProperty',
     'whiteSpace',
     'userSelect',
@@ -344,6 +345,8 @@ const filterWebStyleKeys = (
     'transitionTimingFunction',
     'cursor',
     'animationDuration',
+    'animationDelay',
+    'transitionDelay',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
