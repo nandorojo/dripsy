@@ -281,6 +281,21 @@ export const scales = {
 } as const
 type Scales = typeof scales
 
+const positiveOrNegative = (scale: object, value: string | number) => {
+  if (typeof value !== 'number' || value >= 0) {
+    if (typeof value === 'string' && value.startsWith('-')) {
+      const valueWithoutMinus = value.substring(1)
+      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
+      return `-${n}`
+    }
+    return get(scale, value, value)
+  }
+  const absolute = Math.abs(value)
+  const n = get(scale, absolute, absolute)
+  if (typeof n === 'string') return '-' + n
+  return Number(n) * -1
+}
+
 const transforms = [
   'margin',
   'marginTop',
@@ -306,21 +321,6 @@ const transforms = [
   }),
   {}
 )
-
-const positiveOrNegative = (scale: object, value: string | number) => {
-  if (typeof value !== 'number' || value >= 0) {
-    if (typeof value === 'string' && value.startsWith('-')) {
-      const valueWithoutMinus = value.substring(1)
-      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
-      return `-${n}`
-    }
-    return get(scale, value, value)
-  }
-  const absolute = Math.abs(value)
-  const n = get(scale, absolute, absolute)
-  if (typeof n === 'string') return '-' + n
-  return Number(n) * -1
-}
 
 /**
  * Here we remove web style keys from components to prevent annoying errors on native
