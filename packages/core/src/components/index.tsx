@@ -24,6 +24,7 @@ import {
 import { createThemedComponent } from '../css/create-themed-component'
 
 import Indicator from './activity-indicator'
+export { default as Pressable } from './pressable'
 
 export const View = createThemedComponent(rView)
 
