@@ -85,32 +85,30 @@ export default function App() {
             height: [400, 800],
           }}
         >
-          <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4>
-          {/* <Pressable>
-            {({ pressed }) => (
-              <DripText sx={{ cursor: 'pointer' }}>
-                {pressed ? 'Joi!' : 'Press Me'}
-              </DripText>
-            )}
-          </Pressable> */}
+          <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4> 
           <G variant="primary">Hey</G>
           <G>Hi!</G>
           <View sx={{ bg: 'white', boxShadow: 'md' }}>
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />
-          <Pressable
-            style={({ pressed }) => ({
-              height: 50,
-              width: 50,
-              backgroundColor: pressed ? 'green' : 'red',
-            })}
+          <Pressable 
             sx={{
               height: 50,
               width: 50,
               bg: 'primary',
             }}
-          />
+          >
+            {({ pressed }) => 
+              <View 
+                sx={{
+                  height: 50,
+                  width: 50,
+                  backgroundColor: pressed ? 'green' : 'red',
+                }} 
+              />
+            }
+          </Pressable>
           <RNPressable
             style={({ pressed }) => ({
               height: 50,
