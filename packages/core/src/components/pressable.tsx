@@ -22,13 +22,13 @@ const Press = React.forwardRef(function Pressable(
   // TODO: Pressable accepts a function as a style with the computed properties figure out a way to pass these along
   if (style)
     console.error(
-      `[dripsy] Hey there. Looks like you used an invalid prop "style". The style prop isn't supported on the pressable component. If this is a problem feel free to open an issue on github.`
+      `[dripsy] Hey there. Looks like you used an invalid prop "style" on the Pressable component. Please use the `sx` prop directly instead, or use a child function. If this is a problem feel free to open an issue on github.`
     )
 
   return (
     <StyledPressable
       {...props}
-      // TODO: Figure out why the pressable type if wrong
+      // TODO: Figure out why the pressable type is wrong
       ref={ref as any}
       disabled={disabled}
       sx={{
