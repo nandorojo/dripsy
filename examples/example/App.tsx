@@ -95,15 +95,13 @@ export default function App() {
           <Pressable 
             sx={{
               height: 50,
-              width: 50,
-              bg: 'primary',
+              width: 50, 
             }}
           >
             {({ pressed }) => 
               <View 
                 sx={{
-                  height: 50,
-                  width: 50,
+                  flex: 1,
                   backgroundColor: pressed ? 'green' : 'red',
                 }} 
               />
