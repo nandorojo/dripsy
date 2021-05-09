@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.18](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.17...v1.5.18) (2021-05-09)
+
+
+### Bug Fixes
+
+* comment ([8f1a7b1](https://github.com/nandorojo/expo-theme-ui/commit/8f1a7b1dda358457e2b10248df0eeb1006fe3f6d))
+
+
+
+
+
 ## [1.5.17](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.16...v1.5.17) (2021-05-09)
 
 
