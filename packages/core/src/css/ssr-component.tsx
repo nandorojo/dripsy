@@ -1,3 +1,4 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, SxProps } from '@theme-ui/core'
 import { ThemeUIStyleObject } from '@theme-ui/css'

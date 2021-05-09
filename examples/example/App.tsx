@@ -7,10 +7,11 @@ import {
   DripsyProvider,
   Container,
   Theme,
+  Pressable,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
-import { Text } from 'react-native'
+import { Text, Pressable as RNPressable } from 'react-native'
 
 const theme = {
   useBodyStyles: false,
@@ -89,20 +90,35 @@ export default function App() {
             height: [400, 800],
           }}
         >
-          <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4>
-          {/* <Pressable>
-            {({ pressed }) => (
-              <DripText sx={{ cursor: 'pointer' }}>
-                {pressed ? 'Joi!' : 'Press Me'}
-              </DripText>
-            )}
-          </Pressable> */}
-          <G variants={['secondary']}>Hey</G>
+          <H4 variants={['secondary']} sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4> 
+          <G variant="primary">Hey</G> 
           <G>Hi!</G>
           <View sx={{ bg: 'white', boxShadow: 'md' }}>
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />
+          <Pressable 
+            sx={{
+              height: 50,
+              width: 50, 
+            }}
+          >
+            {({ pressed }) => 
+              <View 
+                sx={{
+                  flex: 1,
+                  backgroundColor: pressed ? 'green' : 'red',
+                }} 
+              />
+            }
+          </Pressable>
+          <RNPressable
+            style={({ pressed }) => ({
+              height: 50,
+              width: 50,
+              backgroundColor: pressed ? 'green' : 'red',
+            })}
+          />
         </View>
       </Container>
     </DripsyProvider>

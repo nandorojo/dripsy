@@ -3,6 +3,73 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.18](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.17...v1.5.18) (2021-05-09)
+
+
+### Bug Fixes
+
+* comment ([8f1a7b1](https://github.com/nandorojo/expo-theme-ui/commit/8f1a7b1dda358457e2b10248df0eeb1006fe3f6d))
+
+
+
+
+
+## [1.5.17](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.16...v1.5.17) (2021-05-09)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
+## [1.5.16](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.15...v1.5.16) (2021-04-28)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
+## [1.5.15](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.14...v1.5.15) (2021-04-28)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
+## [1.5.14](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.13...v1.5.14) (2021-04-28)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
+## [1.5.13](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.12...v1.5.13) (2021-04-28)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
+## [1.5.12](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.11...v1.5.12) (2021-04-28)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
+## [1.5.11](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.10...v1.5.11) (2021-04-28)
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
 ## [1.5.10](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.9...v1.5.10) (2021-04-20)
 
 **Note:** Version bump only for package dripsy

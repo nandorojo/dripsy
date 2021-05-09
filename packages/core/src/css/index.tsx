@@ -281,6 +281,21 @@ export const scales = {
 } as const
 type Scales = typeof scales
 
+const positiveOrNegative = (scale: object, value: string | number) => {
+  if (typeof value !== 'number' || value >= 0) {
+    if (typeof value === 'string' && value.startsWith('-')) {
+      const valueWithoutMinus = value.substring(1)
+      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
+      return `-${n}`
+    }
+    return get(scale, value, value)
+  }
+  const absolute = Math.abs(value)
+  const n = get(scale, absolute, absolute)
+  if (typeof n === 'string') return '-' + n
+  return Number(n) * -1
+}
+
 const transforms = [
   'margin',
   'marginTop',
@@ -307,23 +322,8 @@ const transforms = [
   {}
 )
 
-const positiveOrNegative = (scale: object, value: string | number) => {
-  if (typeof value !== 'number' || value >= 0) {
-    if (typeof value === 'string' && value.startsWith('-')) {
-      const valueWithoutMinus = value.substring(1)
-      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
-      return `-${n}`
-    }
-    return get(scale, value, value)
-  }
-  const absolute = Math.abs(value)
-  const n = get(scale, absolute, absolute)
-  if (typeof n === 'string') return '-' + n
-  return Number(n) * -1
-}
-
 /**
- * Here we remove web style keys from components to prevent annoying errors
+ * Here we remove web style keys from components to prevent annoying errors on native
  */
 const filterWebStyleKeys = (
   styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
@@ -336,7 +336,8 @@ const filterWebStyleKeys = (
   const finalStyles = { ...styleProp }
   const webOnlyKeys = [
     // from https://necolas.github.io/react-native-web/docs/styling/#non-standard-properties
-    'animationKeyFrames',
+    'animationKeyframes',
+    'animationFillMode',
     'transitionProperty',
     'whiteSpace',
     'userSelect',
@@ -344,6 +345,11 @@ const filterWebStyleKeys = (
     'transitionTimingFunction',
     'cursor',
     'animationDuration',
+    'animationDelay',
+    'transitionDelay',
+    'animationDirection',
+    'animationIterationCount',
+    'outlineColor',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
@@ -397,6 +403,11 @@ export const css = (
     if (val && typeof val === 'object') {
       // @ts-ignore
       result[key] = css(val)(theme)
+      continue
+    }
+
+    if (typeof val === 'boolean') {
+      // StyleSheet doesn't allow booleans
       continue
     }
 
