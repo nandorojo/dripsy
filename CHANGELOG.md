@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.17](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.16...v1.5.17) (2021-05-09)
+
+
+### Bug Fixes
+
+* add jsx pragma for classic runTime to ssr-component file ([efa4a82](https://github.com/nandorojo/expo-theme-ui/commit/efa4a82d60e8d9c240cc4a4d11856ab8f212afe2))
+* make sure to tell use jsx as well ([117e800](https://github.com/nandorojo/expo-theme-ui/commit/117e800f0beb69df6bb697c6e28f2805ef5d34ad))
+
+
+
+
+
 ## [1.5.16](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.15...v1.5.16) (2021-04-28)
 
 **Note:** Version bump only for package dripsy
