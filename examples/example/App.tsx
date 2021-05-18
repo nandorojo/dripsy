@@ -29,6 +29,11 @@ const theme = {
   text: {
     primary: {
       fontSize: 40,
+      color: 'green',
+    },
+    secondary: {
+      fontSize: 60,
+      color: 'blue',
     },
   },
   sizes: {
@@ -85,8 +90,8 @@ export default function App() {
             height: [400, 800],
           }}
         >
-          <H4 sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4> 
-          <G variant="primary">Hey</G>
+          <H4 variants={['secondary']} sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}>Test</H4> 
+          <G variant="primary">Hey</G> 
           <G>Hi!</G>
           <View sx={{ bg: 'white', boxShadow: 'md' }}>
             <Text>Card</Text>
