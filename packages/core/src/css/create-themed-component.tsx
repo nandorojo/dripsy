@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import React, { ComponentType, ComponentProps, useMemo } from 'react'
+import React, { ComponentType, ComponentProps } from 'react'
 import type { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex } from './use-breakpoint-index'
@@ -7,15 +7,9 @@ import { SSRComponent } from './ssr-component'
 import { Platform, StyleSheet } from 'react-native'
 import { StyleSheetCache } from './cache'
 import { mapPropsToStyledComponent } from '.'
+import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
-
-// const cache: Record<
-//   string,
-//   {
-//     dripsyStyle: Record<string, unknown>
-//   }
-// > = {}
 
 export function createThemedComponent<P, T>(
   Component: ComponentType<P>,
@@ -25,10 +19,11 @@ export function createThemedComponent<P, T>(
     ComponentProps<typeof Component> &
     T &
     P &
-    // needed for the ref field in TS
+    /**
+     * TODO this doesn't work.
+     */
     React.RefAttributes<typeof Component>
 > {
-  // without styled-components...
   const WrappedComponent = React.forwardRef<
     typeof Component,
     Props<P> & ComponentProps<typeof Component> & T
@@ -53,16 +48,14 @@ export function createThemedComponent<P, T>(
 
     const { theme } = useThemeUI()
     const breakpoint = useBreakpointIndex({
-      __shouldDisableListenerOnWeb: true,
+      __shouldDisableListenerOnWeb: SUPPORT_FRESNEL_SSR,
     })
-    // const ssr = useIsSSR()
-    // change/remove this later maybe
-    const ssr = Platform.OS === 'web'
 
     const { responsiveSSRStyles, ...styles } = mapPropsToStyledComponent<P, T>(
       {
         theme,
-        breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
+        breakpoint:
+          Platform.OS === 'web' && SUPPORT_FRESNEL_SSR ? undefined : breakpoint,
         variant,
         sx,
         style,
@@ -78,7 +71,11 @@ export function createThemedComponent<P, T>(
 
     const TheComponent = SuperComponent || Component
 
-    if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
+    if (
+      Platform.OS === 'web' &&
+      SUPPORT_FRESNEL_SSR &&
+      !!responsiveSSRStyles?.length
+    ) {
       return (
         <SSRComponent
           {...props}

@@ -2,17 +2,25 @@ import { useThemeUI } from '@theme-ui/core'
 import { Theme } from '@theme-ui/css'
 import { useEffect, useRef, useState } from 'react'
 import { Dimensions, Platform, ScaledSize } from 'react-native'
+import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
+
+export const useBreakpoints = () =>
+  (useThemeUI().theme.breakpoints as number[] | undefined) ?? defaultBreakpoints
 
 import { defaultBreakpoints } from './breakpoints'
-// TODO: Do we need options?
 type DefaultOptions = {
   /**
+   * @deprecated SSR support removed
+   *
    * @default `0`.
    *
    * Pass an optional index as the first one. This is useful if you think you know what device users will be on.
+   *
    */
   defaultIndex?: number
   /**
+   * @deprecated SSR support removed
+   *
    * You're safe to ignore this. It's for internal use.
    *
    * ## Why?
@@ -22,27 +30,40 @@ type DefaultOptions = {
   __shouldDisableListenerOnWeb?: boolean
 }
 
-export function useBreakpointIndex({
+export const getBreakpointIndex = ({
+  width,
+  breakpoints,
+}: {
+  width: number
+  breakpoints: number[]
+}) => {
+  const breakpointPixels = [...breakpoints]
+    .reverse()
+    .find((breakpoint) => width >= breakpoint)
+
+  let breakpointIndex = breakpoints.findIndex(
+    (breakpoint) => breakpointPixels === breakpoint
+  )
+  breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
+
+  return breakpointIndex
+}
+
+export const useBreakpointIndex = ({
   defaultIndex = 0,
   __shouldDisableListenerOnWeb = false,
-}: DefaultOptions = {}) {
-  // const { width = 0 } = useDimensions().window
+}: DefaultOptions = {}) => {
+  const breakpoints = useBreakpoints()
+  const [index, setIndex] = useState(() => {
+    if (SUPPORT_FRESNEL_SSR && Platform.OS === 'web') {
+      return defaultIndex
+    }
 
-  // const getIndex = useCallback(() => {
-  //   // return 1;
-  //   // const { width = 700 } = Dimensions.get("window");
-  //   const breakpointPixels = [...defaultBreakpoints]
-  //     .reverse()
-  //     .find(breakpoint => width >= breakpoint)
-
-  //   let breakpoint = defaultBreakpoints.findIndex(
-  //     breakpoint => breakpointPixels === breakpoint
-  //   )
-  //   breakpoint = breakpoint === -1 ? 0 : breakpoint + 1
-  //   return breakpoint
-  // }, [width])
-
-  const [index, setIndex] = useState(defaultIndex)
+    return getBreakpointIndex({
+      width: Dimensions.get('window').width,
+      breakpoints,
+    })
+  })
 
   const indexRef = useRef(index)
 
@@ -60,18 +81,10 @@ export function useBreakpointIndex({
       window: ScaledSize
       screen: ScaledSize
     }) => {
-      const breakpointPixels = [...defaultBreakpoints]
-        .reverse()
-        .find((breakpoint) => width >= breakpoint)
-
-      let breakpointIndex = defaultBreakpoints.findIndex(
-        (breakpoint) => breakpointPixels === breakpoint
-      )
-      breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
+      const breakpointIndex = getBreakpointIndex({ width, breakpoints })
       if (breakpointIndex !== indexRef.current) {
         setIndex(breakpointIndex)
       }
-      // return breakpoint
     }
     if (!shouldDisableListener) {
       Dimensions.addEventListener('change', onChange)
@@ -85,18 +98,14 @@ export function useBreakpointIndex({
         Dimensions.removeEventListener('change', onChange)
       }
     }
-  }, [__shouldDisableListenerOnWeb])
+  }, [__shouldDisableListenerOnWeb, breakpoints])
 
   return index
-  // return getIndex()
 }
 
-type Values<T> = ((theme: Theme | null) => T[]) | T[]
+type ResponsiveValues<T> = ((theme: Theme | null) => T[]) | T[]
 
-export function useResponsiveValue<T>(
-  values: Values<T>
-  // options: defaultOptions = {}
-): T {
+export function useResponsiveValue<T>(values: ResponsiveValues<T>): T {
   const { theme } = useThemeUI()
   const array = typeof values === 'function' ? values(theme) : values
   const index = useBreakpointIndex()

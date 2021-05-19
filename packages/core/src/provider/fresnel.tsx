@@ -1,6 +1,7 @@
 import React from 'react'
 import { createMedia } from '@artsy/fresnel'
 import { defaultBreakpoints } from '../css/breakpoints'
+import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 const {
   MediaContextProvider,
@@ -21,8 +22,21 @@ const {
 
 const ssrStyleReset = createMediaStyle()
 
-const SSRStyleReset = () => (
-  <style type="text/css" dangerouslySetInnerHTML={{ __html: ssrStyleReset }} />
-)
+/**
+ * @deprecated SSR support has been dropped. For more info, please see: https://github.com/nandorojo/dripsy/issues/100
+ */
+const SSRStyleReset = () => {
+  if (!SUPPORT_FRESNEL_SSR) {
+    console.error(
+      '[dripsy] <SSRStyleReset /> is deprecated, since SSR support has been dropped. For more info, please see: https://github.com/nandorojo/dripsy/issues/100'
+    )
+  }
+  return (
+    <style
+      type="text/css"
+      dangerouslySetInnerHTML={{ __html: ssrStyleReset }}
+    />
+  )
+}
 
 export { SSRMediaQuery, SSRStyleReset, ssrStyleReset, MediaContextProvider }
