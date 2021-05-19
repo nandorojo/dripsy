@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.0](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.18...v2.0.0-alpha.0) (2021-05-19)
+
+
+### Features
+
+* remove SSR ([62e7a75](https://github.com/nandorojo/expo-theme-ui/commit/62e7a756d559199ae62520aa31afbcb2a99f61ea))
+
+
+
+
+
 ## [1.5.18](https://github.com/nandorojo/expo-theme-ui/compare/v1.5.17...v1.5.18) (2021-05-09)
 
 

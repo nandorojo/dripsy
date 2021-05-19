@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.0](https://github.com/nandorojo/dripsy/compare/v1.5.18...v2.0.0-alpha.0) (2021-05-19)
+
+**Note:** Version bump only for package next-dripsy-example
+
+
+
+
+
 ## [1.5.8](https://github.com/nandorojo/dripsy/compare/v1.5.7...v1.5.8) (2021-04-20)
 
 **Note:** Version bump only for package next-dripsy-example
