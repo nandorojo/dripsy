@@ -4,8 +4,30 @@ import { useEffect, useRef, useState } from 'react'
 import { Dimensions, Platform, ScaledSize } from 'react-native'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
-export const useBreakpoints = () =>
-  (useThemeUI().theme.breakpoints as number[] | undefined) ?? defaultBreakpoints
+export const useBreakpoints = () => {
+  const breakpoints = useThemeUI().theme.breakpoints as number[] | undefined
+  if (breakpoints) {
+    if (!Array.isArray(breakpoints)) {
+      const arrayError =
+        '[dripsy] theme.breakpoints must be an array. Or, you can leave it blank. However, you used \n' +
+        JSON.stringify(breakpoints) +
+        '\n Please turn this into an array, or remove the breakpoints from your theme.'
+      if (typeof __DEV__ !== 'undefined' && __DEV__) {
+        throw new Error(arrayError)
+      } else {
+        console.error(arrayError)
+      }
+    }
+    if (breakpoints.some((value) => typeof value !== 'number')) {
+      console.error(
+        '[dripsy] Invalid breakpoints passed to theme.breakpoints. Expected an array of numbers, but got this: \n',
+        JSON.stringify(breakpoints),
+        '\nPlease turn these into numbers, or remove the breakpoints array from your theme.'
+      )
+    }
+  }
+  return defaultBreakpoints
+}
 
 import { defaultBreakpoints } from './breakpoints'
 type DefaultOptions = {
