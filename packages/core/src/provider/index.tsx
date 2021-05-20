@@ -77,7 +77,7 @@ export function DripsyProvider(p: Props) {
       : React.Fragment
 
   if (!ready) {
-    return ssrPlaceholder
+    return <>{ssrPlaceholder}</>
   }
 
   return (
