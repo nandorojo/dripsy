@@ -708,13 +708,13 @@ To improve the performance of loading your fonts on web, you can add something l
 ```jsx
 <link
   rel="preload"
-  href="/fonts/circ/CircularStd-Book.ttf"
+  href="/fonts/arial-Book.ttf"
   as="font"
   crossOrigin=""
 />
 <link
   rel="preload"
-  href="/fonts/circ/CircularStd-Medium.ttf"
+  href="/fonts/arial-Medium.ttf"
   as="font"
   crossOrigin=""
 />
@@ -722,7 +722,7 @@ To improve the performance of loading your fonts on web, you can add something l
 
 Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
 
-If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component.
+If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component, and you'd put your `fonts` folder inside of `/public`.
 
 # How it works
 
