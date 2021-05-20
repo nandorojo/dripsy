@@ -28,6 +28,8 @@ export type StyledProps<P> = SxProps & {
   breakpoint?: number
   theme: Theme
   /**
+   * @deprecated SSR support was deprecated in v2. This prop is no longer needed. It won't do anything.
+   *
    * This styles the `div` that wraps your responsive item. CSS values are fine here, and they can also be responsive.
    */
   webContainerSx?: SxProps['sx']
