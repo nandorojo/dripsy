@@ -11,6 +11,7 @@ import { Platform, StyleSheet } from 'react-native'
 import type { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
 import type { DripsyTheme } from '../utils/types'
+import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 export { ThemeProvider }
 
@@ -57,13 +58,9 @@ const responsive = (
       continue
     }
 
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' && SUPPORT_FRESNEL_SSR) {
       next.responsiveSSRStyles = next.responsiveSSRStyles || []
 
-      // fixed breakpoints for now, not customizable
-      // const breakpoints =
-      //   (Array.isArray(theme?.breakpoints) && theme?.breakpoints) ||
-      //   defaultBreakpoints
       const mediaQueries = [0, ...defaultBreakpoints]
 
       for (let i = 0; i < mediaQueries.length; i++) {
@@ -387,6 +384,9 @@ export const css = (
       continue
     }
 
+    /**
+     * @deprecated
+     */
     if (key === 'responsiveSSRStyles' && styles.responsiveSSRStyles) {
       result.responsiveSSRStyles = styles.responsiveSSRStyles.map(
         // here we extract theme values for each item
@@ -509,34 +509,6 @@ export const css = (
 
   return result
 }
-
-/**
- * This hook is useful when you need to know the responsive value from an array, but on the fly, rather than by rerendering your component.
- */
-// export function useStaticResponsiveValue() {
-//   const { theme } = useThemeUI()
-
-//   return useCallback(
-//     <T extends any>(values: Values<T>) => {
-//       const { width } = Dimensions.get('window')
-//       const getBreakpointIndex = () => {
-//         const breakpointPixels = [...defaultBreakpoints]
-//           .reverse()
-//           .find(breakpoint => width >= breakpoint)
-
-//         let breakpointIndex = defaultBreakpoints.findIndex(
-//           breakpoint => breakpointPixels === breakpoint
-//         )
-//         breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
-//         return breakpointIndex
-//       }
-//       const array = typeof values === 'function' ? values(theme) : values
-//       const index = getBreakpointIndex()
-//       return array[index >= array.length ? array.length - 1 : index]
-//     },
-//     [theme]
-//   )
-// }
 
 export function mapPropsToStyledComponent<P, T>(
   props: StyledProps<P>,

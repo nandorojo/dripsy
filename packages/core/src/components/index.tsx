@@ -10,7 +10,6 @@ import {
 } from '@expo/html-elements'
 
 import {
-  // TODO I could import * as Native, but would that break tree shaking?
   View as rView,
   Text as rText,
   ScrollView as rScrollView,

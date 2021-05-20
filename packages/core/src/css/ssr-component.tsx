@@ -1,11 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { jsx, SxProps } from '@theme-ui/core'
-import { ThemeUIStyleObject } from '@theme-ui/css'
-import React, { ComponentProps, ComponentType, Fragment } from 'react'
+import React, { ComponentProps, ComponentType } from 'react'
 import type { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider/fresnel'
-import { getWebContainerCachedStyle, StyleSheetCache } from './cache'
+import { StyleSheetCache } from './cache'
 
 type Props<T> = {
   Component: ComponentType<T>

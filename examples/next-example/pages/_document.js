@@ -2,7 +2,6 @@
 // and https://github.com/expo/expo-cli/blob/master/packages/webpack-config/web-default/index.html
 import NextDocument, { Head, Main, NextScript } from 'next/document'
 import * as React from 'react'
-import { SSRStyleReset } from 'dripsy'
 
 import { AppRegistry } from 'react-native'
 
@@ -66,7 +65,6 @@ export class Document extends NextDocument {
     return (
       <html>
         <Head>
-          <SSRStyleReset />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         </Head>
         <body>

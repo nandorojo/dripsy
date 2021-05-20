@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/core",
-  "version": "1.5.18",
+  "version": "2.0.0-alpha.0+91dab9a",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -87,5 +87,5 @@
     "@theme-ui/css": "^0.4.0-rc.1"
   },
   "sideEffects": false,
-  "gitHead": "90347c0bbe4e9695a14a4e13f45b5e685b5a9725"
+  "gitHead": "91dab9a6451426a33622298670f81aace13f284c"
 }

@@ -22,7 +22,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Universal (Android, iOS, Web, & more)
 - Works with Expo
 - Works with Vanilla React Native
-- Works with Next.js / server-side rendering
+- Works with Next.js
 - Full theme support
 - Custom theme variants
 - TypeScript support (TypeScript theme support is in the works too)
@@ -59,7 +59,7 @@ yarn add dripsy
 npm i dripsy
 ```
 
-If you're using Next.js or another SSR app, scroll down to see how to configure.
+If you're using Next.js or another SSR app, scroll down to see how to configure it.
 
 # 🛠 Set up
 
@@ -92,16 +92,16 @@ const theme = {
     circular: {
       default: 'Circular-StdBook',
       bold: 'Circular-StdBold',
-      black: 'Circular-StdBlack'
-    }
+      black: 'Circular-StdBlack',
+    },
   },
   space: [10, 12, 14],
   text: {
     thick: {
       fontFamily: 'root',
-      fontWeight: 'black' // 'Circular-StdBlack'
-    }
-  }
+      fontWeight: 'black', // 'Circular-StdBlack'
+    },
+  },
 }
 
 export default function App() {
@@ -127,7 +127,7 @@ If you're using `expo start:web`, this section is for you. If you're using Expo 
 
 `yarn add -D @expo/webpack-config`
 
-Create a custom `webpack.config.js` file: 
+Create a custom `webpack.config.js` file:
 
 ```js
 const createExpoWebpackConfigAsync = require('@expo/webpack-config')
@@ -136,7 +136,9 @@ module.exports = async function (env, argv) {
   const config = await createExpoWebpackConfigAsync(
     {
       ...env,
-      babel: { dangerouslyAddModulePathsToTranspile: ['dripsy', '@dripsy'] },
+      babel: {
+        dangerouslyAddModulePathsToTranspile: ['dripsy', '@dripsy/core'],
+      },
     },
     argv
   )
@@ -145,17 +147,16 @@ module.exports = async function (env, argv) {
 }
 ```
 
-
 ## For SSR apps (Next.js, Gatsby, etc.)
 
-If you are not using Next.js, skip down to #3 below.
+If you are using SSR without Next.js, skip down to #3 below.
 
 Steps 1 & 2 are required for Next.js apps (for example, if you're using Expo + Next.js.)
 
 **1. Install dependencies**
 
 ```sh
-yarn add next-compose-plugins next-transpile-modules
+yarn add -D next-compose-plugins next-transpile-modules
 ```
 
 **2. Edit your `next.config.js` file to look like this:**
@@ -164,37 +165,40 @@ yarn add next-compose-plugins next-transpile-modules
 const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')([
   'dripsy',
-  '@dripsy/core'
+  '@dripsy/core',
   // you can add other packages here that need transpiling
 ])
 
 const { withExpo } = require('@expo/next-adapter')
 
-module.exports = withPlugins(
-  [withTM],
-  withExpo({
-    projectRoot: __dirname,
-  })
-)
+module.exports = withPlugins([withTM, [withExpo, { projectRoot: __dirname }]])
 ```
 
-3. Add `SSRStyleReset` to the top of your `body`
+**3. Set `ssr={true}` on `DripsyProvider`**
 
-Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
+```js
+// pages/_app.js
 
-```jsx
-import { SSRStyleReset } from 'dripsy'
-;<body>
-  <SSRStyleReset />
-  <YourApp />
-</body>
+export default function App({ pageProps, Component }) {
+  return (
+    <>
+      <DripsyProvider
+        ssr
+        ssrPlaceholder={<LoadingScreen />} // optional
+        theme={theme}
+      >
+        <Component {...pageProps} />
+      </DripsyProvider>
+    </>
+  )
+}
 ```
 
-If you're using Next.js, this should go in `pages/_document.js`.
+What does `ssr: true` do, exactly? All it does is return `null` until your app is mounted (on web). This is because Dripsy uses the `Dimensions` API from `react-native`, which isn't compatible with server-side rendering.
 
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/examples/next-example/pages/_document.js).
+If your app already returns `null` on the first render, then you don't need to set `ssr: true`. For instance, using `react-native-safe-area-context`'s `SafeAreaProvider` already does this for you.
 
-We'll add other library examples here too, such as Gatsby.
+If you're curious how you can still leverage Next.js's great static generation feature for SEO with dynamic meta tags, check out the **SEO Recommendations** section on [this PR](https://github.com/nandorojo/dripsy/pull/101).
 
 ---
 
@@ -211,8 +215,9 @@ export default {
     background: '#fff',
     primary: 'tomato',
   },
-  spacing: [10, 12, 14],
-  fontSizes: [16, 20, 24],
+  // set 0 first, then double for consistent nested spacing
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  fontSizes: [16, 20, 24, 32],
   text: {
     h1: {
       fontSize: 3, // this is 24px, taken from `fontSize` above
@@ -712,7 +717,7 @@ To improve the performance of loading your fonts on web, you can add something l
   href="/fonts/circ/CircularStd-Medium.ttf"
   as="font"
   crossOrigin=""
-/> 
+/>
 ```
 
 Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
