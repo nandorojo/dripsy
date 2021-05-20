@@ -1,9 +1,9 @@
 import React from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
+import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient'
 import { styled, useDripsyTheme } from '@dripsy/core'
 import { StyleSheet } from 'react-native'
 
-type Props = Omit<React.ComponentProps<typeof LinearGradient>, 'colors'> & {
+type Props = Omit<React.ComponentProps<typeof ExpoLinearGradient>, 'colors'> & {
   gradient?: string
   colors?: string[]
   /*
@@ -62,7 +62,7 @@ const Grad = styled(
         gradientColors = colorArrayToTheme(colors)
       }
       return (
-        <LinearGradient
+        <ExpoLinearGradient
           {...props}
           style={[stretch && StyleSheet.absoluteFillObject, style]}
           colors={gradientColors}
@@ -73,6 +73,6 @@ const Grad = styled(
   )
 )({})
 
-export default function Gradient(props: React.ComponentProps<typeof Grad>) {
+export function Gradient(props: React.ComponentProps<typeof Grad>) {
   return <Grad {...props} />
 }
