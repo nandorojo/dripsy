@@ -1,4 +1,14 @@
-import { createThemedComponent } from '../css/create-themed-component'
+import {
+  H1 as ExpoH1,
+  H2 as ExpoH2,
+  H3 as ExpoH3,
+  H4 as ExpoH4,
+  H5 as ExpoH5,
+  H6 as ExpoH6,
+  A as ExpoA,
+  P as ExpoP,
+} from '@expo/html-elements'
+
 import {
   // TODO I could import * as Native, but would that break tree shaking?
   View as rView,
@@ -11,18 +21,10 @@ import {
   Image as rImage,
 } from 'react-native'
 
-import {
-  H1 as ExpoH1,
-  H2 as ExpoH2,
-  H3 as ExpoH3,
-  H4 as ExpoH4,
-  H5 as ExpoH5,
-  H6 as ExpoH6,
-  A as ExpoA,
-  P as ExpoP,
-} from '@expo/html-elements'
+import { createThemedComponent } from '../css/create-themed-component'
 
 import Indicator from './activity-indicator'
+export { default as Pressable } from './pressable'
 
 export const View = createThemedComponent(rView)
 

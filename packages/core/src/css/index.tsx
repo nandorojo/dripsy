@@ -6,10 +6,8 @@ import {
   get,
   Theme,
 } from '@theme-ui/css'
-import { ThemeProvider, SxProps, useThemeUI } from '@theme-ui/core'
-import { useEffect, useRef, useState } from 'react'
-import { Dimensions, Platform, StyleSheet, ScaledSize } from 'react-native'
-// import { useDimensions } from '@react-native-community/hooks'
+import { ThemeProvider, SxProps } from '@theme-ui/core'
+import { Platform, StyleSheet } from 'react-native'
 import type { ThemedOptions, StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
 import type { DripsyTheme } from '../utils/types'
@@ -283,6 +281,21 @@ export const scales = {
 } as const
 type Scales = typeof scales
 
+const positiveOrNegative = (scale: object, value: string | number) => {
+  if (typeof value !== 'number' || value >= 0) {
+    if (typeof value === 'string' && value.startsWith('-')) {
+      const valueWithoutMinus = value.substring(1)
+      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
+      return `-${n}`
+    }
+    return get(scale, value, value)
+  }
+  const absolute = Math.abs(value)
+  const n = get(scale, absolute, absolute)
+  if (typeof n === 'string') return '-' + n
+  return Number(n) * -1
+}
+
 const transforms = [
   'margin',
   'marginTop',
@@ -309,23 +322,8 @@ const transforms = [
   {}
 )
 
-const positiveOrNegative = (scale: object, value: string | number) => {
-  if (typeof value !== 'number' || value >= 0) {
-    if (typeof value === 'string' && value.startsWith('-')) {
-      const valueWithoutMinus = value.substring(1)
-      const n = get(scale, valueWithoutMinus, valueWithoutMinus)
-      return `-${n}`
-    }
-    return get(scale, value, value)
-  }
-  const absolute = Math.abs(value)
-  const n = get(scale, absolute, absolute)
-  if (typeof n === 'string') return '-' + n
-  return Number(n) * -1
-}
-
 /**
- * Here we remove web style keys from components to prevent annoying errors
+ * Here we remove web style keys from components to prevent annoying errors on native
  */
 const filterWebStyleKeys = (
   styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
@@ -337,12 +335,21 @@ const filterWebStyleKeys = (
   // avoid prop mutations
   const finalStyles = { ...styleProp }
   const webOnlyKeys = [
-    'animationKeyFrames',
+    // from https://necolas.github.io/react-native-web/docs/styling/#non-standard-properties
+    'animationKeyframes',
+    'animationFillMode',
     'transitionProperty',
     'whiteSpace',
     'userSelect',
     'transitionDuration',
     'transitionTimingFunction',
+    'cursor',
+    'animationDuration',
+    'animationDelay',
+    'transitionDelay',
+    'animationDirection',
+    'animationIterationCount',
+    'outlineColor',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {
@@ -396,6 +403,11 @@ export const css = (
     if (val && typeof val === 'object') {
       // @ts-ignore
       result[key] = css(val)(theme)
+      continue
+    }
+
+    if (typeof val === 'boolean') {
+      // StyleSheet doesn't allow booleans
       continue
     }
 
@@ -498,105 +510,6 @@ export const css = (
   return result
 }
 
-// TODO: Do we need options?
-type DefaultOptions = {
-  /**
-   * @default `0`.
-   *
-   * Pass an optional index as the first one. This is useful if you think you know what device users will be on.
-   */
-  defaultIndex?: number
-  /**
-   * You're safe to ignore this. It's for internal use.
-   *
-   * ## Why?
-   *
-   * Since we don't use the RN `Dimensions` API hook on web to determine styles, we need the option to disable this listener on web.
-   */
-  __shouldDisableListenerOnWeb?: boolean
-}
-
-export const useBreakpointIndex = ({
-  defaultIndex = 0,
-  __shouldDisableListenerOnWeb = false,
-}: DefaultOptions = {}) => {
-  // const { width = 0 } = useDimensions().window
-
-  // const getIndex = useCallback(() => {
-  //   // return 1;
-  //   // const { width = 700 } = Dimensions.get("window");
-  //   const breakpointPixels = [...defaultBreakpoints]
-  //     .reverse()
-  //     .find(breakpoint => width >= breakpoint)
-
-  //   let breakpoint = defaultBreakpoints.findIndex(
-  //     breakpoint => breakpointPixels === breakpoint
-  //   )
-  //   breakpoint = breakpoint === -1 ? 0 : breakpoint + 1
-  //   return breakpoint
-  // }, [width])
-
-  const [index, setIndex] = useState(defaultIndex)
-
-  const indexRef = useRef(index)
-
-  useEffect(() => {
-    indexRef.current = index
-  }, [index])
-
-  useEffect(() => {
-    const shouldDisableListener =
-      Platform.OS === 'web' && __shouldDisableListenerOnWeb
-
-    const onChange = ({
-      window: { width },
-    }: {
-      window: ScaledSize
-      screen: ScaledSize
-    }) => {
-      const breakpointPixels = [...defaultBreakpoints]
-        .reverse()
-        .find((breakpoint) => width >= breakpoint)
-
-      let breakpointIndex = defaultBreakpoints.findIndex(
-        (breakpoint) => breakpointPixels === breakpoint
-      )
-      breakpointIndex = breakpointIndex === -1 ? 0 : breakpointIndex + 1
-      if (breakpointIndex !== indexRef.current) {
-        setIndex(breakpointIndex)
-      }
-      // return breakpoint
-    }
-    if (!shouldDisableListener) {
-      Dimensions.addEventListener('change', onChange)
-      onChange({
-        window: Dimensions.get('window'),
-        screen: Dimensions.get('screen'),
-      })
-    }
-    return () => {
-      if (!shouldDisableListener) {
-        Dimensions.removeEventListener('change', onChange)
-      }
-    }
-  }, [__shouldDisableListenerOnWeb])
-
-  return index
-  // return getIndex()
-}
-
-type Values<T> = ((theme: Theme | null) => T[]) | T[]
-
-export function useResponsiveValue<T>(
-  values: Values<T>
-  // options: defaultOptions = {}
-): T {
-  const { theme } = useThemeUI()
-  const array = typeof values === 'function' ? values(theme) : values
-  const index = useBreakpointIndex()
-  return array[index >= array.length ? array.length - 1 : index]
-}
-
 /**
  * This hook is useful when you need to know the responsive value from an array, but on the fly, rather than by rerendering your component.
  */
@@ -635,24 +548,19 @@ export function mapPropsToStyledComponent<P, T>(
     defaultVariant = 'primary',
     defaultVariants = [],
   } = options
-  const {
-    breakpoint,
-    sx,
-    theme,
-    variant = defaultVariant,
-    style,
-    variants,
-  } = props
+  const { breakpoint, sx, theme, variant, style, variants } = props
 
-  // overrride the defaults with added ones; don't get rid of them altogether
-  let multipleVariants = [...defaultVariants]
+  // Override the defaults with added ones; don't get rid of them altogether
+  let multipleVariants = [...defaultVariants, defaultVariant]
   if (variants?.length) {
-    multipleVariants = [...defaultVariants, ...variants]
+    multipleVariants = [...multipleVariants, ...variants]
   }
+  // If a variant exists make it take precedence
+  if (variant) multipleVariants = [...multipleVariants, variant]
   multipleVariants = multipleVariants.filter(Boolean)
 
   const variantStyle = css(
-    get(theme, themeKey + '.' + variant, get(theme, variant)),
+    get(theme, themeKey + '.' + variant, get(theme, variant ?? defaultVariant)),
     breakpoint
   )({ theme })
 
@@ -686,23 +594,21 @@ export function mapPropsToStyledComponent<P, T>(
 
   const superStyle = css(sx, breakpoint)({ theme, fontFamily })
 
-  // TODO optimize with StyleSheet.create()
   // TODO IMPORTANT deep merge the `responsiveSSRStyles` from each style above!
   const styles = () => ({
     ...baseStyle,
     ...multipleVariantsStyle,
-    ...variantStyle,
     ...nativeStyles,
     ...superStyle,
   })
 
-  return styles
+  return styles()
 }
 
 export class Styles {
-  static create<T>(
-    styles: { [key in keyof T]: SxProps['sx'] }
-  ): { [key in keyof T]: SxProps['sx'] } {
+  static create<T extends { [key: string]: NonNullable<SxProps['sx']> }>(
+    styles: T
+  ): T {
     return styles
   }
 }
