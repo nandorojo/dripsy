@@ -23,13 +23,12 @@ module.exports = async function (env, argv) {
     (p) => !(p instanceof ModuleScopePlugin)
   )
 
-  config.resolve.alias = {
-    ...config.resolve.alias,
+  Object.assign(config.resolve.alias, {
     react: path.resolve(node_modules, 'react'),
     'react-native': path.resolve(node_modules, 'react-native-web'),
     'react-native-web': path.resolve(node_modules, 'react-native-web'),
     '@expo/vector-icons': path.resolve(node_modules, '@expo/vector-icons'),
-  }
+  })
 
   fs.readdirSync(packages)
     .filter((name) => !name.startsWith('.'))

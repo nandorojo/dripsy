@@ -85,10 +85,23 @@ const theme = {
     primary: 'tomato',
   },
   fonts: {
-    body: 'system-ui, sans-serif',
-    heading: '"Avenir Next", sans-serif',
+    root: 'circular',
+  },
+  // custom fonts are easy!
+  customFonts: {
+    circular: {
+      default: 'Circular-StdBook',
+      bold: 'Circular-StdBold',
+      black: 'Circular-StdBlack'
+    }
   },
   space: [10, 12, 14],
+  text: {
+    thick: {
+      fontFamily: 'root',
+      fontWeight: 'black' // 'Circular-StdBlack'
+    }
+  }
 }
 
 export default function App() {
@@ -105,6 +118,33 @@ Follow the [docs from `theme-ui`](https://theme-ui.com/theme-spec) to see how to
 My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
+
+## For Expo Web / React Native Web (non-SSR apps)
+
+If you're using 1.4 or lower, you're done. However, starting v1.5, you need to customize webpack like so:
+
+If you're using `expo start:web`, this section is for you. If you're using Expo + Next.js, skip to the next section.
+
+`yarn add -D @expo/webpack-config`
+
+Create a custom `webpack.config.js` file: 
+
+```js
+const createExpoWebpackConfigAsync = require('@expo/webpack-config')
+
+module.exports = async function (env, argv) {
+  const config = await createExpoWebpackConfigAsync(
+    {
+      ...env,
+      babel: { dangerouslyAddModulePathsToTranspile: ['dripsy', '@dripsy'] },
+    },
+    argv
+  )
+
+  return config
+}
+```
+
 
 ## For SSR apps (Next.js, Gatsby, etc.)
 
@@ -124,6 +164,7 @@ yarn add next-compose-plugins next-transpile-modules
 const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')([
   'dripsy',
+  '@dripsy/core'
   // you can add other packages here that need transpiling
 ])
 
@@ -151,7 +192,7 @@ import { SSRStyleReset } from 'dripsy'
 
 If you're using Next.js, this should go in `pages/_document.js`.
 
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/next-example/pages/_document.js).
+Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/examples/next-example/pages/_document.js).
 
 We'll add other library examples here too, such as Gatsby.
 
@@ -455,7 +496,7 @@ const theme = {
   },
   text: {
     thickCaps: {
-      fontWeight: 'bold',
+      fontWeight: 'black',
       textTransformation: 'uppercase'
     }
   }
@@ -654,6 +695,29 @@ const Thick = () => (
   <Text variant="thick">Hey, this is bold. That's all it takes.</Text>
 )
 ```
+
+## Using custom fonts on web
+
+To improve the performance of loading your fonts on web, you can add something like this to the `head` of your HTML:
+
+```jsx
+<link
+  rel="preload"
+  href="/fonts/circ/CircularStd-Book.ttf"
+  as="font"
+  crossOrigin=""
+/>
+<link
+  rel="preload"
+  href="/fonts/circ/CircularStd-Medium.ttf"
+  as="font"
+  crossOrigin=""
+/> 
+```
+
+Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
+
+If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component.
 
 # How it works
 

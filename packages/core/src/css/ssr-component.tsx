@@ -1,8 +1,11 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, SxProps } from 'theme-ui'
+import { jsx, SxProps } from '@theme-ui/core'
+import { ThemeUIStyleObject } from '@theme-ui/css'
 import React, { ComponentProps, ComponentType, Fragment } from 'react'
 import type { ResponsiveSSRStyles } from '.'
-import { SSRMediaQuery } from '../provider'
+import { SSRMediaQuery } from '../provider/fresnel'
+import { getWebContainerCachedStyle, StyleSheetCache } from './cache'
 
 type Props<T> = {
   Component: ComponentType<T>
@@ -24,7 +27,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
   ref: T
 ) {
   return (
-    <Fragment>
+    <>
       {responsiveStyles.map((breakpointStyle = {}, breakpointIndex) => {
         const responsiveProps: Omit<
           ComponentProps<typeof SSRMediaQuery>,
@@ -36,6 +39,9 @@ const SSR = React.forwardRef(function SSRComponent<T>(
         } else {
           responsiveProps.at = `${breakpointIndex}` as typeof responsiveProps.at
         }
+        const cachedBreakpointStyle = StyleSheetCache.get(
+          breakpointStyle as any
+        )
         return (
           <SSRMediaQuery
             key={`ssr-media-query-${breakpointIndex}`}
@@ -92,7 +98,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                     <Component
                       {...((props as unknown) as T)}
                       ref={ref}
-                      style={[style, breakpointStyle]}
+                      style={[style, cachedBreakpointStyle]}
                     />
                   ) : null}
                 </div>
@@ -101,7 +107,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
           </SSRMediaQuery>
         )
       })}
-    </Fragment>
+    </>
   )
 })
 

@@ -1,5 +1,5 @@
 {
-  "name": "dripsy",
+  "name": "@dripsy/core",
   "version": "1.5.18",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
@@ -11,6 +11,11 @@
     "build"
   ],
   "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "expo-module": "expo-module",
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "release": "release-it",
@@ -18,12 +23,7 @@
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
-    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next",
-    "build": "expo-module build",
-    "clean": "expo-module clean",
-    "test": "expo-module test",
-    "prepare": "expo-module prepare",
-    "expo-module": "expo-module"
+    "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next"
   },
   "keywords": [
     "react-native",
@@ -75,10 +75,16 @@
     ]
   },
   "devDependencies": {
+    "react-native": "0.63.4",
+    "react-native-web": "~0.14.10",
     "typescript": "^4.1.2"
   },
   "dependencies": {
-    "@dripsy/core": "^1.5.18"
+    "@artsy/fresnel": "^1.2.0",
+    "@expo/html-elements": "^0.0.1",
+    "@react-native-community/hooks": "^2.6.0",
+    "@theme-ui/core": "^0.4.0-rc.1",
+    "@theme-ui/css": "^0.4.0-rc.1"
   },
   "sideEffects": false,
   "gitHead": "90347c0bbe4e9695a14a4e13f45b5e685b5a9725"
