@@ -7,24 +7,27 @@ type Props = Omit<React.ComponentProps<typeof LinearGradient>, 'colors'> & {
   gradient?: string
   colors?: string[]
   /*
-  * Set to `true` if you're using the gradient for a background.
-  */
+   * Set to `true` if you're using the gradient for a background.
+   */
   stretch?: boolean
 }
 
 const Grad = styled(
   React.memo(
     function Gradient({ style, stretch, gradient, colors, ...props }: Props) {
-      const { colors, linearGradients } = useDripsyTheme().theme
+      const { colors: themeColors, linearGradients } = useDripsyTheme().theme
       // Helper function to map colors to appropriate theme colors
       const colorArrayToTheme = (colorArray: typeof colors) => {
         // Return an empty array if the colors come back as undefined
         return (
-          colorArray?.map((color) => (colors?.[color] as string) ?? color) ?? []
+          colorArray?.map(
+            (color) => (themeColors?.[color as any] as string) ?? color
+          ) ?? []
         )
       }
+
       let gradientColors: string[] = []
-      
+
       if (gradient) {
         if (!linearGradients?.[gradient]) {
           console.error(
@@ -37,7 +40,7 @@ const Grad = styled(
         } else if (
           !Array.isArray(linearGradients?.[gradient]) ||
           typeof linearGradients?.[gradient].some(
-            (color) => typeof color !== 'string'
+            (color: any) => typeof color !== 'string'
           )
         ) {
           console.error(
@@ -61,7 +64,7 @@ const Grad = styled(
       return (
         <LinearGradient
           {...props}
-          style={[strech && StyleSheet.absoluteFillObject, style]}
+          style={[stretch && StyleSheet.absoluteFillObject, style]}
           colors={gradientColors}
         />
       )
