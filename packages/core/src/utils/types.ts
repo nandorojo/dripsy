@@ -50,4 +50,10 @@ export type DripsyTheme = Theme & {
   customFonts?: {
     [key: string]: Record<string, unknown> | undefined
   }
+  /**
+   * Specify linear gradients for the dripsy linear gradient package
+   */
+  linearGradients?: {
+    [K: string]: string[]
+  }
 }
