@@ -417,6 +417,26 @@ const CustomView = createThemedComponent(View, {
 })
 ``` -->
 
+# Headless Dripsy with `useSx`
+
+```js
+import { useSx } from 'dripsy'
+```
+
+If you want to use the `sx` prop with a custom component, such as from another library, try the `useSx` hook:
+
+```jsx
+import { Button } from 'react-native-paper'
+
+export default function HeadlessButton() {
+  const sx = useSx()
+
+  return <Button style={sx({ color: 'primary' })} />
+}
+```
+
+The `sx` function will return a memoized value.
+
 # Using Custom Fonts [New! 🏄‍♂️]
 
 Dripsy lets you globally control your fonts in React Native. Before Dripsy, this was a huge pain. You had to manually set the `fontFamily` name to a string that corresponds to your actual font file name. If you ever changed custom fonts, you'd need to edit all your files that had it, or create an unnecessary `CustomText` component.
