@@ -287,7 +287,7 @@ Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `them
 
 ### Animated Values
 
-To use an animated view, simple use the `as` prop.
+To use an animated view, use the `as` prop.
 
 ```js
 import { View } from 'dripsy'
