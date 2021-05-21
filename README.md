@@ -287,7 +287,7 @@ Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `them
 
 ### Animated Values
 
-To use an animated view, simple use the `as` prop.
+To use an animated view, use the `as` prop.
 
 ```js
 import { View } from 'dripsy'
@@ -331,8 +331,6 @@ const ResponsiveBox = () => {
   return <View style={{ width }} />
 }
 ```
-
-A big issue with using JS-only breakpoints like that is that it won't work on SSR apps using Expo + Next.js. The "solution" would be to lazy load the component, but then you lose the SEO benefits of Next.js. With Dripsy, SSR works fine!
 
 ## With Dripsy 🤩
 
@@ -739,13 +737,13 @@ To improve the performance of loading your fonts on web, you can add something l
 ```jsx
 <link
   rel="preload"
-  href="/fonts/circ/CircularStd-Book.ttf"
+  href="/fonts/arial-Book.ttf"
   as="font"
   crossOrigin=""
 />
 <link
   rel="preload"
-  href="/fonts/circ/CircularStd-Medium.ttf"
+  href="/fonts/arial-Medium.ttf"
   as="font"
   crossOrigin=""
 />
@@ -753,15 +751,13 @@ To improve the performance of loading your fonts on web, you can add something l
 
 Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
 
-If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component.
+If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component, and you'd put your `fonts` folder inside of `/public`.
 
 # How it works
 
 First, this library is super inspired by `theme-ui`, and uses many of its low-level functions and methodologies.
 
-Practically speaking, this library uses the `Dimensions` api on Android & iOS, and uses actual CSS breakpoints on web. The CSS breakpoints are made possible by `@artsy/fresnel`. This means that you get actually-native web breakpoints. That matters, because server-size rendered apps will have startup issues if you use JS-based media queries that require React to rehydrate on when it opens.
-
-On Native, there is nothing too fancy going on. We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic! Plus, you get all the awesome theming abilities baked in. If you're using this in native, the theming alone is a great use case.
+We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic! Plus, you get all the awesome theming abilities baked in. Even if you don't need responsive design, the theming alone is a great use case.
 
 ## Contributing
 
