@@ -11,7 +11,7 @@ import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
-export function createThemedComponent<P, T>(
+export function createThemedComponent<P, T = {}>(
   Component: ComponentType<P>,
   { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
 ): React.ForwardRefExoticComponent<
