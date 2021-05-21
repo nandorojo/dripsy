@@ -15,15 +15,17 @@ import type { ThemedOptions } from './types'
  * ```
  *
  */
-export function styled<P, T>(
+export function styled<P>(
   Component: ComponentType<P>,
   {
     themeKey,
     defaultVariant,
-  }: Pick<ThemedOptions<T>, 'themeKey' | 'defaultVariant'> = {}
+  }: Pick<ThemedOptions, 'themeKey' | 'defaultVariant'> = {}
 ) {
-  return (defaultStyle?: ThemedOptions<T>['defaultStyle']) => {
-    return createThemedComponent<P, T>(Component, {
+  return function dripsyFactory<Extra>(
+    defaultStyle?: ThemedOptions<Extra>['defaultStyle']
+  ) {
+    return createThemedComponent<P, Extra>(Component, {
       defaultVariant,
       themeKey,
       defaultStyle,

@@ -6,7 +6,7 @@ import { useBreakpointIndex } from './use-breakpoint-index'
 import { SSRComponent } from './ssr-component'
 import { Platform, StyleSheet } from 'react-native'
 import { StyleSheetCache } from './cache'
-import { mapPropsToStyledComponent } from '.'
+import { mapPropsToStyledComponent } from './map-props'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
@@ -33,14 +33,13 @@ export function createThemedComponent<P, T>(
       as: SuperComponent,
       variant,
       style,
-      webContainerSx,
       themeKey = options.themeKey,
       variants = options.defaultVariants,
       ...props
     } = prop
     if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
       console.error(
-        `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" can't be string. Please pass a valid React component. HTML elements are not supported.`
+        `[dripsy] Looks like you used an invalid "as" prop. "${SuperComponent}" can't be string. Please pass a valid React component. HTML elements are not supported.`
       )
     }
     const defaultStyle =
@@ -51,7 +50,7 @@ export function createThemedComponent<P, T>(
       __shouldDisableListenerOnWeb: SUPPORT_FRESNEL_SSR,
     })
 
-    const { responsiveSSRStyles, ...styles } = mapPropsToStyledComponent<P, T>(
+    const { styles } = mapPropsToStyledComponent<P, T>(
       {
         theme,
         breakpoint:
@@ -67,36 +66,35 @@ export function createThemedComponent<P, T>(
         defaultStyle,
       }
     )
-    const cachedStyle = StyleSheetCache.get(styles)
 
     const TheComponent = SuperComponent || Component
 
-    if (
-      Platform.OS === 'web' &&
-      SUPPORT_FRESNEL_SSR &&
-      !!responsiveSSRStyles?.length
-    ) {
-      return (
-        <SSRComponent
-          {...props}
-          Component={TheComponent as React.ComponentType<unknown>}
-          responsiveStyles={responsiveSSRStyles}
-          style={cachedStyle}
-          ref={ref}
-          containerStyles={
-            webContainerSx as ComponentProps<
-              typeof SSRComponent
-            >['containerStyles']
-          }
-        />
-      )
-    }
+    // if (
+    //   Platform.OS === 'web' &&
+    //   SUPPORT_FRESNEL_SSR &&
+    //   !!responsiveSSRStyles?.length
+    // ) {
+    //   return (
+    //     <SSRComponent
+    //       {...props}
+    //       Component={TheComponent as React.ComponentType<unknown>}
+    //       responsiveStyles={responsiveSSRStyles}
+    //       style={cachedStyle}
+    //       ref={ref}
+    //       containerStyles={
+    //         webContainerSx as ComponentProps<
+    //           typeof SSRComponent
+    //         >['containerStyles']
+    //       }
+    //     />
+    //   )
+    // }
 
     return (
       <TheComponent
-        {...((props as unknown) as P)}
+        {...((props as unknown) as P & T)}
         ref={ref}
-        style={cachedStyle}
+        style={styles}
       />
     )
   })

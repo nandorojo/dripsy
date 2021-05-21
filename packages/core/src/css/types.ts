@@ -1,12 +1,10 @@
 import type { SxProps } from '@theme-ui/core'
-import type { Theme } from '@theme-ui/css'
+import type { Theme, ThemeUICSSProperties } from '@theme-ui/css'
 import type { ComponentType } from 'react'
 // import { SxStyleProp } from 'theme-ui'
 
-export type ThemedOptions<T> = {
-  defaultStyle?:
-    | SxProps['sx']
-    | ((props: T) => Required<Required<SxProps>['sx']>)
+export type ThemedOptions<T = any> = {
+  defaultStyle?: ThemeUICSSProperties | ((props: T) => ThemeUICSSProperties)
   themeKey?: string
   defaultVariant?: string
   /**
@@ -15,8 +13,8 @@ export type ThemedOptions<T> = {
   defaultVariants?: string[]
 }
 
-export type StyledProps<P> = SxProps & {
-  as?: ComponentType<P>
+export type StyledProps<P = any> = SxProps & {
+  as?: ComponentType<any>
   variant?: string
   themeKey?: string
   /**
@@ -24,13 +22,11 @@ export type StyledProps<P> = SxProps & {
    */
   // TODO uhh fix this mess
   // @ts-ignore
-  style?: P['style'] extends [] ? P['style'][0] : P['style']
+  style?: P['style'] extends [] ? P['style'][number] : P['style']
   breakpoint?: number
   theme: Theme
   /**
    * @deprecated SSR support was deprecated in v2. This prop is no longer needed. It won't do anything.
-   *
-   * This styles the `div` that wraps your responsive item. CSS values are fine here, and they can also be responsive.
    */
   webContainerSx?: SxProps['sx']
   variants?: string[]
