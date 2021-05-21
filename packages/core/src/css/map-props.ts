@@ -4,7 +4,7 @@ import { StyleSheetCache } from './cache'
 import { StyledProps, ThemedOptions } from './types'
 
 export function mapPropsToStyledComponent<P, T>(
-  props: StyledProps<P>,
+  props: StyledProps<P> & { breakpoint: number },
   options: ThemedOptions<T>
 ) {
   const {

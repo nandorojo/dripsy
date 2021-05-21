@@ -3,11 +3,7 @@ import React, { ComponentType, ComponentProps } from 'react'
 import type { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
 import { useBreakpointIndex } from './use-breakpoint-index'
-import { SSRComponent } from './ssr-component'
-import { Platform, StyleSheet } from 'react-native'
-import { StyleSheetCache } from './cache'
 import { mapPropsToStyledComponent } from './map-props'
-import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
@@ -46,15 +42,12 @@ export function createThemedComponent<P, T = {}>(
       typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
     const { theme } = useThemeUI()
-    const breakpoint = useBreakpointIndex({
-      __shouldDisableListenerOnWeb: SUPPORT_FRESNEL_SSR,
-    })
+    const breakpoint = useBreakpointIndex()
 
     const { styles } = mapPropsToStyledComponent<P, T>(
       {
         theme,
-        breakpoint:
-          Platform.OS === 'web' && SUPPORT_FRESNEL_SSR ? undefined : breakpoint,
+        breakpoint,
         variant,
         sx,
         style,

@@ -10,3 +10,4 @@ export { styled } from './css/styled'
 
 export { useThemeUI as useDripsyTheme } from '@theme-ui/core'
 export { remToPixels } from './utils/rem-to-pts'
+export { useSx } from './use-sx'

@@ -23,7 +23,6 @@ export type StyledProps<P = any> = SxProps & {
   // TODO uhh fix this mess
   // @ts-ignore
   style?: P['style'] extends [] ? P['style'][number] : P['style']
-  breakpoint?: number
   theme: Theme
   /**
    * @deprecated SSR support was deprecated in v2. This prop is no longer needed. It won't do anything.
