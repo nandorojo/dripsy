@@ -350,6 +350,8 @@ const ResponsiveBox = () => {
 
 ## `styled`
 
+Turn any component into a Dripsy component.
+
 ```jsx
 import { View } from 'react-native'
 import { styled } from 'dripsy'
@@ -361,6 +363,7 @@ const StyledView = styled(View)({
 
 // This uses the theme.layout.container styles!
 const StyledView2 = styled(View, {
+  // this lets you use theme.layout.container styles
   themeKey: 'layout',
   defaultVariant: 'container',
 })({
@@ -369,7 +372,35 @@ const StyledView2 = styled(View, {
 })
 ```
 
-## `createThemedComponent`
+You can also pass props like `styled-components`
+
+```tsx
+const DripsyView = styled(View)((props) => ({
+  color: props.success ? 'success' : 'primary',
+}))
+```
+
+And then use it in your component:
+
+```tsx
+return <DripsyView success />
+```
+
+Override the original styles with `sx`, if you'd like:
+
+```tsx
+return <DripsyView success sx={{ height: 300 }} />
+```
+
+You can also add TypeScript types with autocompletion:
+
+```tsx
+const DripsyView = styled(View)((props: { success: boolean }) => ({
+  color: props.success ? 'success' : 'primary',
+}))
+```
+
+<!-- ## `createThemedComponent`
 
 > Prefer `styled`.
 
@@ -386,7 +417,7 @@ const CustomView = createThemedComponent(View, {
     flex: 1,
   },
 })
-```
+``` -->
 
 # Using Custom Fonts [New! 🏄‍♂️]
 
