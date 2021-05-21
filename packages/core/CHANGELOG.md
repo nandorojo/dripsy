@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/nandorojo/expo-theme-ui/compare/v2.0.1...v2.1.0) (2021-05-21)
+
+
+### Features
+
+* styled(View)(({ primary }) => ({ height: primary ? 1 : 2 })) ([ab3be90](https://github.com/nandorojo/expo-theme-ui/commit/ab3be906713f3dd30760787e93a3788d5de68f64))
+
+
+
+
+
 ## [2.0.1](https://github.com/nandorojo/expo-theme-ui/compare/v2.0.0-alpha.0...v2.0.1) (2021-05-20)
 
 **Note:** Version bump only for package @dripsy/core
