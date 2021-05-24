@@ -235,7 +235,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3], // [10px, 14px] from theme!
+    padding: [1, 3], // [4px, 16px] from theme!
   }}
 >
   Themed color!
