@@ -29,6 +29,8 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Insanely simple API (themed, responsive designs in one line!)
 - Works with Animated/Reanimated values
 - Dark mode / custom color modes
+- Memoized styles, even when written inline
+- Atomic CSS classes, with `StyleSheet.create` under the hood
 
 # Examples
 
