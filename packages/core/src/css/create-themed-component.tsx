@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import React, { ComponentType, ComponentProps, useMemo } from 'react'
+import React, { ComponentType, ComponentProps } from 'react'
 import type { ThemedOptions, StyledProps } from './types'
 import { useThemeUI } from '@theme-ui/core'
-import { useBreakpointIndex, mapPropsToStyledComponent } from '.'
-import { SSRComponent } from './ssr-component'
-import { Platform } from 'react-native'
+import { useBreakpointIndex } from './use-breakpoint-index'
+import { mapPropsToStyledComponent } from './map-props'
 
 type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
 
-export function createThemedComponent<P, T>(
+export function createThemedComponent<P, T = {}>(
   Component: ComponentType<P>,
   { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
 ): React.ForwardRefExoticComponent<
@@ -16,10 +15,11 @@ export function createThemedComponent<P, T>(
     ComponentProps<typeof Component> &
     T &
     P &
-    // needed for the ref field in TS
+    /**
+     * TODO this doesn't work.
+     */
     React.RefAttributes<typeof Component>
 > {
-  // without styled-components...
   const WrappedComponent = React.forwardRef<
     typeof Component,
     Props<P> & ComponentProps<typeof Component> & T
@@ -29,88 +29,73 @@ export function createThemedComponent<P, T>(
       as: SuperComponent,
       variant,
       style,
-      webContainerSx,
       themeKey = options.themeKey,
       variants = options.defaultVariants,
       ...props
     } = prop
     if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
       console.error(
-        `[dripsy] Hey there. Looks like you used an invalid "as" prop. "${SuperComponent}" a string. Please pass a valid React component. HTML elements are not supported.`
+        `[dripsy] Looks like you used an invalid "as" prop. "${SuperComponent}" can't be string. Please pass a valid React component. HTML elements are not supported.`
       )
     }
     const defaultStyle =
       typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
     const { theme } = useThemeUI()
-    const breakpoint = useBreakpointIndex({
-      __shouldDisableListenerOnWeb: true,
-    })
-    // const ssr = useIsSSR()
-    // change/remove this later maybe
-    const ssr = Platform.OS === 'web'
+    const breakpoint = useBreakpointIndex()
 
-    const { responsiveSSRStyles, ...styles } = useMemo(
-      () =>
-        mapPropsToStyledComponent<P, T>(
-          {
-            theme,
-            breakpoint: Platform.OS === 'web' && ssr ? undefined : breakpoint,
-            variant,
-            sx,
-            style,
-            variants,
-          },
-          {
-            ...options,
-            themeKey,
-            defaultStyle,
-          }
-        )(),
-      [
-        breakpoint,
-        defaultStyle,
-        ssr,
-        style,
-        sx,
+    const { styles } = mapPropsToStyledComponent<P, T>(
+      {
         theme,
-        themeKey,
+        breakpoint,
         variant,
+        sx,
+        style,
         variants,
-      ]
+      },
+      {
+        ...options,
+        themeKey,
+        defaultStyle,
+      }
     )
 
     const TheComponent = SuperComponent || Component
 
-    if (Platform.OS === 'web' && ssr && !!responsiveSSRStyles?.length) {
-      return (
-        <SSRComponent
-          {...props}
-          Component={TheComponent as React.ComponentType<unknown>}
-          responsiveStyles={responsiveSSRStyles}
-          style={styles}
-          ref={ref}
-          containerStyles={
-            webContainerSx as ComponentProps<
-              typeof SSRComponent
-            >['containerStyles']
-          }
-        />
-      )
-    }
+    // if (
+    //   Platform.OS === 'web' &&
+    //   SUPPORT_FRESNEL_SSR &&
+    //   !!responsiveSSRStyles?.length
+    // ) {
+    //   return (
+    //     <SSRComponent
+    //       {...props}
+    //       Component={TheComponent as React.ComponentType<unknown>}
+    //       responsiveStyles={responsiveSSRStyles}
+    //       style={cachedStyle}
+    //       ref={ref}
+    //       containerStyles={
+    //         webContainerSx as ComponentProps<
+    //           typeof SSRComponent
+    //         >['containerStyles']
+    //       }
+    //     />
+    //   )
+    // }
 
     return (
-      <TheComponent {...((props as unknown) as P)} ref={ref} style={styles} />
+      <TheComponent
+        {...((props as unknown) as P & T)}
+        ref={ref}
+        style={styles}
+      />
     )
   })
 
-  WrappedComponent.displayName = `Themed.${
+  WrappedComponent.displayName = `Dripsy.${
     Component?.displayName ?? 'NoNameComponent'
   }`
 
   // @ts-ignore
-  // return React.memo(WrappedComponent)
-  // no need for this. we always break it w children and sx anyway
-  //  might end up making it slower
   return WrappedComponent
 }

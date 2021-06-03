@@ -22,13 +22,15 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Universal (Android, iOS, Web, & more)
 - Works with Expo
 - Works with Vanilla React Native
-- Works with Next.js / server-side rendering
+- Works with Next.js
 - Full theme support
 - Custom theme variants
 - TypeScript support (TypeScript theme support is in the works too)
 - Insanely simple API (themed, responsive designs in one line!)
 - Works with Animated/Reanimated values
 - Dark mode / custom color modes
+- Memoized styles, even when written inline
+- Atomic CSS classes, with `StyleSheet.create` under the hood
 
 # Examples
 
@@ -59,7 +61,7 @@ yarn add dripsy
 npm i dripsy
 ```
 
-If you're using Next.js or another SSR app, scroll down to see how to configure.
+If you're using Next.js or another SSR app, scroll down to see how to configure it.
 
 # 🛠 Set up
 
@@ -92,16 +94,16 @@ const theme = {
     circular: {
       default: 'Circular-StdBook',
       bold: 'Circular-StdBold',
-      black: 'Circular-StdBlack'
-    }
+      black: 'Circular-StdBlack',
+    },
   },
   space: [10, 12, 14],
   text: {
     thick: {
       fontFamily: 'root',
-      fontWeight: 'black' // 'Circular-StdBlack'
-    }
-  }
+      fontWeight: 'black', // 'Circular-StdBlack'
+    },
+  },
 }
 
 export default function App() {
@@ -119,16 +121,44 @@ My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
 
+## For Expo Web / React Native Web (non-SSR apps)
+
+If you're using 1.4 or lower, you're done. However, starting v1.5, you need to customize webpack like so:
+
+If you're using `expo start:web`, this section is for you. If you're using Expo + Next.js, skip to the next section.
+
+`yarn add -D @expo/webpack-config`
+
+Create a custom `webpack.config.js` file:
+
+```js
+const createExpoWebpackConfigAsync = require('@expo/webpack-config')
+
+module.exports = async function (env, argv) {
+  const config = await createExpoWebpackConfigAsync(
+    {
+      ...env,
+      babel: {
+        dangerouslyAddModulePathsToTranspile: ['dripsy', '@dripsy/core'],
+      },
+    },
+    argv
+  )
+
+  return config
+}
+```
+
 ## For SSR apps (Next.js, Gatsby, etc.)
 
-If you are not using Next.js, skip down to #3 below.
+If you are using SSR without Next.js, skip down to #3 below.
 
 Steps 1 & 2 are required for Next.js apps (for example, if you're using Expo + Next.js.)
 
 **1. Install dependencies**
 
 ```sh
-yarn add next-compose-plugins next-transpile-modules
+yarn add -D next-compose-plugins next-transpile-modules
 ```
 
 **2. Edit your `next.config.js` file to look like this:**
@@ -137,36 +167,40 @@ yarn add next-compose-plugins next-transpile-modules
 const withPlugins = require('next-compose-plugins')
 const withTM = require('next-transpile-modules')([
   'dripsy',
+  '@dripsy/core',
   // you can add other packages here that need transpiling
 ])
 
 const { withExpo } = require('@expo/next-adapter')
 
-module.exports = withPlugins(
-  [withTM],
-  withExpo({
-    projectRoot: __dirname,
-  })
-)
+module.exports = withPlugins([withTM, [withExpo, { projectRoot: __dirname }]])
 ```
 
-3. Add `SSRStyleReset` to the top of your `body`
+**3. Set `ssr={true}` on `DripsyProvider`**
 
-Import `SSRStyleReset` and inject it at the top of your `body` HTML tag.
+```js
+// pages/_app.js
 
-```jsx
-import { SSRStyleReset } from 'dripsy'
-;<body>
-  <SSRStyleReset />
-  <YourApp />
-</body>
+export default function App({ pageProps, Component }) {
+  return (
+    <>
+      <DripsyProvider
+        ssr
+        ssrPlaceholder={<LoadingScreen />} // optional
+        theme={theme}
+      >
+        <Component {...pageProps} />
+      </DripsyProvider>
+    </>
+  )
+}
 ```
 
-If you're using Next.js, this should go in `pages/_document.js`.
+What does `ssr: true` do, exactly? All it does is return `null` until your app is mounted (on web). This is because Dripsy uses the `Dimensions` API from `react-native`, which isn't compatible with server-side rendering.
 
-Your `pages/_document.js` should look something like [this](https://github.com/nandorojo/dripsy/blob/master/examples/next-example/pages/_document.js).
+If your app already returns `null` on the first render, then you don't need to set `ssr: true`. For instance, using `react-native-safe-area-context`'s `SafeAreaProvider` already does this for you.
 
-We'll add other library examples here too, such as Gatsby.
+If you're curious how you can still leverage Next.js's great static generation feature for SEO with dynamic meta tags, check out the **SEO Recommendations** section on [this PR](https://github.com/nandorojo/dripsy/pull/101).
 
 ---
 
@@ -183,8 +217,9 @@ export default {
     background: '#fff',
     primary: 'tomato',
   },
-  spacing: [10, 12, 14],
-  fontSizes: [16, 20, 24],
+  // set 0 first, then double for consistent nested spacing
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  fontSizes: [16, 20, 24, 32],
   text: {
     h1: {
       fontSize: 3, // this is 24px, taken from `fontSize` above
@@ -202,7 +237,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3], // [10px, 14px] from theme!
+    padding: [1, 3], // [4px, 16px] from theme!
   }}
 >
   Themed color!
@@ -254,7 +289,7 @@ Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `them
 
 ### Animated Values
 
-To use an animated view, simple use the `as` prop.
+To use an animated view, use the `as` prop.
 
 ```js
 import { View } from 'dripsy'
@@ -299,8 +334,6 @@ const ResponsiveBox = () => {
 }
 ```
 
-A big issue with using JS-only breakpoints like that is that it won't work on SSR apps using Expo + Next.js. The "solution" would be to lazy load the component, but then you lose the SEO benefits of Next.js. With Dripsy, SSR works fine!
-
 ## With Dripsy 🤩
 
 ```jsx
@@ -317,6 +350,8 @@ const ResponsiveBox = () => {
 
 ## `styled`
 
+Turn any component into a Dripsy component.
+
 ```jsx
 import { View } from 'react-native'
 import { styled } from 'dripsy'
@@ -328,6 +363,7 @@ const StyledView = styled(View)({
 
 // This uses the theme.layout.container styles!
 const StyledView2 = styled(View, {
+  // this lets you use theme.layout.container styles
   themeKey: 'layout',
   defaultVariant: 'container',
 })({
@@ -336,7 +372,35 @@ const StyledView2 = styled(View, {
 })
 ```
 
-## `createThemedComponent`
+You can also pass props like `styled-components`
+
+```tsx
+const DripsyView = styled(View)((props) => ({
+  color: props.success ? 'success' : 'primary',
+}))
+```
+
+And then use it in your component:
+
+```tsx
+return <DripsyView success />
+```
+
+Override the original styles with `sx`, if you'd like:
+
+```tsx
+return <DripsyView success sx={{ height: 300 }} />
+```
+
+You can also add TypeScript types with autocompletion:
+
+```tsx
+const DripsyView = styled(View)((props: { success: boolean }) => ({
+  color: props.success ? 'success' : 'primary',
+}))
+```
+
+<!-- ## `createThemedComponent`
 
 > Prefer `styled`.
 
@@ -353,7 +417,27 @@ const CustomView = createThemedComponent(View, {
     flex: 1,
   },
 })
+``` -->
+
+# Headless Dripsy with `useSx`
+
+```js
+import { useSx } from 'dripsy'
 ```
+
+If you want to use the `sx` prop with a custom component, such as from another library, try the `useSx` hook:
+
+```jsx
+import { Button } from 'react-native-paper'
+
+export default function HeadlessButton() {
+  const sx = useSx()
+
+  return <Button style={sx({ color: 'primary' })} />
+}
+```
+
+The `sx` function will return a memoized value.
 
 # Using Custom Fonts [New! 🏄‍♂️]
 
@@ -675,29 +759,27 @@ To improve the performance of loading your fonts on web, you can add something l
 ```jsx
 <link
   rel="preload"
-  href="/fonts/circ/CircularStd-Book.ttf"
+  href="/fonts/arial-Book.ttf"
   as="font"
   crossOrigin=""
 />
 <link
   rel="preload"
-  href="/fonts/circ/CircularStd-Medium.ttf"
+  href="/fonts/arial-Medium.ttf"
   as="font"
   crossOrigin=""
-/> 
+/>
 ```
 
 Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
 
-If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component.
+If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component, and you'd put your `fonts` folder inside of `/public`.
 
 # How it works
 
 First, this library is super inspired by `theme-ui`, and uses many of its low-level functions and methodologies.
 
-Practically speaking, this library uses the `Dimensions` api on Android & iOS, and uses actual CSS breakpoints on web. The CSS breakpoints are made possible by `@artsy/fresnel`. This means that you get actually-native web breakpoints. That matters, because server-size rendered apps will have startup issues if you use JS-based media queries that require React to rehydrate on when it opens.
-
-On Native, there is nothing too fancy going on. We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic! Plus, you get all the awesome theming abilities baked in. If you're using this in native, the theming alone is a great use case.
+We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic! Plus, you get all the awesome theming abilities baked in. Even if you don't need responsive design, the theming alone is a great use case.
 
 ## Contributing
 

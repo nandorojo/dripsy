@@ -6,8 +6,20 @@ import {
   useResponsiveValue,
   DripsyProvider,
   Container,
+  styled,
 } from 'dripsy'
 import { Text } from 'react-native'
+
+// recursive use of styled() 🥸
+const Blue = styled(
+  styled(View)((props: { blue: boolean[]; size: number }) => ({
+    bg: props.blue.map((blue) => (blue ? 'blue' : 'green')),
+    size: props.size,
+  }))
+)()
+
+// works with memo, just not in-line
+const MemoBlue = React.memo(Blue)
 
 const theme = {
   useBodyStyles: false,
@@ -64,6 +76,7 @@ export default function App() {
   return (
     <DripsyProvider theme={theme}>
       <Container>
+        <MemoBlue size={200} blue={[false, false, true]} />
         <View
           sx={{
             backgroundColor: () => ['primary', 'white'],

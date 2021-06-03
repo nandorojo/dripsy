@@ -1,14 +1,16 @@
+/** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, SxProp } from '@theme-ui/core'
-import React, { ComponentProps, ComponentType, Fragment } from 'react'
+import { jsx, SxProps } from '@theme-ui/core'
+import React, { ComponentProps, ComponentType } from 'react'
 import type { ResponsiveSSRStyles } from '.'
-import { SSRMediaQuery } from '../provider'
+import { SSRMediaQuery } from '../provider/fresnel'
+import { StyleSheetCache } from './cache'
 
 type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
-  containerStyles?: SxProp['sx']
+  containerStyles?: SxProps['sx']
   // nativeStyle?: StyledProps<T>['style']
 }
 
@@ -24,7 +26,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
   ref: T
 ) {
   return (
-    <Fragment>
+    <>
       {responsiveStyles.map((breakpointStyle = {}, breakpointIndex) => {
         const responsiveProps: Omit<
           ComponentProps<typeof SSRMediaQuery>,
@@ -36,6 +38,9 @@ const SSR = React.forwardRef(function SSRComponent<T>(
         } else {
           responsiveProps.at = `${breakpointIndex}` as typeof responsiveProps.at
         }
+        const cachedBreakpointStyle = StyleSheetCache.get(
+          breakpointStyle as any
+        )
         return (
           <SSRMediaQuery
             key={`ssr-media-query-${breakpointIndex}`}
@@ -90,10 +95,9 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                 >
                   {!!renderChildren ? (
                     <Component
-                      {...props}
-                      // {...((props as unknown) as T)}
+                      {...((props as unknown) as T)}
                       ref={ref}
-                      style={[style, breakpointStyle]}
+                      style={[style, cachedBreakpointStyle]}
                     />
                   ) : null}
                 </div>
@@ -102,7 +106,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
           </SSRMediaQuery>
         )
       })}
-    </Fragment>
+    </>
   )
 })
 

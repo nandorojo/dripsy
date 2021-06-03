@@ -1,16 +1,3 @@
-import { createThemedComponent } from '../css/create-themed-component'
-import {
-  // TODO I could import * as Native, but would that break tree shaking?
-  View as rView,
-  Text as rText,
-  ScrollView as rScrollView,
-  TextInput as rTextInput,
-  FlatList as rFlatList,
-  Button as rButton,
-  SafeAreaView as rSafeAreaView,
-  Image as rImage,
-} from 'react-native'
-
 import {
   H1 as ExpoH1,
   H2 as ExpoH2,
@@ -22,7 +9,21 @@ import {
   P as ExpoP,
 } from '@expo/html-elements'
 
+import {
+  View as rView,
+  Text as rText,
+  ScrollView as rScrollView,
+  TextInput as rTextInput,
+  FlatList as rFlatList,
+  Button as rButton,
+  SafeAreaView as rSafeAreaView,
+  Image as rImage,
+} from 'react-native'
+
+import { createThemedComponent } from '../css/create-themed-component'
+
 import Indicator from './activity-indicator'
+export { default as Pressable } from './pressable'
 
 export const View = createThemedComponent(rView)
 

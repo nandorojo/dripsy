@@ -1,23 +1,21 @@
 {
-  "name": "@dripsy/core",
-  "version": "2.2.0",
-  "description": "🍷 A super-simple responsive design system for React Native Web.",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
-  "react-native": "src/index.ts",
-  "source": "src/index.ts",
+  "name": "@dripsy/gradient",
+  "version": "1.4.17",
+  "description": "Linear gradient component for dripsy",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
+  "types": "lib/typescript/index.d.ts",
+  "react-native": "src/index.tsx",
+  "source": "src/index.tsx",
   "files": [
     "src",
-    "build"
+    "lib"
   ],
   "scripts": {
-    "build": "expo-module build",
-    "clean": "expo-module clean",
-    "test": "expo-module test",
-    "prepare": "expo-module prepare",
-    "expo-module": "expo-module",
+    "test": "jest",
     "typescript": "tsc --noEmit",
     "lint": "eslint --ext .js,.ts,.tsx .",
+    "prepare": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
     "pods": "node -e \"process.exit(require('os').platform() !== 'darwin')\" && test -d example/ios && cd example/ios && pod install || printf ''",
@@ -37,6 +35,9 @@
     "url": "https://github.com/nandorojo/expo-theme-ui/issues"
   },
   "homepage": "https://github.com/nandorojo/expo-theme-ui#readme",
+  "devDependencies": {
+    "typescript": "^4.1.2"
+  },
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -74,18 +75,9 @@
       "typescript"
     ]
   },
-  "devDependencies": {
-    "react-native": "0.63.4",
-    "react-native-web": "~0.14.10",
-    "typescript": "^4.1.2"
-  },
   "dependencies": {
-    "@artsy/fresnel": "^1.2.0",
-    "@expo/html-elements": "^0.0.1",
-    "@react-native-community/hooks": "^2.6.0",
-    "@theme-ui/core": "^0.6.2",
-    "@theme-ui/css": "^0.6.2"
+    "@dripsy/core": "^1.5.3",
+    "expo-linear-gradient": "^9.0.0"
   },
-  "sideEffects": false,
-  "gitHead": "91dab9a6451426a33622298670f81aace13f284c"
+  "sideEffects": false
 }

@@ -12,6 +12,8 @@ let hasSetBreakpoints = false
  *
  * import { DripsyProvider } from 'dripsy'
  * ```
+ *
+ * @deprecated use `breakpoints` in your theme instead
  */
 export function setBreakpoints(breakpoints: typeof defaultBreakpoints) {
   if (hasSetBreakpoints) {
