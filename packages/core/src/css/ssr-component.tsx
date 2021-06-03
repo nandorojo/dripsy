@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, SxProps } from '@theme-ui/core'
+import { jsx, SxProp } from '@theme-ui/core'
 import React, { ComponentProps, ComponentType } from 'react'
 import type { ResponsiveSSRStyles } from '.'
 import { SSRMediaQuery } from '../provider/fresnel'
@@ -10,7 +10,7 @@ type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
-  containerStyles?: SxProps['sx']
+  containerStyles?: SxProp['sx']
   // nativeStyle?: StyledProps<T>['style']
 }
 
@@ -34,7 +34,8 @@ const SSR = React.forwardRef(function SSRComponent<T>(
         > = {}
         if (breakpointIndex === responsiveStyles.length - 1) {
           // for the last item in the array, it should go from here until larger sizes
-          responsiveProps.greaterThanOrEqual = `${breakpointIndex}` as typeof responsiveProps.greaterThanOrEqual
+          responsiveProps.greaterThanOrEqual =
+            `${breakpointIndex}` as typeof responsiveProps.greaterThanOrEqual
         } else {
           responsiveProps.at = `${breakpointIndex}` as typeof responsiveProps.at
         }
@@ -95,7 +96,7 @@ const SSR = React.forwardRef(function SSRComponent<T>(
                 >
                   {!!renderChildren ? (
                     <Component
-                      {...((props as unknown) as T)}
+                      {...(props as unknown as T)}
                       ref={ref}
                       style={[style, cachedBreakpointStyle]}
                     />

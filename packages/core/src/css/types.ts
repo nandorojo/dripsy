@@ -1,4 +1,4 @@
-import type { SxProps } from '@theme-ui/core'
+import type { SxProp } from '@theme-ui/core'
 import type { Theme, ThemeUICSSProperties } from '@theme-ui/css'
 import type { ComponentType } from 'react'
 // import { SxStyleProp } from 'theme-ui'
@@ -13,7 +13,7 @@ export type ThemedOptions<T = any> = {
   defaultVariants?: string[]
 }
 
-export type StyledProps<P = any> = SxProps & {
+export type StyledProps<P = any> = SxProp & {
   as?: ComponentType<any>
   variant?: string
   themeKey?: string
@@ -27,6 +27,6 @@ export type StyledProps<P = any> = SxProps & {
   /**
    * @deprecated SSR support was deprecated in v2. This prop is no longer needed. It won't do anything.
    */
-  webContainerSx?: SxProps['sx']
+  webContainerSx?: SxProp['sx']
   variants?: string[]
 }

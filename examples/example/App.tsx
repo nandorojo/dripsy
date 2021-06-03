@@ -11,7 +11,7 @@ import {
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
-import Gradient from '@dripsy/gradient'
+import { Gradient } from '@dripsy/gradient'
 import { Text } from 'react-native'
 
 const theme = {
@@ -87,7 +87,7 @@ const ResponsiveSquare = () => {
 
 export default function App() {
   return (
-    <DripsyProvider theme={(theme as unknown) as Theme}>
+    <DripsyProvider theme={theme as unknown as Theme}>
       <Container>
         <View
           sx={{
