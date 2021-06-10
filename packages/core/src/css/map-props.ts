@@ -10,7 +10,7 @@ export function mapPropsToStyledComponent<P, T>(
   const {
     themeKey,
     defaultStyle,
-    defaultVariant = 'primary',
+    defaultVariant,
     defaultVariants = [],
   } = options
   const { breakpoint, sx, theme, variant, style, variants } = props
