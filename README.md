@@ -31,6 +31,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Dark mode / custom color modes
 - Memoized styles, even when written inline
 - Atomic CSS classes, with `StyleSheet.create` under the hood
+- Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
 
 # Examples
 
