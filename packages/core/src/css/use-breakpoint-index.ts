@@ -1,32 +1,39 @@
 import { useThemeUI } from '@theme-ui/core'
 import { Theme } from '@theme-ui/css'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, Platform, ScaledSize } from 'react-native'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 export const useBreakpoints = () => {
-  const breakpoints = useThemeUI().theme.breakpoints as number[] | undefined
-  if (breakpoints) {
+  const breakpoints = useThemeUI().theme.breakpoints as
+    | (number | string)[]
+    | undefined
+  if (breakpoints && typeof __DEV__ !== 'undefined' && __DEV__) {
     if (!Array.isArray(breakpoints)) {
       const arrayError =
         '[dripsy] theme.breakpoints must be an array. Or, you can leave it blank. However, you used \n' +
         JSON.stringify(breakpoints) +
-        '\n Please turn this into an array, or remove the breakpoints from your theme.'
-      if (typeof __DEV__ !== 'undefined' && __DEV__) {
-        throw new Error(arrayError)
-      } else {
-        console.error(arrayError)
-      }
-    }
-    if (breakpoints.some((value) => typeof value !== 'number')) {
-      console.error(
-        '[dripsy] Invalid breakpoints passed to theme.breakpoints. Expected an array of numbers, but got this: \n',
-        JSON.stringify(breakpoints),
-        '\nPlease turn these into numbers, or remove the breakpoints array from your theme.'
-      )
+        '\n Please turn this into an array, or remove the "breakpoints" field from your theme.'
+      throw new Error(arrayError)
     }
   }
-  return defaultBreakpoints
+  return useMemo(() => {
+    return (breakpoints || defaultBreakpoints).map((breakpoint) => {
+      if (typeof breakpoint === 'string') {
+        if (breakpoint.endsWith('px')) {
+          return Number(breakpoint.replace('px', ''))
+        }
+      }
+      if (typeof breakpoint !== 'number') {
+        console.error(
+          '[dripsy] Invalid breakpoints passed to theme.breakpoints. Expected an array of numbers, or strings ending with "px", but got this: \n',
+          JSON.stringify(breakpoints),
+          '\nPlease turn these into numbers, or remove the breakpoints array from your theme.'
+        )
+      }
+      return breakpoint
+    })
+  }, [breakpoints])
 }
 
 import { defaultBreakpoints } from './breakpoints'
