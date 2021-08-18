@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/nandorojo/expo-theme-ui/compare/v2.2.0...v2.3.0) (2021-08-18)
+
+
+### Features
+
+* custom breakpoints, allow "px" in breakpoints too ([b239aff](https://github.com/nandorojo/expo-theme-ui/commit/b239aff1c6ac87d19a0a47c7587deae97608150e))
+
+
+
+
+
 # [2.2.0](https://github.com/nandorojo/expo-theme-ui/compare/v2.1.0...v2.2.0) (2021-05-21)
 
 
