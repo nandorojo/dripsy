@@ -1,6 +1,6 @@
 {
   "name": "dripsy-example",
-  "description": "Example app for expo-theme-ui",
+  "description": "Example app for dripsy",
   "version": "2.3.4",
   "private": true,
   "main": "__generated__/AppEntry.js",

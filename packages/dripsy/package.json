@@ -30,13 +30,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/nandorojo/expo-theme-ui",
+  "repository": "https://github.com/nandorojo/dripsy",
   "author": "Fernando Rojo <frojo@sas.upenn.edu> (https://github.com/nandorojo)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nandorojo/expo-theme-ui/issues"
+    "url": "https://github.com/nandorojo/dripsy/issues"
   },
-  "homepage": "https://github.com/nandorojo/expo-theme-ui#readme",
+  "homepage": "https://github.com/nandorojo/dripsy#readme",
   "jest": {
     "preset": "react-native",
     "modulePathIgnorePatterns": [
@@ -81,5 +81,5 @@
     "@dripsy/core": "^2.3.4"
   },
   "sideEffects": false,
-  "gitHead": "68b9d559aed192ab1fdc38462ef9864af5171afe"
+  "gitHead": "fd781ada8f2346d0ab748e230cfd7bbd526b7b85"
 }

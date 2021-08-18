@@ -4,7 +4,7 @@
   "expo": {
     "name": "dripsy-example",
     "slug": "dripsy-example",
-    "description": "Example app for expo-theme-ui",
+    "description": "Example app for dripsy",
     "privacy": "public",
     "version": "1.0.0",
     "platforms": ["ios", "android", "web"],

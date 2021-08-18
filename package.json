@@ -20,13 +20,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/nandorojo/expo-theme-ui",
+  "repository": "https://github.com/nandorojo/dripsy",
   "author": "Fernando Rojo <frojo@sas.upenn.edu> (https://github.com/nandorojo)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nandorojo/expo-theme-ui/issues"
+    "url": "https://github.com/nandorojo/dripsy/issues"
   },
-  "homepage": "https://github.com/nandorojo/expo-theme-ui#readme",
+  "homepage": "https://github.com/nandorojo/dripsy#readme",
   "devDependencies": {
     "@commitlint/config-conventional": "^8.3.4",
     "@react-native-community/bob": "^0.11.2",
