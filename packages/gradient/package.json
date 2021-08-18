@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/gradient",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Linear gradient component for dripsy",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -79,5 +79,6 @@
     "@dripsy/core": "^1.5.3",
     "expo-linear-gradient": "^9.0.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "gitHead": "f30a06f661dd3c35597400ca748e7f6bd3a12455"
 }

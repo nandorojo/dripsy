@@ -1,0 +1,3 @@
+88 error HttpError: Bad credentials
+88 error     at /Users/fernandorojo/Developer/os/dripsy/node_modules/@octokit/request/dist-node/index.js:66:23
+88 error     at processTicksAndRejections (internal/process/task_queues.js:93:5)

@@ -31,7 +31,7 @@ export const useBreakpoints = () => {
           '\nPlease turn these into numbers, or remove the breakpoints array from your theme.'
         )
       }
-      return breakpoint
+      return Number(breakpoint)
     })
   }, [breakpoints])
 }
