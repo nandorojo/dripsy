@@ -29,6 +29,9 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Insanely simple API (themed, responsive designs in one line!)
 - Works with Animated/Reanimated values
 - Dark mode / custom color modes
+- Memoized styles, even when written inline
+- Atomic CSS classes, with `StyleSheet.create` under the hood
+- Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
 
 # Examples
 
@@ -220,10 +223,10 @@ export default {
   fontSizes: [16, 20, 24, 32],
   text: {
     h1: {
-      fontSize: 3, // this is 24px, taken from `fontSize` above
+      fontSize: 2, // this is 24px, taken from `fontSize` above
     },
     p: {
-      fontSize: 1, // & this is 16px, taken from `fontSize` above
+      fontSize: 0, // & this is 16px, taken from `fontSize` above
     },
   },
 }
@@ -235,7 +238,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3], // [10px, 14px] from theme!
+    padding: [1, 3], // [4px, 16px] from theme.space
   }}
 >
   Themed color!
@@ -248,8 +251,8 @@ export default {
 import { H1, H2, P } from 'dripsy'
 ;<H1
   sx={{
-    color: 'text', // #000 from theme!
-    fontSize: 2, // 24px from theme!
+    color: 'text', // #000 from theme.colors
+    fontSize: 2, // 24px from theme.fontSizes
   }}
 ></H1>
 ```
@@ -635,7 +638,7 @@ import { useFonts } from 'expo-font'
 
 export default function Fonts({ children }: { children: React.ReactNode }) {
   const [loaded] = useFonts({
-    // 🚨🚨🚨 the name (`sans`) of the default weight here should equal the key from theme.customFonts!
+    // 🚨🚨🚨 the name (`sans`) of the default weight here should equal the key from theme.customFonts
     // otherwise, you will need to explicitly set the fontWeight everywhere
     // since we have theme.customFonts.sans, we name this `sans`
     ['sans']: require('./public/fonts/sansBook.ttf'),
