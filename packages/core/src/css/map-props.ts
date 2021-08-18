@@ -25,6 +25,7 @@ export function mapPropsToStyledComponent<P, T>(
   multipleVariants = multipleVariants.filter(Boolean)
 
   const variantStyle = css(
+    // @ts-expect-error why does get think it's a number and not undefined?
     get(theme, themeKey + '.' + variant, get(theme, variant ?? defaultVariant)),
     breakpoint
   )({ theme })
@@ -38,6 +39,7 @@ export function mapPropsToStyledComponent<P, T>(
   const multipleVariantsStyle = multipleVariants
     .map((variantKey) =>
       css(
+        // @ts-expect-error why does get think it's a number and not undefined?
         get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
         breakpoint
       )({ theme, fontFamily })
