@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { jsx, SxProps } from '@theme-ui/core'
 import React, { ComponentProps, ComponentType } from 'react'
-import type { ResponsiveSSRStyles } from '.'
+import type { ResponsiveSSRStyles } from './index'
 import { SSRMediaQuery } from '../provider/fresnel'
 import { StyleSheetCache } from './cache'
 

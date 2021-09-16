@@ -1,5 +1,5 @@
 import { get } from '@theme-ui/css'
-import { css } from '.'
+import { css } from './index'
 import { StyleSheetCache } from './cache'
 import { StyledProps, ThemedOptions } from './types'
 
