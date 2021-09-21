@@ -1618,6 +1618,17 @@
   dependencies:
     find-up "^4.0.0"
 
+"@dripsy/core@^1.5.3":
+  version "1.5.18"
+  resolved "https://registry.yarnpkg.com/@dripsy/core/-/core-1.5.18.tgz#72bbe9ff2afa9c4f39cfa85a511af5aa8e8b7cd6"
+  integrity sha512-CEwxgt6QoSB9sCrnBvdjOzlYW7NQttneoHWeXkz1LjRM/ephRgL4f8a8Srd4PJQh18YYHEtsyosIRt82igFBWA==
+  dependencies:
+    "@artsy/fresnel" "^1.2.0"
+    "@expo/html-elements" "^0.0.1"
+    "@react-native-community/hooks" "^2.6.0"
+    "@theme-ui/core" "^0.4.0-rc.1"
+    "@theme-ui/css" "^0.4.0-rc.1"
+
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -17942,9 +17953,9 @@ path-key@^3.0.0, path-key@^3.1.0:
   integrity sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==
 
 path-parse@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
-  integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
 path-to-regexp@0.1.7:
   version "0.1.7"
