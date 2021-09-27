@@ -6,7 +6,6 @@ import {
   useResponsiveValue,
   DripsyProvider,
   Container,
-  Theme,
   Pressable,
   makeTheme,
 } from 'dripsy'
@@ -100,14 +99,15 @@ declare module 'dripsy' {
 
 export default function App() {
   return (
-    <DripsyProvider theme={(theme as unknown) as Theme}>
+    <DripsyProvider theme={theme}>
       <Container variants={['wide', 'narrow']}>
         <View
-          sx={{
-            backgroundColor: () => ['primary', 'white'],
+          sx={(theme) => ({
+            backgroundColor: theme.colors.green,
             height: [400, 800],
-            color: 'blue',
-          }}
+            color: 'shadows.shadowRadius',
+            bg: ['blue', null],
+          })}
         >
           <H4
             variants={['secondary']}
@@ -123,6 +123,7 @@ export default function App() {
           <ResponsiveSquare />
           <Gradient
             sx={{ height: 50, width: 50, my: 16 }}
+            gradient=""
             colors={['primary', 'secondary', '#234fdf']}
           />
           <Pressable
