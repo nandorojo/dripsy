@@ -13,7 +13,7 @@ export type ThemedOptions<T = any> = {
   defaultVariants?: string[]
 }
 
-export type StyledProps<P = any> = SxProps & {
+export type StyledProps<P = any> = {
   as?: ComponentType<any>
   variant?: string
   themeKey?: string
