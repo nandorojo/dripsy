@@ -2,9 +2,10 @@ import { get } from '@theme-ui/css'
 import { css } from './index'
 import { StyleSheetCache } from './cache'
 import { StyledProps, ThemedOptions } from './types'
+import { DripsyFinalTheme } from '../declarations'
 
 export function mapPropsToStyledComponent<P, T>(
-  props: StyledProps<P> & { breakpoint: number },
+  props: StyledProps<P> & { breakpoint: number; theme: DripsyFinalTheme },
   options: ThemedOptions<T>
 ) {
   const {

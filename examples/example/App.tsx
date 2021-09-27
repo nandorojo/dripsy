@@ -14,7 +14,11 @@ import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
 import { Text } from 'react-native'
 
-const theme = {
+function makeTheme<T>(theme: T): T {
+  return theme
+}
+
+const theme = makeTheme({
   useBodyStyles: false,
   useLocalStorage: false,
   useCustomProperties: false,
@@ -55,7 +59,7 @@ const theme = {
     strong: ['primary', 'secondary'],
     light: ['red', 'green'],
   },
-}
+})
 
 const G = createThemedComponent(Text, {
   themeKey: 'text',
@@ -85,6 +89,12 @@ const ResponsiveSquare = () => {
   )
 }
 
+type MyTheme = typeof theme
+declare module '@dripsy/core' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface DripsyCustomTheme extends MyTheme {}
+}
+
 export default function App() {
   return (
     <DripsyProvider theme={(theme as unknown) as Theme}>
@@ -93,6 +103,8 @@ export default function App() {
           sx={{
             backgroundColor: () => ['primary', 'white'],
             height: [400, 800],
+            maxHeight: '',
+            textAlign: 'tester.testing',
           }}
         >
           <H4

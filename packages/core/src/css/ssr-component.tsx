@@ -10,7 +10,7 @@ type Props<T> = {
   Component: ComponentType<T>
   responsiveStyles: ResponsiveSSRStyles
   style: unknown
-  containerStyles?: SxProps['sx']
+  containerStyles?: any
   // nativeStyle?: StyledProps<T>['style']
 }
 

@@ -1,17 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-import {
-  ThemeUIStyleObject,
-  CSSObject,
-  UseThemeFunction,
-  get,
-  Theme,
-} from '@theme-ui/css'
-import { ThemeProvider, SxProps } from '@theme-ui/core'
-import { Platform, StyleSheet } from 'react-native'
-import type { ThemedOptions, StyledProps } from './types'
+import { CSSObject, UseThemeFunction, get } from '@theme-ui/css'
+import { ThemeProvider } from '@theme-ui/core'
+import { Platform } from 'react-native'
+import type { StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
-import type { DripsyTheme } from '../utils/types'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
+import { DripsyFinalTheme } from '../declarations'
+
+type Theme = DripsyFinalTheme
+type ThemeUIStyleObject = StyledProps['sx']
 
 export { ThemeProvider }
 
@@ -28,32 +25,32 @@ const defaultTheme = {
 }
 
 export type ResponsiveSSRStyles = Exclude<
-  ThemeUIStyleObject,
+  NonNullable<ThemeUIStyleObject>,
   UseThemeFunction
 >[]
 
 const responsive = (
-  styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
+  styles: Exclude<StyledProps['sx'], UseThemeFunction>,
   { breakpoint }: { breakpoint?: number } = {}
 ) => (theme?: Theme) => {
-  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> & {
+  const next: Exclude<StyledProps['sx'], UseThemeFunction> & {
     responsiveSSRStyles?: ResponsiveSSRStyles
   } = {}
 
   for (const key in styles) {
     const value =
-      // @ts-ignore
+      // @ts-expect-error
       typeof styles[key] === 'function' ? styles[key](theme) : styles[key]
 
     if (value == null) continue
     if (!Array.isArray(value)) {
-      // @ts-ignore
+      // @ts-expect-error
       next[key] = value
       continue
     }
 
     if (key === 'transform') {
-      // @ts-ignore
+      // @ts-expect-error
       next[key] = value
       continue
     }
@@ -95,7 +92,7 @@ const responsive = (
           }
         }
 
-        // @ts-ignore
+        // @ts-expect-error
         next.responsiveSSRStyles[i][key] = styleAtThisMediaQuery
       }
     } else {
@@ -116,7 +113,7 @@ const responsive = (
       // if we're on mobile, we do have a breakpoint
       // so we can override TS here w/ `as number`
       const breakpointIndex = nearestBreakpoint(breakpoint as number)
-      // @ts-ignore
+      // @ts-expect-error
       next[key] = value[breakpointIndex]
     }
   }
@@ -323,8 +320,8 @@ const transforms = [
  * Here we remove web style keys from components to prevent annoying errors on native
  */
 const filterWebStyleKeys = (
-  styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
-): Exclude<ThemeUIStyleObject, UseThemeFunction> => {
+  styleProp: Exclude<StyledProps['sx'], UseThemeFunction> = {}
+): Exclude<StyledProps['sx'], UseThemeFunction> => {
   if (Platform.OS === 'web') {
     return styleProp
   }
@@ -358,23 +355,23 @@ const filterWebStyleKeys = (
 }
 
 export const css = (
-  args: ThemeUIStyleObject = {},
+  args: StyledProps['sx'] = {},
   breakpoint?: number
   // { ssr }: { ssr?: boolean } = {}
 ) => (
   props: CssPropsArgument = {}
 ): CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } => {
-  const theme: DripsyTheme = {
+  const theme: DripsyFinalTheme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
-  }
+  } as DripsyFinalTheme
   let result: CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } = {}
   const obj = typeof args === 'function' ? args(theme) : args
   const filteredOutWebKeys = filterWebStyleKeys(obj)
   const styles = responsive(filteredOutWebKeys, { breakpoint })(theme)
 
   for (const key in styles) {
-    // @ts-ignore
+    // @ts-expect-error
     const x = styles[key]
     const val = typeof x === 'function' ? x(theme) : x
 
@@ -384,24 +381,13 @@ export const css = (
       continue
     }
 
-    /**
-     * @deprecated
-     */
-    if (key === 'responsiveSSRStyles' && styles.responsiveSSRStyles) {
-      result.responsiveSSRStyles = styles.responsiveSSRStyles.map(
-        // here we extract theme values for each item
-        (breakpointStyle) => css(breakpointStyle)(theme)
-      )
-      continue
-    }
-
     if (key === 'transform') {
       result[key] = val
       continue
     }
 
     if (val && typeof val === 'object') {
-      // @ts-ignore
+      // @ts-expect-error
       result[key] = css(val)(theme)
       continue
     }
@@ -413,7 +399,7 @@ export const css = (
 
     const prop = key in aliases ? aliases[key as keyof Aliases] : key
     const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
-    // @ts-ignore
+    // @ts-expect-error
     const scale = get(theme, scaleName, get(theme, prop, {}))
     const transform = get(transforms, prop, get)
     const value = transform(scale, val, val)
@@ -492,17 +478,17 @@ export const css = (
         }
       }
     }
-    // @ts-ignore
+    // @ts-expect-error no types
     if (multiples[prop]) {
-      // @ts-ignore
+      // @ts-expect-error no types
       const dirs = multiples[prop]
 
       for (let i = 0; i < dirs.length; i++) {
-        // @ts-ignore
+        // @ts-expect-error no types
         result[dirs[i]] = value
       }
     } else {
-      // @ts-ignore
+      // @ts-expect-error no types
       result[prop] = value
     }
   }
@@ -511,7 +497,7 @@ export const css = (
 }
 
 export class Styles {
-  static create<T extends { [key: string]: NonNullable<SxProps['sx']> }>(
+  static create<T extends { [key: string]: NonNullable<StyledProps['sx']> }>(
     styles: T
   ): T {
     return styles
