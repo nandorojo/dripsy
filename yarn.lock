@@ -1618,17 +1618,6 @@
   dependencies:
     find-up "^4.0.0"
 
-"@dripsy/core@^1.5.3":
-  version "1.5.18"
-  resolved "https://registry.yarnpkg.com/@dripsy/core/-/core-1.5.18.tgz#72bbe9ff2afa9c4f39cfa85a511af5aa8e8b7cd6"
-  integrity sha512-CEwxgt6QoSB9sCrnBvdjOzlYW7NQttneoHWeXkz1LjRM/ephRgL4f8a8Srd4PJQh18YYHEtsyosIRt82igFBWA==
-  dependencies:
-    "@artsy/fresnel" "^1.2.0"
-    "@expo/html-elements" "^0.0.1"
-    "@react-native-community/hooks" "^2.6.0"
-    "@theme-ui/core" "^0.4.0-rc.1"
-    "@theme-ui/css" "^0.4.0-rc.1"
-
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
