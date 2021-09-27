@@ -8,15 +8,12 @@ import {
   Container,
   Theme,
   Pressable,
+  makeTheme,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
 import { Text } from 'react-native'
-
-function makeTheme<T>(theme: T): T {
-  return theme
-}
 
 const theme = makeTheme({
   useBodyStyles: false,
@@ -59,6 +56,12 @@ const theme = makeTheme({
     strong: ['primary', 'secondary'],
     light: ['red', 'green'],
   },
+  layout: {
+    wide: {
+      width: 199,
+    },
+    narrow: {},
+  },
 })
 
 const G = createThemedComponent(Text, {
@@ -72,7 +75,7 @@ const ResponsiveSquare = () => {
   const squareColor = useResponsiveValue((theme) => [
     theme?.colors?.blue,
     theme?.colors?.red,
-    theme?.colors?.green,
+    theme?.colors?.background,
   ])
 
   return (
@@ -90,21 +93,20 @@ const ResponsiveSquare = () => {
 }
 
 type MyTheme = typeof theme
-declare module '@dripsy/core' {
+declare module 'dripsy' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface DripsyCustomTheme extends MyTheme {}
+  interface DripsyCustomTheme extends MyTheme {}
 }
 
 export default function App() {
   return (
     <DripsyProvider theme={(theme as unknown) as Theme}>
-      <Container>
+      <Container variants={['wide', 'narrow']}>
         <View
           sx={{
             backgroundColor: () => ['primary', 'white'],
             height: [400, 800],
-            maxHeight: '',
-            textAlign: 'tester.testing',
+            color: 'blue',
           }}
         >
           <H4

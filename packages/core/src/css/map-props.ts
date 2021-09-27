@@ -4,17 +4,24 @@ import { StyleSheetCache } from './cache'
 import { StyledProps, Sx, ThemedOptions } from './types'
 import { DripsyFinalTheme } from '../declarations'
 
-type DefaultStyleProp = keyof Pick<ThemedOptions<unknown>, 'defaultStyle'>
+const defaultStyleProp: keyof ThemedOptions<{ noop: true }, 'layout'> =
+  'defaultStyle'
 
-type ThemedOptionsWithoutFunctionStyle<T> = Omit<
-  ThemedOptions<T>,
-  DefaultStyleProp
-> &
+type DefaultStyleProp = typeof defaultStyleProp
+
+type ThemedOptionsWithoutFunctionStyle<
+  ThemeKey extends keyof DripsyFinalTheme
+> = Omit<ThemedOptions<any, ThemeKey>, DefaultStyleProp> &
   Record<DefaultStyleProp, Sx | undefined>
 
-export function mapPropsToStyledComponent<P, T>(
-  props: StyledProps<P> & { breakpoint: number; theme: DripsyFinalTheme },
-  options: ThemedOptionsWithoutFunctionStyle<T>
+export function mapPropsToStyledComponent<
+  ThemeKey extends keyof DripsyFinalTheme
+>(
+  props: StyledProps<ThemeKey> & {
+    breakpoint: number
+    theme: DripsyFinalTheme
+  },
+  options: ThemedOptionsWithoutFunctionStyle<ThemeKey>
 ) {
   const {
     themeKey,

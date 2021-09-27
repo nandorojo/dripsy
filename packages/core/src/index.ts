@@ -13,3 +13,5 @@ export { useDripsyTheme } from './use-dripsy-theme'
 
 export { remToPixels } from './utils/rem-to-pts'
 export { useSx } from './use-sx'
+
+export * from './declarations'

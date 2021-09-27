@@ -1,11 +1,11 @@
 import React from 'react'
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient'
-import { styled, useDripsyTheme } from '@dripsy/core'
+import { styled, useDripsyTheme, DripsyFinalTheme } from '@dripsy/core'
 import { StyleSheet } from 'react-native'
 
 type Props = Omit<React.ComponentProps<typeof ExpoLinearGradient>, 'colors'> & {
-  gradient?: string
-  colors?: string[]
+  gradient?: keyof DripsyFinalTheme['linearGradients'] | (string & {})
+  colors?: (keyof DripsyFinalTheme['colors'] | (string & {}))[]
   /*
    * Set to `true` if you're using the gradient for a background.
    */
@@ -21,7 +21,7 @@ const Grad = styled(
         // Return an empty array if the colors come back as undefined
         return (
           colorArray?.map(
-            (color) => (themeColors?.[color as any] as string) ?? color
+            (color) => ((themeColors as any)?.[color as any] as string) ?? color
           ) ?? []
         )
       }
@@ -29,7 +29,7 @@ const Grad = styled(
       let gradientColors: string[] = []
 
       if (gradient) {
-        if (!linearGradients?.[gradient]) {
+        if (!(linearGradients as any)?.[gradient]) {
           console.error(
             '[dripsy/gradient] You passed a "gradient" prop "' +
               gradient +
@@ -38,8 +38,8 @@ const Grad = styled(
               " field. If you want to use colors directly, use the 'colors' prop. Otherwise, add a `linearGradients` section to your theme."
           )
         } else if (
-          !Array.isArray(linearGradients?.[gradient]) ||
-          typeof linearGradients?.[gradient].some(
+          !Array.isArray((linearGradients as any)?.[gradient]) ||
+          typeof (linearGradients as any)?.[gradient].some(
             (color: any) => typeof color !== 'string'
           )
         ) {
@@ -49,13 +49,13 @@ const Grad = styled(
               '. We looked for this in your theme.linearGradients.' +
               gradient +
               ", and it exists. However, it isn't a valid array of strings. Instead, it's this: " +
-              JSON.stringify(linearGradients?.[gradient]) +
+              JSON.stringify((linearGradients as any)?.[gradient]) +
               '. This is an invalid format.'
           )
         }
         gradientColors = colorArrayToTheme(
           // Check to make sure the linear gradients exist
-          linearGradients ? linearGradients[gradient] : []
+          linearGradients ? (linearGradients as any)[gradient] : []
         )
       }
       if (colors) {

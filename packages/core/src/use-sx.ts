@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useDripsyTheme } from './use-dripsy-theme'
-import { StyledProps } from './css/types'
+import { Sx } from './css/types'
 import { css } from './css'
 import { useBreakpointIndex } from './css/use-breakpoint-index'
 import { StyleSheetCache } from './css/cache'
@@ -10,10 +10,7 @@ export function useSx() {
   const breakpoint = useBreakpointIndex()
 
   return useCallback(
-    (
-      sx: NonNullable<StyledProps['sx']>,
-      { fontFamily }: { fontFamily?: string } = {}
-    ) => {
+    (sx: NonNullable<Sx>, { fontFamily }: { fontFamily?: string } = {}) => {
       const themedStyle = css(
         sx,
         breakpoint

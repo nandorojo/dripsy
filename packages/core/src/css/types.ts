@@ -3,44 +3,28 @@ import type { ComponentType } from 'react'
 import { DripsyCustomTheme, DripsyFinalTheme } from '../declarations'
 // import { SxStyleProp } from 'theme-ui'
 
-export type ThemedOptions<T = any> = {
-  defaultStyle?: Sx | ((props: T) => Sx)
-  themeKey?: (string & {}) | Extract<keyof DripsyFinalTheme, string>
-  defaultVariant?: string
+export type ThemedOptions<
+  ExtraProps,
+  ThemeKey extends keyof DripsyFinalTheme,
+  VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
+> = {
+  defaultStyle?: Sx | ((props: ExtraProps) => Sx)
+  defaultVariant?: VariantKey
   /**
    * List of multiple variants
    */
-  defaultVariants?: string[]
-}
+  defaultVariants?: VariantKey[]
+} & Pick<StyledProps<ThemeKey>, 'themeKey'>
 
 // https://github.com/intergalacticspacehighway/react-native-styled-variants/blob/main/src/types.ts
 // thank you @nishanbende!
-// type Tokenize<Theme> = Extract<
-//   keyof {
-//     [Key in Extract<keyof Theme, string | number> as Theme[Key] extends
-//       | string
-//       | number
-//       | ''
-//       | never
-//       | undefined
-//       | null
-//       ? `${Key}`
-//       : // if we're iterating over the key of the theme
-//         // for example, if key = 'colors'
-//         // and colors: { primary: '...' }
-//         // then we should allow either colors.primary, OR colors
-//         `${Key}.${Tokenize<Theme[Key]>}`]: true
-//   },
-//   string | number
-// >
-
 type HiddenArrayKeys = Exclude<keyof [], number>
 
 type SafeTokenized<
   Theme,
   IsFirstIteration extends boolean,
   Key extends Extract<keyof Theme, string | number>,
-  AllowsRootKeys extends boolean = false,
+  AllowsRootKeys extends boolean,
   Tokenized extends Tokenize<Theme[Key], IsFirstIteration> = Tokenize<
     Theme[Key],
     IsFirstIteration
@@ -57,7 +41,12 @@ type SafeTokenized<
 //   ? Tokenized | `${Key}.${Tokenized}`
 // : `${Key}.${Tokenize<Theme[Key], false>}`
 
-type Tokenize<Theme, IsFirstIteration extends boolean> = Extract<
+// TODO replace with this maybe? https://github.com/system-ui/theme-ui/pull/1090/files#diff-7ef5a8c1a0ef5be9914c14678b6cf85955e354f070f14769ab856c495d3879a4R22
+type Tokenize<
+  Theme,
+  IsFirstIteration extends boolean,
+  AllowsRootKeys extends boolean = true
+> = Extract<
   keyof {
     [Key in Extract<keyof Theme, string | number> as Theme[Key] extends
       | string
@@ -75,8 +64,9 @@ type Tokenize<Theme, IsFirstIteration extends boolean> = Extract<
         // for example, if key = 'colors'
         // and colors: { primary: '...' }
         // then we should allow either colors.primary, OR colors
+        // to toggle that, just set the last argument to true/false
         // `${Key}.${Tokenize<Theme[Key]>}`
-        SafeTokenized<Theme, IsFirstIteration, Key, true>]: true
+        SafeTokenized<Theme, IsFirstIteration, Key, AllowsRootKeys>]: true
   },
   string | number | '' | never | undefined | null
 >
@@ -91,17 +81,11 @@ type ThemeWithoutIgnoredKeys = Omit<
   | 'useColorSchemeMediaQuery'
 >
 
-// type RecursiveRequired<T> = NonNullable<
-//   {
-//     [P in keyof Required<T>]: NonNullable<RecursiveRequired<T[P]>>
-//   }
-// >
-
-type RequiredTheme = Required<ThemeWithoutIgnoredKeys>
+type ResponsiveValue<T> = T | (null | T)[]
 
 export type Sx = {
   [key in keyof ThemeUICSSProperties]?:
-    | Tokenize<RequiredTheme, true>
+    | ResponsiveValue<Tokenize<ThemeWithoutIgnoredKeys, true>>
     | (ThemeUICSSProperties[key] & {})
 }
 
@@ -125,16 +109,20 @@ export type Sx = {
 
 type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-export type StyledProps<P = any> = {
+export type DripsyVariant<ThemeKey extends keyof DripsyFinalTheme> =
+  | (DripsyFinalTheme[ThemeKey] extends undefined
+      ? Tokenize<DripsyFinalTheme, true, true>
+      : keyof DripsyFinalTheme[ThemeKey])
+  | (string & {})
+
+export type StyledProps<
+  ThemeKey extends keyof DripsyFinalTheme,
+  VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
+> = {
   as?: ComponentType<any>
-  variant?: string
-  themeKey?: string
+  variant?: VariantKey
+  themeKey?: ThemeKey
   sx?: SxProp
-  /**
-   * Optional style value to pass react native styles that aren't available in the `sx` prop, such as shadows.
-   */
-  // TODO uhh fix this mess
-  // @ts-ignore
-  style?: P['style'] extends [] ? P['style'][number] : P['style']
-  variants?: string[]
+  style?: any
+  variants?: VariantKey[]
 }

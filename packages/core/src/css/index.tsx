@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CSSObject, UseThemeFunction, get } from '@theme-ui/css'
-import { ThemeProvider } from '@theme-ui/core'
+import { SxProps, ThemeProvider } from '@theme-ui/core'
 import { Platform } from 'react-native'
-import type { StyledProps } from './types'
 import { defaultBreakpoints } from './breakpoints'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 import { DripsyFinalTheme } from '../declarations'
 
 type Theme = DripsyFinalTheme
-type ThemeUIStyleObject = StyledProps['sx']
 
 export { ThemeProvider }
 
-type CssPropsArgument = ({ theme: Theme } | Theme) & {
+type CssPropsArgument = ({ theme?: Theme } | Theme) & {
   /**
    * We use this for a custom font family.
    */
@@ -25,15 +23,15 @@ const defaultTheme = {
 }
 
 export type ResponsiveSSRStyles = Exclude<
-  NonNullable<ThemeUIStyleObject>,
+  NonNullable<SxProps>,
   UseThemeFunction
 >[]
 
 const responsive = (
-  styles: Exclude<StyledProps['sx'], UseThemeFunction>,
+  styles: Exclude<SxProps, UseThemeFunction>,
   { breakpoint }: { breakpoint?: number } = {}
 ) => (theme?: Theme) => {
-  const next: Exclude<StyledProps['sx'], UseThemeFunction> & {
+  const next: Exclude<SxProps, UseThemeFunction> & {
     responsiveSSRStyles?: ResponsiveSSRStyles
   } = {}
 
@@ -320,8 +318,8 @@ const transforms = [
  * Here we remove web style keys from components to prevent annoying errors on native
  */
 const filterWebStyleKeys = (
-  styleProp: Exclude<StyledProps['sx'], UseThemeFunction> = {}
-): Exclude<StyledProps['sx'], UseThemeFunction> => {
+  styleProp: Exclude<SxProps, UseThemeFunction> = {}
+): Exclude<SxProps, UseThemeFunction> => {
   if (Platform.OS === 'web') {
     return styleProp
   }
@@ -355,7 +353,7 @@ const filterWebStyleKeys = (
 }
 
 export const css = (
-  args: StyledProps['sx'] = {},
+  args: SxProps = {},
   breakpoint?: number
   // { ssr }: { ssr?: boolean } = {}
 ) => (
@@ -497,7 +495,7 @@ export const css = (
 }
 
 export class Styles {
-  static create<T extends { [key: string]: NonNullable<StyledProps['sx']> }>(
+  static create<T extends { [key: string]: NonNullable<SxProps> }>(
     styles: T
   ): T {
     return styles

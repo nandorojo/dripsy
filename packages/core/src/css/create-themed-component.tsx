@@ -4,17 +4,28 @@ import type { ThemedOptions, StyledProps } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './use-breakpoint-index'
 import { mapPropsToStyledComponent } from './map-props'
+import { DripsyFinalTheme } from '../declarations'
 
-type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
+type Props<ThemeKey extends keyof DripsyFinalTheme> = Omit<
+  StyledProps<ThemeKey>,
+  'theme' | 'breakpoint'
+>
 
-export function createThemedComponent<P, T = {}>(
-  Component: ComponentType<P>,
-  { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
+export function createThemedComponent<
+  BaseComponentProps,
+  ExtraProps,
+  ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
+>(
+  Component: ComponentType<BaseComponentProps>,
+  {
+    defaultStyle: baseStyle,
+    ...options
+  }: ThemedOptions<ExtraProps, ThemeKey> = {}
 ): React.ForwardRefExoticComponent<
-  Props<P> &
+  Props<ThemeKey> &
     ComponentProps<typeof Component> &
-    T &
-    P &
+    ExtraProps &
+    BaseComponentProps &
     /**
      * TODO this doesn't work.
      */
@@ -22,7 +33,7 @@ export function createThemedComponent<P, T = {}>(
 > {
   const WrappedComponent = React.forwardRef<
     typeof Component,
-    Props<P> & ComponentProps<typeof Component> & T
+    Props<ThemeKey> & ComponentProps<typeof Component> & ExtraProps
   >(function Wrapped(prop, ref) {
     const {
       sx,
@@ -44,7 +55,7 @@ export function createThemedComponent<P, T = {}>(
     const { theme } = useDripsyTheme()
     const breakpoint = useBreakpointIndex()
 
-    const { styles } = mapPropsToStyledComponent<P, T>(
+    const { styles } = mapPropsToStyledComponent<ThemeKey>(
       {
         theme,
         breakpoint,
@@ -62,13 +73,7 @@ export function createThemedComponent<P, T = {}>(
 
     const TheComponent = SuperComponent || Component
 
-    return (
-      <TheComponent
-        {...((props as unknown) as P & T)}
-        ref={ref}
-        style={styles}
-      />
-    )
+    return <TheComponent {...(props as any)} ref={ref} style={styles} />
   })
 
   WrappedComponent.displayName = `Dripsy.${
