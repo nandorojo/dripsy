@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CSSObject, UseThemeFunction, get } from '@theme-ui/css'
-import { SxProps, ThemeProvider } from '@theme-ui/core'
 import { Platform } from 'react-native'
 import { defaultBreakpoints } from './breakpoints'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 import { DripsyFinalTheme } from '../declarations'
 
-type Theme = DripsyFinalTheme
+import type { SxProp } from './types'
 
-export { ThemeProvider }
+type SxProps = SxProp
+
+type Theme = DripsyFinalTheme
 
 type CssPropsArgument = ({ theme?: Theme } | Theme) & {
   /**

@@ -1,5 +1,7 @@
-import type { Theme, ThemeUICSSProperties } from '@theme-ui/css'
+import type { ThemeUICSSProperties } from '@theme-ui/css'
 import type { ComponentType } from 'react'
+import { ViewStyle } from 'react-native'
+import { Shadows } from '../declarations'
 import { DripsyCustomTheme, DripsyFinalTheme } from '../declarations'
 // import { SxStyleProp } from 'theme-ui'
 
@@ -83,31 +85,18 @@ type ThemeWithoutIgnoredKeys = Omit<
 
 type ResponsiveValue<T> = T | (null | T)[]
 
+type TokenizedTheme = Tokenize<ThemeWithoutIgnoredKeys, true>
+
+type TokenizedResponsiveTheme = ResponsiveValue<TokenizedTheme>
+
 export type Sx = {
   [key in keyof ThemeUICSSProperties]?:
-    | ResponsiveValue<Tokenize<ThemeWithoutIgnoredKeys, true>>
+    | TokenizedResponsiveTheme
     | (ThemeUICSSProperties[key] & {})
-}
+} &
+  Partial<Shadows & Pick<ViewStyle, 'transform'>>
 
-// const sx: {
-//   color: Tokenize<
-//     {
-//       hi: {
-//         nice: {
-//           one: 1
-//           b: {
-//             ok: ''
-//           }
-//         }
-//       }
-//     },
-//     true
-//   >
-// } = {
-//   color: 'nice.ok',
-// }
-
-type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
+export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
 export type DripsyVariant<ThemeKey extends keyof DripsyFinalTheme> =
   | (DripsyFinalTheme[ThemeKey] extends undefined

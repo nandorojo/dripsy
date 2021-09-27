@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { DripsyFinalTheme } from '..'
+import { DripsyFinalTheme } from '../declarations'
 
 export type DripsyThemeContext = { theme: DripsyFinalTheme }
 

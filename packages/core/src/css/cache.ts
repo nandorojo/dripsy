@@ -1,4 +1,4 @@
-import { CSSObject, ThemeUIStyleObject } from '@theme-ui/css'
+import { CSSObject } from '@theme-ui/css'
 import { StyleSheet } from 'react-native'
 
 const cache: Record<
@@ -18,15 +18,4 @@ export class StyleSheetCache {
     }
     return cache[string].dripsyStyle
   }
-}
-
-const webContainerCache: Record<string, ThemeUIStyleObject> = {}
-
-export const getWebContainerCachedStyle = (sx: ThemeUIStyleObject) => {
-  const string = JSON.stringify(sx || {})
-  if (!webContainerCache.hasOwnProperty(string) || !webContainerCache[string]) {
-    webContainerCache[string] = sx
-  }
-
-  return webContainerCache[string]
 }
