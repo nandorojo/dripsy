@@ -1,6 +1,6 @@
-import { useThemeUI } from '@theme-ui/core'
-import { DripsyFinalTheme } from './declarations'
+import { useContext } from 'react'
+import { DripsyThemeContext } from './provider/context'
 
 export const useDripsyTheme = () => {
-  return (useThemeUI() as unknown) as { theme: DripsyFinalTheme }
+  return useContext(DripsyThemeContext)
 }
