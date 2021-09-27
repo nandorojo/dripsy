@@ -1,12 +1,20 @@
 import { get } from '@theme-ui/css'
 import { css } from './index'
 import { StyleSheetCache } from './cache'
-import { StyledProps, ThemedOptions } from './types'
+import { StyledProps, Sx, ThemedOptions } from './types'
 import { DripsyFinalTheme } from '../declarations'
+
+type DefaultStyleProp = keyof Pick<ThemedOptions<unknown>, 'defaultStyle'>
+
+type ThemedOptionsWithoutFunctionStyle<T> = Omit<
+  ThemedOptions<T>,
+  DefaultStyleProp
+> &
+  Record<DefaultStyleProp, Sx | undefined>
 
 export function mapPropsToStyledComponent<P, T>(
   props: StyledProps<P> & { breakpoint: number; theme: DripsyFinalTheme },
-  options: ThemedOptions<T>
+  options: ThemedOptionsWithoutFunctionStyle<T>
 ) {
   const {
     themeKey,

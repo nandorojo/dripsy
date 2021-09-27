@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 import React, { ComponentType, ComponentProps } from 'react'
 import type { ThemedOptions, StyledProps } from './types'
-import { useThemeUI } from '@theme-ui/core'
+import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './use-breakpoint-index'
 import { mapPropsToStyledComponent } from './map-props'
 
@@ -41,7 +41,7 @@ export function createThemedComponent<P, T = {}>(
     const defaultStyle =
       typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
 
-    const { theme } = useThemeUI()
+    const { theme } = useDripsyTheme()
     const breakpoint = useBreakpointIndex()
 
     const { styles } = mapPropsToStyledComponent<P, T>(
@@ -61,27 +61,6 @@ export function createThemedComponent<P, T = {}>(
     )
 
     const TheComponent = SuperComponent || Component
-
-    // if (
-    //   Platform.OS === 'web' &&
-    //   SUPPORT_FRESNEL_SSR &&
-    //   !!responsiveSSRStyles?.length
-    // ) {
-    //   return (
-    //     <SSRComponent
-    //       {...props}
-    //       Component={TheComponent as React.ComponentType<unknown>}
-    //       responsiveStyles={responsiveSSRStyles}
-    //       style={cachedStyle}
-    //       ref={ref}
-    //       containerStyles={
-    //         webContainerSx as ComponentProps<
-    //           typeof SSRComponent
-    //         >['containerStyles']
-    //       }
-    //     />
-    //   )
-    // }
 
     return (
       <TheComponent

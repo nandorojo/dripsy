@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CSSObject, UseThemeFunction, get } from '@theme-ui/css'
 import { ThemeProvider } from '@theme-ui/core'
 import { Platform } from 'react-native'
@@ -44,13 +44,13 @@ const responsive = (
 
     if (value == null) continue
     if (!Array.isArray(value)) {
-      // @ts-expect-error
+      // @ts-ignore
       next[key] = value
       continue
     }
 
     if (key === 'transform') {
-      // @ts-expect-error
+      // @ts-ignore
       next[key] = value
       continue
     }
@@ -387,7 +387,7 @@ export const css = (
     }
 
     if (val && typeof val === 'object') {
-      // @ts-expect-error
+      // @ts-ignore
       result[key] = css(val)(theme)
       continue
     }
@@ -478,17 +478,17 @@ export const css = (
         }
       }
     }
-    // @ts-expect-error no types
+    // @ts-ignore
     if (multiples[prop]) {
-      // @ts-expect-error no types
+      // @ts-ignore
       const dirs = multiples[prop]
 
       for (let i = 0; i < dirs.length; i++) {
-        // @ts-expect-error no types
+        // @ts-ignore
         result[dirs[i]] = value
       }
     } else {
-      // @ts-expect-error no types
+      // @ts-ignore
       result[prop] = value
     }
   }

@@ -4,8 +4,8 @@ import { DripsyCustomTheme, DripsyFinalTheme } from '../declarations'
 // import { SxStyleProp } from 'theme-ui'
 
 export type ThemedOptions<T = any> = {
-  defaultStyle?: SxProp
-  themeKey?: string
+  defaultStyle?: Sx | ((props: T) => Sx)
+  themeKey?: (string & {}) | Extract<keyof DripsyFinalTheme, string>
   defaultVariant?: string
   /**
    * List of multiple variants
@@ -99,7 +99,7 @@ type ThemeWithoutIgnoredKeys = Omit<
 
 type RequiredTheme = Required<ThemeWithoutIgnoredKeys>
 
-type Sx = {
+export type Sx = {
   [key in keyof ThemeUICSSProperties]?:
     | Tokenize<RequiredTheme, true>
     | (ThemeUICSSProperties[key] & {})

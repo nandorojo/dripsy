@@ -1,11 +1,12 @@
-import { useThemeUI } from '@theme-ui/core'
+import { useDripsyTheme } from '../use-dripsy-theme'
 import { Theme } from '@theme-ui/css'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, Platform, ScaledSize } from 'react-native'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 
 export const useBreakpoints = () => {
-  const breakpoints = useThemeUI().theme.breakpoints as
+  const dripsy = useDripsyTheme()
+  const breakpoints = dripsy?.theme?.breakpoints as
     | (number | string)[]
     | undefined
   if (breakpoints && typeof __DEV__ !== 'undefined' && __DEV__) {
@@ -37,6 +38,7 @@ export const useBreakpoints = () => {
 }
 
 import { defaultBreakpoints } from './breakpoints'
+import { DripsyFinalTheme } from '../declarations'
 type DefaultOptions = {
   /**
    * @deprecated SSR support removed
@@ -132,10 +134,10 @@ export const useBreakpointIndex = ({
   return index
 }
 
-type ResponsiveValues<T> = ((theme: Theme | null) => T[]) | T[]
+type ResponsiveValues<T> = ((theme: DripsyFinalTheme | null) => T[]) | T[]
 
 export function useResponsiveValue<T>(values: ResponsiveValues<T>): T {
-  const { theme } = useThemeUI()
+  const { theme } = useDripsyTheme()
   const array = typeof values === 'function' ? values(theme) : values
   const index = useBreakpointIndex()
   return array[index >= array.length ? array.length - 1 : index]

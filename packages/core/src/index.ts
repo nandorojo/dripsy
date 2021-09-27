@@ -9,11 +9,7 @@ export { Styles, css } from './css'
 export type { Theme } from '@theme-ui/css'
 export { styled } from './css/styled'
 
-import { useThemeUI, ContextValue } from '@theme-ui/core'
-// Re-export useThemeUI with an override to the theme value
-export const useDripsyTheme: () => Omit<ContextValue, 'theme'> & {
-  theme: DripsyTheme
-} = useThemeUI
+export { useDripsyTheme } from './use-dripsy-theme'
 
 export { remToPixels } from './utils/rem-to-pts'
 export { useSx } from './use-sx'

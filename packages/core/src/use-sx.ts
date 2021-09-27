@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
-import { useThemeUI } from '@theme-ui/core'
+import { useDripsyTheme } from './use-dripsy-theme'
 import { StyledProps } from './css/types'
 import { css } from './css'
 import { useBreakpointIndex } from './css/use-breakpoint-index'
 import { StyleSheetCache } from './css/cache'
 
 export function useSx() {
-  const { theme } = useThemeUI()
+  const { theme } = useDripsyTheme()
   const breakpoint = useBreakpointIndex()
 
   return useCallback(
