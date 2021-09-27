@@ -15,10 +15,6 @@ import { Gradient } from '@dripsy/gradient'
 import { Text } from 'react-native'
 
 const theme = makeTheme({
-  useBodyStyles: false,
-  useLocalStorage: false,
-  useCustomProperties: false,
-  useColorSchemeMediaQuery: false,
   colors: {
     primary: '#41b87a',
     secondary: 'black',
@@ -105,7 +101,6 @@ export default function App() {
           sx={(theme) => ({
             backgroundColor: theme.colors.green,
             height: [400, 800],
-            color: 'shadows.shadowRadius',
             bg: ['blue', null],
           })}
         >
