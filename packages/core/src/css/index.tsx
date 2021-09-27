@@ -38,7 +38,6 @@ const responsive = (
 
   for (const key in styles) {
     const value =
-      // @ts-expect-error
       typeof styles[key] === 'function' ? styles[key](theme) : styles[key]
 
     if (value == null) continue
@@ -91,7 +90,6 @@ const responsive = (
           }
         }
 
-        // @ts-expect-error
         next.responsiveSSRStyles[i][key] = styleAtThisMediaQuery
       }
     } else {
@@ -112,7 +110,6 @@ const responsive = (
       // if we're on mobile, we do have a breakpoint
       // so we can override TS here w/ `as number`
       const breakpointIndex = nearestBreakpoint(breakpoint as number)
-      // @ts-expect-error
       next[key] = value[breakpointIndex]
     }
   }
@@ -370,7 +367,6 @@ export const css = (
   const styles = responsive(filteredOutWebKeys, { breakpoint })(theme)
 
   for (const key in styles) {
-    // @ts-expect-error
     const x = styles[key]
     const val = typeof x === 'function' ? x(theme) : x
 

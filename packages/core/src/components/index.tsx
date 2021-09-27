@@ -15,7 +15,6 @@ import {
   ScrollView as rScrollView,
   TextInput as rTextInput,
   FlatList as rFlatList,
-  Button as rButton,
   SafeAreaView as rSafeAreaView,
   Image as rImage,
 } from 'react-native'
@@ -93,10 +92,6 @@ export const TextInput = createThemedComponent(rTextInput, {
   themeKey: 'forms',
   defaultVariant: 'input',
   defaultStyle: defaultFontStyle,
-})
-
-export const Button = createThemedComponent(rButton, {
-  themeKey: 'buttons',
 })
 
 export const FlatList = createThemedComponent(rFlatList)
