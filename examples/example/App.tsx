@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   View,
   Text as DripText,
@@ -8,11 +8,12 @@ import {
   Container,
   Pressable,
   makeTheme,
+  TextInput as DripsyInput,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
-import { Text } from 'react-native'
+import { Text, TextInput, View as NativeView } from 'react-native'
 
 const theme = makeTheme({
   colors: {
@@ -52,9 +53,7 @@ const theme = makeTheme({
     light: ['red', 'green'],
   },
   layout: {
-    wide: {
-      width: 199,
-    },
+    wide: {},
     narrow: {},
   },
 })
@@ -73,6 +72,9 @@ const ResponsiveSquare = () => {
     theme?.colors?.background,
   ])
 
+  const ref = useRef<NativeView>(null)
+  const input = useRef<TextInput>(null)
+
   return (
     <View
       sx={{
@@ -82,6 +84,8 @@ const ResponsiveSquare = () => {
         mt: 1,
       }}
     >
+      <View ref={ref} />
+      <DripsyInput ref={input} />
       <DripText sx={{ color: textColor }}>Hello</DripText>
     </View>
   )
@@ -96,12 +100,11 @@ declare module 'dripsy' {
 export default function App() {
   return (
     <DripsyProvider theme={theme}>
-      <Container variants={['wide', 'narrow']}>
+      <Container>
         <View
           sx={(theme) => ({
-            backgroundColor: theme.colors.green,
+            backgroundColor: theme.colors['primary'],
             height: [400, 800],
-            bg: ['blue', null],
           })}
         >
           <H4
@@ -116,11 +119,7 @@ export default function App() {
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />
-          <Gradient
-            sx={{ height: 50, width: 50, my: 16 }}
-            gradient=""
-            colors={['primary', 'secondary', '#234fdf']}
-          />
+          <Gradient sx={{ height: 50, width: 50, my: 16 }} gradient="light" />
           <Pressable
             sx={{
               height: 50,

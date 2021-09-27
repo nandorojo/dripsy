@@ -1,18 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-import React, { ComponentType, ComponentProps } from 'react'
+import React, { ComponentType, Component, ComponentPropsWithRef } from 'react'
 import type { ThemedOptions, StyledProps } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './use-breakpoint-index'
 import { mapPropsToStyledComponent } from './map-props'
 import { DripsyFinalTheme } from '../declarations'
 
-type Props<ThemeKey extends keyof DripsyFinalTheme> = Omit<
-  StyledProps<ThemeKey>,
-  'theme' | 'breakpoint'
->
-
 export function createThemedComponent<
-  BaseComponentProps,
+  BaseComponentProps extends { style?: any },
   ExtraProps,
   ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
 >(
@@ -21,19 +15,14 @@ export function createThemedComponent<
     defaultStyle: baseStyle,
     ...options
   }: ThemedOptions<ExtraProps, ThemeKey> = {}
-): React.ForwardRefExoticComponent<
-  Props<ThemeKey> &
-    ComponentProps<typeof Component> &
-    ExtraProps &
-    BaseComponentProps &
-    /**
-     * TODO this doesn't work.
-     */
-    React.RefAttributes<typeof Component>
+): ComponentType<
+  StyledProps<ThemeKey> &
+    ComponentPropsWithRef<ComponentType<BaseComponentProps>> &
+    ExtraProps
 > {
   const WrappedComponent = React.forwardRef<
-    typeof Component,
-    Props<ThemeKey> & ComponentProps<typeof Component> & ExtraProps
+    any,
+    StyledProps<ThemeKey> & BaseComponentProps & ExtraProps
   >(function Wrapped(prop, ref) {
     const {
       sx,
@@ -80,6 +69,5 @@ export function createThemedComponent<
     Component?.displayName ?? 'NoNameComponent'
   }`
 
-  // @ts-ignore
-  return WrappedComponent
+  return WrappedComponent as any
 }

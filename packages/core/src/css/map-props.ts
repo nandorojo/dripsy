@@ -20,6 +20,7 @@ export function mapPropsToStyledComponent<
   props: StyledProps<ThemeKey> & {
     breakpoint: number
     theme: DripsyFinalTheme
+    style?: any
   },
   options: ThemedOptionsWithoutFunctionStyle<ThemeKey>
 ) {

@@ -4,7 +4,7 @@ import { styled, useDripsyTheme, DripsyFinalTheme } from '@dripsy/core'
 import { StyleSheet } from 'react-native'
 
 type Props = Omit<React.ComponentProps<typeof ExpoLinearGradient>, 'colors'> & {
-  gradient?: keyof DripsyFinalTheme['linearGradients'] | (string & {})
+  gradient?: keyof DripsyFinalTheme['linearGradients']
   colors?: (keyof DripsyFinalTheme['colors'] | (string & {}))[]
   /*
    * Set to `true` if you're using the gradient for a background.

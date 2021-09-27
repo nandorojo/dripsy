@@ -12,5 +12,6 @@
     "skipLibCheck": true,
     "strict": true,
     "experimentalDecorators": true
-  }
+  },
+  "exclude": ["examples/next-example/*"]
 }

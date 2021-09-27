@@ -3,7 +3,6 @@ import type { ComponentType } from 'react'
 import { ViewStyle } from 'react-native'
 import { Shadows } from '../declarations'
 import { DripsyCustomTheme, DripsyFinalTheme } from '../declarations'
-// import { SxStyleProp } from 'theme-ui'
 
 export type ThemedOptions<
   ExtraProps,
@@ -112,6 +111,6 @@ export type StyledProps<
   variant?: VariantKey
   themeKey?: ThemeKey
   sx?: SxProp
-  style?: any
+  // style?: any
   variants?: VariantKey[]
 }
