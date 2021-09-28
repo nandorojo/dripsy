@@ -87,13 +87,12 @@ const ResponsiveSquare = () => {
       sx={{
         width: [100, 120, 150],
         height: [100, 120, 150],
-        bg: squareColor,
         mt: 1,
         color: '',
         fontWeight: 'big',
-        padding: '',
+        padding: '1',
+        bg: 'accent',
       }}
-      variant="shadows.md"
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
@@ -129,7 +128,7 @@ export default function App() {
           </H4>
           <G variant="secondary">Hey</G>
           <G>Hi!</G>
-          <View sx={{ bg: 'white', boxShadow: 'md' }}>
+          <View sx={{ p: '' }}>
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />

@@ -1,5 +1,3 @@
-import { DripsyBaseTheme, DripsyThemeWithoutIgnoredKeys } from '..'
-
 export const aliases = {
   bg: 'backgroundColor',
   m: 'margin',
@@ -39,6 +37,8 @@ export const scales = {
   marginLeft: 'space',
   marginX: 'space',
   marginY: 'space',
+  marginVertical: 'space',
+  marginHorizontal: 'space',
   marginBlock: 'space',
   marginBlockEnd: 'space',
   marginBlockStart: 'space',
@@ -52,6 +52,8 @@ export const scales = {
   paddingLeft: 'space',
   paddingX: 'space',
   paddingY: 'space',
+  paddingHorizontal: 'space',
+  paddingVertical: 'space',
   paddingBlock: 'space',
   paddingBlockEnd: 'space',
   paddingBlockStart: 'space',
