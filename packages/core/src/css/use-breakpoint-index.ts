@@ -1,5 +1,4 @@
 import { useDripsyTheme } from '../use-dripsy-theme'
-import { Theme } from '@theme-ui/css'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Dimensions, Platform, ScaledSize } from 'react-native'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
