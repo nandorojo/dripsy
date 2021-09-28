@@ -81,7 +81,6 @@
     "@theme-ui/css": "^0.4.0-rc.1"
   },
   "dependencies": {
-    "@artsy/fresnel": "^1.2.0",
     "@expo/html-elements": "^0.0.1",
     "@react-native-community/hooks": "^2.6.0"
   },

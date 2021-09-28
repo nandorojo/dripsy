@@ -1,7 +1,6 @@
 export * from './components'
 export * from './css/create-themed-component'
 export * from './provider'
-export * from './provider/fresnel'
 export { setBreakpoints } from './css/breakpoints'
 export * from './css/use-breakpoint-index'
 export { Styles, css } from './css'
