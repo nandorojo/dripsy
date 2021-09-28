@@ -14,6 +14,7 @@ import {
 import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
 import { Text, TextInput, View as NativeView } from 'react-native'
+import { MaybeTokenizedValue } from '../../packages/core/src/css/types'
 
 const theme = makeTheme({
   colors: {
@@ -54,6 +55,10 @@ const theme = makeTheme({
     wide: {},
     narrow: {},
   },
+  space: {
+    0: '0',
+    1: '4',
+  },
 })
 
 const G = createThemedComponent(Text, {
@@ -81,6 +86,8 @@ const ResponsiveSquare = () => {
         bg: squareColor,
         mt: 1,
         color: '',
+        textAlign: 'background',
+        padding: '1',
       }}
     >
       <View ref={ref} />
@@ -105,6 +112,7 @@ export default function App() {
             backgroundColor: theme.colors['primary'],
             height: [400, 800],
             color: 'gray',
+            padding: '',
           })}
         >
           <H4

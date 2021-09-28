@@ -1,8 +1,10 @@
 import type { ThemeUICSSProperties } from '@theme-ui/css'
 import type { ComponentType } from 'react'
 import { ViewStyle } from 'react-native'
+import { DripsyThemeWithoutIgnoredKeys } from '..'
 import { Shadows } from '../declarations'
 import { DripsyCustomTheme, DripsyFinalTheme } from '../declarations'
+import { Scales } from './scales'
 
 export type ThemedOptions<
   ExtraProps,
@@ -57,7 +59,7 @@ type Tokenize<
       | undefined
       | null
       ? Key extends HiddenArrayKeys
-        ? `${number}`
+        ? `${Extract<keyof Key, number>}`
         : `${Key}`
       : Theme[Key] extends undefined
       ? `${Key}`
@@ -72,25 +74,73 @@ type Tokenize<
   string | number | '' | never | undefined | null
 >
 
-type ThemeWithoutIgnoredKeys = Omit<
-  DripsyCustomTheme,
-  | 'breakpoints'
-  | 'customFonts'
-  | 'useBodyStyles'
-  | 'useLocalStorage'
-  | 'useCustomProperties'
-  | 'useColorSchemeMediaQuery'
->
-
 type ResponsiveValue<T> = T | (null | T)[]
 
-type TokenizedTheme = Tokenize<ThemeWithoutIgnoredKeys, true>
+type WithoutThemeKeys<T> = Exclude<T, keyof DripsyThemeWithoutIgnoredKeys>
 
-type TokenizedResponsiveTheme = ResponsiveValue<TokenizedTheme>
+// we shouldn't be putting keys
+type TokenizedTheme = WithoutThemeKeys<
+  Tokenize<DripsyThemeWithoutIgnoredKeys, true>
+>
+
+type ScaleValue = Scales[keyof Scales]
+
+// type MaybeTokenizedValueOld<
+//   Key extends keyof ThemeUICSSProperties,
+//   Scale extends
+//     | keyof DripsyThemeWithoutIgnoredKeys
+//     | keyof ThemeUICSSProperties = Key extends keyof Scales
+//     ? // if Key = 'color'
+//       // then Scales['color'] = 'colors'
+//       // so if 'colors' is a keyof the theme
+//       // then the scale is indeed 'colors', and we tokenize theme.colors
+//       Scales[Key] extends keyof DripsyThemeWithoutIgnoredKeys
+//       ? Scales[Key]
+//       : Key
+//     : Key
+// > = Scale extends ScaleValue
+//   ? // the scale we chose points to a potential theme value
+//     Scale extends keyof DripsyThemeWithoutIgnoredKeys
+//     ? // the scale points to a theme value which is indeed in our custom theme
+//       // so we tokenize the options at theme[scale]
+//       // example:
+//       // Key = 'color'
+//       // scales[color] = 'colors'
+//       // if theme.colors exists, then we tokenize theme[colors]
+//       ResponsiveValue<
+//         Tokenize<DripsyThemeWithoutIgnoredKeys[Scale], true, false>
+//       >
+//     : TokenizedTheme
+//   : TokenizedTheme
+
+export type MaybeTokenizedValue<
+  Key extends keyof ThemeUICSSProperties,
+  Scale extends
+    | keyof DripsyThemeWithoutIgnoredKeys
+    | keyof ThemeUICSSProperties = Key extends keyof Scales
+    ? // if Key = 'color'
+      // then Scales['color'] = 'colors'
+      // so if 'colors' is a keyof the theme
+      // then the scale is indeed 'colors', and we tokenize theme.colors
+      Scales[Key] extends keyof DripsyThemeWithoutIgnoredKeys
+      ? Scales[Key]
+      : Key
+    : Key
+> = Scale extends ScaleValue
+  ? // the scale we chose points to a potential theme value
+    // the scale points to a theme value which is indeed in our custom theme
+    // so we tokenize the options at theme[scale]
+    // example:
+    // Key = 'color'
+    // scales[color] = 'colors'
+    // if theme.colors exists, then we tokenize theme[colors]
+    ResponsiveValue<Tokenize<DripsyThemeWithoutIgnoredKeys[Scale], true, false>>
+  : TokenizedTheme
 
 export type Sx = {
   [key in keyof ThemeUICSSProperties]?:
-    | TokenizedResponsiveTheme
+    | ResponsiveValue<MaybeTokenizedValue<key>>
+    // | ResponsiveValue<TokenizedTheme>
     | (ThemeUICSSProperties[key] & {})
 } &
   Partial<Shadows & Pick<ViewStyle, 'transform'>>

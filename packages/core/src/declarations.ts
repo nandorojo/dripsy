@@ -96,3 +96,13 @@ export interface DripsyCustomTheme {}
 export interface DripsyFinalTheme
   extends Omit<DripsyBaseTheme, keyof DripsyCustomTheme>,
     DripsyCustomTheme {}
+
+export type DripsyThemeWithoutIgnoredKeys<Theme = DripsyCustomTheme> = Omit<
+  Theme,
+  | 'breakpoints'
+  | 'customFonts'
+  | 'useBodyStyles'
+  | 'useLocalStorage'
+  | 'useCustomProperties'
+  | 'useColorSchemeMediaQuery'
+>
