@@ -1,5 +1,5 @@
 import React, { ComponentType, Component, ComponentPropsWithRef } from 'react'
-import type { ThemedOptions, StyledProps } from './types'
+import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './use-breakpoint-index'
 import { mapPropsToStyledComponent } from './map-props'
@@ -8,7 +8,7 @@ import { DripsyFinalTheme } from '../declarations'
 export function createThemedComponent<
   BaseComponentProps extends { style?: any },
   ExtraProps,
-  ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
+  ThemeKey extends keyof DripsyFinalTheme
 >(
   Component: ComponentType<BaseComponentProps>,
   {
@@ -51,7 +51,7 @@ export function createThemedComponent<
         variant,
         sx,
         style,
-        variants,
+        variants: variants as DripsyVariant<ThemeKey>[] | undefined,
       },
       {
         ...options,

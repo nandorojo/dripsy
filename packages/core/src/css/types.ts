@@ -9,14 +9,16 @@ import type { Aliases, Scales } from './scales'
 export type ThemedOptions<
   ExtraProps,
   ThemeKey extends keyof DripsyFinalTheme,
-  VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
+  VariantKey extends keyof DripsyFinalTheme[ThemeKey] = keyof DripsyFinalTheme[ThemeKey],
+  Variant = VariantKey | (string & {})
+  // VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
 > = {
   defaultStyle?: Sx | ((props: ExtraProps) => Sx)
-  defaultVariant?: VariantKey
+  defaultVariant?: Variant
   /**
    * List of multiple variants
    */
-  defaultVariants?: VariantKey[]
+  defaultVariants?: Variant[]
 } & Pick<StyledProps<ThemeKey>, 'themeKey'>
 
 // https://github.com/intergalacticspacehighway/react-native-styled-variants/blob/main/src/types.ts

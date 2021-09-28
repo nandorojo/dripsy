@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/core",
-  "version": "3.0.0-alpha.15+39d2732",
+  "version": "3.0.0-alpha.26+ba10b88",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -75,15 +75,15 @@
     ]
   },
   "devDependencies": {
+    "@theme-ui/css": "^0.4.0-rc.1",
     "react-native": "0.63.4",
     "react-native-web": "~0.14.10",
-    "typescript": "^4.4.3",
-    "@theme-ui/css": "^0.4.0-rc.1"
+    "typescript": "^4.4.3"
   },
   "dependencies": {
     "@expo/html-elements": "^0.0.1",
     "@react-native-community/hooks": "^2.6.0"
   },
   "sideEffects": false,
-  "gitHead": "39d2732c7cbd6d96f8a3fce963c8a451106b22c5"
+  "gitHead": "ba10b88ff386db8321b4c5b2ebb9ceb8448c676a"
 }
