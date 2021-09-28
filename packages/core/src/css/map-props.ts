@@ -1,8 +1,8 @@
-import { get } from '@theme-ui/css'
 import { css } from './index'
 import { StyleSheetCache } from './cache'
 import { StyledProps, Sx, ThemedOptions } from './types'
 import { DripsyFinalTheme } from '../declarations'
+import { get } from './get'
 
 const defaultStyleProp: keyof ThemedOptions<{ noop: true }, 'layout'> =
   'defaultStyle'
