@@ -4309,15 +4309,6 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@theme-ui/core@0.4.0-rc.1", "@theme-ui/core@^0.4.0-rc.1":
-  version "0.4.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@theme-ui/core/-/core-0.4.0-rc.1.tgz#52bab9e4ed9c35a19092992e5dd3b52c6b7e89c2"
-  integrity sha512-4Kjv0zi5/wGcD7H7I0CTCziSvf8Brrgmc9IdgtjEuz99wNx8u5XmXtIV9slPUW4MzVY7RShbYfrj34t5vkRJdA==
-  dependencies:
-    "@emotion/core" "^10.0.0"
-    "@theme-ui/css" "^0.4.0-rc.1"
-    deepmerge "^4.2.2"
-
 "@theme-ui/css@0.4.0-rc.1", "@theme-ui/css@^0.4.0-rc.1":
   version "0.4.0-rc.1"
   resolved "https://registry.yarnpkg.com/@theme-ui/css/-/css-0.4.0-rc.1.tgz#96105db23dcba421a334228d00e9d672fa73511d"

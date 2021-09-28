@@ -84,7 +84,6 @@
     ]
   },
   "resolutions": {
-    "@theme-ui/core": "0.4.0-rc.1",
     "@theme-ui/css": "0.4.0-rc.1",
     "@theme-ui/mdx": "0.4.0-rc.1",
     "@types/react": "~16.9.35",
