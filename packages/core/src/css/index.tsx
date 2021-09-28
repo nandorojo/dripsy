@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { CSSObject, UseThemeFunction } from '@theme-ui/css'
+import type { CSSObject, UseThemeFunction } from '@theme-ui/css'
 import { Platform } from 'react-native'
 import { defaultBreakpoints } from './breakpoints'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'

@@ -1,4 +1,4 @@
-import { CSSObject } from '@theme-ui/css'
+import type { CSSObject } from '@theme-ui/css'
 import { StyleSheet } from 'react-native'
 
 const cache: Record<
