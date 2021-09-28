@@ -72,11 +72,6 @@
   dependencies:
     cross-fetch "3.0.6"
 
-"@artsy/fresnel@^1.2.0":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@artsy/fresnel/-/fresnel-1.3.1.tgz#1df2ea9bb7b6a1a4e7ae9aa837f2af1a402ee3cf"
-  integrity sha512-p3tZxhtUWELqok1VLAYjGlMaBl30K6U+PVYXuV/8xD+Y+wgTxMMIrrKU61zKaRh3Py7xj9if9rpsOESVGJD4Wg==
-
 "@babel/cli@^7.1.2":
   version "7.13.16"
   resolved "https://registry.yarnpkg.com/@babel/cli/-/cli-7.13.16.tgz#9d372e943ced0cc291f068204a9b010fd9cfadbc"
