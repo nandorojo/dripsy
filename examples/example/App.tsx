@@ -18,10 +18,10 @@ import { MaybeTokenizedValue } from '../../packages/core/src/css/types'
 
 const theme = makeTheme({
   colors: {
-    primary: '#41b87a',
+    primary: 'orange',
     secondary: 'black',
     background: 'white',
-    gray: 'red',
+    gray: 'green',
     accent: 'green',
     cool: 'gray',
   },
@@ -59,6 +59,10 @@ const theme = makeTheme({
     0: '0',
     1: '4',
   },
+  // space: [0, 1, 2],
+  fontWeights: {
+    big: 'bold',
+  },
 })
 
 const G = createThemedComponent(Text, {
@@ -86,9 +90,10 @@ const ResponsiveSquare = () => {
         bg: squareColor,
         mt: 1,
         color: '',
-        textAlign: 'background',
-        padding: '1',
+        fontWeight: 'big',
+        padding: '',
       }}
+      variant="shadows.md"
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
@@ -111,17 +116,18 @@ export default function App() {
           sx={(theme) => ({
             backgroundColor: theme.colors['primary'],
             height: [400, 800],
-            color: 'gray',
-            padding: '',
+            color: 'background',
+            fontWeight: 'big',
           })}
+          variant="colors.cool"
         >
           <H4
-            variants={['secondary']}
+            variants={['secondary', 'primary']}
             sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}
           >
             Test
           </H4>
-          <G variant="primary">Hey</G>
+          <G variant="secondary">Hey</G>
           <G>Hi!</G>
           <View sx={{ bg: 'white', boxShadow: 'md' }}>
             <Text>Card</Text>

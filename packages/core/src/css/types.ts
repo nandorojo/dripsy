@@ -3,7 +3,7 @@ import type { ComponentType } from 'react'
 import { ViewStyle } from 'react-native'
 import { DripsyThemeWithoutIgnoredKeys } from '..'
 import { Shadows } from '../declarations'
-import { DripsyCustomTheme, DripsyFinalTheme } from '../declarations'
+import { DripsyFinalTheme } from '../declarations'
 import { Scales } from './scales'
 
 export type ThemedOptions<
@@ -27,22 +27,17 @@ type SafeTokenized<
   Theme,
   IsFirstIteration extends boolean,
   Key extends Extract<keyof Theme, string | number>,
-  AllowsRootKeys extends boolean,
-  Tokenized extends Tokenize<Theme[Key], IsFirstIteration> = Tokenize<
-    Theme[Key],
-    IsFirstIteration
-  >
+  AllowsRootKeys extends boolean
 > = IsFirstIteration extends true
   ? AllowsRootKeys extends false // exclude the first key from the options
     ? // for example: { colors: { primary: { 100: '' } } } would result in 'primary' or 'primary.100'
-      Tokenize<Theme[Key], false>
-    : Tokenize<Theme[Key], false> | `${Key}.${Tokenize<Theme[Key], false>}`
+      Tokenize<Theme[Key], false, false>
+    :
+        | Tokenize<Theme[Key], false, false>
+        | `${Key}.${Tokenize<Theme[Key], false, false>}`
   : // we're not on the first iteration, so we can return colors or colors.${keyof colors}
     // this was created as a generic to make it only once
-    Tokenized | `${Key}.${Tokenized}`
-// IsFirstIteration extends true
-//   ? Tokenized | `${Key}.${Tokenized}`
-// : `${Key}.${Tokenize<Theme[Key], false>}`
+    `${Key}.${Tokenize<Theme[Key], IsFirstIteration>}`
 
 // TODO replace with this maybe? https://github.com/system-ui/theme-ui/pull/1090/files#diff-7ef5a8c1a0ef5be9914c14678b6cf85955e354f070f14769ab856c495d3879a4R22
 type Tokenize<
@@ -51,17 +46,10 @@ type Tokenize<
   AllowsRootKeys extends boolean = true
 > = Extract<
   keyof {
-    [Key in Extract<keyof Theme, string | number> as Theme[Key] extends
-      | string
-      | number
-      | ''
-      | never
-      | undefined
-      | null
-      ? Key extends HiddenArrayKeys
-        ? `${Extract<keyof Key, number>}`
-        : `${Key}`
-      : Theme[Key] extends undefined
+    [Key in Exclude<
+      Extract<keyof Theme, string | number>,
+      HiddenArrayKeys
+    > as Theme[Key] extends string | number | '' | never | undefined | null
       ? `${Key}`
       : // if we're iterating over the key of the theme
         // for example, if key = 'colors'
@@ -76,11 +64,11 @@ type Tokenize<
 
 type ResponsiveValue<T> = T | (null | T)[]
 
-type WithoutThemeKeys<T> = Exclude<T, keyof DripsyThemeWithoutIgnoredKeys>
-
 // we shouldn't be putting keys
-type TokenizedTheme = WithoutThemeKeys<
-  Tokenize<DripsyThemeWithoutIgnoredKeys, true>
+type TokenizedTheme<AllowsRootKey extends boolean = false> = Tokenize<
+  DripsyThemeWithoutIgnoredKeys,
+  true,
+  AllowsRootKey
 >
 
 type ScaleValue = Scales[keyof Scales]
@@ -147,11 +135,15 @@ export type Sx = {
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-export type DripsyVariant<ThemeKey extends keyof DripsyFinalTheme> =
-  | (DripsyFinalTheme[ThemeKey] extends undefined
-      ? Tokenize<DripsyFinalTheme, true, true>
-      : keyof DripsyFinalTheme[ThemeKey])
-  | (string & {})
+type VariantTheme = TokenizedTheme<true>
+
+export type DripsyVariant<
+  ThemeKey extends keyof DripsyFinalTheme
+> = DripsyFinalTheme[ThemeKey] extends undefined
+  ? VariantTheme
+  : keyof DripsyFinalTheme[ThemeKey] extends undefined
+  ? VariantTheme
+  : keyof DripsyFinalTheme[ThemeKey]
 
 export type StyledProps<
   ThemeKey extends keyof DripsyFinalTheme,
