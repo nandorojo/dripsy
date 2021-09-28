@@ -20,18 +20,16 @@ const theme = makeTheme({
     primary: '#41b87a',
     secondary: 'black',
     background: 'white',
-    red: 'red',
-    green: 'green',
-    blue: 'blue',
+    gray: 'red',
+    accent: 'green',
+    cool: 'gray',
   },
   text: {
     primary: {
       fontSize: 40,
-      color: 'green',
     },
     secondary: {
       fontSize: 60,
-      color: 'blue',
     },
   },
   sizes: {
@@ -82,6 +80,7 @@ const ResponsiveSquare = () => {
         height: [100, 120, 150],
         bg: squareColor,
         mt: 1,
+        color: '',
       }}
     >
       <View ref={ref} />
@@ -105,6 +104,7 @@ export default function App() {
           sx={(theme) => ({
             backgroundColor: theme.colors['primary'],
             height: [400, 800],
+            color: 'gray',
           })}
         >
           <H4

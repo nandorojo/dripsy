@@ -125,25 +125,21 @@ const aliases = {
   mr: 'marginRight',
   mb: 'marginBottom',
   ml: 'marginLeft',
-  mx: 'marginX',
-  my: 'marginY',
+  mx: 'marginHorizontal',
+  my: 'marginVertical',
   p: 'padding',
   pt: 'paddingTop',
   pr: 'paddingRight',
   pb: 'paddingBottom',
   pl: 'paddingLeft',
-  px: 'paddingX',
-  py: 'paddingY',
+  px: 'paddingHorizontal',
+  py: 'paddingVertical',
+  marginX: 'marginHorizontal',
+  marginY: 'marginVertical',
+  paddingX: 'paddingHorizontal',
+  paddingY: 'paddingVertical',
 } as const
 type Aliases = typeof aliases
-
-export const multiples = {
-  marginX: ['marginLeft', 'marginRight'],
-  marginY: ['marginTop', 'marginBottom'],
-  paddingX: ['paddingLeft', 'paddingRight'],
-  paddingY: ['paddingTop', 'paddingBottom'],
-  size: ['width', 'height'],
-}
 
 export const scales = {
   // RN SPECIFIC SCALES FIRST
@@ -473,18 +469,9 @@ export const css = (
         }
       }
     }
-    // @ts-ignore
-    if (multiples[prop]) {
-      // @ts-ignore
-      const dirs = multiples[prop]
-
-      for (let i = 0; i < dirs.length; i++) {
-        // @ts-ignore
-        result[dirs[i]] = value
-      }
-    } else {
-      // @ts-ignore
-      result[prop] = value
+    if (key == 'size') {
+      result.width = value
+      result.height = value
     }
   }
 
