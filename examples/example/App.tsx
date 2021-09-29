@@ -44,13 +44,14 @@ const theme = makeTheme({
       shadowOpacity: 0.8,
       shadowRadius: 14,
       elevation: 25,
+      shadowColor: 'background',
     },
   },
   textShadows: {
     onImage: {
       textShadowOffset: { width: 1, height: 1 },
       textShadowRadius: 5,
-      textShadowColor: '#00000099',
+      textShadowColor: 'gray',
     },
   },
   linearGradients: {

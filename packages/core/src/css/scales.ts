@@ -24,6 +24,7 @@ export type Aliases = typeof aliases
 export const scales = {
   // RN SPECIFIC SCALES FIRST
   textShadowColor: 'colors',
+  shadowColor: 'colors',
   // REST
   color: 'colors',
   backgroundColor: 'colors',

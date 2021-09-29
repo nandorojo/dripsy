@@ -227,6 +227,21 @@ export const css = (
       continue
     }
 
+    if (key == 'textShadow' && val && theme.textShadows?.[val]) {
+      // we want to change textShadowColor to theme keys via css function
+      // @ts-expect-error theme UI doesn't have RN textShadow*, need to add this later
+      const styledTextShadow = css(theme.textShadows[val])(theme)
+      result = { ...result, ...styledTextShadow }
+      continue
+    }
+
+    if (key == 'boxShadow' && val && theme.shadows?.[val]) {
+      // @ts-expect-error theme UI doesn't have RN shadow*, need to add this later
+      const styledBoxShadow = css(theme.shadows[val])(theme)
+      result = { ...result, ...styledBoxShadow }
+      continue
+    }
+
     if (val && typeof val == 'object') {
       // @ts-ignore
       result[key] = css(val)(theme)
