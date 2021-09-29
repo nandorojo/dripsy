@@ -78,6 +78,7 @@
     "@theme-ui/css": "^0.4.0-rc.1",
     "react-native": "0.63.4",
     "react-native-web": "~0.14.10",
+    "ts-toolbelt": "^9.6.0",
     "typescript": "^4.4.3"
   },
   "dependencies": {

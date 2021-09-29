@@ -53,7 +53,9 @@ type Tokenize<
       Extract<keyof Theme, string | number>,
       HiddenArrayKeys
     > as Theme[Key] extends string | number | '' | never | undefined | null
-      ? `${Key}`
+      ? Key extends number
+        ? Key
+        : `${Key}`
       : // if we're iterating over the key of the theme
         // for example, if key = 'colors'
         // and colors: { primary: '...' }

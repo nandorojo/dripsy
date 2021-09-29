@@ -62,10 +62,7 @@ const theme = makeTheme({
     wide: {},
     narrow: {},
   },
-  space: {
-    0: '0',
-    1: '4',
-  },
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
   fontWeights: {
     big: 'bold',
   },
@@ -91,13 +88,8 @@ const ResponsiveSquare = () => {
   return (
     <View
       sx={{
-        width: [100, 120, 150],
-        height: [100, 120, 150],
-        mt: 1,
-        color: '',
-        fontWeight: 'big',
-        padding: '1',
         bg: 'accent',
+        padding: '',
       }}
     >
       <View ref={ref} />

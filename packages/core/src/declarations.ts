@@ -1,5 +1,6 @@
 import type { ViewStyle, TextStyle } from 'react-native'
 import type { Theme } from '@theme-ui/css'
+import type { Function } from 'ts-toolbelt'
 
 export type Shadows = Pick<
   ViewStyle,
@@ -93,7 +94,9 @@ export interface DripsyBaseTheme extends Omit<Theme, 'fonts' | 'shadows'> {
   }
 }
 
-export function makeTheme<T extends DripsyBaseTheme>(theme: T): T {
+export function makeTheme<T extends DripsyBaseTheme>(
+  theme: Function.Narrow<T>
+): Function.Narrow<T> {
   return theme
 }
 
