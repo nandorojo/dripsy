@@ -2,9 +2,10 @@ import React from 'react'
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient'
 import { styled, useDripsyTheme, DripsyFinalTheme } from '@dripsy/core'
 import { StyleSheet } from 'react-native'
+import hash from 'stable-hash'
 
 type Props = Omit<React.ComponentProps<typeof ExpoLinearGradient>, 'colors'> & {
-  gradient?: keyof DripsyFinalTheme['linearGradients']
+  gradient?: Extract<keyof DripsyFinalTheme['linearGradients'], string>
   colors?: (keyof DripsyFinalTheme['colors'] | (string & {}))[]
   /*
    * Set to `true` if you're using the gradient for a background.
@@ -21,7 +22,7 @@ const Grad = styled(
         // Return an empty array if the colors come back as undefined
         return (
           colorArray?.map(
-            (color) => ((themeColors as any)?.[color as any] as string) ?? color
+            (color) => (themeColors?.[color] as string) ?? color
           ) ?? []
         )
       }
@@ -29,33 +30,31 @@ const Grad = styled(
       let gradientColors: string[] = []
 
       if (gradient) {
-        if (!(linearGradients as any)?.[gradient]) {
+        if (!linearGradients?.[gradient]) {
           console.error(
             '[dripsy/gradient] You passed a "gradient" prop "' +
               gradient +
-              ", but your theme doesn't have a linearGradients." +
+              '", but your theme doesn\'t have a linearGradients.' +
               gradient +
               " field. If you want to use colors directly, use the 'colors' prop. Otherwise, add a `linearGradients` section to your theme."
           )
         } else if (
-          !Array.isArray((linearGradients as any)?.[gradient]) ||
-          typeof (linearGradients as any)?.[gradient].some(
-            (color: any) => typeof color !== 'string'
-          )
+          !Array.isArray(linearGradients?.[gradient]) ||
+          linearGradients?.[gradient].some((color) => typeof color != 'string')
         ) {
           console.error(
             '[dripsy/gradient] You passed a "gradient" prop "' +
               gradient +
-              '. We looked for this in your theme.linearGradients.' +
+              '". We looked for this in your theme.linearGradients.' +
               gradient +
               ", and it exists. However, it isn't a valid array of strings. Instead, it's this: " +
-              JSON.stringify((linearGradients as any)?.[gradient]) +
+              JSON.stringify(linearGradients?.[gradient]) +
               '. This is an invalid format.'
           )
         }
         gradientColors = colorArrayToTheme(
           // Check to make sure the linear gradients exist
-          linearGradients ? (linearGradients as any)[gradient] : []
+          linearGradients ? linearGradients[gradient] : []
         )
       }
       if (colors) {
@@ -69,9 +68,9 @@ const Grad = styled(
         />
       )
     },
-    (prev, next) => JSON.stringify(prev) === JSON.stringify(next)
+    (prev, next) => hash(prev) === hash(next)
   )
-)({})
+)()
 
 export function Gradient(props: React.ComponentProps<typeof Grad>) {
   return <Grad {...props} />
