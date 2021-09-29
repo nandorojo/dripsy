@@ -49,7 +49,9 @@ const theme = makeTheme({
   },
   textShadows: {
     onImage: {
-      textShadowColor: 'blue',
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 5,
+      textShadowColor: '#00000099',
     },
   },
   linearGradients: {
@@ -117,12 +119,11 @@ export default function App() {
     <DripsyProvider theme={theme}>
       <Container>
         <View
-          sx={(theme) => ({
-            backgroundColor: theme.colors['primary'],
-            height: [400, 800],
-            color: 'background',
-            fontWeight: 'big',
-          })}
+          sx={{
+            textShadow: ['onImage'],
+            textShadowColor: '',
+            bg: 'primary',
+          }}
           variant="colors.cool"
         >
           <H4

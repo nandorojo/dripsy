@@ -114,6 +114,11 @@ export type MaybeTokenizedValue<
     Tokenize<DripsyThemeWithoutIgnoredKeys[AliasedScale], true, false>
   : TokenizedTheme
 
+// Some properties are in React Native only and don't exist on the theme-ui spec
+// so we add them here
+
+// first create a getter for a given property name
+// in this case, we want `<textShadow|boxShadow>` to let you pick a `theme.<textShadows|shadows>` option
 type CssPropertyNames = {
   [key in keyof ThemeUICSSProperties]: key
 }
@@ -123,31 +128,48 @@ type SpecialCssProperty<Key extends keyof CssPropertyNames> = NonNullable<
 type BoxShadow = SpecialCssProperty<'boxShadow'>
 type TextShadow = SpecialCssProperty<'textShadow'>
 
-type MakeSpecialStyle<
+type MakeShadowStyle<
   Key extends keyof ThemeUICSSProperties,
   Property extends keyof DripsyFinalTheme
-> = (ThemeUICSSProperties[Key] & {}) | keyof DripsyFinalTheme[Property]
+> = ResponsiveValue<
+  (ThemeUICSSProperties[Key] & {}) | keyof DripsyFinalTheme[Property]
+>
 
-type SpecialStyles = {
-  [key in BoxShadow]?: MakeSpecialStyle<key, 'shadows'>
+type WebShadowStyles = {
+  [key in BoxShadow]?: MakeShadowStyle<key, 'shadows'>
 } &
   {
-    [key in TextShadow]?: MakeSpecialStyle<key, 'textShadows'>
+    [key in TextShadow]?: MakeShadowStyle<key, 'textShadows'>
   }
 
-type SpecialStyleKeys = keyof SpecialStyles
+type ShadowStyleKeys = keyof WebShadowStyles
+
+type SmartOmit<T, K extends keyof T> = Omit<T, K>
+
+type TokenizedColorValue = MaybeTokenizedValue<'color'>
+
+// add intellisense to shadowColor -> theme.colors
+type ReactNativeShadowStyles = SmartOmit<Shadows, 'shadowColor'> & {
+  shadowColor?: TokenizedColorValue | (string & {})
+}
+// add intellisense to textShadowColor -> theme.colors
+type ReactNativeTextShadowStyles = SmartOmit<TextShadows, 'textShadowColor'> & {
+  textShadowColor?: TokenizedColorValue | (string & {})
+}
 
 type ReactNativeStyles = Partial<
-  Shadows & TextShadows & Pick<ViewStyle, 'transform'>
+  ReactNativeShadowStyles &
+    ReactNativeTextShadowStyles &
+    Pick<ViewStyle, 'transform'>
 >
 
 type SxStyles = {
-  [key in Exclude<keyof ThemeUICSSProperties, SpecialStyleKeys>]?:
+  [key in Exclude<keyof ThemeUICSSProperties, ShadowStyleKeys>]?:
     | ResponsiveValue<MaybeTokenizedValue<key>>
     | (ThemeUICSSProperties[key] & {})
 }
 
-export type Sx = SxStyles & SpecialStyles & ReactNativeStyles
+export type Sx = SxStyles & WebShadowStyles & ReactNativeStyles
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
