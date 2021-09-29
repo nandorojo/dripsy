@@ -116,8 +116,9 @@ export const useBreakpointIndex = ({
         setIndex(breakpointIndex)
       }
     }
+    let unsubscribe: { remove: () => void } | undefined
     if (!shouldDisableListener) {
-      Dimensions.addEventListener('change', onChange)
+      unsubscribe = Dimensions.addEventListener('change', onChange) as undefined
       onChange({
         window: Dimensions.get('window'),
         screen: Dimensions.get('screen'),
@@ -125,7 +126,12 @@ export const useBreakpointIndex = ({
     }
     return () => {
       if (!shouldDisableListener) {
-        Dimensions.removeEventListener('change', onChange)
+        // RN 0.64 and below don't have the `remove` option
+        if (!unsubscribe?.remove) {
+          Dimensions.removeEventListener('change', onChange)
+        } else {
+          unsubscribe.remove()
+        }
       }
     }
   }, [__shouldDisableListenerOnWeb, breakpoints])
