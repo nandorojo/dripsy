@@ -1,16 +1,20 @@
 import type { ViewStyle, TextStyle } from 'react-native'
 import type { Theme } from '@theme-ui/css'
 
-export type Shadows =
-  | Pick<
-      ViewStyle,
-      | 'elevation'
-      | 'shadowColor'
-      | 'shadowOffset'
-      | 'shadowOpacity'
-      | 'shadowRadius'
-    >
-  | Pick<TextStyle, 'textShadowColor' | 'textShadowOffset' | 'textShadowRadius'>
+export type Shadows = Pick<
+  ViewStyle,
+  | 'elevation'
+  | 'shadowColor'
+  | 'shadowOffset'
+  | 'shadowOpacity'
+  | 'shadowRadius'
+>
+
+export type TextShadows = Pick<
+  TextStyle,
+  'textShadowColor' | 'textShadowOffset' | 'textShadowRadius'
+>
+
 export interface DripsyBaseTheme extends Omit<Theme, 'fonts' | 'shadows'> {
   /**
    * Specify custom fonts you want to use.
@@ -83,6 +87,9 @@ export interface DripsyBaseTheme extends Omit<Theme, 'fonts' | 'shadows'> {
   fonts?: Partial<Record<'root', string>> & Partial<Record<string, string>>
   shadows?: {
     [key: string]: Shadows
+  }
+  textShadows?: {
+    [key: string]: TextShadows
   }
 }
 

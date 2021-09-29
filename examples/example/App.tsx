@@ -47,6 +47,11 @@ const theme = makeTheme({
       elevation: 25,
     },
   },
+  textShadows: {
+    onImage: {
+      textShadowColor: 'blue',
+    },
+  },
   linearGradients: {
     strong: ['primary', 'secondary'],
     light: ['red', 'green'],
@@ -121,10 +126,12 @@ export default function App() {
           variant="colors.cool"
         >
           <H4
-            variants={['secondary', 'primary']}
-            sx={{ color: 'text', mb: 2, mt: 0, fontSize: [5] }}
+            sx={{
+              boxShadow: 'md',
+              textShadow: '',
+            }}
           >
-            Test
+            Intellisense for shadows!
           </H4>
           <G variant="secondary">Hey</G>
           <G>Hi!</G>
