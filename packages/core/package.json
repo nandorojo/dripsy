@@ -78,13 +78,13 @@
     "@theme-ui/css": "^0.4.0-rc.1",
     "react-native": "0.63.4",
     "react-native-web": "~0.14.10",
-    "ts-toolbelt": "^9.6.0",
     "typescript": "^4.4.3"
   },
   "dependencies": {
     "@expo/html-elements": "^0.0.1",
     "@react-native-community/hooks": "^2.6.0",
-    "stable-hash": "^0.0.2"
+    "stable-hash": "^0.0.2",
+    "ts-toolbelt": "^9.6.0"
   },
   "sideEffects": false,
   "gitHead": "ba10b88ff386db8321b4c5b2ebb9ceb8448c676a"
