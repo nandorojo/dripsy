@@ -85,7 +85,6 @@
   },
   "resolutions": {
     "@theme-ui/css": "0.4.0-rc.1",
-    "@theme-ui/mdx": "0.4.0-rc.1",
     "@types/react": "~16.9.35",
     "@typescript-eslint/eslint-plugin": "4.11.0",
     "@typescript-eslint/parser": "4.11.0"

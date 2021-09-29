@@ -82,7 +82,8 @@
   },
   "dependencies": {
     "@expo/html-elements": "^0.0.1",
-    "@react-native-community/hooks": "^2.6.0"
+    "@react-native-community/hooks": "^2.6.0",
+    "stable-hash": "^0.0.2"
   },
   "sideEffects": false,
   "gitHead": "ba10b88ff386db8321b4c5b2ebb9ceb8448c676a"
