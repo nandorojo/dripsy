@@ -12,7 +12,8 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "@dripsy/*": ["../../packages/*/src"]
+      "@dripsy/*": ["../../packages/*/src"],
+      "dripsy": ["../../packages/dripsy/src"]
     }
   }
 }

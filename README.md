@@ -98,7 +98,16 @@ const theme = {
       black: 'Circular-StdBlack',
     },
   },
-  space: [10, 12, 14],
+  space: {
+    // 4px spacing, with 0 first (recommended)
+    0: 0,
+    1: 4,
+    2: 8,
+    3: 16,
+    4: 32,
+    5: 64,
+    6: 128,
+  },
   text: {
     thick: {
       fontFamily: 'root',
@@ -219,14 +228,32 @@ export default {
     primary: 'tomato',
   },
   // set 0 first, then double for consistent nested spacing
-  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
-  fontSizes: [16, 20, 24, 32],
+  space: {
+    // 4px spacing, with 0 first (recommended)
+    0: 0,
+    1: 4,
+    2: 8,
+    3: 16,
+    4: 32,
+    5: 64,
+    6: 128,
+    7: 256,
+  },
+  fontSizes: {
+    0: 12,
+    1: 14,
+    2: 16,
+    3: 18,
+    4: 24,
+    5: 28,
+    6: 32,
+  },
   text: {
     h1: {
-      fontSize: 2, // this is 24px, taken from `fontSize` above
+      fontSize: 2, // this is 16px, taken from `fontSize` above
     },
     p: {
-      fontSize: 0, // & this is 16px, taken from `fontSize` above
+      fontSize: 0, // & this is 12px, taken from `fontSize` above
     },
   },
 }
@@ -457,14 +484,16 @@ There are two options for this:
 ### 1.a) Provide a single `root` in your `theme.fonts` (easiest, recommended)
 
 ```js
+const fontName = 'arial'
+
 const theme = {
   customFonts: {
-    arial: {
+    [fontName]: {
       // I recommend setting every weight here
       bold: 'arialBold',
-      default: 'arial',
-      normal: 'arial',
-      400: 'arial',
+      default: fontName,
+      normal: fontName,
+      400: fontName,
       500: 'arialMedium',
       600: 'arialBold',
       700: 'arialBold',
@@ -473,7 +502,7 @@ const theme = {
     },
   },
   fonts: {
-    root: 'arial', // <- this string must match the key you set in custom fonts above!
+    root: fontName, // <- this string must match the key you set in custom fonts above!
   },
 }
 ```

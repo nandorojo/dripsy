@@ -66,7 +66,6 @@ const theme = makeTheme({
     0: '0',
     1: '4',
   },
-  // space: [0, 1, 2],
   fontWeights: {
     big: 'bold',
   },
@@ -109,6 +108,7 @@ const ResponsiveSquare = () => {
 }
 
 type MyTheme = typeof theme
+
 declare module 'dripsy' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DripsyCustomTheme extends MyTheme {}
@@ -136,7 +136,7 @@ export default function App() {
           </H4>
           <G variant="secondary">Hey</G>
           <G>Hi!</G>
-          <View sx={{ p: '' }}>
+          <View sx={{ p: '1' }}>
             <Text>Card</Text>
           </View>
           <ResponsiveSquare />
