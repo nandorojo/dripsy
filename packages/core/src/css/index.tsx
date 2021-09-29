@@ -323,6 +323,8 @@ export const css = (
     if (key == 'size') {
       result.width = value
       result.height = value
+    } else {
+      result[prop] = value
     }
   }
 
