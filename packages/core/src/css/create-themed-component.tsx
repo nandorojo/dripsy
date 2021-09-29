@@ -1,9 +1,10 @@
-import React, { ComponentType, Component, ComponentPropsWithRef } from 'react'
+import React, { ComponentType, ComponentPropsWithRef } from 'react'
 import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './use-breakpoint-index'
 import { mapPropsToStyledComponent } from './map-props'
 import { DripsyFinalTheme } from '../declarations'
+import { useStableMemo } from '../utils/use-stable-memo'
 
 export function createThemedComponent<
   BaseComponentProps extends { style?: any },
@@ -25,7 +26,7 @@ export function createThemedComponent<
     StyledProps<ThemeKey> & BaseComponentProps & ExtraProps
   >(function Wrapped(prop, ref) {
     const {
-      sx,
+      sx: _sx,
       as: SuperComponent,
       variant,
       style,
@@ -39,25 +40,32 @@ export function createThemedComponent<
       )
     }
     const defaultStyle =
-      typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
+      typeof baseStyle == 'function' ? baseStyle(prop) : baseStyle
 
     const { theme } = useDripsyTheme()
+    // make the sx factory out here so that it's a stable dependency for useStableMemo
+    const sx = typeof _sx == 'function' ? _sx(theme) : _sx
+
     const breakpoint = useBreakpointIndex()
 
-    const { styles } = mapPropsToStyledComponent<ThemeKey>(
-      {
-        theme,
-        breakpoint,
-        variant,
-        sx,
-        style,
-        variants: variants as DripsyVariant<ThemeKey>[] | undefined,
-      },
-      {
-        ...options,
-        themeKey,
-        defaultStyle,
-      }
+    const { styles } = useStableMemo(
+      () =>
+        mapPropsToStyledComponent<ThemeKey>(
+          {
+            theme,
+            breakpoint,
+            variant,
+            sx,
+            style,
+            variants: variants as DripsyVariant<ThemeKey>[] | undefined,
+          },
+          {
+            ...options,
+            themeKey,
+            defaultStyle,
+          }
+        ),
+      [theme, breakpoint, variant, sx, style, variants, themeKey, defaultStyle]
     )
 
     const TheComponent = SuperComponent || Component

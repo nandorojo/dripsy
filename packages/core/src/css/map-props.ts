@@ -1,8 +1,8 @@
 import { css } from './index'
-import { StyleSheetCache } from './cache'
 import { StyledProps, Sx, ThemedOptions } from './types'
 import { DripsyFinalTheme } from '../declarations'
 import { get } from './get'
+import { StyleSheet } from 'react-native'
 
 const defaultStyleProp: keyof ThemedOptions<{ noop: true }, 'layout'> =
   'defaultStyle'
@@ -71,12 +71,35 @@ export function mapPropsToStyledComponent<
 
   const superStyle = css(sx, breakpoint)({ theme, fontFamily })
 
+  const createStyleSheet = (style: any) => {
+    const stylesheet = StyleSheet.create({
+      style,
+    })
+    return stylesheet.style
+  }
+
+  const baseStyleSheet = createStyleSheet({
+    ...baseStyle,
+    ...multipleVariantsStyle,
+  })
+  const superStyleSheet = createStyleSheet(superStyle)
+
+  let styles: any[] | ((props?: any) => any[]) = [
+    // order the styles from default, to variant, style, and finally sx
+    baseStyleSheet,
+    ...(Array.isArray(style) ? style : [style]),
+    superStyleSheet,
+  ]
+  if (typeof style == 'function') {
+    // for Pressable, we pass a function prop to style
+    styles = (interactionState) => [
+      baseStyleSheet,
+      style(interactionState),
+      superStyleSheet,
+    ]
+  }
+
   return {
-    styles: [
-      // order the styles from default, to variant, style, and finally sx
-      StyleSheetCache.get({ ...baseStyle, ...multipleVariantsStyle }),
-      ...(Array.isArray(style) ? style : [style]),
-      StyleSheetCache.get(superStyle),
-    ],
+    styles,
   }
 }

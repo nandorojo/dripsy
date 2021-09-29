@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, ComponentPropsWithRef } from 'react'
 import { styled } from '../css/styled'
 import { Pressable as NativePressable, Platform } from 'react-native'
 
@@ -9,28 +9,30 @@ declare module 'react-native' {
   }
 }
 
-const StyledPressable = styled(NativePressable)()
+const StyledPressable = styled(NativePressable)(
+  ({ showCursor }: { showCursor: boolean }) => ({
+    ...Platform.select({
+      web: {
+        cursor: showCursor ? 'pointer' : 'default',
+      },
+    }),
+  })
+)
 const Press = React.forwardRef(function Pressable(
-  { sx = {}, ...props }: ComponentProps<typeof StyledPressable>,
-  ref: ComponentProps<typeof NativePressable>['ref']
+  props: Omit<ComponentProps<typeof StyledPressable>, 'showCursor'>,
+  ref?: ComponentPropsWithRef<typeof NativePressable>['ref']
 ) {
   return (
     <StyledPressable
+      showCursor={
+        !!(
+          props.onPress ||
+          props.accessibilityRole === 'link' ||
+          !props.disabled
+        )
+      }
       {...props}
-      ref={ref as any}
-      sx={{
-        ...Platform.select({
-          web: {
-            cursor:
-              props.onPress ||
-              props.accessibilityRole === 'link' ||
-              !props.disabled
-                ? 'pointer'
-                : 'default',
-          },
-        }),
-        ...sx,
-      }}
+      ref={ref}
     />
   )
 })

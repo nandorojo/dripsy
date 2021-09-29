@@ -14,7 +14,6 @@ import {
 import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
 import { Text, TextInput, View as NativeView } from 'react-native'
-import { MaybeTokenizedValue } from '../../packages/core/src/css/types'
 
 const theme = makeTheme({
   colors: {
@@ -115,22 +114,22 @@ declare module 'dripsy' {
 }
 
 export default function App() {
+  const [state, toggleState] = React.useReducer((s) => !s, true)
   return (
     <DripsyProvider theme={theme}>
       <Container>
         <View
           sx={{
-            textShadow: ['onImage'],
-            textShadowColor: '',
+            textShadowColor: 'accent',
             bg: 'primary',
           }}
           variant="colors.cool"
         >
           <H4
-            sx={{
+            sx={(theme) => ({
               boxShadow: 'md',
-              textShadow: '',
-            }}
+              textShadow: 'onImage',
+            })}
           >
             Intellisense for shadows!
           </H4>
@@ -142,15 +141,18 @@ export default function App() {
           <ResponsiveSquare />
           <Gradient sx={{ height: 50, width: 50, my: 16 }} gradient="light" />
           <Pressable
-            sx={{
-              height: 50,
-            }}
+            onPress={toggleState}
+            style={({ hovered, pressed }) => ({
+              backgroundColor: pressed ? 'green' : hovered ? 'cyan' : 'white',
+            })}
+            sx={(theme) => ({
+              p: 20,
+            })}
           >
             {({ pressed }) => (
               <View
                 sx={{
                   flex: 1,
-                  backgroundColor: pressed ? 'green' : 'red',
                 }}
               >
                 <Text>You can press me!</Text>

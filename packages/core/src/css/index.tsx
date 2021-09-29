@@ -202,14 +202,12 @@ export const css = (
   args: SxProps = {},
   breakpoint?: number
   // { ssr }: { ssr?: boolean } = {}
-) => (
-  props: CssPropsArgument = {}
-): CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } => {
+) => (props: CssPropsArgument = {}): CSSObject => {
   const theme: DripsyFinalTheme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
   } as DripsyFinalTheme
-  let result: CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } = {}
+  let result: CSSObject = {}
   const obj = typeof args === 'function' ? args(theme) : args
   const filteredOutWebKeys = filterWebStyleKeys(obj)
   const styles = responsive(filteredOutWebKeys, { breakpoint })(theme)
