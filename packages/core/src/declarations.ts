@@ -16,7 +16,23 @@ export type TextShadows = Pick<
   'textShadowColor' | 'textShadowOffset' | 'textShadowRadius'
 >
 
-export interface DripsyBaseTheme extends Omit<Theme, 'fonts' | 'shadows'> {
+type FontWeight =
+  | 'normal'
+  | 'bold'
+  | '100'
+  | '200'
+  | '300'
+  | '400'
+  | '500'
+  | '600'
+  | '700'
+  | '800'
+  | '900'
+  | 'default'
+  | 'normal'
+
+export interface DripsyBaseTheme
+  extends Omit<Theme, 'fonts' | 'shadows' | 'fontWeights'> {
   /**
    * Specify custom fonts you want to use.
    *
@@ -92,6 +108,9 @@ export interface DripsyBaseTheme extends Omit<Theme, 'fonts' | 'shadows'> {
   textShadows?: {
     [key: string]: TextShadows
   }
+  fontWeights?: Partial<{
+    [key: string]: FontWeight
+  }>
 }
 
 export function makeTheme<T extends DripsyBaseTheme>(
