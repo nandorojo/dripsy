@@ -18,6 +18,7 @@ type CssPropsArgument = ({ theme?: Theme } | Theme) & {
    * We use this for a custom font family.
    */
   fontFamily?: string
+  themeKey?: keyof DripsyFinalTheme
 }
 
 const defaultTheme = {
@@ -202,7 +203,11 @@ export const css = (
   args: SxProps = {},
   breakpoint?: number
   // { ssr }: { ssr?: boolean } = {}
-) => (props: CssPropsArgument = {}): CSSObject => {
+) => ({
+  themeKey,
+  fontFamily: fontFamilyFromProps,
+  ...props
+}: CssPropsArgument = {}): CSSObject => {
   const theme: DripsyFinalTheme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
@@ -217,7 +222,11 @@ export const css = (
     const val = typeof x == 'function' ? x(theme) : x
 
     if (key == 'variant') {
-      const variant = css(get(theme, val))(theme)
+      // const variant = css(get(theme, val))(theme)
+      const variant = css(
+        get(theme, themeKey + '.' + val, get(theme, val)),
+        breakpoint
+      )({ theme })
       result = { ...result, ...variant }
       continue
     }
@@ -230,21 +239,29 @@ export const css = (
     if (key == 'textShadow' && val && theme.textShadows?.[val]) {
       // we want to change textShadowColor to theme keys via css function
       // @ts-expect-error theme UI doesn't have RN textShadow*, need to add this later
-      const styledTextShadow = css(theme.textShadows[val])(theme)
+      const styledTextShadow = css(theme.textShadows[val], breakpoint)(theme)
       result = { ...result, ...styledTextShadow }
       continue
     }
 
     if (key == 'boxShadow' && val && theme.shadows?.[val]) {
       // @ts-expect-error theme UI doesn't have RN shadow*, need to add this later
-      const styledBoxShadow = css(theme.shadows[val])(theme)
+      const styledBoxShadow = css(theme.shadows[val], breakpoint)(theme)
       result = { ...result, ...styledBoxShadow }
+      continue
+    }
+
+    if (val === '') {
+      console.error(
+        `[dripsy] Invalid style. You passed an empty string ('') for ${key}. Please fix this.`
+      )
+
       continue
     }
 
     if (val && typeof val == 'object') {
       // @ts-ignore
-      result[key] = css(val)(theme)
+      result[key] = css(val, breakpoint)(theme)
       continue
     }
 
@@ -293,7 +310,7 @@ export const css = (
       // customFonts: {arial: {bold: 'arialBold'}}
       // we also pass the font-family from other CSS props here at the top of the function, so fall back to that if it exists
       const fontFamilyKeyFromStyles =
-        (styles?.fontFamily as string) ?? props?.fontFamily
+        (styles?.fontFamily as string) ?? fontFamilyFromProps
 
       // default font for all text styles
       const rootFontFamilyFromTheme = theme?.fonts?.root

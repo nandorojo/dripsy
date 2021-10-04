@@ -133,8 +133,9 @@ export default function App() {
         >
           <H4
             sx={(theme) => ({
-              boxShadow: 'md',
+              boxShadow: [null, 'md'],
               textShadow: 'onImage',
+              variant: 'primary',
             })}
           >
             Intellisense for shadows!
@@ -153,9 +154,9 @@ export default function App() {
             style={({ hovered, pressed }) => ({
               backgroundColor: pressed ? 'green' : hovered ? 'cyan' : 'white',
             })}
-            sx={(theme) => ({
-              bg: theme.colors.primary,
-            })}
+            // sx={(theme) => ({
+            //   bg: theme.colors.primary,
+            // })}
           >
             {({ pressed }) => (
               <View

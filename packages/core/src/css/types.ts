@@ -147,7 +147,7 @@ export type ShadowStyleKeys = keyof WebShadowStyles
 
 export type StyleableSxProperties = Exclude<
   keyof ThemeUICSSProperties,
-  ShadowStyleKeys
+  ShadowStyleKeys | 'variant'
 >
 
 type SmartOmit<T, K extends keyof T> = Omit<T, K>
@@ -230,7 +230,14 @@ type SxStyles = {
         | NativeOrThemeUiStyle<key>
 }
 
-export type Sx = SxStyles & WebShadowStyles & ReactNativeOnlyStyles
+type SxVariantStyles = {
+  variant?: DripsyVariant<keyof DripsyFinalTheme>
+}
+
+export type Sx = SxStyles &
+  WebShadowStyles &
+  ReactNativeOnlyStyles &
+  SxVariantStyles
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 

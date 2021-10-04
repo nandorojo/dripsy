@@ -42,16 +42,22 @@ export function mapPropsToStyledComponent<
   multipleVariants = multipleVariants.filter(Boolean)
 
   const variantStyle = css(
-    // @ts-expect-error why does get think it's a number and not undefined?
-    get(theme, themeKey + '.' + variant, get(theme, variant ?? defaultVariant)),
+    get(
+      theme,
+      themeKey + '.' + variant,
+      get(theme, (variant || defaultVariant) as string)
+    ),
     breakpoint
-  )({ theme })
+  )({ theme, themeKey })
 
   // get the font-family from the variant, and pass it to the other styles as a fallback.
   // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
   const { fontFamily } = variantStyle
 
-  const baseStyle = css(defaultStyle, breakpoint)({ theme, fontFamily })
+  const baseStyle = css(
+    defaultStyle,
+    breakpoint
+  )({ theme, fontFamily, themeKey })
 
   const multipleVariantsStyle = multipleVariants
     .map((variantKey) =>
@@ -59,7 +65,7 @@ export function mapPropsToStyledComponent<
         // @ts-expect-error why does get think it's a number and not undefined?
         get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
         breakpoint
-      )({ theme, fontFamily })
+      )({ theme, fontFamily, themeKey })
     )
     .reduce(
       (prev = {}, next = {}) => ({
@@ -69,7 +75,7 @@ export function mapPropsToStyledComponent<
       {}
     )
 
-  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
+  const superStyle = css(sx, breakpoint)({ theme, fontFamily, themeKey })
 
   const createStyleSheet = (style: any) => {
     const stylesheet = StyleSheet.create({
