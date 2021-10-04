@@ -16,6 +16,8 @@ export type TextShadows = Pick<
   'textShadowColor' | 'textShadowOffset' | 'textShadowRadius'
 >
 
+type OnlyAllowThemeValues = 'always' | 'never'
+
 type FontWeight =
   | 'normal'
   | 'bold'
@@ -111,6 +113,85 @@ export interface DripsyBaseTheme
   fontWeights?: Partial<{
     [key: string]: FontWeight
   }>
+  types?: {
+    /**
+     * This prop allows you to constrain designers to using tokens from your theme only.
+     *
+     * For existing apps, it might cause a breaking change to your types, so you might not use it. For new apps, it's probably recommended to use this.
+     *
+     * This can be set to `'always'`, `'never'`, or an object of certain theme keys which should be strict. The object approach will help for incrementally adopting this feature.
+     *
+     * Defaults to `never`
+     *
+     * If `always`, then you can only use theme values in your `sx` prop (as long as they are defined in your theme).
+     *
+     * Example:
+     *
+     * Say your `theme.space` looks like this:
+     *
+     * ```ts
+     * const theme = makeTheme({
+     *   space: {
+     *     $0: 0,
+     *     $1: 4,
+     *     $2: 8,
+     *   },
+     *   colors: {
+     *     $primary: 'cyan'
+     *   },
+     *   types: {
+     *     onlyAllowThemeValues: 'always'
+     *   }
+     * })
+     * ```
+     *
+     * Then, you will be forced to only use `$0`, `$1`, `$2` wherever you use `space` in your `sx` prop.
+     *
+     * ```tsx
+     * // ✅ this will work
+     * <View sx={{ padding: '$1', bg: '$cyan' }} />
+     *
+     *  // ❌ this will not work
+     * <View sx={{ padding: 10, bg: 'blue' }} />
+     * ```
+     *
+     * For a more incremental approach, you could structure your theme like this:
+     *
+     * ```ts
+     * const theme = makeTheme({
+     *   space: {
+     *     $0: 0,
+     *     $1: 4,
+     *     $2: 8,
+     *   },
+     *   colors: {
+     *     $primary: 'cyan'
+     *   },
+     *   types: {
+     *     onlyAllowThemeValues: {
+     *       space: 'always'
+     *     }
+     *   }
+     * })
+     * ```
+     *
+     * In this case, we are only strictly typing styles related to `space` in our `sx` prop, such as `padding`, `margin`, etc.
+     *
+     * ```tsx
+     * // ✅ this will work (color is not strict)
+     * <View sx={{ padding: '$1', color: 'blue' }} />
+     *
+     * // ❌ this will not work
+     * <View sx={{ padding: 10, color: 'blue' }} />
+     * ```
+     *
+     */
+    onlyAllowThemeValues?:
+      | OnlyAllowThemeValues
+      | {
+          [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
+        }
+  }
 }
 
 export function makeTheme<T extends DripsyBaseTheme>(
@@ -134,4 +215,5 @@ export type DripsyThemeWithoutIgnoredKeys<Theme = DripsyCustomTheme> = Omit<
   | 'useLocalStorage'
   | 'useCustomProperties'
   | 'useColorSchemeMediaQuery'
+  | 'types'
 >

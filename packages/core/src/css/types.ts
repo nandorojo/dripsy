@@ -1,7 +1,7 @@
 import type { ThemeUICSSProperties } from '@theme-ui/css'
-import type { ComponentType, Key } from 'react'
-import { ViewStyle } from 'react-native'
-import { TextShadows } from '..'
+import type { ComponentType } from 'react'
+import type { ViewStyle, TextStyle, ImageStyle } from 'react-native'
+import type { TextShadows } from '../declarations'
 import type { DripsyThemeWithoutIgnoredKeys } from '../declarations'
 import type { Shadows } from '../declarations'
 import type { DripsyFinalTheme } from '../declarations'
@@ -67,8 +67,6 @@ type Tokenize<
   string | number | '' | never | undefined | null
 >
 
-type ResponsiveValue<T> = T | (null | T)[]
-
 // we shouldn't be putting keys
 type TokenizedTheme<AllowsRootKey extends boolean = false> = Tokenize<
   DripsyThemeWithoutIgnoredKeys,
@@ -116,6 +114,7 @@ export type MaybeTokenizedValue<
     Tokenize<DripsyThemeWithoutIgnoredKeys[AliasedScale], true, false>
   : TokenizedTheme
 
+export type ResponsiveValue<T> = T | (null | T)[]
 // Some properties are in React Native only and don't exist on the theme-ui spec
 // so we add them here
 
@@ -137,14 +136,19 @@ type MakeShadowStyle<
   (ThemeUICSSProperties[Key] & {}) | keyof DripsyFinalTheme[Property]
 >
 
-type WebShadowStyles = {
+export type WebShadowStyles = {
   [key in BoxShadow]?: MakeShadowStyle<key, 'shadows'>
 } &
   {
     [key in TextShadow]?: MakeShadowStyle<key, 'textShadows'>
   }
 
-type ShadowStyleKeys = keyof WebShadowStyles
+export type ShadowStyleKeys = keyof WebShadowStyles
+
+export type StyleableSxProperties = Exclude<
+  keyof ThemeUICSSProperties,
+  ShadowStyleKeys
+>
 
 type SmartOmit<T, K extends keyof T> = Omit<T, K>
 
@@ -159,19 +163,74 @@ type ReactNativeTextShadowStyles = SmartOmit<TextShadows, 'textShadowColor'> & {
   textShadowColor?: TokenizedColorValue | (string & {})
 }
 
-type ReactNativeStyles = Partial<
+type ReactNativeOnlyStyles = Partial<
   ReactNativeShadowStyles &
     ReactNativeTextShadowStyles &
     Pick<ViewStyle, 'transform'>
 >
 
+type NativeStyleProperties = ViewStyle & TextStyle & ImageStyle
+
+/**
+ * If this returns `true` for a given style key,
+ * then that style key must pull values from the theme.
+ *
+ * For example, if it's `true` for `padding`, then you must use `sx={{ padding: '$1' }}`,
+ * where `$1` is the value of the theme.padding property.
+ */
+type OnlyAllowThemeValueForKey<
+  Key extends keyof ThemeUICSSProperties,
+  Scale extends
+    | keyof DripsyThemeWithoutIgnoredKeys
+    | keyof ThemeUICSSProperties = Key extends keyof Scales
+    ? // if Key = 'color'
+      // then Scales['color'] = 'colors'
+      // so if 'colors' is a keyof the theme
+      // then the scale is indeed 'colors', and we tokenize theme.colors
+      Scales[Key] extends keyof DripsyThemeWithoutIgnoredKeys
+      ? Scales[Key]
+      : Key
+    : Key,
+  AliasedScale extends Scale = AliasToScale<Scale>,
+  IsScaleInTheme extends boolean = AliasedScale extends keyof DripsyThemeWithoutIgnoredKeys
+    ? true
+    : false
+> = AliasedScale extends ScaleValue
+  ? // if we want strict types for all theme scales
+    NonNullable<
+      DripsyFinalTheme['types']
+    >['onlyAllowThemeValues'] extends 'always'
+    ? // then it is true as long as this scale exists in the theme
+      IsScaleInTheme
+    : // otherwise, check per-theme scales
+    NonNullable<
+        DripsyFinalTheme['types']
+      >['onlyAllowThemeValues'][AliasedScale] extends 'always'
+    ? // using the same logic
+      IsScaleInTheme
+    : false
+  : false
+
+type NativeOrThemeUiStyle<
+  Key extends keyof ThemeUICSSProperties | keyof NativeStyleProperties
+> = Key extends keyof NativeStyleProperties
+  ? ResponsiveValue<NativeStyleProperties[Key] & {}>
+  : // otherwise, use the ThemeUI keys
+  Key extends keyof ThemeUICSSProperties
+  ? ThemeUICSSProperties[Key] & {} // TODO do we need {}?
+  : never
+
 type SxStyles = {
-  [key in Exclude<keyof ThemeUICSSProperties, ShadowStyleKeys>]?:
-    | ResponsiveValue<MaybeTokenizedValue<key>>
-    | (ThemeUICSSProperties[key] & {})
+  [key in StyleableSxProperties]?: OnlyAllowThemeValueForKey<key> extends true
+    ? ResponsiveValue<MaybeTokenizedValue<key>>
+    :
+        | ResponsiveValue<MaybeTokenizedValue<key>>
+        // if this style also exists in react native keys
+        // then the type should be the native one
+        | NativeOrThemeUiStyle<key>
 }
 
-export type Sx = SxStyles & WebShadowStyles & ReactNativeStyles
+export type Sx = SxStyles & WebShadowStyles & ReactNativeOnlyStyles
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 

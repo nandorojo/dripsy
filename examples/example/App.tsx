@@ -62,9 +62,26 @@ const theme = makeTheme({
     wide: {},
     narrow: {},
   },
-  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  // space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
   fontWeights: {
     black: '500',
+  },
+  types: {
+    onlyAllowThemeValues: {
+      space: 'always',
+      colors: 'always',
+    },
   },
 })
 
@@ -76,11 +93,7 @@ const ResponsiveSquare = () => {
   // Return literal values:
   const textColor = useResponsiveValue(['red', 'green', 'blue'])
   // Or provide a function to access theme values:
-  const squareColor = useResponsiveValue((theme) => [
-    theme?.colors?.blue,
-    theme?.colors?.red,
-    theme?.colors?.background,
-  ])
+  const squareColor = useResponsiveValue((theme) => [theme?.colors?.background])
 
   const ref = useRef<NativeView>(null)
   const input = useRef<TextInput>(null)
@@ -89,7 +102,7 @@ const ResponsiveSquare = () => {
     <View
       sx={{
         bg: 'accent',
-        padding: '',
+        padding: ['$3'],
       }}
     >
       <View ref={ref} />
@@ -128,18 +141,20 @@ export default function App() {
           </H4>
           <G variant="secondary">Hey</G>
           <G>Hi!</G>
-          <View sx={{ p: '1' }}>
+
+          <View sx={{ p: '$1' }}>
             <Text>Card</Text>
           </View>
+
           <ResponsiveSquare />
-          <Gradient sx={{ height: 50, width: 50, my: 16 }} gradient="light" />
+          <Gradient sx={{ height: 50, width: 50, my: '$3' }} gradient="light" />
           <Pressable
             onPress={toggleState}
             style={({ hovered, pressed }) => ({
               backgroundColor: pressed ? 'green' : hovered ? 'cyan' : 'white',
             })}
             sx={(theme) => ({
-              p: 20,
+              bg: theme.colors.primary,
             })}
           >
             {({ pressed }) => (
