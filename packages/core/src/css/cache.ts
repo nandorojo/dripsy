@@ -8,6 +8,9 @@ const cache: Record<
   }
 > = {}
 
+/**
+ * @deprecated
+ */
 export class StyleSheetCache {
   static get(style: CSSObject) {
     const string = JSON.stringify(style || {})
