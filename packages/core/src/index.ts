@@ -13,3 +13,4 @@ export { remToPixels } from './utils/rem-to-pts'
 export { useSx } from './use-sx'
 
 export * from './declarations'
+export * from './css/types'
