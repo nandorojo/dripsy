@@ -142,8 +142,9 @@ export const useBreakpointIndex = ({
 type ResponsiveValues<T> = ((theme: DripsyFinalTheme | null) => T[]) | T[]
 
 export function useResponsiveValue<T>(values: ResponsiveValues<T>): T {
-  const { theme } = useDripsyTheme()
-  const array = typeof values === 'function' ? values(theme) : values
+  const maybeContext = useDripsyTheme()
+  const array =
+    typeof values === 'function' ? values(maybeContext?.theme) : values
   const index = useBreakpointIndex()
   return array[index >= array.length ? array.length - 1 : index]
 }
