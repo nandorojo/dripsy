@@ -114,7 +114,7 @@ export type MaybeTokenizedValue<
     Tokenize<DripsyThemeWithoutIgnoredKeys[AliasedScale], true, false>
   : TokenizedTheme
 
-export type ResponsiveValue<T> = T | (null | T)[]
+export type ResponsiveValue<T> = T | (null | T)[] | null | undefined
 // Some properties are in React Native only and don't exist on the theme-ui spec
 // so we add them here
 

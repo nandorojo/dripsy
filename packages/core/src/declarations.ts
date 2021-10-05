@@ -209,11 +209,15 @@ export interface DripsyFinalTheme
 
 export type DripsyThemeWithoutIgnoredKeys<Theme = DripsyCustomTheme> = Omit<
   Theme,
-  | 'breakpoints'
-  | 'customFonts'
-  | 'useBodyStyles'
-  | 'useLocalStorage'
-  | 'useCustomProperties'
-  | 'useColorSchemeMediaQuery'
-  | 'types'
+  keyof Pick<
+    DripsyBaseTheme,
+    | 'breakpoints'
+    | 'customFonts'
+    | 'useBodyStyles'
+    | 'useLocalStorage'
+    | 'useCustomProperties'
+    | 'useColorSchemeMediaQuery'
+    | 'types'
+    | 'initialColorModeName'
+  >
 >
