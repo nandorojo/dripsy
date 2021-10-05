@@ -191,6 +191,7 @@ export interface DripsyBaseTheme
       | {
           [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
         }
+    variantFallbackType?: undefined | unknown
   }
 }
 
