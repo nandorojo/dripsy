@@ -24,7 +24,7 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 # 🦦 Features
 
 - [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally
-- Full TypeScript support [(New in v3!)](#typescript-guide)
+- [(New in v3!)](#typescript-guide) Full TypeScript support
 - Responsive styles
 - Universal (Android, iOS, Web, & more)
 - Works with Expo
