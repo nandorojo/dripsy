@@ -5,12 +5,13 @@ import { css } from './css'
 import { useBreakpointIndex } from './css/use-breakpoint-index'
 import stableHash from 'stable-hash'
 import { DripsyFinalTheme } from './declarations'
+import { StyleProp } from 'react-native'
 
 export function useSx() {
   const { theme } = useDripsyTheme()
   const breakpoint = useBreakpointIndex()
 
-  const cache = useRef<Record<string, unknown>>({})
+  const cache = useRef<Record<string, StyleProp<any>>>({})
 
   return useCallback(
     (sx: SxProp, { themeKey }: { themeKey?: keyof DripsyFinalTheme } = {}) => {

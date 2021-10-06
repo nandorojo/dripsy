@@ -165,8 +165,13 @@ type ReactNativeTextShadowStyles = SmartOmit<TextShadows, 'textShadowColor'> & {
 
 type ReactNativeOnlyStyles = Partial<
   ReactNativeShadowStyles &
-    ReactNativeTextShadowStyles &
-    Pick<ViewStyle, 'transform'>
+    ReactNativeTextShadowStyles & {
+      transform?: ReactNativeOnlyStyles extends true
+        ? ViewStyle['transform']
+        : ViewStyle['transform'] | ThemeUICSSProperties['transform']
+    } & {
+      animationKeyframes?: Record<string, unknown>
+    }
 >
 
 type NativeStyleProperties = ViewStyle & TextStyle & ImageStyle
@@ -253,7 +258,7 @@ type SxStyles = {
 }
 
 type SxVariantStyles = {
-  variant?: DripsyVariant<keyof DripsyFinalTheme>
+  variant?: DripsyVariant<keyof DripsyFinalTheme> | VariantFallback
 }
 
 export type Sx = SxStyles &
