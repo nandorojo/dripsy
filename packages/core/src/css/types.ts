@@ -248,13 +248,15 @@ type NativeOrThemeUiStyle<
 //   : never
 
 type SxStyles = {
-  [key in StyleableSxProperties]?: OnlyAllowThemeValueForKey<key> extends true
-    ? ResponsiveValue<MaybeTokenizedValue<key>>
-    :
-        | ResponsiveValue<MaybeTokenizedValue<key>>
-        // if this style also exists in react native keys
-        // then the type should be the native one
-        | NativeOrThemeUiStyle<key>
+  [key in StyleableSxProperties]?:
+    | (OnlyAllowThemeValueForKey<key> extends true
+        ? ResponsiveValue<MaybeTokenizedValue<key>>
+        :
+            | ResponsiveValue<MaybeTokenizedValue<key>>
+            // if this style also exists in react native keys
+            // then the type should be the native one
+            | NativeOrThemeUiStyle<key>)
+    | null
 }
 
 type SxVariantStyles = {
