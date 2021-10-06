@@ -17,7 +17,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 ## **Dripsy v3 is now available**
 
-Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3).
+Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3.md).
 
 https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-9464-64748ebf1214.mp4
 
