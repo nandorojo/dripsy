@@ -82,6 +82,7 @@ const theme = makeTheme({
       space: 'always',
       colors: 'always',
     },
+    reactNativeTypesOnly: false,
   },
 })
 
@@ -136,6 +137,7 @@ export default function App() {
               boxShadow: [null, 'md'],
               textShadow: 'onImage',
               variant: 'primary',
+              fontWeight: 400,
             })}
           >
             Intellisense for shadows!

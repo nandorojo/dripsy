@@ -211,14 +211,36 @@ type OnlyAllowThemeValueForKey<
     : false
   : false
 
+type ReactNativeTypesOnly = NonNullable<
+  DripsyFinalTheme['types']
+>['reactNativeTypesOnly'] extends true
+  ? true
+  : false
+
 type NativeOrThemeUiStyle<
   Key extends keyof ThemeUICSSProperties | keyof NativeStyleProperties
 > = Key extends keyof NativeStyleProperties
-  ? ResponsiveValue<NativeStyleProperties[Key] & {}>
-  : // otherwise, use the ThemeUI keys
-  Key extends keyof ThemeUICSSProperties
-  ? ThemeUICSSProperties[Key] & {} // TODO do we need {}?
+  ? Key extends keyof ThemeUICSSProperties
+    ? ReactNativeTypesOnly extends true
+      ? ResponsiveValue<NativeStyleProperties[Key] & {}>
+      :
+          | ResponsiveValue<NativeStyleProperties[Key] & {}>
+          | (ThemeUICSSProperties[Key] | {})
+    : NativeStyleProperties[Key]
+  : Key extends keyof ThemeUICSSProperties
+  ? ThemeUICSSProperties[Key] | {}
   : never
+
+// type NativeOrThemeUiStyle<
+//   Key extends keyof ThemeUICSSProperties | keyof NativeStyleProperties
+// > = Key extends keyof NativeStyleProperties
+//   ? Key extends keyof ThemeUICSSProperties ?
+//   ReactNativeTypesOnly extends false ? ResponsiveValue<NativeStyleProperties[Key] & {}> |  ThemeUICSSProperties[Key] & {}
+//   : ResponsiveValue<NativeStyleProperties[Key] & {}>
+//   : // otherwise, use the ThemeUI keys
+//   Key extends keyof ThemeUICSSProperties
+//   ? ThemeUICSSProperties[Key] & {} // TODO do we need {}?
+//   : never
 
 type SxStyles = {
   [key in StyleableSxProperties]?: OnlyAllowThemeValueForKey<key> extends true

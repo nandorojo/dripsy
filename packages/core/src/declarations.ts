@@ -192,6 +192,16 @@ export interface DripsyBaseTheme
           [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
         }
     variantFallbackType?: undefined | (string & {})
+    /**
+     * Defaults to `false`. If `true`, then your styles can only be React Native styles.
+     *
+     * If `false`, then the `theme-ui` styles (i.e. web styles) will also be allowed.
+     *
+     * **It is recommended to set this to `true`.** However, it is default `false` for backwards compatibility.
+     *
+     * In future versions, this may be default `true`.
+     */
+    reactNativeTypesOnly?: boolean
   }
 }
 
