@@ -19,8 +19,6 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3)
 
-
-
 https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-9464-64748ebf1214.mp4
 
 # 🦦 Features
@@ -216,9 +214,11 @@ In your component, you can use the `boxShadow` property (to reference shadow var
 
 To get more granular control over your types, you can use the `theme.types` option. Read more about this in the [TypeScript Guide](#typescript-guide).
 
-# For Expo Web / React Native Web (non-SSR apps)
+# Expo / React Native Web
 
-If you're using 1.4 or lower, you're done. However, starting v1.5, you need to customize webpack like so:
+> If you're using Next.js, scroll down to that section.
+
+If you're using Dripsy 1.4 or lower, you're done. However, starting v1.5, you need to customize webpack like so:
 
 If you're using `expo start:web`, this section is for you. If you're using Expo + Next.js, skip to the next section.
 
