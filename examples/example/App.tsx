@@ -3,12 +3,12 @@ import {
   View,
   Text as DripText,
   createThemedComponent,
-  useResponsiveValue,
   DripsyProvider,
   Container,
   Pressable,
   makeTheme,
   TextInput as DripsyInput,
+  useResponsiveValue,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
@@ -22,18 +22,7 @@ const theme = makeTheme({
     background: 'white',
     gray: 'green',
     accent: 'green',
-    cool: 'gray',
-  },
-  text: {
-    primary: {
-      fontSize: 40,
-    },
-    secondary: {
-      fontSize: 60,
-    },
-  },
-  sizes: {
-    container: 700,
+    coolzie: 'gray',
   },
   shadows: {
     md: {
@@ -46,6 +35,17 @@ const theme = makeTheme({
       elevation: 25,
       shadowColor: 'background',
     },
+  },
+  text: {
+    primary: {
+      fontSize: 40,
+    },
+    secondary: {
+      fontSize: 60,
+    },
+  },
+  sizes: {
+    container: 700,
   },
   textShadows: {
     onImage: {

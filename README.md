@@ -238,7 +238,7 @@ module.exports = async function (env, argv) {
 }
 ```
 
-## For SSR apps (Next.js, Gatsby, etc.)
+# Next.js
 
 If you are using SSR without Next.js, skip down to #3 below.
 
@@ -399,7 +399,7 @@ Use the `sx` prop instead of `style` to use themed and responsive styles:
 
 Also, in addition to `marginHorizontal`, you can use `marginX` or `mx`, as seen on the `theme-ui` [docs](https://theme-ui.com/theme-spec/).
 
-# TypeScript Guide
+# 🤖 TypeScript Guide
 
 Since Dripsy v3, you can get amazing autocomplete with Dripsy.
 
@@ -751,6 +751,14 @@ const CustomView = createThemedComponent(View, {
   },
 })
 ``` -->
+
+## `useDripsyTheme`
+
+```ts
+import { useDripsyTheme } from 'dripsy'
+
+const { theme } = useDripsyTheme()
+```
 
 # Headless Dripsy with `useSx`
 
