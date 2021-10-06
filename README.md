@@ -15,9 +15,12 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 </Text>
 ```
 
+**Dripsy v3 is now available! Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3).**
+
 # Features
 
 - [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally
+- TypeScript support (New! TypeScript support is better than ever 🥳)
 - Responsive styles
 - Universal (Android, iOS, Web, & more)
 - Works with Expo
@@ -25,13 +28,28 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Works with Next.js
 - Full theme support
 - Custom theme variants
-- TypeScript support (TypeScript theme support is in the works too)
 - Insanely simple API (themed, responsive designs in one line!)
 - Works with Animated/Reanimated values
 - Dark mode / custom color modes
 - Memoized styles, even when written inline
 - Atomic CSS classes, with `StyleSheet.create` under the hood
 - Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
+
+# Table of Contents
+
+- Motivation
+- Installation
+- Setup
+- Create a custom theme
+- Expo/React Native Web
+- NextJS
+- [TypeScript Guide](#typescript-guide)
+- Animated Values
+- Before & After
+- Headless usage (`useSx`)
+- API
+  - `styled`
+- [Custom Fonts](#using-custom-fonts-new-%EF%B8%8F)
 
 # Examples
 
@@ -70,7 +88,7 @@ Technically, you don't have to do anything else!
 
 However, you'll likely want to create a custom theme.
 
-## Custom theme
+# Create a custom theme
 
 Wrap your entire app with the `DripsyProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
@@ -79,9 +97,10 @@ If you're using Next.js, this goes in `pages/_app.js`.
 `App.js`
 
 ```jsx
-import { DripsyProvider } from 'dripsy'
+import { DripsyProvider, makeTheme } from 'dripsy'
 
-const theme = {
+// 1. make your theme
+const theme = makeTheme({
   colors: {
     text: '#000',
     background: '#fff',
@@ -100,13 +119,13 @@ const theme = {
   },
   space: {
     // 4px spacing, with 0 first (recommended)
-    0: 0,
-    1: 4,
-    2: 8,
-    3: 16,
-    4: 32,
-    5: 64,
-    6: 128,
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
   },
   text: {
     thick: {
@@ -114,8 +133,16 @@ const theme = {
       fontWeight: 'black', // 'Circular-StdBlack'
     },
   },
+})
+
+// 2. add typescript support
+type MyTheme = typeof theme
+
+declare module 'dripsy' {
+  interface DripsyCustomTheme extends MyTheme {}
 }
 
+// 3. pass your theme to the provider
 export default function App() {
   return (
     <DripsyProvider theme={theme}>
@@ -131,7 +158,58 @@ My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
 
-## For Expo Web / React Native Web (non-SSR apps)
+## Additions to theme-ui
+
+In addition to the values available in `theme-ui`, Dripsy has a few extra fields in the `theme` tailored to React Native apps.
+
+### `theme.textShadows`
+
+```ts
+const theme = makeTheme({
+  textShadows: {
+    onImage: {
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 5,
+      textShadowColor: '#00000099',
+    },
+  },
+})
+```
+
+And in your component, you can reference that shadow with the `textShadow` field.
+
+<img width="440" alt="Screen Shot 2021-09-29 at 10 24 49 AM" src="https://user-images.githubusercontent.com/13172299/135288785-5ec5074e-4fd4-4934-8675-d5c30419d2cb.png">
+
+### `theme.shadows`
+
+The `theme.shadows` is a bit different with Dripsy than `theme-ui`, since React Native doesn't share the web's shadow API.
+
+```ts
+const theme = makeTheme({
+  shadows: {
+    md: {
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+  },
+})
+```
+
+In your component, you can use the `boxShadow` property (to reference shadow variants):
+
+<img width="334" alt="Screen Shot 2021-09-29 at 10 25 03 AM" src="https://user-images.githubusercontent.com/13172299/135288783-ea3ed643-de09-4f2d-a538-7d121397a725.png">
+
+### `theme.types`
+
+To get more granular control over your types, you can use the `theme.types` option. Read more about this in the [TypeScript Guide](#typescript-guide).
+
+# For Expo Web / React Native Web (non-SSR apps)
 
 If you're using 1.4 or lower, you're done. However, starting v1.5, you need to customize webpack like so:
 
@@ -221,7 +299,7 @@ That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next
 ## Create a theme
 
 ```js
-export default {
+export const theme = makeTheme({
   colors: {
     text: '#000',
     background: '#fff',
@@ -230,33 +308,33 @@ export default {
   // set 0 first, then double for consistent nested spacing
   space: {
     // 4px spacing, with 0 first (recommended)
-    0: 0,
-    1: 4,
-    2: 8,
-    3: 16,
-    4: 32,
-    5: 64,
-    6: 128,
-    7: 256,
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
   },
   fontSizes: {
-    0: 12,
-    1: 14,
-    2: 16,
-    3: 18,
-    4: 24,
-    5: 28,
-    6: 32,
+    $0: 12,
+    $1: 14,
+    $2: 16,
+    $3: 18,
+    $4: 24,
+    $5: 28,
+    $6: 32,
   },
   text: {
     h1: {
-      fontSize: 2, // this is 16px, taken from `fontSize` above
+      fontSize: '$2', // this is 16px, taken from `fontSize` above
     },
     p: {
-      fontSize: 0, // & this is 12px, taken from `fontSize` above
+      fontSize: '$0', // & this is 12px, taken from `fontSize` above
     },
   },
-}
+})
 ```
 
 ## ...and build a beautiful, responsive UI
@@ -265,7 +343,7 @@ export default {
 <Text
   sx={{
     color: 'primary',
-    padding: [1, 3], // [4px, 16px] from theme.space
+    padding: ['$1', '$3'], // [4px, 16px] from theme.space
   }}
 >
   Themed color!
@@ -276,12 +354,17 @@ export default {
 
 ```jsx
 import { H1, H2, P } from 'dripsy'
-;<H1
-  sx={{
-    color: 'text', // #000 from theme.colors
-    fontSize: 2, // 24px from theme.fontSizes
-  }}
-></H1>
+
+const Header = () => (
+  <H1
+    sx={{
+      color: 'text', // #000 from theme.colors
+      fontSize: '$2', // 24px from theme.fontSizes
+    }}
+  >
+    Header!
+  </H1>
+)
 ```
 
 Credit to Evan Bacon for @expo/html-elements, used above!
@@ -290,7 +373,7 @@ Credit to Evan Bacon for @expo/html-elements, used above!
 
 _Todo: make the theme values show up in TS types for intelliesense._
 
-## Usage
+# Usage
 
 Dripsy is an almost-drop-in replacement for React Native's UI components.
 
@@ -313,21 +396,242 @@ Use the `sx` prop instead of `style` to use themed and responsive styles:
 />
 ```
 
-Also, instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `theme-ui` [docs](https://theme-ui.com/theme-spec/).
+Also, in addition to `marginHorizontal`, you can use `marginX` or `mx`, as seen on the `theme-ui` [docs](https://theme-ui.com/theme-spec/).
 
-### Animated Values
+# TypeScript Guide
 
-To use an animated view, use the `as` prop.
+Since Dripsy v3, you can get amazing autocomplete with Dripsy.
 
-```js
-import { View } from 'dripsy'
-import Animated from 'react-native-reanimated'
-import { useValue } from 'react-native-redash'
+## Versions
+
+Make sure you have at least TypeScript 4.4+:
+
+```sh
+yarn add -D typescript
+```
+
+## Add `makeTheme`
+
+All you have to do to upgrade is wrap your `theme` with `makeTheme`, and then use module declaration.
+
+```ts
+import { makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  colors: { primary: 'blue' },
+})
+
+type MyTheme = typeof theme
+
+declare module 'dripsy' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DripsyCustomTheme extends MyTheme {}
+}
+```
+
+You now get intellisense 🥳
+
+## Gotchas
+
+If you don't see autocomplete, this might be why:
+
+### Your theme uses non-strict objects:
+
+```ts
+// ⛔️ typescript doesn't know the types here
+const colors = {
+  primary: 'blue',
+}
+
+const theme = makeTheme({ colors })
+```
+
+To fix this, either use `as const` for colors, or write it inline:
+
+```ts
+// ✅ as const
+const colors = {
+  primary: 'blue',
+} as const
+
+const theme = makeTheme({ colors })
+
+// ✅ better yet, write inline
+const theme = makeTheme({
+  colors: {
+    primary: 'blue',
+  },
+})
+```
+
+### Still not getting intellisense?
+
+If it still isn't working, please open an issue! But it should work now.
+
+## Strict Types
+
+If you want to enforce strict types for your `sx` prop, you can do so with the new `theme.types` field:
+
+```ts
+const theme = makeTheme({
+  // ...your theme here
+  types: {
+    onlyAllowThemeValues: 'always', // default: 'never'
+  },
+})
+```
+
+By setting `types.onlyAllowThemeValues` to `always`, you restrict yourself to only using theme values in your `sx` prop. While this may feel like overkill, it is a good pattern of enforcing consistent design.
+
+This will only apply to theme values that are set. For example, if you haven't set the `theme.space` property, then strict types won't enforce for `padding`, `margin`, etc.
+
+## Incremental strict types
+
+It's possible you want to implement strict types on a per-scale basis. The `types.onlyAllowThemeValues` also accepts an object with per-scale definitions.
+
+```ts
+const theme = makeTheme({
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+  types: {
+    onlyAllowThemeValues: {
+      space: 'always',
+    },
+  },
+})
+```
+
+Now, our `sx` prop's space-related properties (such as margin, padding, etc) will only accept one of the values in `theme.space`. To take full advantage of this feature, it is recommended that you don't use arrays, and instead make a dictionary with `$` prefixes, such as the `space` one above.
+
+## TypeScript Recommendation
+
+The strict types feature is especially useful if you want to upgrade to Dripsy 3, have no breaking changes with your types, but slowly transition your app to have stricter types.
+
+It also makes changing your theme **much** easier. For example, imagine that you change your `space` from an array to a dictionary:
+
+```ts
+const theme = makeTheme({
+  // before
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  // after
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+})
+```
+
+After changing your `theme.space`, you likely have hundreds of invalid styles throughout your app. Finding them all would be a mess.
+
+However, with incremental strict types, you could achieve this code refactor in seconds.
+
+```ts
+const theme = makeTheme({
+  // before
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  // after
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+  types: {
+    onlyAllowThemeValues: {
+      space: 'always',
+    },
+  },
+})
+```
+
+Now, simply run your TypeScript type-checker (`yarn tsc --noEmit`) to see all the places you need to update. You'll get useful errors like this:
+
+<img width="1120" alt="Screen Shot 2021-10-04 at 11 10 26 AM" src="https://user-images.githubusercontent.com/13172299/135876688-f1d3acfb-9710-4e6e-8d14-fa09208e401d.png">
+
+> If you want an escape hatch that lets you style without theme keys without disabling strict types, use the `style` prop instead of `sx`.
+
+## Enforce React Native types
+
+default: `false`
+
+```ts
+const theme = makeTheme({
+  // ... theme
+  types: {
+    reactNativeTypesOnly: true, // default false
+  },
+})
+```
+
+If you set this field to `true`, then you can only pass styles that fit a React Native style object.
+
+For example, on web, you can set `fontWeight` as a number, like so: `fontWeight: 400`. With React Native, font weights must be strings (`fontWeight: '400'`). Using a number here would probably work with dripsy if you've utilized the `customFonts` feature in your theme.
+
+I recommend setting this field to `true`. However, it will default to `false` to avoid breaking changes with users who are on v2 (like me) who don't want to refactor everywhere. If your app is just adding Dripsy, you should set this field to `true`. And it may work to set it to `true` either way. If it riddles your type checker with errors, then you can easily disable it.
+
+To clarify: when this is `false`, it will allow either theme-ui types for a given field, _or_ React Native types. When it's set to `true`, it will _only_ allow React Native types (if they exist.)
+
+Since React Native has no `cursor` property, for instance, using this field will always pull from the theme-ui web types.
+
+To learn more, check out [the original PR for v3.](https://github.com/nandorojo/dripsy/pull/124)
+
+# Animated Values
+
+## With Moti
+
+```tsx
+import { styled } from 'dripsy'
+import { MotiView } from 'moti'
+
+const StyledMotiView = styled(MotiView)()
 
 function App() {
-  const height = useValue(0)
+  return (
+    <StyledMotiView
+      from={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      sx={{ px: '$2' }}
+    />
+  )
+}
+```
 
-  return <View as={Animated.View} sx={{ height }} />
+## With Reanimated
+
+```jsx
+import { styled } from 'dripsy'
+import Animated, { useAnimatedStyle } from 'react-native-reanimated'
+
+const StyledAnimatedView = styled(Animated.View)()
+
+function App() {
+  const style = useAnimatedStyle(() => {
+    return {
+      height: 10,
+    }
+  })
+  return <StyledAnimatedView style={style} sx={{ px: '$2' }} />
 }
 ```
 
