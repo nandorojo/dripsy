@@ -17,7 +17,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 **Dripsy v3 is now available! Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3).**
 
-# Features
+# 🦦 Features
 
 - [(New in 1.4.x!)](#using-custom-fonts-new-%EF%B8%8F) Custom fonts, edited globally
 - TypeScript support (New! TypeScript support is better than ever 🥳)
@@ -35,7 +35,7 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 - Atomic CSS classes, with `StyleSheet.create` under the hood
 - Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
 
-# Table of Contents
+# 📚 Table of Contents
 
 - Motivation
 - Installation
@@ -88,7 +88,7 @@ Technically, you don't have to do anything else!
 
 However, you'll likely want to create a custom theme.
 
-# Create a custom theme
+# 🎨 Create a custom theme
 
 Wrap your entire app with the `DripsyProvider`, and pass it a `theme` object. Make sure you create your theme outside of the component to avoid re-renders.
 
