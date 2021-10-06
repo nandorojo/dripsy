@@ -30,7 +30,6 @@ type FontWeight =
   | '700'
   | '800'
   | '900'
-  | 'default'
   | 'normal'
 
 export interface DripsyBaseTheme
