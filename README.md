@@ -33,7 +33,7 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 - Full theme support
 - Custom theme variants
 - Insanely simple API (themed, responsive designs in one line!)
-- Works with Animated/Reanimated values
+- Works with Animated/Reanimated/Moti
 - Dark mode / custom color modes
 - Memoized styles, even when written inline
 - Atomic CSS classes, with `StyleSheet.create` under the hood
