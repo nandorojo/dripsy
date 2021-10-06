@@ -760,6 +760,8 @@ import { useDripsyTheme } from 'dripsy'
 const { theme } = useDripsyTheme()
 ```
 
+https://user-images.githubusercontent.com/13172299/136262629-d2fde15a-87fb-4d37-a6ca-64c71aded495.mp4
+
 # Headless Dripsy with `useSx`
 
 ```js
