@@ -190,6 +190,9 @@ export interface DripsyBaseTheme
       | {
           [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
         }
+    /**
+     * Defaults to `undefined | string & {}`. Set it to `undefined` to enforce that your variants match your theme.
+     */
     variantFallbackType?: undefined | (string & {})
     /**
      * Defaults to `false`. If `true`, then your styles can only be React Native styles.
