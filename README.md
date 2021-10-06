@@ -47,13 +47,13 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 - [Create a custom theme](#-create-a-custom-theme)
   - [Shadows](#-shadows)
 - Expo/React Native Web
-- NextJS
+- [Next.js](#next.js)
 - [TypeScript Guide](#typescript-guide)
-- Animated Values
-- Before & After
-- Headless usage (`useSx`)
+- [Animated Values](#animated-values)
+- [Before & After](#-before--after)
+- [Headless usage with `useSx`](#headless-dripsy-with-usesx)
 - API
-  - `styled`
+  - [`styled`](#styled)
 - [Custom Fonts](#using-custom-fonts-new-%EF%B8%8F)
 
 # Examples
