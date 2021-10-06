@@ -15,7 +15,13 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 </Text>
 ```
 
-**Dripsy v3 is now available! Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3).**
+## **Dripsy v3 is now available**
+
+Zero breaking changes, tons of new features. Check out the [upgrade guide](./docs/v3)
+
+
+
+https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-9464-64748ebf1214.mp4
 
 # 🦦 Features
 
@@ -759,6 +765,8 @@ import { useDripsyTheme } from 'dripsy'
 
 const { theme } = useDripsyTheme()
 ```
+
+https://user-images.githubusercontent.com/13172299/136262629-d2fde15a-87fb-4d37-a6ca-64c71aded495.mp4
 
 # Headless Dripsy with `useSx`
 
