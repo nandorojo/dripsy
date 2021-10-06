@@ -46,14 +46,15 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 - [Setup](#-setup)
 - [Create a custom theme](#-create-a-custom-theme)
   - [Shadows](#-shadows)
-- Expo/React Native Web
+- [Expo/React Native Web](#expo--react-native-web)
 - [Next.js](#next.js)
 - [TypeScript Guide](#typescript-guide)
 - [Animated Values](#animated-values)
 - [Before & After](#-before--after)
 - [Headless usage with `useSx`](#headless-dripsy-with-usesx)
-- API
+- [API](#api)
   - [`styled`](#styled)
+  - [`useDripsyTheme`](#useDripsyTheme)
 - [Custom Fonts](#using-custom-fonts-new-%EF%B8%8F)
 
 # Examples
@@ -87,7 +88,7 @@ npm i dripsy
 
 If you're using Next.js or another SSR app, scroll down to see how to configure it.
 
-# 🛠 Set up
+# 🛠 Setup
 
 Technically, you don't have to do anything else!
 
