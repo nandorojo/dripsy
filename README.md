@@ -61,6 +61,7 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 
 More examples coming soon!
 
+- [Expo + Next.js Monorepo with Dripsy](https://github.com/axeldelafosse/expo-next-monorepo-example)
 - Create a browser mockup with Dripsy: [Snack](https://snack.expo.io/@nandorojo/dripsy-browser-mockup)
 
 # 🤔 Why?
@@ -250,6 +251,8 @@ module.exports = async function (env, argv) {
 If you are using SSR without Next.js, skip down to #3 below.
 
 Steps 1 & 2 are required for Next.js apps (for example, if you're using Expo + Next.js.)
+
+I highly recommend checking out this [Expo + Next.js Monorepo with Dripsy](https://github.com/axeldelafosse/expo-next-monorepo-example) by [Axel Delafosse](https://github.com/axeldelafosse).
 
 **1. Install dependencies**
 
