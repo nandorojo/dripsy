@@ -79,8 +79,8 @@ const theme = makeTheme({
   },
   types: {
     onlyAllowThemeValues: {
-      space: 'always',
-      colors: 'always',
+      // space: 'always',
+      // colors: 'always',
     },
     reactNativeTypesOnly: false,
   },
@@ -102,7 +102,7 @@ const ResponsiveSquare = () => {
   return (
     <View
       sx={{
-        bg: 'accent',
+        bg: 'cool',
         padding: ['$3'],
       }}
     >
@@ -128,7 +128,7 @@ export default function App() {
         <View
           sx={{
             textShadowColor: 'accent',
-            bg: 'primary',
+            bg: 'secondary',
           }}
           variant="colors.cool"
         >

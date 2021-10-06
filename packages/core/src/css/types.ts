@@ -227,13 +227,11 @@ type NativeOrThemeUiStyle<
 > = Key extends keyof NativeStyleProperties
   ? Key extends keyof ThemeUICSSProperties
     ? ReactNativeTypesOnly extends true
-      ? ResponsiveValue<NativeStyleProperties[Key] & {}>
-      :
-          | ResponsiveValue<NativeStyleProperties[Key] & {}>
-          | (ThemeUICSSProperties[Key] | {})
-    : NativeStyleProperties[Key]
+      ? ResponsiveValue<NativeStyleProperties[Key]>
+      : ResponsiveValue<NativeStyleProperties[Key]> | ThemeUICSSProperties[Key]
+    : ResponsiveValue<NativeStyleProperties[Key]>
   : Key extends keyof ThemeUICSSProperties
-  ? ThemeUICSSProperties[Key] | {}
+  ? ThemeUICSSProperties[Key]
   : never
 
 // type NativeOrThemeUiStyle<
@@ -255,7 +253,7 @@ type SxStyles = {
             | ResponsiveValue<MaybeTokenizedValue<key>>
             // if this style also exists in react native keys
             // then the type should be the native one
-            | NativeOrThemeUiStyle<key>)
+            | (NativeOrThemeUiStyle<key> & {}))
     | null
 }
 
