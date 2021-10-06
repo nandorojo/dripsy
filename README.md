@@ -38,6 +38,8 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 - Memoized styles, even when written inline
 - Atomic CSS classes, with `StyleSheet.create` under the hood
 - Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
+- Linear Gradient
+- Performant: `sx` prop is memoized under the hood (even if you write it in render)
 
 # 📚 Table of Contents
 
@@ -55,6 +57,7 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 - [API](#api)
   - [`styled`](#styled)
   - [`useDripsyTheme`](#useDripsyTheme)
+  - [`<Gradient />`](#gradient)
 - [Custom Fonts](#using-custom-fonts-new-%EF%B8%8F)
 
 # Examples
@@ -772,6 +775,52 @@ const { theme } = useDripsyTheme()
 
 https://user-images.githubusercontent.com/13172299/136262629-d2fde15a-87fb-4d37-a6ca-64c71aded495.mp4
 
+## `Gradient`
+
+### Install dependencies
+
+```sh
+expo install @dripsy/gradient expo-linear-gradient
+```
+
+This component wraps the expo-linear gradient. It also adds some additional type safety and functionality.
+
+### Props
+
+#### `colors`
+
+You can use `theme.colors` values directly in the `colors` array.
+
+```tsx
+import { Gradient } from '@dripsy/gradient'
+
+export function DripsyGradient() {
+  return <Gradient colors={['primary', 'secondary']} />
+}
+```
+
+#### `gradient`
+
+Alternatively, you can define gradient presets in your `theme.linearGradients`:
+
+<img width="485" alt="Screen Shot 2021-09-27 at 6 47 19 PM" src="https://user-images.githubusercontent.com/13172299/134995527-d126d611-f224-4267-a665-39ae8457b27a.png">
+
+And then reference them via the `gradient` prop:
+
+<img width="386" alt="Screen Shot 2021-09-27 at 6 47 11 PM" src="https://user-images.githubusercontent.com/13172299/134995529-a927645a-c31d-4f30-9710-033bf9a0ca1f.png">
+
+#### `stretch`
+
+Often, your gradient is stretching its background as an absolute fill. To enable this, use the `stretch` boolean.
+
+```tsx
+import { Gradient } from '@dripsy/gradient'
+
+export function DripsyGradient() {
+  return <Gradient colors={['primary', 'secondary']} stretch />
+}
+```
+
 # Headless Dripsy with `useSx`
 
 ```js
@@ -1134,7 +1183,7 @@ If you're using Next.js, this would go in your `pages/_document.js` file, inside
 
 First, this library is super inspired by `theme-ui`, and uses many of its low-level functions and methodologies.
 
-We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it just feels like magic! Plus, you get all the awesome theming abilities baked in. Even if you don't need responsive design, the theming alone is a great use case.
+We track the screen width, generate styles based on the current width using a mobile-first approach, and return the regular React Native components. But it feels like magic. Plus, you get all the awesome theming abilities baked in. Even if you don't need responsive design, the theming alone is a great use case.
 
 ## Contributing
 
