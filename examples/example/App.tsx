@@ -20,9 +20,30 @@ const theme = makeTheme({
     primary: 'orange',
     secondary: 'black',
     background: 'white',
-    gray: 'green',
+    callout: 'pink',
     accent: 'green',
-    coolzie: 'gray',
+    muted: 'gray',
+    warning: 'yellow',
+    error: 'red',
+    gray: '#888',
+  },
+  space: {
+    $none: 0,
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+  types: {
+    onlyAllowThemeValues: {
+      // let's only restrict colors!
+      // colors: 'always',
+    },
   },
   shadows: {
     md: {
@@ -63,27 +84,27 @@ const theme = makeTheme({
     narrow: {},
   },
   // space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
-  space: {
-    $0: 0,
-    $1: 4,
-    $2: 8,
-    $3: 16,
-    $4: 32,
-    $5: 64,
-    $6: 128,
-    $7: 256,
-    $8: 512,
-  },
+  // space: {
+  //   $0: 0,
+  //   $1: 4,
+  //   $2: 8,
+  //   $3: 16,
+  //   $4: 32,
+  //   $5: 64,
+  //   $6: 128,
+  //   $7: 256,
+  //   $8: 512,
+  // },
   fontWeights: {
     black: '500',
   },
-  types: {
-    onlyAllowThemeValues: {
-      // space: 'always',
-      // colors: 'always',
-    },
-    reactNativeTypesOnly: false,
-  },
+  // types: {
+  //   onlyAllowThemeValues: {
+  //     // space: 'always',
+  //     // colors: 'always',
+  //   },
+  //   reactNativeTypesOnly: false,
+  // },
 })
 
 const G = createThemedComponent(Text, {
