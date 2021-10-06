@@ -1,4 +1,4 @@
-import type { ViewStyle, TextStyle } from 'react-native'
+import type { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 import type { Theme } from '@theme-ui/css'
 import type { Function } from 'ts-toolbelt'
 
@@ -32,8 +32,17 @@ type FontWeight =
   | '900'
   | 'normal'
 
+type NativeStyle = ViewStyle | TextStyle | ImageStyle
+
+// this lets us use RN styles directly in theme values
+// as a result, intellisense won't break if we use things like shadows
+// and we get better intellisense in the theme itself
+type BaseThemeWithNativeStyles = {
+  [key in keyof Theme]?: Theme[key] | { [key: string]: NativeStyle }
+}
+
 export interface DripsyBaseTheme
-  extends Omit<Theme, 'fonts' | 'shadows' | 'fontWeights'> {
+  extends Omit<BaseThemeWithNativeStyles, 'fonts' | 'shadows' | 'fontWeights'> {
   /**
    * Specify custom fonts you want to use.
    *

@@ -128,7 +128,6 @@ export default function App() {
         <View
           sx={{
             textShadowColor: 'accent',
-            bg: 'secondary',
           }}
           variant="colors.cool"
         >
