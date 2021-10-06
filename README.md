@@ -37,10 +37,11 @@ A **dead-simple**, **responsive** design system for Expo / React Native Web. Hea
 
 # Table of Contents
 
-- Motivation
-- Installation
-- Setup
-- Create a custom theme
+- [Motivation](#-why)
+- [Installation](#-installation)
+- [Setup](#-setup)
+- [Create a custom theme](#-create-a-custom-theme)
+  - [Shadows](#-shadows)
 - Expo/React Native Web
 - NextJS
 - [TypeScript Guide](#typescript-guide)
@@ -158,9 +159,9 @@ My personal preference is to have the entire theme object in one file.
 
 _All theme values are optional. You don't have to use them if you don't want._
 
-## Additions to theme-ui
+## 👻 Shadows
 
-In addition to the values available in `theme-ui`, Dripsy has a few extra fields in the `theme` tailored to React Native apps.
+In addition to the values available in `theme-ui`, Dripsy has a few extra fields in the `theme` tailored to React Native's shadows:
 
 ### `theme.textShadows`
 
@@ -205,7 +206,7 @@ In your component, you can use the `boxShadow` property (to reference shadow var
 
 <img width="334" alt="Screen Shot 2021-09-29 at 10 25 03 AM" src="https://user-images.githubusercontent.com/13172299/135288783-ea3ed643-de09-4f2d-a538-7d121397a725.png">
 
-### `theme.types`
+## `theme.types`
 
 To get more granular control over your types, you can use the `theme.types` option. Read more about this in the [TypeScript Guide](#typescript-guide).
 
