@@ -1,6 +1,6 @@
 # 🍷 Dripsy
 
-**Unstyled**, **theme-based** **responsive** UI primitives for Expo / React Native Web. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/).
+**Unstyled**, **theme-based** UI primitives for React Native (+ Web) with responsive design built in. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/).
 
 **Style once, run anywhere.**
 
