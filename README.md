@@ -1,6 +1,6 @@
 # 🍷 Dripsy
 
-**Unstyled**, **theme-based** UI primitives for React Native (+ Web) with responsive design built in. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/).
+**Unstyled** UI primitives for React Native (+ Web) with responsive design & theming built in. Heavily inspired by React's [`theme-ui`](https://theme-ui.com/).
 
 **Style once, run anywhere.**
 
