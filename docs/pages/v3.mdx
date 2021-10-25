@@ -101,38 +101,8 @@ You now get intellisense 🥳
 
 If you don't see autocomplete, there could be a few reasons.
 
-### Possibility 1. Your theme uses non-strict objects:
-
-```js
-// ⛔️ typescript doesn't know the types here
-const colors = {
-  primary: 'blue',
-}
-
-const theme = makeTheme({ colors })
-```
-
-To fix this, either use `as const` for colors, or write it inline:
-
-```js
-// ✅ as const
-const colors = {
-  primary: 'blue',
-} as const
-
-const theme = makeTheme({ colors })
-
-// ✅ better yet, write inline
-const theme = makeTheme({
-  colors: {
-    primary: 'blue',
-  },
-})
-```
-
-### Still not getting intellisense?
-
-If it still isn't working, please open an issue. But it should work now.
+1. **You need to restart VSCode** (yeah, really)
+2. You might have an old version of TypeScript (you should use 4.4+). `yarn add -D typescript`
 
 ## Strict Types
 

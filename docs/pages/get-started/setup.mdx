@@ -1,0 +1,41 @@
+# Setup
+
+The minimum setup you need is a custom `theme`, passed to your `DripsyProvider`.
+
+```jsx
+// App.tsx
+import { DripsyProvider, makeTheme } from 'dripsy'
+
+const theme = makeTheme({})
+
+export default function App() {
+  return (
+    <DripsyProvider theme={theme}>
+      <YourApp />
+    </DripsyProvider>
+  )
+}
+```
+
+You should create the `theme` outside of render.
+
+## Next.js
+
+If you're using Next.js, return `DripsyProvider` in `_app.tsx`.
+
+```jsx
+// _app.tsx
+import { DripsyProvider, makeTheme } from 'dripsy'
+
+const theme = makeTheme({})
+
+export default function App({ Component, pageProps }) {
+  return (
+    <DripsyProvider theme={theme}>
+      <Component {...pageProps} />
+    </DripsyProvider>
+  )
+}
+```
+
+Be sure to refer to the [Dripsy Next.js](/web/next) docs for full setup.

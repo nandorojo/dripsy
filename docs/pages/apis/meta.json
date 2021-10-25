@@ -1,0 +1,7 @@
+{
+  "styled": "styled()",
+  "useDripsyTheme": "useDripsyTheme()",
+  "makeTheme": "makeTheme()",
+  "useSx": "useSx()",
+  "gradient": "<Gradient />"
+}

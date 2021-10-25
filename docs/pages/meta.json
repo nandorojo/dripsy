@@ -1,8 +1,8 @@
 {
   "index": "Welcome",
-  "Installation": "Installation",
-  "quick-start": "Starter Project",
-  "v3": "Upgrade to v3",
+  "get-started": "Get Started",
   "fonts": "Custom Fonts",
-  "web": "Web Support"
+  "web": "Web Support",
+  "apis": "API",
+  "v3": "Upgrade to v3"
 }
