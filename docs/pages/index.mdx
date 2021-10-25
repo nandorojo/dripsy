@@ -1,0 +1,36 @@
+# Dripsy
+
+A **dead-simple**, **responsive** design system for Expo / React Native Web. It's inspired by React's [`theme-ui`](https://theme-ui.com/).
+
+**Style once, run anywhere.**
+
+```jsx
+<Text
+  sx={{
+    fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
+    color: ['primary', null, 'accent'], // `primary` on mobile & tablet, `accent` on desktop
+  }}
+>
+  Responsive font size?? 🤯
+</Text>
+```
+
+## 🦦 Features
+
+- [(New in 1.4.x!)](/fonts) Custom fonts, edited globally
+- [(New in v3!)](/v3) Full TypeScript support
+- Responsive styles
+- Universal (Android, iOS, Web, & more)
+- Works with Expo
+- Works with Vanilla React Native
+- Works with Next.js
+- Full theme support
+- Custom theme variants
+- Insanely simple API (themed, responsive designs in one line!)
+- Works with Animated/Reanimated/Moti
+- Dark mode / custom color modes
+- Memoized styles, even when written inline
+- Atomic CSS classes, with `StyleSheet.create` under the hood
+- Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
+- Linear Gradient
+- Performant: `sx` prop is memoized under the hood (even if you write it in render)
