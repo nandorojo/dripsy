@@ -32,6 +32,24 @@ export default {
         content="Unstyled UI primitives for React Native (+ Web)"
       />
       <meta name="og:title" content="Dripsy by Fernando Rojo" />
+      <meta name="msapplication-TileColor" content="#000000" />
+      <meta name="theme-color" content="#000000" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta httpEquiv="Content-Language" content="en" />
+      <meta
+        name="description"
+        content="Unstyled UI primitives for React Native (+ Web)"
+      />
+      <meta
+        name="og:description"
+        content="Unstyled UI primitives for React Native (+ Web)"
+      />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content="https://dripsy.xyz/og.png" />
+      <meta name="twitter:site:domain" content="dripsy.xyz" />
+      <meta name="twitter:url" content="https://dripsy.xyz" />
+      <meta name="og:title" content="Dripsy by Fernando Rojo" />
+      <meta name="og:image" content="https://dripsy.xyz/og.png" />
     </>
   ),
   unstable_faviconGlyph: '🍷',
