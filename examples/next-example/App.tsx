@@ -7,6 +7,7 @@ import {
   DripsyProvider,
   Container,
   styled,
+  makeTheme,
 } from 'dripsy'
 import { Text } from 'react-native'
 
@@ -21,11 +22,7 @@ const Blue = styled(
 // works with memo, just not in-line
 const MemoBlue = React.memo(Blue)
 
-const theme = {
-  useBodyStyles: false,
-  useLocalStorage: false,
-  useCustomProperties: false,
-  useColorSchemeMediaQuery: false,
+const theme = makeTheme({
   colors: {
     primary: '#41b87a',
     secondary: 'black',
@@ -37,12 +34,38 @@ const theme = {
   text: {
     primary: {
       fontSize: 40,
+      color: 'green',
+    },
+    secondary: {
+      fontSize: 60,
+      color: 'blue',
     },
   },
   sizes: {
     container: 700,
   },
-}
+  shadows: {
+    md: {
+      shadowOffset: {
+        width: 0,
+        height: 10,
+      },
+      shadowOpacity: 0.8,
+      shadowRadius: 14,
+      elevation: 25,
+    },
+  },
+  linearGradients: {
+    strong: ['primary', 'secondary'],
+    light: ['red', 'green'],
+  },
+  layout: {
+    wide: {
+      width: 199,
+    },
+    narrow: {},
+  },
+})
 
 const G = createThemedComponent(Text, {
   themeKey: 'text',

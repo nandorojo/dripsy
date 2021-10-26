@@ -1,9 +1,11 @@
 {
-  "extends": "../../tsconfig",
+  "extends": "expo-module-scripts/tsconfig.base",
   "compilerOptions": {
-    "outDir": "./lib/typescript",
-    "paths": {
-      "react-native/node_modules/@types/react": ["../node_modules/@types/react"]
-    }
+    "outDir": "./build"
+  },
+  "include": ["./src"],
+  "exclude": ["**/__mocks__/*", "**/__tests__/*", "examples", "node_modules"],
+  "paths": {
+    "react-native/node_modules/@types/react": ["../node_modules/@types/react"]
   }
 }

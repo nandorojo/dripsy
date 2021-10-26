@@ -1,0 +1,20 @@
+# Theme Types
+
+As of [v3](/v3), Dripsy has a `theme.types` field, which lets you customize elements of your TypeScript Intellisense.
+
+## Usage
+
+```ts
+import { makeTheme } from 'dripsy'
+
+export const theme = makeTheme({
+  types: {
+    // default: false
+    reactNativeTypesOnly: boolean,
+    // default: 'never'
+    onlyAllowThemeValues: 'always' | 'never' | { [scale]: 'always' | 'never' },
+  },
+})
+```
+
+For an explanation of how and when to use these, reference the [TypeScript Guide](/typescript/setup).

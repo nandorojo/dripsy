@@ -12,8 +12,7 @@
   },
   "workspaces": [
     "packages/*",
-    "examples/*",
-    "docs"
+    "examples/*"
   ],
   "keywords": [
     "react-native",
@@ -44,7 +43,7 @@
     "lerna": "^3.22.1",
     "metro-react-native-babel-preset": "^0.61.0",
     "release-it": "^13.5.8",
-    "typescript": "^4.1.2"
+    "typescript": "^4.4.3"
   },
   "jest": {
     "preset": "react-native",
@@ -84,11 +83,12 @@
     ]
   },
   "resolutions": {
-    "@theme-ui/core": "0.4.0-rc.1",
     "@theme-ui/css": "0.4.0-rc.1",
-    "@theme-ui/mdx": "0.4.0-rc.1",
     "@types/react": "~16.9.35",
     "@typescript-eslint/eslint-plugin": "4.11.0",
     "@typescript-eslint/parser": "4.11.0"
-  }
+  },
+  "noHoist": [
+    "next"
+  ]
 }

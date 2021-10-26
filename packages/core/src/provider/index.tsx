@@ -1,11 +1,10 @@
-import React, { ComponentProps, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Platform } from 'react-native'
-import { ThemeProvider as ThemeUIProvider } from '@theme-ui/core'
-import { MediaContextProvider } from './fresnel'
-import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
+import { DripsyThemeContext } from './context'
 
-type Props = ComponentProps<typeof ThemeUIProvider> &
-  (
+type Props = DripsyThemeContext & {
+  children: React.ReactNode
+} & (
     | {
         /**
          * Set this boolean to `true` if you are using SSR on your app.
@@ -68,22 +67,19 @@ const useIsSSRReady = ({ ssr = false }: Pick<Props, 'ssr'>) => {
 }
 
 export function DripsyProvider(p: Props) {
-  const { ssrPlaceholder = null, ssr, ...props } = p
+  const { ssrPlaceholder = null, ssr, theme, children } = p
   const { ready } = useIsSSRReady({ ssr })
 
-  const ResponsiveContextProvider =
-    Platform.OS === 'web' && SUPPORT_FRESNEL_SSR
-      ? MediaContextProvider
-      : React.Fragment
+  const context = useMemo(() => ({ theme }), [theme])
 
   if (!ready) {
     return <>{ssrPlaceholder}</>
   }
 
   return (
-    <ResponsiveContextProvider>
-      <ThemeUIProvider {...props} />
-    </ResponsiveContextProvider>
+    <DripsyThemeContext.Provider value={context}>
+      {children}
+    </DripsyThemeContext.Provider>
   )
 }
 

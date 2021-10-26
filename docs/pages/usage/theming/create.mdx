@@ -1,0 +1,34 @@
+# Create a Custom Theme
+
+You'll likely want to make a custom theme.
+
+Dripsy makes this incredibly easy.
+
+```jsx
+makeTheme({
+  colors: {
+    $text: '#000',
+    $background: '#fff',
+    $primary: '#07c',
+  },
+})
+```
+
+## Theme Spec
+
+Dripsy closely follows the `theme-ui` theme spec. Please reference the [`theme-ui` docs](https://theme-ui.com/theming).
+
+There are, however, a few differences.
+
+The following pages will outline where `dripsy` diverges slightly from `theme-ui`.
+
+In some cases, this divergence is due to differences in React Native with CSS. In others, I found that there were better APIs.
+
+## TypeScript Autocomplete
+
+<br />
+<img src="https://user-images.githubusercontent.com/13172299/135127794-ec981a36-61f9-4eb6-b555-4ff089e37d99.png" />
+Before continuing, it's worth pointing out that Dripsy has amazing TypeScript
+autocomplete based on your, unlike Theme UI.
+
+You should reference the [TypeScript guide](/typescript/setup) for more.

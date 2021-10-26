@@ -1,0 +1,91 @@
+# `styled()`
+
+Turn any React Native component into a Dripsy component.
+
+## Import
+
+```jsx
+import { styled } from 'dripsy'
+```
+
+## Style
+
+```jsx
+import { View } from 'react-native'
+
+const StyledView = styled(View)({
+  flex: 1,
+  bg: '$primary',
+})
+```
+
+## Composition
+
+You can also recursively use `styled` on Dripsy components:
+
+```jsx
+import { View } from 'react-native'
+
+const StyledView = styled(View)({
+  flex: 1,
+  bg: '$primary',
+})
+
+const ExtraStyledView = styled(StyledView)({
+  bg: '$secondary',
+})
+```
+
+## Advanced Usage
+
+```jsx
+import { styled } from 'dripsy'
+import { View } from 'react-native'
+
+const StyledView = styled(View)({
+  flex: 1,
+  bg: '$primary',
+})
+
+// This uses the theme.layout.container styles!
+const StyledView2 = styled(View, {
+  // this lets you use theme.layout.container styles
+  themeKey: 'layout',
+  defaultVariant: 'container',
+})({
+  flex: 1,
+  bg: '$primary',
+})
+```
+
+## Factory Function
+
+You can also pass props like `styled-components`
+
+```tsx
+const DripsyView = styled(View)((props) => ({
+  color: props.success ? 'success' : '$primary',
+}))
+```
+
+And then use it in your component:
+
+```tsx
+return <DripsyView success />
+```
+
+Override the original styles with `sx`, if you'd like:
+
+```tsx
+return <DripsyView success sx={{ height: 300 }} />
+```
+
+## TypeScript
+
+You can also add TypeScript types with autocompletion:
+
+```tsx
+const DripsyView = styled(View)((props: { success: boolean }) => ({
+  color: props.success ? 'success' : '$primary',
+}))
+```

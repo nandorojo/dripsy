@@ -1,0 +1,170 @@
+# 🎨 Color Modes
+
+## With Theme UI
+
+Theme UI uses `theme.colors.modes`:
+
+```jsx
+colors: {
+  text: '#000',
+  background: '#fff',
+  primary: '#07c',
+  modes: {
+    dark: {
+      text: '#fff',
+      background: '#000',
+      primary: '#0cf',
+    }
+  }
+}
+```
+
+## With Dripsy
+
+On the other hand, Dripsy does not support `colors.modes`.
+
+Instead, we opt for a more React-like API.
+
+If you want to change color modes, use React Context and pass a different theme to `DripsyProvider`:
+
+```tsx
+const colorMode = useColorScheme()
+
+return (
+  <DripsyProvider theme={colorMode === 'dark' ? theme : themeLight}>
+    <App />
+  </DripsyProvider>
+)
+```
+
+You should use a library like [`react-native-appearance`](https://docs.expo.dev/versions/latest/sdk/appearance/) to get the system color mode. Or, you can override it with your own.
+
+## Guide
+
+**1. Make a base theme**
+
+First, make a base theme.
+
+This theme should define the shape for every one of your color modes.
+
+For example, if your base `theme` is dark, it might look like this:
+
+```ts
+import { makeTheme } from 'dripsy'
+
+const darkColors = {
+  $background: 'black',
+  $text: 'white',
+}
+
+export const theme = makeTheme({
+  colors: darkColors,
+})
+
+type MyTheme = typeof theme
+
+declare module 'dripsy' {
+  interface DripsyCustomTheme extends MyTheme {}
+}
+```
+
+Every other theme you create just needs to match the same shape as your base theme.
+
+**2. Create other themes**
+
+Now, you can import the `Theme` type from Dripsy. It will match the schema of your base `theme`.
+
+```tsx
+const darkColors = { $background: 'black', $text: 'white' }
+
+const lightColors: typeof darkColors = {
+  $text: 'black',
+  $background: 'white',
+}
+
+export const themeLight = {
+  ...theme,
+  colors: lightColors,
+}
+```
+
+### Final Code
+
+```tsx
+// theme.ts
+import { makeTheme } from 'dripsy'
+
+const darkColors = {
+  $background: 'black',
+  $text: 'white',
+}
+
+const theme = makeTheme({
+  colors: darkColors,
+})
+
+type MyTheme = typeof theme
+
+declare module 'dripsy' {
+  interface DripsyCustomTheme extends MyTheme {}
+}
+
+const lightColors: typeof darkColors = {
+  $text: 'black',
+  $background: 'white',
+}
+
+const themeLight = {
+  ...theme,
+  colors: lightColors,
+}
+
+export { theme, themeLight }
+```
+
+Then, in your provider:
+
+```tsx
+// provider.tsx
+import { theme, themeLight } from './theme'
+import { DripsyProvider } from 'dripsy'
+import { useColorScheme } from 'react-native-appearance'
+
+export function AppProvider({ children }) {
+  const colorMode = useColorScheme()
+
+  return (
+    <DripsyProvider theme={colorMode === 'dark' ? theme : themeLight}>
+      {children}
+    </DripsyProvider>
+  )
+}
+```
+
+And finally, in your `App.tsx`:
+
+```tsx
+import { AppProvider } from './provider'
+
+export default function App() {
+  return (
+    <AppProvider>
+      <YourApp />
+    </AppProvider>
+  )
+}
+```
+
+Or, if you're using Next.js, use `_app.tsx`:
+
+```tsx
+import { AppProvider } from './provider'
+
+export default function App({ Component, pageProps }) {
+  return (
+    <AppProvider>
+      <Component {...pageProps} />
+    </AppProvider>
+  )
+}
+```

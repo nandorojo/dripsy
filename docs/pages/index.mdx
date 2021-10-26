@@ -1,0 +1,120 @@
+# Dripsy
+
+A **dead-simple**, **responsive** design system for Expo / React Native Web. It's inspired by React's [`theme-ui`](https://theme-ui.com/).
+
+<br />
+
+<video
+  src="https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-9464-64748ebf1214.mp4"
+  autoplay="true"
+  controls="true"
+/>
+
+## Style once, run anywhere.
+
+```jsx
+<Text
+  sx={{
+    fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
+    color: ['$primary', null, 'accent'], // `primary` on mobile & tablet, `accent` on desktop
+  }}
+>
+  Responsive font size?? 🤯
+</Text>
+```
+
+## 🦦 Features
+
+- [(New in 1.4.x!)](/fonts) Custom fonts, edited globally
+- [(New in v3!)](/v3) Full TypeScript support
+- Responsive styles
+- Universal (Android, iOS, Web, & more)
+- Works with Expo
+- Works with Vanilla React Native
+- Works with Next.js
+- Full theme support
+- Custom theme variants
+- Insanely simple API (themed, responsive designs in one line!)
+- Works with Animated/Reanimated/Moti
+- Dark mode / custom color modes
+- Memoized styles, even when written inline
+- Atomic CSS classes, with `StyleSheet.create` under the hood
+- Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
+- Linear Gradient
+- Performant: `sx` prop is memoized under the hood (even if you write it in render)
+
+## 🤔 Why?
+
+**Build once, deploy everywhere,** is a great philosophy made possible by Expo Web/React Native Web. A large impediment is responsive design.
+
+React Native doesn't have media queries for styles, and trying to micmick it with JS turns into `useState` hell with a ton of conditionals (as you'll see [below](#-before--after).)
+
+While React Native has some great component libraries, it lacks a good design system that is responsive and themed.
+
+No longer. The goal of Dripsy is to let you go from idea to universal, themed styles without much effort.
+
+[There](https://github.com/necolas/react-native-web/issues/1177) [is](https://blog.expo.io/media-queries-with-react-native-for-ios-android-and-web-e0b73ed5777b) [no](https://twitter.com/FernandoTheRojo/status/1143897833663270912) [shortage](https://medium.com/miquido/how-to-create-responsive-layouts-in-react-native-7c4cfa15f1de) [of](https://stackoverflow.com/questions/53465796/how-to-handle-responsive-layout-in-react-native) [discussion](https://dev.to/newbiebr/how-to-make-your-react-native-apps-responsive-45d8) [about](https://heartbeat.fritz.ai/handling-responsive-layouts-in-react-native-apps-1494b3f85984) [what](https://uxdesign.cc/implementing-responsive-design-system-to-react-native-238c0cb7503e) [responsive](https://www.npmjs.com/package/react-native-responsive-screen) [design](https://www.telerik.com/blogs/build-mobile-friendly-web-apps-with-react-native-web) [should](https://medium.com/react-native-training/build-responsive-react-native-views-for-any-device-and-support-orientation-change-1c8beba5bc23) [look](https://dzone.com/articles/how-to-add-responsivity-to-react-native-apps) like in React Native.
+
+After trying many, many different ways, I'm convinced this approach is the answer. I'm curious to see if you'll think the same.
+
+## 🏆 Before & After
+
+### Before Dripsy 😢
+
+This is what it took to make _one_ responsive style without Dripsy...
+
+```jsx
+import { useState } from 'react'
+import { View } from 'react-native'
+
+const ResponsiveBox = () => {
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width)
+
+  useEffect(() => {
+    const onResize = (event) => {
+      setScreenWidth(event.window.width)
+    }
+    Dimensions.addEventListener('change', onResize)
+
+    return () => Dimensions.removeEventListener('change', onResize)
+  }, [])
+
+  let width = '100%'
+  if (screenWidth > 700) {
+    width = '50%'
+  }
+
+  return <View style={{ width }} />
+}
+```
+
+### With Dripsy 🤩
+
+```jsx
+import { View } from 'dripsy'
+
+const ResponsiveBox = () => {
+  return <View sx={{ width: ['100%', '50%'] }} />
+}
+```
+
+In the future, I may also add support for responsive objects (rather than just arrays):
+
+```jsx
+import { View } from 'dripsy'
+
+const ResponsiveBox = () => {
+  return (
+    <View
+      sx={{
+        width: {
+          '@base': 100,
+          '@md': 200,
+        },
+      }}
+    />
+  )
+}
+```
+
+But this is not implemented yet.

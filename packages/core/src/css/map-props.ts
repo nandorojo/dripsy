@@ -1,11 +1,28 @@
-import { get } from '@theme-ui/css'
 import { css } from './index'
-import { StyleSheetCache } from './cache'
-import { StyledProps, ThemedOptions } from './types'
+import { StyledProps, Sx, ThemedOptions } from './types'
+import { DripsyFinalTheme } from '../declarations'
+import { get } from './get'
+import { StyleSheet } from 'react-native'
 
-export function mapPropsToStyledComponent<P, T>(
-  props: StyledProps<P> & { breakpoint: number },
-  options: ThemedOptions<T>
+const defaultStyleProp: keyof ThemedOptions<{ noop: true }, 'layout'> =
+  'defaultStyle'
+
+type DefaultStyleProp = typeof defaultStyleProp
+
+type ThemedOptionsWithoutFunctionStyle<
+  ThemeKey extends keyof DripsyFinalTheme
+> = Omit<ThemedOptions<any, ThemeKey>, DefaultStyleProp> &
+  Record<DefaultStyleProp, Sx | undefined>
+
+export function mapPropsToStyledComponent<
+  ThemeKey extends keyof DripsyFinalTheme
+>(
+  props: StyledProps<ThemeKey> & {
+    breakpoint: number
+    theme: DripsyFinalTheme
+    style?: any
+  },
+  options: ThemedOptionsWithoutFunctionStyle<ThemeKey>
 ) {
   const {
     themeKey,
@@ -25,16 +42,22 @@ export function mapPropsToStyledComponent<P, T>(
   multipleVariants = multipleVariants.filter(Boolean)
 
   const variantStyle = css(
-    // @ts-expect-error why does get think it's a number and not undefined?
-    get(theme, themeKey + '.' + variant, get(theme, variant ?? defaultVariant)),
+    get(
+      theme,
+      themeKey + '.' + variant,
+      get(theme, (variant || defaultVariant) as string)
+    ),
     breakpoint
-  )({ theme })
+  )({ theme, themeKey })
 
   // get the font-family from the variant, and pass it to the other styles as a fallback.
   // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
   const { fontFamily } = variantStyle
 
-  const baseStyle = css(defaultStyle, breakpoint)({ theme, fontFamily })
+  const baseStyle = css(
+    defaultStyle,
+    breakpoint
+  )({ theme, fontFamily, themeKey })
 
   const multipleVariantsStyle = multipleVariants
     .map((variantKey) =>
@@ -42,7 +65,7 @@ export function mapPropsToStyledComponent<P, T>(
         // @ts-expect-error why does get think it's a number and not undefined?
         get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
         breakpoint
-      )({ theme, fontFamily })
+      )({ theme, fontFamily, themeKey })
     )
     .reduce(
       (prev = {}, next = {}) => ({
@@ -52,14 +75,37 @@ export function mapPropsToStyledComponent<P, T>(
       {}
     )
 
-  const superStyle = css(sx, breakpoint)({ theme, fontFamily })
+  const superStyle = css(sx, breakpoint)({ theme, fontFamily, themeKey })
+
+  const createStyleSheet = (style: any) => {
+    const stylesheet = StyleSheet.create({
+      style,
+    })
+    return stylesheet.style
+  }
+
+  const baseStyleSheet = createStyleSheet({
+    ...baseStyle,
+    ...multipleVariantsStyle,
+  })
+  const superStyleSheet = createStyleSheet(superStyle)
+
+  let styles: any[] | ((props?: any) => any[]) = [
+    // order the styles from default, to variant, style, and finally sx
+    baseStyleSheet,
+    ...(Array.isArray(style) ? style : [style]),
+    superStyleSheet,
+  ]
+  if (typeof style == 'function') {
+    // for Pressable, we pass a function prop to style
+    styles = (interactionState) => [
+      baseStyleSheet,
+      style(interactionState),
+      superStyleSheet,
+    ]
+  }
 
   return {
-    styles: [
-      // order the styles from default, to variant, style, and finally sx
-      StyleSheetCache.get({ ...baseStyle, ...multipleVariantsStyle }),
-      ...(Array.isArray(style) ? style : [style]),
-      StyleSheetCache.get(superStyle),
-    ],
+    styles,
   }
 }

@@ -1,25 +1,24 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-import {
-  ThemeUIStyleObject,
-  CSSObject,
-  UseThemeFunction,
-  get,
-  Theme,
-} from '@theme-ui/css'
-import { ThemeProvider, SxProps } from '@theme-ui/core'
-import { Platform, StyleSheet } from 'react-native'
-import type { ThemedOptions, StyledProps } from './types'
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { CSSObject, UseThemeFunction } from '@theme-ui/css'
+import { Platform } from 'react-native'
 import { defaultBreakpoints } from './breakpoints'
-import type { DripsyTheme } from '../utils/types'
 import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
+import { DripsyFinalTheme } from '../declarations'
 
-export { ThemeProvider }
+import type { SxProp } from './types'
+import { get } from './get'
+import { Aliases, aliases, scales, Scales } from './scales'
 
-type CssPropsArgument = ({ theme: Theme } | Theme) & {
+type SxProps = SxProp
+
+type Theme = DripsyFinalTheme
+
+type CssPropsArgument = ({ theme?: Theme } | Theme) & {
   /**
    * We use this for a custom font family.
    */
   fontFamily?: string
+  themeKey?: keyof DripsyFinalTheme
 }
 
 const defaultTheme = {
@@ -28,21 +27,20 @@ const defaultTheme = {
 }
 
 export type ResponsiveSSRStyles = Exclude<
-  ThemeUIStyleObject,
+  NonNullable<SxProps>,
   UseThemeFunction
 >[]
 
 const responsive = (
-  styles: Exclude<ThemeUIStyleObject, UseThemeFunction>,
+  styles: Exclude<SxProps, UseThemeFunction>,
   { breakpoint }: { breakpoint?: number } = {}
 ) => (theme?: Theme) => {
-  const next: Exclude<ThemeUIStyleObject, UseThemeFunction> & {
+  const next: Exclude<SxProps, UseThemeFunction> & {
     responsiveSSRStyles?: ResponsiveSSRStyles
   } = {}
 
   for (const key in styles) {
     const value =
-      // @ts-ignore
       typeof styles[key] === 'function' ? styles[key](theme) : styles[key]
 
     if (value == null) continue
@@ -95,7 +93,6 @@ const responsive = (
           }
         }
 
-        // @ts-ignore
         next.responsiveSSRStyles[i][key] = styleAtThisMediaQuery
       }
     } else {
@@ -116,167 +113,12 @@ const responsive = (
       // if we're on mobile, we do have a breakpoint
       // so we can override TS here w/ `as number`
       const breakpointIndex = nearestBreakpoint(breakpoint as number)
-      // @ts-ignore
       next[key] = value[breakpointIndex]
     }
   }
 
   return next
 }
-
-const aliases = {
-  bg: 'backgroundColor',
-  m: 'margin',
-  mt: 'marginTop',
-  mr: 'marginRight',
-  mb: 'marginBottom',
-  ml: 'marginLeft',
-  mx: 'marginX',
-  my: 'marginY',
-  p: 'padding',
-  pt: 'paddingTop',
-  pr: 'paddingRight',
-  pb: 'paddingBottom',
-  pl: 'paddingLeft',
-  px: 'paddingX',
-  py: 'paddingY',
-} as const
-type Aliases = typeof aliases
-
-export const multiples = {
-  marginX: ['marginLeft', 'marginRight'],
-  marginY: ['marginTop', 'marginBottom'],
-  paddingX: ['paddingLeft', 'paddingRight'],
-  paddingY: ['paddingTop', 'paddingBottom'],
-  size: ['width', 'height'],
-}
-
-export const scales = {
-  // RN SPECIFIC SCALES FIRST
-  textShadowColor: 'colors',
-  // REST
-  color: 'colors',
-  backgroundColor: 'colors',
-  borderColor: 'colors',
-  caretColor: 'colors',
-  opacity: 'opacities',
-  margin: 'space',
-  marginTop: 'space',
-  marginRight: 'space',
-  marginBottom: 'space',
-  marginLeft: 'space',
-  marginX: 'space',
-  marginY: 'space',
-  marginBlock: 'space',
-  marginBlockEnd: 'space',
-  marginBlockStart: 'space',
-  marginInline: 'space',
-  marginInlineEnd: 'space',
-  marginInlineStart: 'space',
-  padding: 'space',
-  paddingTop: 'space',
-  paddingRight: 'space',
-  paddingBottom: 'space',
-  paddingLeft: 'space',
-  paddingX: 'space',
-  paddingY: 'space',
-  paddingBlock: 'space',
-  paddingBlockEnd: 'space',
-  paddingBlockStart: 'space',
-  paddingInline: 'space',
-  paddingInlineEnd: 'space',
-  paddingInlineStart: 'space',
-  inset: 'space',
-  insetBlock: 'space',
-  insetBlockEnd: 'space',
-  insetBlockStart: 'space',
-  insetInline: 'space',
-  insetInlineEnd: 'space',
-  insetInlineStart: 'space',
-  top: 'space',
-  right: 'space',
-  bottom: 'space',
-  left: 'space',
-  gridGap: 'space',
-  gridColumnGap: 'space',
-  gridRowGap: 'space',
-  gap: 'space',
-  columnGap: 'space',
-  rowGap: 'space',
-  fontFamily: 'fonts',
-  fontSize: 'fontSizes',
-  fontWeight: 'fontWeights',
-  lineHeight: 'lineHeights',
-  letterSpacing: 'letterSpacings',
-  border: 'borders',
-  borderTop: 'borders',
-  borderRight: 'borders',
-  borderBottom: 'borders',
-  borderLeft: 'borders',
-  borderWidth: 'borderWidths',
-  borderStyle: 'borderStyles',
-  borderRadius: 'radii',
-  borderTopRightRadius: 'radii',
-  borderTopLeftRadius: 'radii',
-  borderBottomRightRadius: 'radii',
-  borderBottomLeftRadius: 'radii',
-  borderTopWidth: 'borderWidths',
-  borderTopColor: 'colors',
-  borderTopStyle: 'borderStyles',
-  borderBottomWidth: 'borderWidths',
-  borderBottomColor: 'colors',
-  borderBottomStyle: 'borderStyles',
-  borderLeftWidth: 'borderWidths',
-  borderLeftColor: 'colors',
-  borderLeftStyle: 'borderStyles',
-  borderRightWidth: 'borderWidths',
-  borderRightColor: 'colors',
-  borderRightStyle: 'borderStyles',
-  borderBlock: 'borders',
-  borderBlockEnd: 'borders',
-  borderBlockEndStyle: 'borderStyles',
-  borderBlockEndWidth: 'borderWidths',
-  borderBlockStart: 'borders',
-  borderBlockStartStyle: 'borderStyles',
-  borderBlockStartWidth: 'borderWidths',
-  borderBlockStyle: 'borderStyles',
-  borderBlockWidth: 'borderWidths',
-  borderEndEndRadius: 'radii',
-  borderEndStartRadius: 'radii',
-  borderInline: 'borders',
-  borderInlineEnd: 'borders',
-  borderInlineEndStyle: 'borderStyles',
-  borderInlineEndWidth: 'borderWidths',
-  borderInlineStart: 'borders',
-  borderInlineStartStyle: 'borderStyles',
-  borderInlineStartWidth: 'borderWidths',
-  borderInlineStyle: 'borderStyles',
-  borderInlineWidth: 'borderWidths',
-  borderStartEndRadius: 'radii',
-  borderStartStartRadius: 'radii',
-  outlineColor: 'colors',
-  boxShadow: 'shadows',
-  textShadow: 'shadows',
-  zIndex: 'zIndices',
-  width: 'sizes',
-  minWidth: 'sizes',
-  maxWidth: 'sizes',
-  height: 'sizes',
-  minHeight: 'sizes',
-  maxHeight: 'sizes',
-  flexBasis: 'sizes',
-  size: 'sizes',
-  blockSize: 'sizes',
-  inlineSize: 'sizes',
-  maxBlockSize: 'sizes',
-  maxInlineSize: 'sizes',
-  minBlockSize: 'sizes',
-  minInlineSize: 'sizes',
-  // svg
-  fill: 'colors',
-  stroke: 'colors',
-} as const
-type Scales = typeof scales
 
 const positiveOrNegative = (scale: object, value: string | number) => {
   if (typeof value !== 'number' || value >= 0) {
@@ -323,9 +165,9 @@ const transforms = [
  * Here we remove web style keys from components to prevent annoying errors on native
  */
 const filterWebStyleKeys = (
-  styleProp: Exclude<ThemeUIStyleObject, UseThemeFunction> = {}
-): Exclude<ThemeUIStyleObject, UseThemeFunction> => {
-  if (Platform.OS === 'web') {
+  styleProp: Exclude<SxProps, UseThemeFunction> = {}
+): Exclude<SxProps, UseThemeFunction> => {
+  if (Platform.OS == 'web') {
     return styleProp
   }
 
@@ -358,62 +200,79 @@ const filterWebStyleKeys = (
 }
 
 export const css = (
-  args: ThemeUIStyleObject = {},
+  args: SxProps = {},
   breakpoint?: number
   // { ssr }: { ssr?: boolean } = {}
-) => (
-  props: CssPropsArgument = {}
-): CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } => {
-  const theme: DripsyTheme = {
+) => ({
+  themeKey,
+  fontFamily: fontFamilyFromProps,
+  ...props
+}: CssPropsArgument = {}): CSSObject => {
+  const theme: DripsyFinalTheme = {
     ...defaultTheme,
     ...('theme' in props ? props.theme : props),
-  }
-  let result: CSSObject & { responsiveSSRStyles?: ResponsiveSSRStyles } = {}
+  } as DripsyFinalTheme
+  let result: CSSObject = {}
   const obj = typeof args === 'function' ? args(theme) : args
   const filteredOutWebKeys = filterWebStyleKeys(obj)
   const styles = responsive(filteredOutWebKeys, { breakpoint })(theme)
 
   for (const key in styles) {
-    // @ts-ignore
     const x = styles[key]
-    const val = typeof x === 'function' ? x(theme) : x
+    const val = typeof x == 'function' ? x(theme) : x
 
-    if (key === 'variant') {
-      const variant = css(get(theme, val))(theme)
+    if (key == 'variant') {
+      // const variant = css(get(theme, val))(theme)
+      const variant = css(
+        get(theme, themeKey + '.' + val, get(theme, val)),
+        breakpoint
+      )({ theme })
       result = { ...result, ...variant }
       continue
     }
 
-    /**
-     * @deprecated
-     */
-    if (key === 'responsiveSSRStyles' && styles.responsiveSSRStyles) {
-      result.responsiveSSRStyles = styles.responsiveSSRStyles.map(
-        // here we extract theme values for each item
-        (breakpointStyle) => css(breakpointStyle)(theme)
-      )
-      continue
-    }
-
-    if (key === 'transform') {
+    if (key == 'transform') {
       result[key] = val
       continue
     }
 
-    if (val && typeof val === 'object') {
-      // @ts-ignore
-      result[key] = css(val)(theme)
+    if (key == 'textShadow' && val && theme.textShadows?.[val]) {
+      // we want to change textShadowColor to theme keys via css function
+      // @ts-expect-error theme UI doesn't have RN textShadow*, need to add this later
+      const styledTextShadow = css(theme.textShadows[val], breakpoint)(theme)
+      result = { ...result, ...styledTextShadow }
       continue
     }
 
-    if (typeof val === 'boolean') {
+    if (key == 'boxShadow' && val && theme.shadows?.[val]) {
+      // @ts-expect-error theme UI doesn't have RN shadow*, need to add this later
+      const styledBoxShadow = css(theme.shadows[val], breakpoint)(theme)
+      result = { ...result, ...styledBoxShadow }
+      continue
+    }
+
+    if (val === '') {
+      console.error(
+        `[dripsy] Invalid style. You passed an empty string ('') for ${key}. Please fix this.`
+      )
+
+      continue
+    }
+
+    if (val && typeof val == 'object') {
+      // @ts-ignore
+      result[key] = css(val, breakpoint)(theme)
+      continue
+    }
+
+    if (typeof val == 'boolean') {
       // StyleSheet doesn't allow booleans
       continue
     }
 
     const prop = key in aliases ? aliases[key as keyof Aliases] : key
     const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
-    // @ts-ignore
+    // @ts-expect-error
     const scale = get(theme, scaleName, get(theme, prop, {}))
     const transform = get(transforms, prop, get)
     const value = transform(scale, val, val)
@@ -433,7 +292,7 @@ export const css = (
         // why? because by default, our text sets the `root` style
         // however, this only applies if you have a custom font
         // if you don't have a custom font named root, we shold ignore the fontFamily: 'root' definition
-        if (!(theme?.fonts as any)?.root) {
+        if (!theme?.fonts?.root) {
           // techincally speaking, if value === 'root', this means that we already know there's no custom root font
           // why? bc value extracts the theme values. Since `root` is a reserved word in dripsy, we know this wouldn't work.
           // however, we still check to make sure. It's also easier to understand if I forget later,
@@ -444,17 +303,17 @@ export const css = (
       // ok, no font-family set yet, so let's continue.
     }
 
-    if (key === 'fontWeight' && (styles as any)?.fontWeight) {
+    if (key == 'fontWeight' && styles?.fontWeight) {
       // let's check if we have a custom font that corresponds to this font weight
       // we have a custom font for this family in our theme
       // example: if we pass fontWeight: 'bold', and fontFamily: 'arial', this will be true for themes that have
       // customFonts: {arial: {bold: 'arialBold'}}
       // we also pass the font-family from other CSS props here at the top of the function, so fall back to that if it exists
       const fontFamilyKeyFromStyles =
-        ((styles as any)?.fontFamily as string) ?? props?.fontFamily
+        (styles?.fontFamily as string) ?? fontFamilyFromProps
 
       // default font for all text styles
-      const rootFontFamilyFromTheme = (theme?.fonts as any)?.root
+      const rootFontFamilyFromTheme = theme?.fonts?.root
 
       // either the raw value, or one from our theme
       if (fontFamilyKeyFromStyles || rootFontFamilyFromTheme) {
@@ -467,15 +326,14 @@ export const css = (
           // then we'd want to get fonts.body = 'arial'
           // however, if we're just writing fontFamily: 'arial' instead of 'body', we need no alias
           fontFamily =
-            (theme?.fonts as any)?.[fontFamilyKeyFromStyles] ??
-            fontFamilyKeyFromStyles
+            theme?.fonts?.[fontFamilyKeyFromStyles] ?? fontFamilyKeyFromStyles
         } else if (rootFontFamilyFromTheme) {
           fontFamily = rootFontFamilyFromTheme
         }
         // const fontFamily =
         //   (theme?.fonts as any)?.[fontFamilyKey] ?? fontFamilyKey
         if (fontFamily) {
-          if (typeof fontFamily !== 'string') {
+          if (typeof fontFamily != 'string') {
             console.error(
               `[dripsy] error. Passed font family name that was not a string. This value should either be a string which corresponds to a key of your theme.fonts, or, it should be a string that corresponds to a raw font name. Your font will not be applied, please resolve this.`
             )
@@ -486,23 +344,16 @@ export const css = (
           if (customFontFamilyForWeight) {
             // ok, now we just need to set the fontFamily to this value. oof
             // following the comment above, in this case, we set fontFamily: `arialBold`
-            ;(result as any).fontFamily = customFontFamilyForWeight
+            result.fontFamily = customFontFamilyForWeight
             continue
           }
         }
       }
     }
-    // @ts-ignore
-    if (multiples[prop]) {
-      // @ts-ignore
-      const dirs = multiples[prop]
-
-      for (let i = 0; i < dirs.length; i++) {
-        // @ts-ignore
-        result[dirs[i]] = value
-      }
+    if (key == 'size') {
+      result.width = value
+      result.height = value
     } else {
-      // @ts-ignore
       result[prop] = value
     }
   }
@@ -511,7 +362,7 @@ export const css = (
 }
 
 export class Styles {
-  static create<T extends { [key: string]: NonNullable<SxProps['sx']> }>(
+  static create<T extends { [key: string]: NonNullable<SxProps> }>(
     styles: T
   ): T {
     return styles

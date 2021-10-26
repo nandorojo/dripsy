@@ -1,31 +1,32 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-import React, { ComponentType, ComponentProps } from 'react'
-import type { ThemedOptions, StyledProps } from './types'
-import { useThemeUI } from '@theme-ui/core'
+import React, { ComponentType, ComponentPropsWithRef } from 'react'
+import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
+import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './use-breakpoint-index'
 import { mapPropsToStyledComponent } from './map-props'
+import { DripsyFinalTheme } from '../declarations'
+import { useStableMemo } from '../utils/use-stable-memo'
 
-type Props<P> = Omit<StyledProps<P>, 'theme' | 'breakpoint'>
-
-export function createThemedComponent<P, T = {}>(
-  Component: ComponentType<P>,
-  { defaultStyle: baseStyle, ...options }: ThemedOptions<T> = {}
-): React.ForwardRefExoticComponent<
-  Props<P> &
-    ComponentProps<typeof Component> &
-    T &
-    P &
-    /**
-     * TODO this doesn't work.
-     */
-    React.RefAttributes<typeof Component>
+export function createThemedComponent<
+  BaseComponentProps extends { style?: any },
+  ExtraProps,
+  ThemeKey extends keyof DripsyFinalTheme
+>(
+  Component: ComponentType<BaseComponentProps>,
+  {
+    defaultStyle: baseStyle,
+    ...options
+  }: ThemedOptions<ExtraProps, ThemeKey> = {}
+): ComponentType<
+  StyledProps<ThemeKey> &
+    ComponentPropsWithRef<ComponentType<BaseComponentProps>> &
+    ExtraProps
 > {
   const WrappedComponent = React.forwardRef<
-    typeof Component,
-    Props<P> & ComponentProps<typeof Component> & T
+    any,
+    StyledProps<ThemeKey> & BaseComponentProps & ExtraProps
   >(function Wrapped(prop, ref) {
     const {
-      sx,
+      sx: _sx,
       as: SuperComponent,
       variant,
       style,
@@ -39,63 +40,42 @@ export function createThemedComponent<P, T = {}>(
       )
     }
     const defaultStyle =
-      typeof baseStyle === 'function' ? baseStyle(prop) : baseStyle
+      typeof baseStyle == 'function' ? baseStyle(prop) : baseStyle
 
-    const { theme } = useThemeUI()
+    const { theme } = useDripsyTheme()
+    // make the sx factory out here so that it's a stable dependency for useStableMemo
+    const sx = typeof _sx == 'function' ? _sx(theme) : _sx
+
     const breakpoint = useBreakpointIndex()
 
-    const { styles } = mapPropsToStyledComponent<P, T>(
-      {
-        theme,
-        breakpoint,
-        variant,
-        sx,
-        style,
-        variants,
-      },
-      {
-        ...options,
-        themeKey,
-        defaultStyle,
-      }
+    const { styles } = useStableMemo(
+      () =>
+        mapPropsToStyledComponent<ThemeKey>(
+          {
+            theme,
+            breakpoint,
+            variant,
+            sx,
+            style,
+            variants: variants as DripsyVariant<ThemeKey>[] | undefined,
+          },
+          {
+            ...options,
+            themeKey,
+            defaultStyle,
+          }
+        ),
+      [theme, breakpoint, variant, sx, style, variants, themeKey, defaultStyle]
     )
 
     const TheComponent = SuperComponent || Component
 
-    // if (
-    //   Platform.OS === 'web' &&
-    //   SUPPORT_FRESNEL_SSR &&
-    //   !!responsiveSSRStyles?.length
-    // ) {
-    //   return (
-    //     <SSRComponent
-    //       {...props}
-    //       Component={TheComponent as React.ComponentType<unknown>}
-    //       responsiveStyles={responsiveSSRStyles}
-    //       style={cachedStyle}
-    //       ref={ref}
-    //       containerStyles={
-    //         webContainerSx as ComponentProps<
-    //           typeof SSRComponent
-    //         >['containerStyles']
-    //       }
-    //     />
-    //   )
-    // }
-
-    return (
-      <TheComponent
-        {...((props as unknown) as P & T)}
-        ref={ref}
-        style={styles}
-      />
-    )
+    return <TheComponent {...(props as any)} ref={ref} style={styles} />
   })
 
   WrappedComponent.displayName = `Dripsy.${
     Component?.displayName ?? 'NoNameComponent'
   }`
 
-  // @ts-ignore
-  return WrappedComponent
+  return WrappedComponent as any
 }

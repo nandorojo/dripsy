@@ -1,29 +1,32 @@
-import { useCallback } from 'react'
-import { useThemeUI } from '@theme-ui/core'
-import { StyledProps } from './css/types'
+import { useCallback, useRef } from 'react'
+import { useDripsyTheme } from './use-dripsy-theme'
+import { SxProp } from './css/types'
 import { css } from './css'
 import { useBreakpointIndex } from './css/use-breakpoint-index'
-import { StyleSheetCache } from './css/cache'
+import stableHash from 'stable-hash'
+import { DripsyFinalTheme } from './declarations'
+import { StyleProp } from 'react-native'
 
 export function useSx() {
-  const { theme } = useThemeUI()
+  const { theme } = useDripsyTheme()
   const breakpoint = useBreakpointIndex()
 
+  const cache = useRef<Record<string, StyleProp<any>>>({})
+
   return useCallback(
-    (
-      sx: NonNullable<StyledProps['sx']>,
-      { fontFamily }: { fontFamily?: string } = {}
-    ) => {
+    (sx: SxProp, { themeKey }: { themeKey?: keyof DripsyFinalTheme } = {}) => {
       const themedStyle = css(
         sx,
         breakpoint
       )({
         theme,
-        fontFamily,
+        themeKey,
       })
-      const cachedStyleSheet = StyleSheetCache.get(themedStyle)
-
-      return cachedStyleSheet
+      const hash = stableHash(themedStyle)
+      if (!cache.current[hash]) {
+        cache.current[hash] = themedStyle
+      }
+      return cache.current[hash]
     },
     [breakpoint, theme]
   )

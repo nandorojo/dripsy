@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react'
+import { DripsyFinalTheme } from '../declarations'
 import { createThemedComponent } from './create-themed-component'
 import type { ThemedOptions } from './types'
 
@@ -15,17 +16,20 @@ import type { ThemedOptions } from './types'
  * ```
  *
  */
-export function styled<P>(
+export function styled<
+  P,
+  ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
+>(
   Component: ComponentType<P>,
   {
     themeKey,
     defaultVariant,
-  }: Pick<ThemedOptions, 'themeKey' | 'defaultVariant'> = {}
+  }: Pick<ThemedOptions<any, ThemeKey>, 'themeKey' | 'defaultVariant'> = {}
 ) {
   return function dripsyFactory<Extra>(
-    defaultStyle?: ThemedOptions<Extra>['defaultStyle']
+    defaultStyle?: ThemedOptions<Extra, ThemeKey>['defaultStyle']
   ) {
-    return createThemedComponent<P, Extra>(Component, {
+    return createThemedComponent<P, Extra, ThemeKey>(Component, {
       defaultVariant,
       themeKey,
       defaultStyle,

@@ -1,0 +1,88 @@
+# Headless Dripsy with `useSx`
+
+## Import
+
+```js
+import { useSx } from 'dripsy'
+```
+
+## Style
+
+If you want to use the `sx` prop with a custom component, such as from another library, try the `useSx` hook.
+
+```jsx
+import { Button } from 'react-native-paper'
+
+export default function HeadlessButton() {
+  const sx = useSx()
+
+  return <Button labelStyle={sx({ color: '$primary' })} />
+}
+```
+
+The `sx` function will return a memoized value, so you can use it in render directly.
+
+It also is optimized for Web performance.
+
+## Recommendations
+
+`useSx` is especially useful for styling components with props other than `style`.
+
+For example, you can use it for `contentContainerStyle` on `FlatList`:
+
+```jsx
+const sx = useSx()
+
+return (
+  <FlatList
+    contentContainerStyle={sx({ paddingX: '$3' })}
+    data={data}
+    renderItem={renderItem}
+  />
+)
+```
+
+## Composition
+
+You can wrap your own components to give them theme styling and intellisense.
+
+For example, you can make a custom `ScrollView` component:
+
+```jsx
+import { useSx, ScrollView } from 'dripsy'
+import type { SxProp } from 'dripsy'
+
+type ScrollProps = Omit<
+  React.ComponentProps<typeof ScrollView>,
+  'contentContainerStyle'
+>
+
+type Props = ScrollProps & {
+  contentContainerSx?: SxProp,
+}
+
+export function DripsyScrollView({
+  contentContainerSx,
+  ...props
+}: ScrollProps) {
+  const sx = useSx()
+  return (
+    <ScrollView
+      {...props}
+      contentContainerStyle={contentContainerSx && sx(contentContainerSx)}
+    />
+  )
+}
+```
+
+### Use your custom component
+
+You can now use your custom `DripsyScrollView`:
+
+```jsx
+<DripsyScrollView
+  contentContainerSx={{
+    bg: '$primary',
+  }}
+/>
+```

@@ -1,0 +1,180 @@
+# Variants
+
+Every Dripsy component has a `variant` prop, just like Theme UI.
+
+The only difference with Theme UI is that Dripsy also supports _multiple variants_ via the `variants` prop.
+
+`variants` lets you pass multiple (ordered) variants in an array.
+
+Variants pull from your theme to let you reuse code across your app.
+
+Let's go through a few examples of variants you could use.
+
+## Text Variants
+
+If we want to style `Text` components, we use `theme.text`:
+
+```tsx
+import { makeTheme, Text } from 'dripsy'
+
+const theme = makeTheme({
+  text: {
+    thick: {
+      fontWeight: 'bold'
+    }
+  }
+})
+
+// ...in our component
+<Text variant="thick">Thick Text!</Text>
+```
+
+By default, `Text` uses the `theme.text.body` variant.
+
+```tsx
+import { makeTheme, Text } from 'dripsy'
+
+const theme = makeTheme({
+  text: {
+    body: {
+      fontSize: 16
+    }
+  }
+})
+
+// ...in our component
+<Text>Here is our body.</Text>
+```
+
+### HTML Variants
+
+Each HTML-inpsired component can also be styled by default from the theme:
+
+```tsx
+import { makeTheme, P, H1 } from 'dripsy'
+
+const theme = makeTheme({
+  text: {
+    p: {
+      mt: 0,
+      fontSize: 14
+    },
+    h1: {
+      fontSize: 30
+    }
+  }
+})
+
+<P>My font size is 14!</P>
+
+<H1>Mine is 30.</H1>
+```
+
+## Container Variants
+
+You can use `theme.layout` to style your containers.
+
+```tsx
+import { Container, makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  sizes: {
+    container: 900
+  }
+})
+
+<Container>
+  <Text>My max width is 900!</Text>
+</Container>
+```
+
+By default `Container` uses the `sizes.container` as its max width.
+
+It also uses the `theme.layout.container` variant by default, so you can style it like so:
+
+```tsx
+import { Container, makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  sizes: {
+    container: 900
+  },
+  layout: {
+    container: {
+      px: 8
+    }
+  }
+})
+
+<Container>
+  <Text>My max width is 900, and I have 8px horizontal padding.</Text>
+</Container>
+```
+
+And finally, you could create a custom `Container` variant altogether:
+
+```tsx
+import { Container, makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  layout: {
+    wide: {
+      maxWidth: 1100
+    }
+  }
+})
+
+<Container variant="wide">
+  <Text>My max width is 1100px.</Text>
+</Container>
+```
+
+## Defining Variants
+
+To define a component's variants, you use the [styled](/apis/styled) function.
+
+For example, this is what the `Container` code looks like under the hood:
+
+```tsx
+import { View as NativeView } from 'react-native'
+import { styled } from 'dripsy'
+
+export const Container = styled(NativeView, {
+  defaultVariant: 'container',
+  themeKey: 'layout',
+})({
+  mx: 'auto',
+  maxWidth: 'container',
+  width: '100%',
+})
+```
+
+Notice the `themeKey` and `defaultVariant`. These are both optional, but they let you access the theme for a given component.
+
+## Variants on any component
+
+Technically, you can use any variant on any component, regardless of its `themeKey`.
+
+For instance: `View` does not have a `themeKey` specified.
+
+However, our `layout` variants which we were using on `Container` can still apply to a `View`.
+
+You would just have to define your `variant` prop at the root of the theme:
+
+```tsx
+import { View, makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  layout: {
+    wide: {
+      maxWidth: 1100
+    }
+  }
+})
+
+<View variant="layout.wide">
+  <Text>My max width is 1100px.</Text>
+</Container>
+```
+
+Notice that the `variant` prop here is `layout.wide`, whereas with `Container`, it was simply `wide`.
