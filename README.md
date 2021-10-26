@@ -610,7 +610,7 @@ Since React Native has no `cursor` property, for instance, using this field will
 
 To learn more, check out [the original PR for v3.](https://github.com/nandorojo/dripsy/pull/124)
 
-# Animated Values
+# ⚡️ Animated Values
 
 ## With Moti
 
