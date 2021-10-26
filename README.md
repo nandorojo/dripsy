@@ -1,4 +1,5 @@
-<a href="https://dripsy.xyz"><img src="https://dripsy.xyz/og.png" /></a>
+![og](https://user-images.githubusercontent.com/13172299/138797238-d45b7f8c-16e9-4fed-bed1-8766b7e3a7ca.png)
+
  
 Unstyled, responsive UI primitives for React Native + Web. 
 
