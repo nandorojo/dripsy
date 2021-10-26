@@ -1,29 +1,34 @@
-# dripsy
+<a href="https://dripsy.xyz"><img src="https://dripsy.xyz/og.png" /></a>
 
-🍷 A super-simple responsive design system for React Native Web.
+Unstyled, universal responsive UI primitives for React Native + Web.
 
-# API documentation
-
-- [Documentation for the master branch](https://github.com/expo/expo/blob/master/docs/pages/versions/unversioned/sdk/dripsy.md)
-- [Documentation for the latest stable release](https://docs.expo.io/versions/latest/sdk/dripsy/)
-
-# Installation in managed Expo projects
-
-For managed [managed](https://docs.expo.io/versions/latest/introduction/managed-vs-bare/) Expo projects, please follow the installation instructions in the [API documentation for the latest stable release](#api-documentation). If you follow the link and there is no documentation available then this library is not yet usable within managed projects &mdash; it is likely to be included in an upcoming Expo SDK release.
-
-# Installation in bare React Native projects
-
-For bare React Native projects, you must ensure that you have [installed and configured the `react-native-unimodules` package](https://github.com/unimodules/react-native-unimodules) before continuing.
-
-### Add the package to your npm dependencies
-
-```
-npm install dripsy
+```jsx
+<View sx={{ bg: '$primary', height: [100, 200] }} />
 ```
 
+## Documentation & Installation
 
+- [Documentation](https://dripsy.xyz)
+- [Installation](https://dripsy.xyz/get-started/installation)
 
+## Highlights
 
-# Contributing
+https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-9464-64748ebf1214.mp4
 
-Contributions are very welcome! Please refer to guidelines described in the [contributing guide]( https://github.com/expo/expo#contributing).
+- Custom fonts, edited globally
+- Full TypeScript support
+- Responsive styles
+- Universal (Android, iOS, Web, & more)
+- Works with Expo
+- Works with Vanilla React Native
+- Works with Next.js
+- Full theme support
+- Custom theme variants
+- Insanely simple API (themed, responsive designs in one line!)
+- Works with Animated/Reanimated/Moti
+- Dark mode / custom color modes
+- Memoized styles, even when written inline
+- Atomic CSS classes, with `StyleSheet.create` under the hood
+- Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
+- Linear Gradient
+- Performant: `sx` prop is memoized under the hood (even if you write it in render)
