@@ -1,0 +1,25 @@
+# Gradients
+
+Dripsy has a `linearGradients` field in the theme.
+
+```jsx
+import { makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  linearGradients: {
+    sunny: ['red', 'orange'],
+  },
+})
+```
+
+You can now use the `sunny` gradient:
+
+```jsx
+const Sunny = () => <Gradient gradient="sunny" />
+```
+
+## Installation
+
+The `<Gradient />` component comes from `@dripsy/gradient`.
+
+Refer to the [`<Gradient />` docs](/apis/gradient) for installation and usage instructions.

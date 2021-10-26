@@ -9,17 +9,19 @@ export default {
   customSearch: null, // customizable, you can use algolia for example
   darkMode: true,
   footer: true,
-  footerText: `MIT ${new Date().getFullYear()} © Fernando Rojo.`,
+  footerText: (
+    <>
+      MIT {new Date().getFullYear()} ©{' '}
+      <a target="_blank" rel="noreferrer" href="https://fernandorojo.co">
+        Fernando Rojo
+      </a>
+    </>
+  ),
   footerEditLink: `Edit this page on GitHub ⚡️`,
   logo: (
     <>
       <strong style={{ marginRight: 4 }}>Dripsy 🍷</strong>
-      <span>
-        by{' '}
-        <a target="_blank" rel="noreferrer" href="https://fernandorojo.co">
-          Fernando Rojo
-        </a>
-      </span>
+      <span>by Fernando Rojo</span>
     </>
   ),
   head: (

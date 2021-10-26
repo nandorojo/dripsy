@@ -51,11 +51,25 @@ const theme = makeTheme({
 
 Now, our `sx` prop's space-related properties (such as margin, padding, etc) will only accept one of the values in `theme.space`. To take full advantage of this feature, it is recommended that you don't use arrays, and instead make a dictionary with `$` prefixes, such as the `space` one above.
 
+```tsx
+// ✅ this will work
+<View sx={{ padding: '$1' }} />
+
+// ❌ this will not work
+<View sx={{ padding: 10  }} />
+```
+
 ## Recommendation
+
+It's hard to say on a recommendation.
+
+I have found it to be useful, but every now and then you need an escape hatch, and you don't want to use `style` because it's less optimized, and you don't want to write `as any` for styles.
+
+So it's your call. But I do think there is merit to it; your styles stay incredibly safe.
 
 The strict types feature is especially useful if you want to upgrade to Dripsy 3, have no breaking changes with your types, but slowly transition your app to have stricter types.
 
-It also makes changing your theme **much** easier. For example, imagine that you change your `space` from an array to a dictionary:
+It also makes changing your theme much easier. For example, imagine that you change your `space` from an array to a dictionary:
 
 ```js
 const theme = makeTheme({

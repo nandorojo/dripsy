@@ -1,0 +1,106 @@
+# Using Dripsy
+
+Dripsy is an almost-drop-in replacement for React Native's UI components.
+
+Change your imports from `react-native` to `dripsy`.
+
+**Before**
+
+```jsx
+import { View, Text } from 'react-native'
+```
+
+**After**
+
+```jsx
+import { View, Text, H1, P } from 'dripsy'
+```
+
+Use the `sx` prop instead of `style` to use themed and responsive styles:
+
+```jsx
+<View
+  sx={{
+    height: [100, 400],
+    backgroundColor: '$primary',
+    marginX: 10,
+  }}
+/>
+```
+
+Instead of `marginHorizontal`, use `marginX` or `mx`, as seen on the `theme-ui` [docs](https://theme-ui.com/theme-spec/).
+
+## 👀 What does Dripsy look like
+
+### Create a theme
+
+```js
+export const theme = makeTheme({
+  colors: {
+    $text: '#000',
+    $background: '#fff',
+    $primary: 'tomato',
+  },
+  space: {
+    // recommended: set 0 first, then double for consistent nested spacing
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+  },
+  fontSizes: {
+    $0: 12,
+    $1: 14,
+    $2: 16,
+    $3: 18,
+    $4: 24,
+    $5: 28,
+    $6: 32,
+  },
+  text: {
+    h1: {
+      fontSize: '$2', // 16px, from `fontSizes` above
+    },
+    p: {
+      fontSize: '$0', // 12px from `fontSizes`
+      mb: '$3', // 8px from `space`
+    },
+  },
+})
+```
+
+### ...and build a beautiful, responsive UI
+
+```jsx
+<Text
+  sx={{
+    color: '$primary',
+    padding: ['$1', '$3'], // [4px, 16px] from theme.space
+  }}
+>
+  Themed color!
+</Text>
+```
+
+#### ...you can even use "HTML" elements
+
+```jsx
+import { H1, H2, P, A } from 'dripsy'
+
+const Header = () => (
+  <H1
+    sx={{
+      color: '$text', // #000 from theme.colors
+      fontSize: '$2', // 24px from theme.fontSizes
+    }}
+  >
+    Header!
+  </H1>
+)
+```
+
+Credit to Evan Bacon for @expo/html-elements, used above!
