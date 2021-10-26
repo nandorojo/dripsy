@@ -1,6 +1,6 @@
 <a href="https://dripsy.xyz"><img src="https://dripsy.xyz/og.png" /></a>
-
-Unstyled, universal responsive UI primitives for React Native + Web.
+ 
+Unstyled, responsive UI primitives for React Native + Web. 
 
 ```jsx
 <View sx={{ bg: '$primary', height: [100, 200] }} />
