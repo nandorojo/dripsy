@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/nandorojo/dripsy/compare/v2.3.6...v3.0.0) (2021-10-26)
+
+
+### Bug Fixes
+
+* styled types ([900b416](https://github.com/nandorojo/dripsy/commit/900b4166bd183253c354520adbbe04c7b91df9bf))
+* types were broken on canary ([69c1701](https://github.com/nandorojo/dripsy/commit/69c1701759eb31d4c647eb389761845d0743c7f1))
+
+
+### Features
+
+* fallback ([9c17d65](https://github.com/nandorojo/dripsy/commit/9c17d658915db467db3b504c13b811e4942b4690))
+
+
+
+
+
 ## [2.3.6](https://github.com/nandorojo/dripsy/compare/v2.3.5...v2.3.6) (2021-08-18)
 
 **Note:** Version bump only for package dripsy
