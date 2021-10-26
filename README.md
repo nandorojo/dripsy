@@ -1,7 +1,6 @@
 ![og](https://user-images.githubusercontent.com/13172299/138797238-d45b7f8c-16e9-4fed-bed1-8766b7e3a7ca.png)
 
- 
-Unstyled, responsive UI primitives for React Native + Web. 
+Unstyled, responsive UI primitives for React Native + Web.
 
 ```jsx
 <View sx={{ bg: '$primary', height: [100, 200] }} />
@@ -33,3 +32,16 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
 - Use with `@expo/vector-icons` ([example](https://github.com/nandorojo/dripsy/issues/112))
 - Linear Gradient
 - Performant: `sx` prop is memoized under the hood (even if you write it in render)
+
+## Next.js Conf
+
+<img
+  alt="Fernando Rojo at Next.js Conf"
+  src="https://user-images.githubusercontent.com/13172299/138509139-412b2d32-841b-4a7e-950e-f8721c1da17f.png"
+/>
+
+I spoke at at [Next.js Conf 2021](https://fernandorojo.co/conf) on October 26 about React Native + Next.js. [Watch the video](https://t.co/LkmxHXVz3K?amp=1) to see how we do it.
+
+## License
+
+MIT
