@@ -1,0 +1,63 @@
+# 👻 Shadows
+
+## `theme.textShadows`
+
+```ts
+const theme = makeTheme({
+  textShadows: {
+    onImage: {
+      textShadowOffset: { width: 1, height: 1 },
+      textShadowRadius: 5,
+      textShadowColor: '#00000099',
+    },
+  },
+})
+```
+
+And in your component, you can reference that shadow with the `textShadow` field:
+
+<br />
+
+<img
+  width="440"
+  alt="Screen Shot 2021-09-29 at 10 24 49 AM"
+  src="https://user-images.githubusercontent.com/13172299/135288785-5ec5074e-4fd4-4934-8675-d5c30419d2cb.png"
+/>
+
+## `theme.shadows`
+
+The `theme.shadows` is a bit different with Dripsy than `theme-ui`, since React Native doesn't share the web's shadow API.
+
+```ts
+const theme = makeTheme({
+  shadows: {
+    md: {
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    },
+  },
+})
+```
+
+In your component, you can use the `boxShadow` property (to reference shadow variants):
+
+<br />
+
+<img
+  width="334"
+  alt="Screen Shot 2021-09-29 at 10 25 03 AM"
+  src="https://user-images.githubusercontent.com/13172299/135288783-ea3ed643-de09-4f2d-a538-7d121397a725.png"
+/>
+
+## `sx` shadows
+
+As of `v3`, you also get `textShadow*` and `shadow*` properties in the `sx` prop:
+
+<br />
+<img src="https://user-images.githubusercontent.com/13172299/135294637-501a6057-55f2-4e75-b397-c44fed545c70.png" />

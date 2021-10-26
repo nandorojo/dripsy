@@ -1,6 +1,20 @@
-# Features / Improvements 🥸
+# Upgrade to Dripsy v3
 
-## DX 👨🏽‍💻
+This version is a really exciting advance in the developer experience of Dripsy.
+
+```bash
+yarn add dripsy
+```
+
+Once you read about the new features, check out the [Upgrade Guide](#upgrade-guide).
+
+While there are no breaking changes, there are many cool features to take advantage of (and it will only take a minute).
+
+You can also [check out the PR](https://github.com/nandorojo/dripsy/pull/124)
+
+## Features / Improvements 🥸
+
+### DX 👨🏽‍💻
 
 - [x] Add intellisense for `useDripsyTheme`
 - [x] Add intellisense for `sx` prop
@@ -14,7 +28,7 @@
 - [x] Remove all Theme UI runtime code
 - [x] Use `@theme-ui/css` for types only
 - [x] Move `DripsyProvider` to use internal Dripsy context rather than Theme UI (BREAKING if you use the `jsx` pragma in your app)
-- [x] Add intellisense for `styled` and `createThemedComponent`
+- [x] Add intellisense for `styled` and `makeThemedComponent`
 - [x] Add intellisense for `themeKey` in `styled`
 - [x] Add intellisense for `variant` and `variants`
 - [x] Make intellisense for `variant` only pick based on the specified `themeKey`
@@ -26,12 +40,12 @@
 - [x] Ensure that `Tokenize` is performant for large themes
 - [x] Test in large monorepo
 
-## Performance 🦦
+### Performance 🦦
 
 - [x] Memoize `sx` prop under the hood
 - [x] Improve `Gradient` memoization
 
-## Features 🛩
+### Features 🛩
 
 - [x] Add support for `Pressable`'s factory `style={interaction => ({ ... })}` prop
 - [x] Add `textShadows` to theme
@@ -41,34 +55,32 @@
 - [x] Add `textShadow` to `sx` prop with intellisense
 - [x] Suport React Native 0.65
 
-# Upgrade Guide
+## Upgrade Guide
 
-Dripsy v3 is now available! The upgrade from v2 should take about 1 minute.
+Dripsy v3 is now available. The upgrade from v2 should take about 1 minute.
 
-Want to see what features are included? [Check out the PR](https://github.com/nandorojo/dripsy/pull/124).
+### Install v3
 
-## Install v3
-
-```sh
+```bash
 yarn add dripsy
 
-# if you use this package, upgrade it too
+## if you use this package, upgrade it too
 yarn add @dripsy/gradient
 ```
 
-## Versions
+### Versions
 
 Make sure you have at least TypeScript 4.4+:
 
-```sh
+```bash
 yarn add -D typescript
 ```
 
-## Add `makeTheme`
+### Add `makeTheme`
 
 All you have to do to upgrade is wrap your `theme` with `makeTheme`, and then use module declaration.
 
-```ts
+```js
 import { makeTheme } from 'dripsy'
 
 const theme = makeTheme({
@@ -85,48 +97,18 @@ declare module 'dripsy' {
 
 You now get intellisense 🥳
 
-# Gotchas
+## Gotchas
 
 If you don't see autocomplete, there could be a few reasons.
 
-## Possibility 1. Your theme uses non-strict objects:
+1. **You need to restart VSCode** (yeah, really)
+2. You might have an old version of TypeScript (you should use 4.4+). `yarn add -D typescript`
 
-```ts
-// ⛔️ typescript doesn't know the types here
-const colors = {
-  primary: 'blue',
-}
-
-const theme = makeTheme({ colors })
-```
-
-To fix this, either use `as const` for colors, or write it inline:
-
-```ts
-// ✅ as const
-const colors = {
-  primary: 'blue',
-} as const
-
-const theme = makeTheme({ colors })
-
-// ✅ better yet, write inline
-const theme = makeTheme({
-  colors: {
-    primary: 'blue',
-  },
-})
-```
-
-## Still not getting intellisense?
-
-If it still isn't working, please open an issue! But it should work now.
-
-# Strict Types
+## Strict Types
 
 If you want to enforce strict types for your `sx` prop, you can do so with the new `theme.types` field:
 
-```ts
+```js
 const theme = makeTheme({
   // ...your theme here
   types: {
@@ -139,11 +121,11 @@ By setting `types.onlyAllowThemeValues` to `always`, you restrict yourself to on
 
 This will only apply to theme values that are set. For example, if you haven't set the `theme.space` property, then strict types won't enforce for `padding`, `margin`, etc.
 
-## Incremental strict types
+### Incremental strict types
 
 It's possible you want to implement strict types on a per-scale basis. The `types.onlyAllowThemeValues` also accepts an object with per-scale definitions.
 
-```ts
+```js
 const theme = makeTheme({
   space: {
     $0: 0,
@@ -166,13 +148,13 @@ const theme = makeTheme({
 
 Now, our `sx` prop's space-related properties (such as margin, padding, etc) will only accept one of the values in `theme.space`. To take full advantage of this feature, it is recommended that you don't use arrays, and instead make a dictionary with `$` prefixes, such as the `space` one above.
 
-## Recommendation
+### Recommendation
 
 The strict types feature is especially useful if you want to upgrade to Dripsy 3, have no breaking changes with your types, but slowly transition your app to have stricter types.
 
 It also makes changing your theme **much** easier. For example, imagine that you change your `space` from an array to a dictionary:
 
-```ts
+```js
 const theme = makeTheme({
   // before
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -195,7 +177,7 @@ After changing your `theme.space`, you likely have hundreds of invalid styles th
 
 However, with incremental strict types, you could achieve this code refactor in seconds.
 
-```ts
+```js
 const theme = makeTheme({
   // before
   space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
@@ -221,15 +203,19 @@ const theme = makeTheme({
 
 Now, simply run your TypeScript type-checker (`yarn tsc --noEmit`) to see all the places you need to update. You'll get useful errors like this:
 
-<img width="1120" alt="Screen Shot 2021-10-04 at 11 10 26 AM" src="https://user-images.githubusercontent.com/13172299/135876688-f1d3acfb-9710-4e6e-8d14-fa09208e401d.png">
+<img
+  width="1120"
+  alt="Screen Shot 2021-10-04 at 11 10 26 AM"
+  src="https://user-images.githubusercontent.com/13172299/135876688-f1d3acfb-9710-4e6e-8d14-fa09208e401d.png"
+/>
 
 > If you want an escape hatch that lets you style without theme keys without disabling strict types, use the `style` prop instead of `sx`.
 
-## Enforce React Native types
+### Enforce React Native types
 
 default: `false`
 
-```ts
+```js
 const theme = makeTheme({
   // ... theme
   types: {
@@ -248,66 +234,9 @@ To clarify: when this is `false`, it will allow either theme-ui types for a give
 
 Since React Native has no `cursor` property, for instance, using this field will always pull from the theme-ui web types.
 
-<!--
-### Monorepos
+<img src="https://user-images.githubusercontent.com/13172299/135003809-0208e70c-08ac-4923-ac57-de3b4b7fe9b3.png" />
 
-First, try the method above. If you still don't have autocomplete in your monorepo, try the guide below:
-
-If you're in a monorepo, you should put your type declaration file at the root of your monorepo. I don't actually know how much this matters, but (I think) it solved some inconsistency bugs for me in my giant monorepo.
-
-1. Create a declarations file
-
-In the root of your monorepo, create a file called `dripsy.d.ts`, and place these contents inside:
-
-```ts
-import 'dripsy'
-
-// change this to properly import your theme!
-// use the relative path to the file!
-import { theme } from './packages/theme'
-
-type MyTheme = typeof theme
-
-declare module 'dripsy' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DripsyCustomTheme extends MyTheme {}
-}
-```
-
-Make sure you update the import path to wherever your `theme` variable is, using a relative path directly to it.
-
-And remember, your `theme` variable should be wrapped in `makeTheme`, like this:
-
-```ts
-import { makeTheme } from 'dripsy'
-
-const theme = makeTheme({
-  colors: { primary: 'blue' }
-})
-
-export { theme }
-```
-
-2. Reference your declaration file in each app
-
-Any subpackage that has its own `tsconfig.json` (likely each application folder) needs to know to use those declarations.
-
-And so, in **each app folder in your monorepo,** create a file called `dripsy-env.d.ts`, and put this inside:
-
-```ts
-/// <reference types="../../dripsy.d.ts" />
-```
-
-Make sure the path to your `dripsy.d.ts` file from step 1 is correct! Otherwise this will not work.
-
-3. Check if types are working
-
-Try writing `useDripsyTheme().theme.colors`, hover over colors, and make sure it's showing values from your theme. If so, you should be good to go.
--->
-
-![image](https://user-images.githubusercontent.com/13172299/135003809-0208e70c-08ac-4923-ac57-de3b4b7fe9b3.png)
-
-# Breaking Changes
+## Breaking Changes
 
 There are essentially no breaking changes.
 
@@ -320,25 +249,8 @@ If you are a very advanced user with a custom setup, this might be breaking for 
 
 - Removed `Button` component (just import it from `react-native` instead of `dripsy`)
 
-## Array values
+### Array values
 
 ~~If your theme had any array values, turn them into objects.~~
 
-Arrays in theme were [added](https://github.com/nandorojo/dripsy/pull/124#:~:text=array%20intellisense%20support-,ce87637,-Merge%20state) to `v3`!
-
-<!-- **Before**
-
-```ts
-const theme = { space: [0, 4, 8, 16...] }
-```
-
-**After**
-
-```ts
-import { makeTheme } from 'dripsy'
-
-const theme = makeTheme({
-  space: { '0': 0, '1': 4, '2': 8, '3': 16 }
-})
-```
--->
+Arrays in theme were [added](https://github.com/nandorojo/dripsy/pull/124#:~:text=array%20intellisense%20support-,ce87637,-Merge%20state) to `v3`.

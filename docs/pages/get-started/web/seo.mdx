@@ -1,0 +1,45 @@
+# SEO Recommendations
+
+If you use custom meta tags for SEO, such as `next-seo`, don't make them the children of `DripsyProvider`. Instead, place them before the provider.
+
+I achieve this in Next.js by 1) passing an `seo` object from `getStaticProps` to my page props, and then 2) in `pages/_app.js`, I render `<NextSeo {...pageProps.seo} />` outside of my provider
+
+1. In my Next page
+
+```jsx
+// pages/artist.tsx
+
+export default function ArtistPage() {
+  return <Screen />
+}
+
+export const getStaticProps = async ({ params }) => {
+  const artist = await getArtist(params.slug)
+  return {
+    props: {
+      // this will get passed to pageProps
+      seo: { title: artist.name },
+    },
+    revalidate: 1,
+  }
+}
+```
+
+And then use the `seo` it returns here:
+
+```jsx
+// pages/_app.tsx
+import { NextSeo } from 'next-seo'
+
+export default function App({ Component, pageProps }) {
+  return (
+    <>
+      {/* place this outside of the provider */}
+      {pageProps.seo && <NextSeo {...pageProps.seo} />}
+      <DripsyProvider ssr theme={theme}>
+        <Component {...pageProps} />
+      </DripsyProvider>
+    </>
+  )
+}
+```

@@ -1,0 +1,74 @@
+# Use Dripsy with Next.js
+
+Once you've already completed the installation steps for `dripsy` & wrapped your app with `DripsyProvider`, you can do the final simple steps to get it ready for your Next.js app.
+
+## Recommendation: use the monorepo starter
+
+I recommend using Expo's Next.js integration. The best way to do so is with a monorepo.
+
+If you can, [use the monorepo starter](/get-started/monorepo). It will make your life a lot easier.
+
+Next.js 11 works best with React Native if it has separate entrypoints, so a monorepo makes this work.
+
+Also, both Expo and Vercel support monorepos.
+
+## Alternate: install yourself
+
+**1. Install dependencies**
+
+```bash
+yarn add -D next-compose-plugins next-transpile-modules @expo/next-adapter
+```
+
+**2. Edit your `next.config.js` file to look something like this:**
+
+```js
+const withPlugins = require('next-compose-plugins')
+const withTM = require('next-transpile-modules')([
+  'dripsy',
+  '@dripsy/core',
+
+  // you can add other packages here that need transpiling
+])
+
+const { withExpo } = require('@expo/next-adapter')
+
+module.exports = withPlugins(
+  [withTM],
+  withExpo({
+    projectRoot: __dirname,
+  })
+)
+```
+
+**3. Set `ssr={true}` on `DripsyProvider`**
+
+```js
+// pages/_app.js
+
+export default function App({ pageProps, Component }) {
+  return (
+    <>
+      <DripsyProvider
+        ssr
+        ssrPlaceholder={<LoadingScreen />} // optional
+        theme={theme}
+      >
+        <Component {...pageProps} />
+      </DripsyProvider>
+    </>
+  )
+}
+```
+
+What does `ssr: true` do, exactly? All it does is return `null` until your app is mounted (on web). This is because Dripsy uses the `Dimensions` API from `react-native`, which isn't compatible with server-side rendering.
+
+If your app already returns `null` on the first render, then you don't need to set `ssr: true`. For instance, using `react-native-safe-area-context`'s `SafeAreaProvider` already does this for you.
+
+## SEO
+
+If you're curious how you can still leverage Next.js's great static generation feature for SEO with dynamic meta tags, check out the [**SEO Recommendations**](/get-started/web/seo).
+
+---
+
+That's it! Btw, if you're using Expo + Next.js, check out my library, [expo-next-react-navigation](https://github.com/nandorojo/expo-next-react-navigation) to help with navigation.

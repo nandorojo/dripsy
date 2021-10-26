@@ -1,0 +1,37 @@
+# Enforce React Native types
+
+If you set `reactNativeTypesOnly` to `true`, then you can only pass styles that fit a React Native style object.
+
+```js
+const theme = makeTheme({
+  types: {
+    reactNativeTypesOnly: true,
+  },
+})
+```
+
+## Breakdown
+
+On web, you can set `fontWeight` as a number, like so: `fontWeight: 400`.
+
+With React Native, on the other hand, font weights must be strings (`fontWeight: '400'`).
+
+> Using a number would probably work with Dripsy if you've utilized the `customFonts` feature in your theme.
+
+## Recommendation
+
+I recommend setting `theme.types.reactNativeTypesOnly` to `true`. It is safer.
+
+It defaults to `false` to avoid breaking changes with users who are on v2 who don't want to refactor.
+
+If your app is new to Dripsy, you should set this field to `true`.
+
+And it may work to set it to `true` in your existing app too. If it riddles your type checker with errors, then you can easily disable it.
+
+## Web-only types
+
+To clarify: when this is `false`, it will allow either theme-ui types for a given field, _or_ React Native types.
+
+When it's set to `true`, it will _only_ allow React Native types (as long as they exist.)
+
+For example: React Native has no `cursor` property, so using this field will always pull from Web-compatible types.

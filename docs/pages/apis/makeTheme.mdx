@@ -1,0 +1,36 @@
+# `makeTheme`
+
+```jsx
+import { makeTheme } from 'dripsy'
+```
+
+This function lets you provide intellisense for your theme. It exists solely for providing TypeScript support, and does no magic under the hood.
+
+## Usage
+
+```jsx
+import { makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  colors: { primary: 'blue' },
+})
+
+type MyTheme = typeof theme
+
+declare module 'dripsy' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DripsyCustomTheme extends MyTheme {}
+}
+```
+
+Now, your theme will have full intellisense.
+
+For example, if you import the `Theme` type from Dripsy, it will match your theme.
+
+```jsx
+import type { Theme } from 'dripsy'
+
+type ButtonProps = {
+  color: keyof Theme // this will use your actual theme!
+}
+```

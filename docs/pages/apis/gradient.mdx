@@ -1,0 +1,86 @@
+# `<Gradient />`
+
+Drisy provides a convenient linear gradient component.
+
+## Installation
+
+```sh
+expo install @dripsy/gradient expo-linear-gradient
+```
+
+This component wraps the [`expo-linear-gradient`](https://docs.expo.dev/versions/latest/sdk/linear-gradient/), adding theming, type safety and functionality.
+
+## Props
+
+### `colors`
+
+You can use colors from your `theme.colors` directly in the `colors` array.
+
+```tsx
+import { Gradient } from '@dripsy/gradient'
+
+export function DripsyGradient() {
+  return <Gradient colors={['$primary', '$secondary']} />
+}
+```
+
+### `gradient`
+
+Alternatively, you can define gradient presets in your `theme.linearGradients`:
+
+<br />
+
+<img
+  width="485"
+  alt="Screen Shot 2021-09-27 at 6 47 19 PM"
+  src="https://user-images.githubusercontent.com/13172299/134995527-d126d611-f224-4267-a665-39ae8457b27a.png"
+/>
+
+And then reference them via the `gradient` prop:
+
+<br />
+
+<img
+  width="386"
+  alt="Screen Shot 2021-09-27 at 6 47 11 PM"
+  src="https://user-images.githubusercontent.com/13172299/134995529-a927645a-c31d-4f30-9710-033bf9a0ca1f.png"
+/>
+
+### `stretch`
+
+Often, your gradient is stretching its background as an absolute fill. To enable this, use the `stretch` boolean.
+
+```tsx
+import { Gradient } from '@dripsy/gradient'
+
+export function DripsyGradient() {
+  return <Gradient colors={['primary', 'secondary']} stretch />
+}
+```
+
+### Rest
+
+See [`expo-linear-gradient`](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)'s docs for the remaining prop options.
+
+## Next.js
+
+If you're using Next.js, you also need to add `@dripsy/gradient` to `next-transpile-modules` in `next.config.js`.
+
+```js
+const withPlugins = require('next-compose-plugins')
+const withTM = require('next-transpile-modules')([
+  'dripsy',
+  '@dripsy/gradient',
+
+  // ...other packages here
+])
+
+const { withExpo } = require('@expo/next-adapter')
+
+module.exports = withPlugins(
+  [withTM],
+  withExpo({
+    projectRoot: __dirname,
+  })
+)
+```
