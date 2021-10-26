@@ -1,0 +1,25 @@
+# Setup TypeScript
+
+All you need to do is utilize the [`makeTheme`](/apis/makeTheme) function and you get amazing intellisense and TypeScript support.
+
+```jsx
+import { makeTheme } from 'dripsy'
+
+const theme = makeTheme({
+  // your theme
+})
+
+type MyTheme = typeof theme
+
+declare module 'dripsy' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DripsyCustomTheme extends MyTheme {}
+}
+```
+
+## Gotchas
+
+If you don't see autocomplete, there could be a few reasons.
+
+1. **You need to restart VSCode** (yeah, really)
+2. You need at least TypeScript 4.4+: `yarn add -D typescript`

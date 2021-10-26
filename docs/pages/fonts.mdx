@@ -12,11 +12,15 @@
 <Text sx={{ fontWeight: 'bold' }}>Great API</Text>
 ```
 
+## How it works
+
 Dripsy lets you globally control your fonts in React Native. Before Dripsy, this was a huge pain. You had to manually set the `fontFamily` name to a string that corresponds to your actual font file name. If you ever changed custom fonts, you'd need to edit all your files that had it, or create an unnecessary `CustomText` component.
 
 No longer. All of your custom font definitions can live in a single `theme` variable. Once you add your fonts to your theme, you can load them with `expo-font` (or your loader of choice).
 
-## 1. Add your font to your `theme.fonts`
+## Step-by-step guide
+
+### 1. Add your font to your `theme.fonts`
 
 There are two options for this:
 
@@ -24,7 +28,7 @@ There are two options for this:
 
 **b)** Provide multiple fonts (only use this if you're using multiple custom fonts)
 
-### 1.a) Provide a single `root` in your `theme.fonts` (easiest, recommended)
+#### 1.a) Provide a single `root` in your `theme.fonts` (easiest, recommended)
 
 ```js
 const fontName = 'arial'
@@ -199,7 +203,7 @@ const theme = {
 
 This tells Dripsy we have 2 custom fonts, named `arial` and `sans`. These are custom names made by you. They will be used in your app later to reference which font you're picking.
 
-## 2. Loading in fonts with `expo-font` (or whatever loader you prefer)
+### 2. Loading in fonts with `expo-font` (or whatever loader you prefer)
 
 As an added step (to include in docs later), you can use expo-font to actually load the fonts in:
 
@@ -246,7 +250,7 @@ Important note, mentioned in #2.a above. The name of the default font you use in
 
 Another caveat: you cannot name a font "root". Dripsy uses this field to identify your root font, so please do not name a font `root` when you load it in. Any other word works.
 
-## 3. Using and customizing your custom fonts in your app
+### 3. Using and customizing your custom fonts in your app
 
 Now that we've defined our fonts in our theme, we can use them anywhere in our app. To globally style all text, you could add a `theme.text.body` field:
 
@@ -325,7 +329,7 @@ const Thick = () => (
 )
 ```
 
-## Using custom fonts on web
+## Web Optimizations
 
 To improve the performance of loading your fonts on web, you can add something like this to the `head` of your HTML:
 

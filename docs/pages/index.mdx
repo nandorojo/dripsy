@@ -89,3 +89,24 @@ const ResponsiveBox = () => {
   return <View sx={{ width: ['100%', '50%'] }} />
 }
 ```
+
+In the future, I may also add support for responsive objects (rather than just arrays):
+
+```jsx
+import { View } from 'dripsy'
+
+const ResponsiveBox = () => {
+  return (
+    <View
+      sx={{
+        width: {
+          '@base': 100,
+          '@md': 200,
+        },
+      }}
+    />
+  )
+}
+```
+
+But this is not implemented yet.

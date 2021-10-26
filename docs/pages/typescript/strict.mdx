@@ -1,0 +1,113 @@
+# Strict Types
+
+If you want to enforce strict types for your `sx` prop, you can do so with the new `theme.types` field:
+
+```js
+const theme = makeTheme({
+  types: {
+    onlyAllowThemeValues: 'always',
+  },
+})
+```
+
+---
+
+<img
+  width="1120"
+  alt="Screen Shot 2021-10-04 at 11 10 26 AM"
+  src="https://user-images.githubusercontent.com/13172299/135876688-f1d3acfb-9710-4e6e-8d14-fa09208e401d.png"
+/>
+
+## How it works
+
+By setting `types.onlyAllowThemeValues` to `always`, you restrict yourself to only using theme values in your `sx` prop. While this may feel like overkill, it is a good pattern of enforcing consistent design.
+
+This will only apply to theme values that are set. For example, if you haven't set the `theme.space` property, then strict types won't enforce for `padding`, `margin`, etc.
+
+## Incremental strict types
+
+It's possible you want to implement strict types on a per-scale basis. The `types.onlyAllowThemeValues` also accepts an object with per-scale definitions.
+
+```js
+const theme = makeTheme({
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+  types: {
+    onlyAllowThemeValues: {
+      space: 'always',
+    },
+  },
+})
+```
+
+Now, our `sx` prop's space-related properties (such as margin, padding, etc) will only accept one of the values in `theme.space`. To take full advantage of this feature, it is recommended that you don't use arrays, and instead make a dictionary with `$` prefixes, such as the `space` one above.
+
+## Recommendation
+
+The strict types feature is especially useful if you want to upgrade to Dripsy 3, have no breaking changes with your types, but slowly transition your app to have stricter types.
+
+It also makes changing your theme **much** easier. For example, imagine that you change your `space` from an array to a dictionary:
+
+```js
+const theme = makeTheme({
+  // before
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  // after
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+})
+```
+
+After changing your `theme.space`, you likely have hundreds of invalid styles throughout your app. Finding them all would be a mess.
+
+However, with incremental strict types, you could achieve this code refactor in seconds.
+
+```js
+const theme = makeTheme({
+  // before
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  // after
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+  },
+  types: {
+    onlyAllowThemeValues: {
+      space: 'always',
+    },
+  },
+})
+```
+
+Now, simply run your TypeScript type-checker (`yarn tsc --noEmit`) to see all the places you need to update. You'll get useful errors like this:
+
+> If you want an escape hatch that lets you style without theme keys without disabling strict types, use the `style` prop instead of `sx`.
+
+## Final point
+
+Chances are, you will find strict types a bit too restrictive. However, they are useful, at the very least, when you're refactoring your theme. You can enable them, find the type errors, then disable.
