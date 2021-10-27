@@ -51,8 +51,9 @@ export function mapPropsToStyledComponent<
   )({ theme, themeKey })
 
   // get the font-family from the variant, and pass it to the other styles as a fallback.
+  // if there is no font-family in the variant, check the defaultStyle
   // this lets us support customFonts/font weights (https://github.com/nandorojo/dripsy/issues/51)
-  const { fontFamily } = variantStyle
+  const { fontFamily = defaultStyle?.fontFamily as any } = variantStyle
 
   const baseStyle = css(
     defaultStyle,
