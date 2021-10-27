@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/nandorojo/dripsy/compare/v3.0.2...v3.0.3) (2021-10-27)
+
+
+### Bug Fixes
+
+* properly resolve fontFamily from variant, fallback to default, without putting them through the theme first ([4b73b84](https://github.com/nandorojo/dripsy/commit/4b73b8443edddcc6a7bf7b4e24d4be0e5767d854))
+
+
+
+
+
 ## [3.0.2](https://github.com/nandorojo/dripsy/compare/v3.0.1...v3.0.2) (2021-10-27)
 
 
