@@ -34,10 +34,12 @@ There are two options for this:
 
 #### 1.a) Provide a single `root` in your `theme.fonts` (easiest, recommended)
 
-```js
+```ts
+import { makeTheme } from 'dripsy'
+
 const fontName = 'arial'
 
-const theme = {
+const theme = makeTheme({
   customFonts: {
     [fontName]: {
       // I recommend setting every weight here
@@ -55,25 +57,29 @@ const theme = {
   fonts: {
     root: fontName, // <- this string must match the key you set in custom fonts above!
   },
-}
+})
 ```
 
 **Recommended** when using web, add a fallback for your fonts:
 
-```js
+```ts
+import { makeTheme } from 'dripsy'
+
+const fontName = 'arial'
+
 const webFont = (font: string) =>
   Platform.select({
-    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif`,
+    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, Inter-serif`,
     default: font,
   })
 
-const theme = {
+const theme = makeTheme({
   customFonts: {
-    arial: {
+    [fontName]: {
       bold: webFont('arialBold'),
-      default: webFont('arial'),
-      normal: webFont('arial')',
-      '400': webFont('arial')',
+      default: webFont(fontName),
+      normal: webFont(fontName)',
+      '400': webFont(fontName)',
       '500': webFont('arialMedium'),
       '600': webFont('arialBold'),
       '700': webFont('arialBold'),
@@ -81,34 +87,47 @@ const theme = {
       '900': webFont('arialBlack'),
     },
   },
-}
+  fonts: {
+    root: fontName,
+  },
+})
 ```
 
 You can also alias your `fontWeights` to make it easier, just like [`theme-ui`](https://theme-ui.com/theming/#typography):
 
-```js
-const theme = {
+```ts highlight=28-32
+import { makeTheme } from 'dripsy'
+
+const fontName = 'arial'
+
+const webFont = (font: string) =>
+  Platform.select({
+    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, Inter-serif`,
+    default: font,
+  })
+
+const theme = makeTheme({
   customFonts: {
-    arial: {
-      bold: 'arialBold',
-      default: 'arial',
-      normal: 'arial',
-      400: 'arial',
-      500: 'arialMedium',
-      600: 'arialBold',
-      700: 'arialBold',
-      800: 'arialBold',
-      900: 'arialBlack',
+    [fontName]: {
+      bold: webFont('arialBold'),
+      default: webFont(fontName),
+      normal: webFont(fontName)',
+      '400': webFont(fontName)',
+      '500': webFont('arialMedium'),
+      '600': webFont('arialBold'),
+      '700': webFont('arialBold'),
+      '800': webFont('arialBold'),
+      '900': webFont('arialBlack'),
     },
   },
   fonts: {
-    root: 'arial',
+    root: fontName,
   },
   // this is new here:
   fontWeights: {
     black: '900',
   },
-}
+})
 ```
 
 Now that we've added the `black` shorthand to our `fontWeights`, we can use it anywhere in our app. The string `900` corresponds to `theme.customFonts.arial['900']`.
@@ -123,22 +142,51 @@ const Black = () => (
 )
 ```
 
-You can also use this shorthand when creating custom text variants in your theme. For instance, if you want to make a bold & caps text variant:
+You can also use this shorthand when creating custom text variants in your theme.
 
-```js
-const theme = {
-  ...
+For instance, if you want to make a bold & caps text variant called `thickCaps`:
+
+```ts highlight=31-36
+import { makeTheme } from 'dripsy'
+
+const fontName = 'arial'
+
+const webFont = (font: string) =>
+  Platform.select({
+    web: `${font}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, Inter-serif`,
+    default: font,
+  })
+
+const theme = makeTheme({
+  customFonts: {
+    [fontName]: {
+      bold: webFont('arialBold'),
+      default: webFont(fontName),
+      normal: webFont(fontName)',
+      '400': webFont(fontName)',
+      '500': webFont('arialMedium'),
+      '600': webFont('arialBold'),
+      '700': webFont('arialBold'),
+      '800': webFont('arialBold'),
+      '900': webFont('arialBlack'),
+    },
+  },
+  fonts: {
+    root: fontName,
+  },
   fontWeights: {
     black: '900'
   },
   text: {
     thickCaps: {
-      fontWeight: 'black',
+      fontWeight: 'black', // this is 900 from fontWeights.black
       textTransformation: 'uppercase'
     }
   }
-}
+})
 ```
+
+And you can use it in your component with the `variant` prop:
 
 ```jsx
 import { Text } from 'dripsy'
@@ -150,12 +198,14 @@ const BoldCaps = () => (
 
 #### Considerations for naming conventions
 
-Notice how the `theme.fonts.root` is `arial`. This tells Dripsy to check for `theme.customFonts.arial`. If you wanted to name it something different, you could. However, you can't name it `root`. That's the only exception.
+Notice how the `theme.fonts.root` is `arial`. This tells Dripsy to check for `theme.customFonts.arial`.
+
+If you wanted to name it something other than `arial`, you could. However, you can't name the font itself `root`. That's the only exception.
 
 There are 2 important details when it comes to the naming:
 
-1. The name of your customFont **must** match the name you pass to `theme.fonts.root`. In the example above, I picked the name `arial`.
-2. The name you use to load in your font at its default weight (often `400` or `default`) **must also match** the key you pass to `theme.customFonts`.
+1. The name of your customFont key **must** match the name you pass to `theme.fonts.root`. In the example above, I picked the name `arial`.
+2. The name you use to load in your font at its default weight (often `400` or `default`) **must also match** the key you pass to `theme.customFonts`. (We'll see this in step 2.)
 
 - **Explanation** In step 2, when you import your font using `expo-font`, you have to make sure you name the default font weight with the same name passed to `customFonts`.
 - In the example above, we would import our font using `expo-font`, and name it `arial`. You can skip down to step #3 to see what I mean. We need to make these the same to ensure that we always fall back to the correct default font. If we don't do this, then React Native will raise an error, saying it could not find the custom font.
@@ -167,45 +217,50 @@ If you have multiple custom fonts you'd like to use, this step is for you.
 1. Follow the same steps as step #2.a.
 2. Add your other fonts to `theme.customFonts`, just like step #1a.
 
-```js
-const theme = {
+```ts
+import { makeTheme } from 'dripsy'
+
+const rootFontName = 'arial'
+const headingFontName = 'inter'
+
+const theme = makeTheme({
   customFonts: {
-    arial: {
-      ... from step 2.a
+    [rootFontName]: {
+      // ... from step 1.a
     },
     // these are new
-    sans: {
-      bold: 'sansBold',
-      default: 'sans',
-      normal: 'sans',
-      '400': 'sans',
-      '500': 'sans',
-      '600': 'sansBold',
-      '700': 'sansBold',
-      '800': 'sansBold',
-      '900': 'sansBlack',
+    [headingFontName]: {
+      bold: 'InterBold',
+      default: headingFontName,
+      normal: headingFontName,
+      '400': headingFontName,
+      '500': 'InterSemiBold',
+      '600': 'InterBold',
+      '700': 'InterBold',
+      '800': 'InterBold',
+      '900': 'InterBlack',
     },
   },
   fonts: {
     root: 'arial',
-    heading: 'sans'
+    heading: 'Inter',
   },
   text: {
     h1: {
-      // use sans here
-      fontFamily: 'heading'
+      // use Inter, from fonts.heading
+      fontFamily: 'heading',
     },
     h2: {
-      fontFamily: 'heading'
+      fontFamily: 'heading',
     },
     h3: {
-      fontFamily: 'heading'
+      fontFamily: 'heading',
     },
-  }
-}
+  },
+})
 ```
 
-This tells Dripsy we have 2 custom fonts, named `arial` and `sans`. These are custom names made by you. They will be used in your app later to reference which font you're picking.
+This tells Dripsy we have 2 custom fonts, named `arial` and `Inter`. These are custom names made by you. They will be used in your app later to reference which font you're picking.
 
 ### 2. Loading in fonts with `expo-font` (or whatever loader you prefer)
 
@@ -213,16 +268,15 @@ As an added step (to include in docs later), you can use expo-font to actually l
 
 ```jsx
 // fonts.tsx
-import React from 'react'
 import { useFonts } from 'expo-font'
 
 export default function Fonts({ children }: { children: React.ReactNode }) {
   const [loaded] = useFonts({
-    // 🚨🚨🚨 the name (`sans`) of the default weight here should equal the key from theme.customFonts
+    // 🚨🚨🚨 the name (`Inter`) of the default weight here should equal the key from theme.customFonts
     // otherwise, you will need to explicitly set the fontWeight everywhere
-    // since we have theme.customFonts.sans, we name this `sans`
-    ['sans']: require('./public/fonts/sansBook.ttf'),
-    ['sansBold']: require('./public/fonts/arialBlack.ttf'),
+    // since we have theme.customFonts.Inter, we name this `Inter`
+    ['Inter']: require('./public/fonts/InterBook.ttf'),
+    ['InterBold']: require('./public/fonts/arialBlack.ttf'),
 
     // same goes here, load in the default font name with the one that matches your theme.customFonts
     ['arial']: require('./public/fonts/arialBook.ttf'),
@@ -235,7 +289,40 @@ export default function Fonts({ children }: { children: React.ReactNode }) {
 }
 ```
 
-And then in your app:
+Chances are, you'll set the font names as variables:
+
+```jsx
+// fonts.tsx
+import { useFonts } from 'expo-font'
+
+import { headingFontName, rootFontName } from './theme'
+
+export default function Fonts({ children }: { children: React.ReactNode }) {
+  const [loaded] = useFonts({
+    [headingFontName]: require('./public/fonts/InterBook.ttf'),
+    ['InterBold']: require('./public/fonts/arialBlack.ttf'),
+
+    [rootFontName]: require('./public/fonts/arialBook.ttf'),
+    ['arialBold']: require('./public/fonts/arialBold.ttf'),
+  })
+
+  if (!loaded) return null
+
+  return <>{children}</>
+}
+```
+
+It's very important that the `default` font weight above is named to match the keys of our custom fonts.
+
+By changing the name into a variable (`headingFontName = 'Inter'`), we make that easy.
+
+To reiterate, once again: the name of the default font weight you use in `useFonts` must match the key for the font in your `theme.customFonts`.
+
+Another caveat: you cannot name a font "root". Dripsy uses this field to identify your root font, so please do not name a font `root` when you load it in. Any other word works.
+
+#### Use `Fonts`
+
+Use the new `Fonts` component in your `App.tsx`:
 
 ```jsx
 // App.tsx
@@ -250,44 +337,48 @@ export default function App() {
 }
 ```
 
-Important note, mentioned in #2.a above. The name of the default font you use in `useFonts` must match the key for the font in your `theme.customFonts`. Otherwise, you will get errors, and errors suck.
-
-Another caveat: you cannot name a font "root". Dripsy uses this field to identify your root font, so please do not name a font `root` when you load it in. Any other word works.
+> The `<Fonts />` component should only be used for iOS and Android. For loading fonts on Web, skip to [web optimizations](#web-optimizations).
 
 ### 3. Using and customizing your custom fonts in your app
 
 Now that we've defined our fonts in our theme, we can use them anywhere in our app. To globally style all text, you could add a `theme.text.body` field:
 
-```js
-const theme = {
+```ts
+import { makeTheme } from 'dripsy'
+
+const fontName = 'Inter'
+
+const theme = makeTheme({
   customFonts: {
-    arial: {
-      bold: 'arialBold',
-      default: 'arial',
-      normal: 'arial',
-      400: 'arial',
-      500: 'arialMedium',
-      600: 'arialBold',
-      700: 'arialBold',
-      800: 'arialBold',
-      900: 'arialBlack',
+    [fontName]: {
+      bold: 'InterBold',
+      default: fontName,
+      normal: fontName,
+      400: fontName,
+      500: 'InterSemiBold',
+      600: 'InterBold',
+      700: 'InterBold',
+      800: 'InterBold',
+      900: 'InterBlack',
     },
   },
   fonts: {
-    root: 'arial',
+    root: fontName,
   },
   text: {
     body: {
-      // this edits all <Text> components
+      // this sets defaults for all <Text> components
+      // it will use customFonts.Inter.bold
       fontWeight: 'bold',
       color: 'cyan',
     },
     h1: {
-      // this edits all <H1> components
+      // this sets defaults for all <H1> components
+      // it will use customFonts.Inter[900]
       fontWeight: '900',
     },
   },
-}
+})
 ```
 
 You can also style like normal throughout your app, and watch your font weights change elegantly:
@@ -306,11 +397,13 @@ For context, without dripsy, you'd have to do this:
 import { Text } from 'react-native'
 
 const Bold = () => (
-  <Text style={{ fontFamily: 'arialBold' }}>Lame, this isn't easy.</Text>
+  <Text style={{ fontFamily: 'InterBold' }}>Lame, this isn't easy.</Text>
 )
 ```
 
-You probably don't want to make your `text.body` bold, since this will style your entire app's `Text`, but you could make a custom variant in `theme.text`, like so:
+You probably don't want to make your `text.body` bold, since this will style your entire app's `Text`.
+
+But you could make a custom variant in `theme.text` called `thick`:
 
 ```js
 const theme = {
@@ -326,7 +419,7 @@ const theme = {
 In your component:
 
 ```jsx
-import { Text } from 'react-native'
+import { Text } from 'dripsy'
 
 const Thick = () => (
   <Text variant="thick">Hey, this is bold. That's all it takes.</Text>
@@ -340,25 +433,28 @@ To improve the performance of loading your fonts on web, you can add something l
 ```jsx
 <link
   rel="preload"
-  href="/fonts/arial-Book.ttf"
+  href="/fonts/InterBook.ttf"
   as="font"
   crossOrigin=""
 />
 <link
   rel="preload"
-  href="/fonts/arial-Medium.ttf"
+  href="/fonts/InterSemibold.ttf"
   as="font"
   crossOrigin=""
 />
 ```
 
-Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
+Create a `<link />` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
 
 If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component, and you'd put your `fonts` folder inside of `/public`.
 
-In fact, when I use icons in my app, I copy the icon TTF files into my `/public` folder (such as `Ionicons.ttf`) and load them in the same way:
+### Optimize Icon fonts
 
-```html
+In fact, when I use icons in my app with `@expo/vector-icons`, I copy the icon TTF files into my `/public` folder (such as `Ionicons.ttf`) and load them in the same way:
+
+```jsx
+// I copied Ionicons.ttf from /node_modules/@expo/vector-icons/build
 <link rel="preload" href="/fonts/Ionicons.ttf" as="font" crossorigin="" />
 ```
 
