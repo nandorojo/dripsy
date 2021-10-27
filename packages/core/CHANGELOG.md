@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/nandorojo/dripsy/compare/v3.0.1...v3.0.2) (2021-10-27)
+
+
+### Bug Fixes
+
+* [#135](https://github.com/nandorojo/dripsy/issues/135) ([7c9186b](https://github.com/nandorojo/dripsy/commit/7c9186bf263b0390a3b9309220534e240cd5906f))
+
+
+
+
+
 
 
 **Note:** Version bump only for package @dripsy/core
