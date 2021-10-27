@@ -2,7 +2,7 @@
 export default {
   github: 'https://github.com/nandorojo/dripsy',
   projectLink: 'https://github.com/nandorojo/dripsy', // GitHub link in the navbar
-  docsRepositoryBase: 'https://github.com/nandorojo/dripsy/blob/master', // base URL for the docs repository
+  docsRepositoryBase: 'https://github.com/nandorojo/dripsy/blob/master/docs', // base URL for the docs repository
   titleSuffix: ' – Dripsy',
   nextLinks: true,
   prevLinks: true,

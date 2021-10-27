@@ -12,6 +12,10 @@
 <Text sx={{ fontWeight: 'bold' }}>Great API</Text>
 ```
 
+## Example
+
+If you'd rather see a full example from the start, [check this one out on Expo Snack](https://snack.expo.dev/@nandorojo/dripsy-custom-fonts).
+
 ## How it works
 
 Dripsy lets you globally control your fonts in React Native. Before Dripsy, this was a huge pain. You had to manually set the `fontFamily` name to a string that corresponds to your actual font file name. If you ever changed custom fonts, you'd need to edit all your files that had it, or create an unnecessary `CustomText` component.
@@ -351,3 +355,13 @@ To improve the performance of loading your fonts on web, you can add something l
 Create a `link` for each font you're importing, and make sure to keep the `preload` prop to make it load early.
 
 If you're using Next.js, this would go in your `pages/_document.js` file, inside of Next's `<Head>` component, and you'd put your `fonts` folder inside of `/public`.
+
+In fact, when I use icons in my app, I copy the icon TTF files into my `/public` folder (such as `Ionicons.ttf`) and load them in the same way:
+
+```html
+<link rel="preload" href="/fonts/Ionicons.ttf" as="font" crossorigin="" />
+```
+
+## Final Example
+
+I made a full example of custom fonts [on Expo Snack](https://snack.expo.dev/@nandorojo/dripsy-custom-fonts).
