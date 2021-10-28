@@ -18,7 +18,7 @@ const StyledPressable = styled(NativePressable)(
     }),
   })
 )
-const Press = React.forwardRef(function Pressable(
+export const Pressable = React.forwardRef(function Pressable(
   props: Omit<ComponentProps<typeof StyledPressable>, 'showCursor'>,
   ref?: ComponentPropsWithRef<typeof NativePressable>['ref']
 ) {
@@ -36,5 +36,3 @@ const Press = React.forwardRef(function Pressable(
     />
   )
 })
-
-export default Press

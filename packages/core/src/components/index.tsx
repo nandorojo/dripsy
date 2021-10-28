@@ -1,7 +1,7 @@
 import { View } from './View'
 import { Flex } from './Flex'
 
-export { default as Pressable } from './pressable'
+export { Pressable } from './pressable'
 
 export { View } from './View'
 
