@@ -1,120 +1,43 @@
-import {
-  H1 as ExpoH1,
-  H2 as ExpoH2,
-  H3 as ExpoH3,
-  H4 as ExpoH4,
-  H5 as ExpoH5,
-  H6 as ExpoH6,
-  A as ExpoA,
-  P as ExpoP,
-} from '@expo/html-elements'
+import { View } from './View'
+import { Flex } from './Flex'
 
-import {
-  View as rView,
-  Text as rText,
-  ScrollView as rScrollView,
-  TextInput as rTextInput,
-  FlatList as rFlatList,
-  SafeAreaView as rSafeAreaView,
-  Image as rImage,
-} from 'react-native'
+export { Pressable } from './pressable'
 
-import { createThemedComponent } from '../css/create-themed-component'
+export { View } from './View'
 
-import Indicator from './activity-indicator'
-export { default as Pressable } from './pressable'
+export { Text } from './Text'
 
-export const View = createThemedComponent(rView)
+export { Image } from './Image'
 
-const defaultFontStyle = {
-  fontFamily: 'root',
-}
+export { H1 } from './H1'
 
-export const Text = createThemedComponent(rText, {
-  themeKey: 'text',
-  defaultVariant: 'body',
-  defaultStyle: defaultFontStyle,
-})
+export { H2 } from './H2'
 
-export const Image = createThemedComponent(rImage)
+export { H3 } from './H3'
 
-export const H1 = createThemedComponent(ExpoH1, {
-  themeKey: 'text',
-  defaultVariant: 'h1',
-  defaultStyle: defaultFontStyle,
-})
+export { H4 } from './H4'
 
-export const H2 = createThemedComponent(ExpoH2, {
-  themeKey: 'text',
-  defaultVariant: 'h2',
-  defaultStyle: defaultFontStyle,
-})
+export { H5 } from './H5'
 
-export const H3 = createThemedComponent(ExpoH3, {
-  themeKey: 'text',
-  defaultVariant: 'h3',
-  defaultStyle: defaultFontStyle,
-})
+export { H6 } from './H6'
 
-export const H4 = createThemedComponent(ExpoH4, {
-  themeKey: 'text',
-  defaultVariant: 'h4',
-  defaultStyle: defaultFontStyle,
-})
+export { A } from './A'
 
-export const H5 = createThemedComponent(ExpoH5, {
-  themeKey: 'text',
-  defaultVariant: 'h5',
-  defaultStyle: defaultFontStyle,
-})
+export { P } from './P'
 
-export const H6 = createThemedComponent(ExpoH6, {
-  themeKey: 'text',
-  defaultVariant: 'h6',
-  defaultStyle: defaultFontStyle,
-})
+export { ScrollView } from './ScrollView'
 
-export const A = createThemedComponent(ExpoA, {
-  themeKey: 'text',
-  defaultVariant: 'a',
-  defaultStyle: defaultFontStyle,
-})
+export { TextInput } from './TextInput'
 
-export const P = createThemedComponent(ExpoP, {
-  themeKey: 'text',
-  defaultVariant: 'p',
-  defaultStyle: defaultFontStyle,
-})
+export { FlatList } from './FlatList'
 
-export const ScrollView = createThemedComponent(rScrollView)
+export { ActivityIndicator } from './activity-indicator'
 
-export const TextInput = createThemedComponent(rTextInput, {
-  themeKey: 'forms',
-  defaultVariant: 'input',
-  defaultStyle: defaultFontStyle,
-})
+export { Flex } from './Flex'
 
-export const FlatList = createThemedComponent(rFlatList)
+export { Container } from './Container'
 
-export const ActivityIndicator = createThemedComponent(Indicator)
-
-export const Flex = createThemedComponent(rView, {
-  defaultStyle: {
-    flexDirection: 'row',
-  },
-})
-
-export const Container = createThemedComponent(rView, {
-  defaultVariant: 'container',
-  themeKey: 'layout',
-  defaultStyle: {
-    mx: 'auto',
-    maxWidth: 'container',
-    width: '100%',
-  },
-})
-
-export const SafeAreaView = createThemedComponent(rSafeAreaView)
+export { SafeAreaView } from './SafeAreaView'
 
 export const Row = Flex
 
