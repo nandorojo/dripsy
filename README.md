@@ -40,7 +40,7 @@ https://user-images.githubusercontent.com/13172299/136265481-4c93d5bb-15e7-4e5f-
   src="https://user-images.githubusercontent.com/13172299/138509139-412b2d32-841b-4a7e-950e-f8721c1da17f.png"
 />
 
-I spoke at at [Next.js Conf 2021](https://fernandorojo.co/conf) on October 26 about React Native + Next.js. [Watch the video](https://t.co/LkmxHXVz3K?amp=1) to see how we do it.
+I spoke at at [Next.js Conf 2021](https://fernandorojo.co/conf) on October 26 about React Native + Next.js. [Watch the video](https://www.youtube.com/watch?v=0lnbdRweJtA) to see how we do it.
 
 ## License
 
