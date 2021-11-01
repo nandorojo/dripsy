@@ -33,13 +33,11 @@ const colorKeys: Record<ColorKeys, true> = {
 export const TextInput = forwardRef<rTextInput, DripsyTextInputProps>(
   function TextInput({ ...props }, ref) {
     const { theme } = useDripsyTheme()
-    if (theme?.colors) {
-      Object.keys(colorKeys).forEach((key) => {
-        if (props[key] && theme.colors && key in theme.colors) {
-          props[key] = theme.colors[props[key]]
-        }
-      })
-    }
+    Object.keys(colorKeys).forEach((key) => {
+      if (props[key] && theme.colors && key in theme.colors) {
+        props[key] = theme.colors[props[key]]
+      }
+    })
     return <DripsyInput {...props} ref={ref} />
   }
 )
