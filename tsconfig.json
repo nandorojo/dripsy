@@ -11,7 +11,8 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "strict": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noUnusedLocals": false
   },
   "exclude": ["examples/next-example/*"]
 }
