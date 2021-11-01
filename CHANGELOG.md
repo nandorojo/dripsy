@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/nandorojo/dripsy/compare/v3.1.0...v3.2.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* broken get started links ([24eb24d](https://github.com/nandorojo/dripsy/commit/24eb24d24a67143bfbc8a830ad56f6c65ddb098e))
+
+
+### Features
+
+* Themify selectionColor, placeholderTextColor, & underlineColorAndroid on TextInput ([dc4ec03](https://github.com/nandorojo/dripsy/commit/dc4ec03c6239c1a9efe1e135378b0c424a3b9ff8))
+
+
+
+
+
 # [3.1.0](https://github.com/nandorojo/dripsy/compare/v3.0.3...v3.1.0) (2021-10-28)
 
 
