@@ -48,6 +48,8 @@ You can wrap your own components to give them theme styling and intellisense.
 
 For example, you can make a custom `ScrollView` component:
 
+> Don't actually do this with `ScrollView`; Dripsy already implements `contentContainerSx` under the hood for you. This example only uses `ScrollView` as an illustration.
+
 ```jsx
 import { useSx, ScrollView } from 'dripsy'
 import type { SxProp } from 'dripsy'
