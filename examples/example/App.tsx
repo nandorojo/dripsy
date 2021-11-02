@@ -9,6 +9,7 @@ import {
   makeTheme,
   TextInput as DripsyInput,
   useResponsiveValue,
+  ActivityIndicator,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'

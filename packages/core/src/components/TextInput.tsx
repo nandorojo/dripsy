@@ -19,9 +19,7 @@ type ColorKeys = keyof Pick<
 
 export type DripsyTextInputProps = Omit<InputProps, ColorKeys> &
   {
-    [key in ColorKeys]?:
-      | (string & {})
-      | Exclude<DripsyFinalTheme['colors'], object>
+    [key in ColorKeys]?: (string & {}) | keyof DripsyFinalTheme['colors']
   }
 
 const colorKeys: Record<ColorKeys, true> = {
