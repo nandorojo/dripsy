@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Platform } from 'react-native'
+import { BreakpointIndexProvider } from '../css/breakpoints'
 import { DripsyThemeContext } from './context'
 
 type Props = DripsyThemeContext & {
@@ -78,7 +79,7 @@ export function DripsyProvider(p: Props) {
 
   return (
     <DripsyThemeContext.Provider value={context}>
-      {children}
+      <BreakpointIndexProvider>{children}</BreakpointIndexProvider>
     </DripsyThemeContext.Provider>
   )
 }
