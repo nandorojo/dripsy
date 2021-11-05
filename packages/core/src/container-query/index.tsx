@@ -31,7 +31,7 @@ type Props = {
 } & Pick<ComponentProps<typeof View>, 'sx' | 'pointerEvents'>
 
 export function ContainerQuery({
-  fallback,
+  fallback = null,
   children,
   initialWidth,
   sx,
