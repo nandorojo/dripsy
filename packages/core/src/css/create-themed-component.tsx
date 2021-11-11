@@ -1,7 +1,7 @@
 import React, { ComponentType, ComponentPropsWithRef } from 'react'
 import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
-import { useBreakpointIndex } from './use-breakpoint-index'
+import { useBreakpointIndex } from './breakpoint-context'
 import { mapPropsToStyledComponent } from './map-props'
 import { DripsyFinalTheme } from '../declarations'
 import { useStableMemo } from '../utils/use-stable-memo'
