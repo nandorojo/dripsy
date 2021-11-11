@@ -6,7 +6,7 @@ Once you've configured your TypeScript setup, these props will get autocomplete.
 
 ## `theme.types.strictVariants`
 
-Dripsy lets you customize how strict the types are for your variant props.
+You can customize how strict the types are for your variant props with `strictVariants` in your theme.
 
 ```ts
 makeTheme({
@@ -18,9 +18,9 @@ makeTheme({
 
 ## How it works
 
-By default, components can use the variant that matches their variant keys.
+By default, a component can use the variant that matches its theme key.
 
-For example, a `<Text />` component can use variants defined by `theme.text`, and TypeScript will error otherwise.
+For example, a `<Text />` component can use `theme.text` variants, and TypeScript will error otherwise.
 
 For components that don't have a `themeKey` defined, such as `View`, you can use any nested variant from your theme.
 
@@ -32,24 +32,40 @@ For components that don't have a `themeKey` defined, such as `View`, you can use
 ```tsx
 makeTheme({
   types: {
-    strictVariants: false, // defaults to true
+    // defaults to true
+    // recommended: keep this as true
+    strictVariants: false,
   },
 })
 ```
 
 If you set `theme.types.strictVariants` to `false`, then any component, including those _with_ a `themeKey`, can use nested variants.
 
-For example, with disabled `strictVariants` the `<Text />` component can now use variants other than those in `theme.text`.
+For example, with disabled `strictVariants`, the `<Text />` component can now use variants other than those in `theme.text`.
 
-You probably shouldn't use this. Strict variants are better.
+You probably shouldn't disable this field, though. Strict variants generally are better.
+
+> `theme.types.strictVariants` only affects your TypeScript types. At runtime, nested variants will always work.
 
 ## Variants for custom components.
 
 Using the [`styled`](/apis/styled#advanced-usage) function from Dripsy, you can apply variants to custom components.
 
 ```tsx
+import { styled } from 'dripsy'
 import { View } from 'react-native'
 
+const MyContainer = styled(View)()
+
+// in your component
+<MyContainer variant="layout.wide" />
+```
+
+With the `themeKey` from `styled`, you can get more precise autocomplete for your variants.
+
+Let's say we want `MyContainer` to access `theme.layout` variants.
+
+```tsx
 import { styled } from 'dripsy'
 import { View } from 'react-native'
 
@@ -73,4 +89,4 @@ const theme = makeTheme({
 <MyContainer variant="wide" />
 ```
 
-Read about all the things you can do with the [`styled` function](/apis/styled#advanced-usage).
+Read about all the things you can do with the [`styled` function](/apis/styled#advanced-usage), such as setting the default variant for a component.

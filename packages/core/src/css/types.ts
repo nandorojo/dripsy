@@ -62,7 +62,9 @@ type Tokenize<
         // then we should allow either colors.primary, OR colors
         // to toggle that, just set the last argument to true/false
         // `${Key}.${Tokenize<Theme[Key]>}`
-        SafeTokenized<Theme, IsFirstIteration, Key, AllowsRootKeys>]: true
+        | `${Key}` // here, we have an object, say layout.wide. We want both layout.wide and layout.wide.width
+          // so we include key, *or* tokenized theme for this key
+          | SafeTokenized<Theme, IsFirstIteration, Key, AllowsRootKeys>]: true
   },
   string | number | '' | never | undefined | null
 >
@@ -270,21 +272,19 @@ export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
 type VariantTheme = TokenizedTheme<true>
 
-type UseStrictVariants = NonNullable<
-  DripsyFinalTheme['types']
->['strictVariants'] extends false
-  ? false
-  : true
+export type UseStrictVariants<
+  Config = NonNullable<NonNullable<DripsyFinalTheme['types']>['strictVariants']>
+> = Config extends any ? (Config extends false ? false : true) : true
 
 export type DripsyVariant<
   ThemeKey extends keyof DripsyFinalTheme
-> = DripsyFinalTheme[ThemeKey] extends undefined
+> = UseStrictVariants extends false
+  ? VariantTheme
+  : DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
   : keyof DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
-  : UseStrictVariants extends true
-  ? keyof DripsyFinalTheme[ThemeKey]
-  : keyof DripsyFinalTheme[ThemeKey] & VariantTheme
+  : keyof DripsyFinalTheme[ThemeKey]
 
 export type StyledProps<
   ThemeKey extends keyof DripsyFinalTheme,

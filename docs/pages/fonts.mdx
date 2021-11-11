@@ -214,7 +214,7 @@ There are 2 important details when it comes to the naming:
 
 If you have multiple custom fonts you'd like to use, this step is for you.
 
-1. Follow the same steps as step #2.a.
+1. Follow the same steps as step #1.a.
 2. Add your other fonts to `theme.customFonts`, just like step #1a.
 
 ```ts
@@ -242,12 +242,12 @@ const theme = makeTheme({
     },
   },
   fonts: {
-    root: 'arial',
-    heading: 'Inter',
+    root: rootFontName,
+    heading: headingFontName,
   },
   text: {
     h1: {
-      // use Inter, from fonts.heading
+      // use inter, from fonts.heading
       fontFamily: 'heading',
     },
     h2: {
@@ -275,7 +275,7 @@ export default function Fonts({ children }: { children: React.ReactNode }) {
     // 🚨🚨🚨 the name (`Inter`) of the default weight here should equal the key from theme.customFonts
     // otherwise, you will need to explicitly set the fontWeight everywhere
     // since we have theme.customFonts.Inter, we name this `Inter`
-    ['Inter']: require('./public/fonts/InterBook.ttf'),
+    ['inter']: require('./public/fonts/InterBook.ttf'),
     ['InterBold']: require('./public/fonts/arialBlack.ttf'),
 
     // same goes here, load in the default font name with the one that matches your theme.customFonts
@@ -314,7 +314,7 @@ export default function Fonts({ children }: { children: React.ReactNode }) {
 
 It's very important that the `default` font weight above is named to match the keys of our custom fonts.
 
-By changing the name into a variable (`headingFontName = 'Inter'`), we make that easy.
+By changing the name into a variable (`headingFontName = 'inter'`), we make that easy.
 
 To reiterate, once again: the name of the default font weight you use in `useFonts` must match the key for the font in your `theme.customFonts`.
 
@@ -346,7 +346,7 @@ Now that we've defined our fonts in our theme, we can use them anywhere in our a
 ```ts
 import { makeTheme } from 'dripsy'
 
-const fontName = 'Inter'
+const fontName = 'inter'
 
 const theme = makeTheme({
   customFonts: {
@@ -368,7 +368,7 @@ const theme = makeTheme({
   text: {
     body: {
       // this sets defaults for all <Text> components
-      // it will use customFonts.Inter.bold
+      // it will use customFonts.inter.bold
       fontWeight: 'bold',
       color: 'cyan',
     },
@@ -406,14 +406,14 @@ You probably don't want to make your `text.body` bold, since this will style you
 But you could make a custom variant in `theme.text` called `thick`:
 
 ```js
-const theme = {
+const theme = makeTheme({
   ...,
   text: {
     thick: {
       fontWeight: 'bold'
     }
   }
-}
+})
 ```
 
 In your component:
