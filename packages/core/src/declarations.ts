@@ -213,6 +213,16 @@ export interface DripsyBaseTheme
      * In future versions, this may be default `true`.
      */
     reactNativeTypesOnly?: boolean
+    /**
+     * Default: `true`.
+     *
+     * If disabled, then the `variant` prop can accept any theme variant. If `true`, then a component can only take variants from its own theme key.
+     *
+     * For example, if `true`, then a `<Text />` component can only take variants from `theme.text`.
+     *
+     * The `themeKey` is defined by `styled()`.
+     */
+    strictVariants?: boolean
   }
 }
 

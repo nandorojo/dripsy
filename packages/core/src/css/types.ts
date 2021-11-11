@@ -258,7 +258,7 @@ type SxStyles = {
 }
 
 type SxVariantStyles = {
-  variant?: DripsyVariant<keyof DripsyFinalTheme> | VariantFallback
+  variant?: DripsyVariant<keyof DripsyFinalTheme>
 }
 
 export type Sx = SxStyles &
@@ -270,28 +270,29 @@ export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
 type VariantTheme = TokenizedTheme<true>
 
+type UseStrictVariants = NonNullable<
+  DripsyFinalTheme['types']
+>['strictVariants'] extends false
+  ? false
+  : true
+
 export type DripsyVariant<
   ThemeKey extends keyof DripsyFinalTheme
 > = DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
   : keyof DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
-  : keyof DripsyFinalTheme[ThemeKey]
-
-type VariantFallback = NonNullable<
-  DripsyFinalTheme['types']
->['variantFallbackType'] extends undefined
-  ? undefined
-  : NonNullable<DripsyFinalTheme['types']>['variantFallbackType']
+  : UseStrictVariants extends true
+  ? keyof DripsyFinalTheme[ThemeKey]
+  : keyof DripsyFinalTheme[ThemeKey] & VariantTheme
 
 export type StyledProps<
   ThemeKey extends keyof DripsyFinalTheme,
-  VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
+  Variant = DripsyVariant<ThemeKey>
 > = {
   as?: ComponentType<any>
-  variant?: VariantKey | VariantFallback
+  variant?: Variant
   themeKey?: ThemeKey
   sx?: SxProp
-  // style?: any
-  variants?: (VariantKey | VariantFallback)[]
+  variants?: Variant[]
 }
