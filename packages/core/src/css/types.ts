@@ -270,7 +270,43 @@ export type Sx = SxStyles &
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-type VariantTheme = TokenizedTheme<true>
+type StringWithoutArrayKeys<T> = Exclude<Extract<T, string>, HiddenArrayKeys>
+
+type ThemeKeysWhichContainVariants = keyof Pick<
+  DripsyThemeWithoutIgnoredKeys<DripsyFinalTheme>,
+  | 'alerts'
+  | 'badges'
+  | 'buttons'
+  | 'cards'
+  | 'forms'
+  | 'grids'
+  | 'images'
+  | 'layout'
+  | 'linearGradients'
+  | 'links'
+  | 'messages'
+  | 'shadows'
+  | 'text'
+  | 'textStyles'
+  | 'styles'
+  | 'textShadows'
+>
+
+type TokenizeVariants<
+  _Theme,
+  ThemeToTokenize = DripsyThemeWithoutIgnoredKeys<_Theme>,
+  PossibleThemeKeys extends Extract<
+    keyof ThemeToTokenize,
+    ThemeKeysWhichContainVariants
+  > = Extract<keyof ThemeToTokenize, ThemeKeysWhichContainVariants>
+> = keyof {
+  [key in PossibleThemeKeys as `${StringWithoutArrayKeys<key>}.${StringWithoutArrayKeys<
+    keyof ThemeToTokenize[key]
+  >}`]: true
+}
+
+// type VariantTheme = TokenizedTheme<true>
+type VariantTheme = TokenizeVariants<DripsyFinalTheme>
 
 export type UseStrictVariants<
   Config = NonNullable<NonNullable<DripsyFinalTheme['types']>['strictVariants']>

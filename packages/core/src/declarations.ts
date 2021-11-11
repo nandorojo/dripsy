@@ -264,5 +264,6 @@ export type DripsyThemeWithoutIgnoredKeys<Theme = DripsyCustomTheme> = Omit<
     | 'useColorSchemeMediaQuery'
     | 'types'
     | 'initialColorModeName'
+    | 'useBorderBox'
   >
 >

@@ -126,8 +126,7 @@ const ResponsiveSquare = () => {
         bg: 'cool',
         padding: ['$3'],
       }}
-      variant="colors.gray"
-      variants={['secondary.fontSize']}
+      variant="linearGradients.light"
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
