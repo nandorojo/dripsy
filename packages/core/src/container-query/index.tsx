@@ -1,4 +1,13 @@
-import React, { ComponentProps, ReactNode, useCallback, useState } from 'react'
+import React, {
+  ComponentProps,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { LayoutChangeEvent } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { getBreakpointIndex } from '../css/get-breakpoint-index'
@@ -28,19 +37,37 @@ type Props = {
    * Default: `render`.
    */
   fallbackStrategy?: 'render' | 'opacity'
+  /**
+   * Unlike `initialWidth`, this is used if you always know the container's width, so it never measures.
+   */
+  width?: number
 } & Pick<ComponentProps<typeof View>, 'sx' | 'pointerEvents'>
+
+const useServerEffect =
+  typeof window === 'undefined' ? useEffect : useLayoutEffect
+
+function useConstant<Value>(value: Value) {
+  const ref = useRef(value)
+
+  useServerEffect(() => {
+    ref.current = value
+  })
+
+  return ref
+}
 
 export function ContainerQuery({
   fallback = null,
   children,
-  initialWidth,
+  width,
+  initialWidth = width,
   sx,
   pointerEvents,
   fallbackStrategy,
 }: Props) {
   const breakpoints = useBreakpoints()
 
-  const [breakpointIndex, setBreakpointIndex] = useState(() => {
+  const [measuredBreakpointIndex, setMeasuredBreakpointIndex] = useState(() => {
     if (initialWidth) {
       return getBreakpointIndex({
         breakpoints,
@@ -50,35 +77,46 @@ export function ContainerQuery({
     return -1
   })
 
+  const breakpointIndex = useMemo(() => {
+    if (typeof width == 'number') {
+      return getBreakpointIndex({
+        breakpoints,
+        width,
+      })
+    }
+    return measuredBreakpointIndex
+  }, [measuredBreakpointIndex, breakpoints, width])
+
   const onLayout = useCallback(
     ({ nativeEvent }: LayoutChangeEvent) => {
       const index = getBreakpointIndex({
         width: nativeEvent.layout.width,
         breakpoints,
       })
-      setBreakpointIndex(index)
+      setMeasuredBreakpointIndex(index)
     },
     [breakpoints]
   )
 
+  const isFallback = breakpointIndex === -1
+
   let child: ReactNode = (
     <BreakpointIndexContext.Provider value={breakpointIndex}>
-      {breakpointIndex !== -1 ? children : fallback}
+      {isFallback ? fallback : children}
     </BreakpointIndexContext.Provider>
   )
 
-  if (fallbackStrategy == 'opacity' && breakpointIndex !== -1) {
+  if (fallbackStrategy == 'opacity' && isFallback) {
     child = children
   }
 
   return (
     <View
       style={
-        fallbackStrategy == 'opacity' && breakpointIndex === -1
-          ? styles.visuallyHidden
-          : undefined
+        fallbackStrategy == 'opacity' && isFallback && styles.visuallyHidden
       }
-      onLayout={onLayout}
+      // only measure if we aren't defining the width from the parent
+      onLayout={width == undefined ? onLayout : undefined}
       sx={sx}
       pointerEvents={pointerEvents}
     >
