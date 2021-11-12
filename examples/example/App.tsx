@@ -44,7 +44,7 @@ const theme = makeTheme({
       // let's only restrict colors!
       // colors: 'always',
     },
-    strictVariants: false,
+    // strictVariants: true,
   },
   shadows: {
     md: {
@@ -110,6 +110,7 @@ const theme = makeTheme({
 
 const G = createThemedComponent(Text, {
   themeKey: 'text',
+  defaultVariant: 'primary',
 })
 
 const ResponsiveSquare = () => {
@@ -134,7 +135,7 @@ const ResponsiveSquare = () => {
       <DripText
         sx={{ color: 'accent' }}
         variants={['secondary']}
-        variant="primary"
+        variant="secondary"
       >
         Hello
       </DripText>

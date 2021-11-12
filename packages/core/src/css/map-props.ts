@@ -3,16 +3,12 @@ import { StyledProps, Sx, ThemedOptions } from './types'
 import { DripsyFinalTheme } from '../declarations'
 import { get } from './get'
 import { StyleSheet } from 'react-native'
-
-const defaultStyleProp: keyof ThemedOptions<{ noop: true }, 'layout'> =
-  'defaultStyle'
-
-type DefaultStyleProp = typeof defaultStyleProp
+import { DefaultStyleKey } from '../css/types'
 
 type ThemedOptionsWithoutFunctionStyle<
   ThemeKey extends keyof DripsyFinalTheme
-> = Omit<ThemedOptions<any, ThemeKey>, DefaultStyleProp> &
-  Record<DefaultStyleProp, Sx | undefined>
+> = Omit<ThemedOptions<any, ThemeKey>, DefaultStyleKey> &
+  Record<DefaultStyleKey, Sx | undefined>
 
 export function mapPropsToStyledComponent<
   ThemeKey extends keyof DripsyFinalTheme

@@ -7,20 +7,21 @@ import type { Shadows } from '../declarations'
 import type { DripsyFinalTheme } from '../declarations'
 import type { Aliases, Scales } from './scales'
 
+export type DefaultStyleKey = 'defaultStyle'
+
 export type ThemedOptions<
   ExtraProps,
-  ThemeKey extends keyof DripsyFinalTheme,
-  VariantKey extends keyof DripsyFinalTheme[ThemeKey] = keyof DripsyFinalTheme[ThemeKey],
-  Variant = VariantKey | (string & {})
-  // VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
+  ThemeKey extends Extract<keyof DripsyFinalTheme, string>
 > = {
-  defaultStyle?: Sx | ((props: ExtraProps) => Sx)
-  defaultVariant?: Variant
+  [key in DefaultStyleKey]?: Sx | ((props: ExtraProps) => Sx)
+} & {
+  defaultVariant?: (string & {}) | DripsyVariant<ThemeKey>
   /**
    * List of multiple variants
    */
-  defaultVariants?: Variant[]
-} & Pick<StyledProps<ThemeKey>, 'themeKey'>
+  defaultVariants?: ((string & {}) | DripsyVariant<ThemeKey>)[]
+  themeKey?: ThemeKey
+}
 
 // https://github.com/intergalacticspacehighway/react-native-styled-variants/blob/main/src/types.ts
 // thank you @nishanbende!
@@ -313,7 +314,9 @@ export type UseStrictVariants<
 
 export type DripsyVariant<
   ThemeKey extends keyof DripsyFinalTheme
-> = DripsyFinalTheme[ThemeKey] extends undefined
+> = ThemeKey extends undefined
+  ? VariantTheme
+  : DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
   : keyof DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
@@ -321,13 +324,10 @@ export type DripsyVariant<
   ? VariantTheme | keyof DripsyFinalTheme[ThemeKey]
   : keyof DripsyFinalTheme[ThemeKey]
 
-export type StyledProps<
-  ThemeKey extends keyof DripsyFinalTheme,
-  Variant = DripsyVariant<ThemeKey>
-> = {
+export type StyledProps<ThemeKey extends keyof DripsyFinalTheme> = {
   as?: ComponentType<any>
-  variant?: Variant
+  variant?: DripsyVariant<ThemeKey>
   themeKey?: ThemeKey
   sx?: SxProp
-  variants?: Variant[]
+  variants?: DripsyVariant<ThemeKey>[]
 }
