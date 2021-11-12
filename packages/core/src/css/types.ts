@@ -62,7 +62,9 @@ type Tokenize<
         // then we should allow either colors.primary, OR colors
         // to toggle that, just set the last argument to true/false
         // `${Key}.${Tokenize<Theme[Key]>}`
-        SafeTokenized<Theme, IsFirstIteration, Key, AllowsRootKeys>]: true
+        | `${Key}` // here, we have an object, say layout.wide. We want both layout.wide and layout.wide.width
+          // so we include key, *or* tokenized theme for this key
+          | SafeTokenized<Theme, IsFirstIteration, Key, AllowsRootKeys>]: true
   },
   string | number | '' | never | undefined | null
 >
@@ -258,7 +260,7 @@ type SxStyles = {
 }
 
 type SxVariantStyles = {
-  variant?: DripsyVariant<keyof DripsyFinalTheme> | VariantFallback
+  variant?: DripsyVariant<keyof DripsyFinalTheme>
 }
 
 export type Sx = SxStyles &
@@ -268,30 +270,65 @@ export type Sx = SxStyles &
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-type VariantTheme = TokenizedTheme<true>
+type StringWithoutArrayKeys<T> = Exclude<Extract<T, string>, HiddenArrayKeys>
+
+type ThemeKeysWhichContainVariants = keyof Pick<
+  DripsyThemeWithoutIgnoredKeys<DripsyFinalTheme>,
+  | 'alerts'
+  | 'badges'
+  | 'buttons'
+  | 'cards'
+  | 'forms'
+  | 'grids'
+  | 'images'
+  | 'layout'
+  | 'linearGradients'
+  | 'links'
+  | 'messages'
+  | 'shadows'
+  | 'text'
+  | 'textStyles'
+  | 'styles'
+  | 'textShadows'
+>
+
+type TokenizeVariants<
+  _Theme,
+  ThemeToTokenize = DripsyThemeWithoutIgnoredKeys<_Theme>,
+  PossibleThemeKeys extends Extract<
+    keyof ThemeToTokenize,
+    ThemeKeysWhichContainVariants
+  > = Extract<keyof ThemeToTokenize, ThemeKeysWhichContainVariants>
+> = keyof {
+  [key in PossibleThemeKeys as `${StringWithoutArrayKeys<key>}.${StringWithoutArrayKeys<
+    keyof ThemeToTokenize[key]
+  >}`]: true
+}
+
+// type VariantTheme = TokenizedTheme<true>
+type VariantTheme = TokenizeVariants<DripsyFinalTheme>
+
+export type UseStrictVariants<
+  Config = NonNullable<NonNullable<DripsyFinalTheme['types']>['strictVariants']>
+> = Config extends any ? (Config extends false ? false : true) : true
 
 export type DripsyVariant<
   ThemeKey extends keyof DripsyFinalTheme
-> = DripsyFinalTheme[ThemeKey] extends undefined
+> = UseStrictVariants extends false
+  ? VariantTheme
+  : DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
   : keyof DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
   : keyof DripsyFinalTheme[ThemeKey]
 
-type VariantFallback = NonNullable<
-  DripsyFinalTheme['types']
->['variantFallbackType'] extends undefined
-  ? undefined
-  : NonNullable<DripsyFinalTheme['types']>['variantFallbackType']
-
 export type StyledProps<
   ThemeKey extends keyof DripsyFinalTheme,
-  VariantKey extends DripsyVariant<ThemeKey> = DripsyVariant<ThemeKey>
+  Variant = DripsyVariant<ThemeKey>
 > = {
   as?: ComponentType<any>
-  variant?: VariantKey | VariantFallback
+  variant?: Variant
   themeKey?: ThemeKey
   sx?: SxProp
-  // style?: any
-  variants?: (VariantKey | VariantFallback)[]
+  variants?: Variant[]
 }

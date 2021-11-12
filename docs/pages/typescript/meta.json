@@ -1,5 +1,6 @@
 {
   "setup": "Setup",
   "strict": "Strict Types",
-  "native": "Native vs. Web Types"
+  "native": "Native vs. Web Types",
+  "variants": "Strict Variants"
 }

@@ -23,6 +23,15 @@ If you don't see autocomplete, there could be a few reasons.
 
 1. **You need to restart VSCode** (yeah, really)
 2. You need at least TypeScript 4.4+: `yarn add -D typescript`
+3. [rare] You might have multiple versions of `ts-toolbelt` installed. Try `yarn why ts-toolbelt`. If this is the case, use yarn resolutions in your `package.json`:
+
+```json
+{
+  "resolutions": {
+    "ts-toolbelt": "^9.6.0"
+  }
+}
+```
 
 ## You're ready!
 

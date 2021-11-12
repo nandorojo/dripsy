@@ -70,6 +70,31 @@ const theme = makeTheme({
 <H1>Mine is 30.</H1>
 ```
 
+## Multiple Variants
+
+If you want to apply multiple variants, use the plural `variants` array instead of `variant`.
+
+```tsx
+import { makeTheme, Text } from 'dripsy'
+
+const theme = makeTheme({
+  // ...your theme
+  text: {
+    big: {
+      fontSize: 30
+    },
+    thick: {
+      fontWeight: '900'
+    }
+  }
+})
+
+// ...in our component
+<Text variants={['big', 'thick']}>Here is our body.</Text>
+```
+
+Variants will apply based on their order in the array.
+
 ## Container Variants
 
 You can use `theme.layout` to style your containers.
@@ -178,3 +203,7 @@ const theme = makeTheme({
 ```
 
 Notice that the `variant` prop here is `layout.wide`, whereas with `Container`, it was simply `wide`.
+
+## TypeScript Support
+
+As of `3.3.0`, Dripsy supports TypeScript intellisense for the `variant` and `variants` props out of the box. For extra customization and more info, see the [Strict Variant](/typescript/variants) docs.

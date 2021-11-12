@@ -44,6 +44,8 @@ type BaseThemeWithNativeStyles = {
 export interface DripsyBaseTheme
   extends Omit<BaseThemeWithNativeStyles, 'fonts' | 'shadows' | 'fontWeights'> {
   /**
+   * Docs: https://dripsy.xyz/fonts
+   *
    * Specify custom fonts you want to use.
    *
    * For context: https://github.com/nandorojo/dripsy/issues/51
@@ -92,6 +94,8 @@ export interface DripsyBaseTheme
    */
   customFonts?: { [key: string | number]: Record<string, string> }
   /**
+   * Docs: https://dripsy.xyz/apis/gradient
+   *
    * Specify linear gradients for the dripsy linear gradient package.
    *
    * Usage:
@@ -123,6 +127,8 @@ export interface DripsyBaseTheme
   }>
   types?: {
     /**
+     * Docs: https://dripsy.xyz/typescript/strict
+     *
      * This prop allows you to constrain designers to using tokens from your theme only.
      *
      * For existing apps, it might cause a breaking change to your types, so you might not use it. For new apps, it's probably recommended to use this.
@@ -200,10 +206,13 @@ export interface DripsyBaseTheme
           [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
         }
     /**
+     * @deprecated See the `strictVariants` option instead
      * Defaults to `undefined | string & {}`. Set it to `undefined` to enforce that your variants match your theme.
      */
     variantFallbackType?: undefined | (string & {})
     /**
+     * Docs: https://dripsy.xyz/typescript/native
+     *
      * Defaults to `false`. If `true`, then your styles can only be React Native styles.
      *
      * If `false`, then the `theme-ui` styles (i.e. web styles) will also be allowed.
@@ -213,6 +222,20 @@ export interface DripsyBaseTheme
      * In future versions, this may be default `true`.
      */
     reactNativeTypesOnly?: boolean
+    /**
+     * Default: `true`.
+     *
+     * Docs: https://dripsy.xyz/typescript/variants
+     *
+     * If `false`, then the `variant` prop of any component can accept any theme variant. If `true`, then a component can only take variants from its own theme key.
+     *
+     * For example, if `true`, then a `<Text />` component can only take variants from `theme.text`.
+     *
+     * The `themeKey` is defined by `styled()`.
+     *
+     * Recommended: `true`
+     */
+    strictVariants?: boolean
   }
 }
 
@@ -241,5 +264,6 @@ export type DripsyThemeWithoutIgnoredKeys<Theme = DripsyCustomTheme> = Omit<
     | 'useColorSchemeMediaQuery'
     | 'types'
     | 'initialColorModeName'
+    | 'useBorderBox'
   >
 >
