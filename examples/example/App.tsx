@@ -44,6 +44,7 @@ const theme = makeTheme({
       // let's only restrict colors!
       // colors: 'always',
     },
+    strictVariants: false,
   },
   shadows: {
     md: {
@@ -126,13 +127,13 @@ const ResponsiveSquare = () => {
         bg: 'cool',
         padding: ['$3'],
       }}
-      variant="linearGradients.light"
+      variant="text.primary"
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
       <DripText
         sx={{ color: 'accent' }}
-        variants={['primary']}
+        variants={['secondary']}
         variant="primary"
       >
         Hello
@@ -157,13 +158,13 @@ export default function App() {
           sx={{
             textShadowColor: 'accent',
           }}
-          variant="colors.cool"
+          variant="shadows.md"
         >
           <H4
             sx={(theme) => ({
               boxShadow: [null, 'md'],
               textShadow: 'onImage',
-              variant: 'primary',
+              variant: 'text.primary',
               fontWeight: 400,
             })}
           >

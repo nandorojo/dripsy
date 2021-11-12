@@ -282,7 +282,6 @@ type ThemeKeysWhichContainVariants = keyof Pick<
   | 'grids'
   | 'images'
   | 'layout'
-  | 'linearGradients'
   | 'links'
   | 'messages'
   | 'shadows'
@@ -314,12 +313,12 @@ export type UseStrictVariants<
 
 export type DripsyVariant<
   ThemeKey extends keyof DripsyFinalTheme
-> = UseStrictVariants extends false
-  ? VariantTheme
-  : DripsyFinalTheme[ThemeKey] extends undefined
+> = DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
   : keyof DripsyFinalTheme[ThemeKey] extends undefined
   ? VariantTheme
+  : UseStrictVariants extends false
+  ? VariantTheme | keyof DripsyFinalTheme[ThemeKey]
   : keyof DripsyFinalTheme[ThemeKey]
 
 export type StyledProps<
