@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.2](https://github.com/nandorojo/dripsy/compare/v3.5.1-alpha.0...v3.5.2) (2021-11-12)
+
+
+### Bug Fixes
+
+* variants typescript issue smh ([8489b16](https://github.com/nandorojo/dripsy/commit/8489b1619e897dfa6ee159a97ed1d8d10f3c0919))
+
+
+
+
+
 ## [3.5.1-alpha.0](https://github.com/nandorojo/dripsy/compare/v3.4.0...v3.5.1-alpha.0) (2021-11-12)
 
 **Note:** Version bump only for package dripsy
