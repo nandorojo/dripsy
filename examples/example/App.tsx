@@ -128,14 +128,14 @@ const ResponsiveSquare = () => {
         bg: 'cool',
         padding: ['$3'],
       }}
-      variant="text.primary"
+      variant=""
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
       <DripText
         sx={{ color: 'accent' }}
         variants={['secondary']}
-        variant="secondary"
+        variant="primary"
       >
         Hello
       </DripText>

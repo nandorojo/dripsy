@@ -292,21 +292,14 @@ type ThemeKeysWhichContainVariants = keyof Pick<
   | 'textShadows'
 >
 
-type TokenizeVariants<
-  _Theme,
-  ThemeToTokenize = DripsyThemeWithoutIgnoredKeys<_Theme>,
-  PossibleThemeKeys extends Extract<
-    keyof ThemeToTokenize,
+type TokenizeVariants<_Theme> = keyof {
+  [key in Extract<
+    keyof _Theme,
     ThemeKeysWhichContainVariants
-  > = Extract<keyof ThemeToTokenize, ThemeKeysWhichContainVariants>
-> = keyof {
-  [key in PossibleThemeKeys as `${StringWithoutArrayKeys<key>}.${StringWithoutArrayKeys<
-    keyof ThemeToTokenize[key]
+  > as `${StringWithoutArrayKeys<key>}.${StringWithoutArrayKeys<
+    keyof _Theme[key]
   >}`]: true
 }
-
-// type VariantTheme = TokenizedTheme<true>
-type VariantTheme = TokenizeVariants<DripsyFinalTheme>
 
 export type UseStrictVariants<
   Config = NonNullable<NonNullable<DripsyFinalTheme['types']>['strictVariants']>
@@ -314,14 +307,12 @@ export type UseStrictVariants<
 
 export type DripsyVariant<
   ThemeKey extends keyof DripsyFinalTheme
-> = ThemeKey extends undefined
-  ? VariantTheme
-  : DripsyFinalTheme[ThemeKey] extends undefined
-  ? VariantTheme
+> = DripsyFinalTheme[ThemeKey] extends undefined
+  ? TokenizeVariants<DripsyFinalTheme>
   : keyof DripsyFinalTheme[ThemeKey] extends undefined
-  ? VariantTheme
+  ? TokenizeVariants<DripsyFinalTheme>
   : UseStrictVariants extends false
-  ? VariantTheme | keyof DripsyFinalTheme[ThemeKey]
+  ? TokenizeVariants<DripsyFinalTheme> | keyof DripsyFinalTheme[ThemeKey]
   : keyof DripsyFinalTheme[ThemeKey]
 
 export type StyledProps<ThemeKey extends keyof DripsyFinalTheme> = {
