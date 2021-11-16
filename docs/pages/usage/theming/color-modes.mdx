@@ -37,7 +37,7 @@ return (
 )
 ```
 
-You should use a library like [`react-native-appearance`](https://docs.expo.dev/versions/latest/sdk/appearance/) to get the system color mode. Or, you can override it with your own.
+You should use a `useColorScheme` or `Appearance` from `react-native` to detect a user's theme. If you want to let users set up their own theme, you can use that with a custom context.
 
 ## Guide
 
@@ -128,7 +128,7 @@ Then, in your provider:
 // provider.tsx
 import { theme, themeLight } from './theme'
 import { DripsyProvider } from 'dripsy'
-import { useColorScheme } from 'react-native-appearance'
+import { useColorScheme } from 'react-native'
 
 export function AppProvider({ children }) {
   const colorMode = useColorScheme()
