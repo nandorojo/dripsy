@@ -8,7 +8,7 @@ export type { DripsyFinalTheme as Theme } from './declarations'
 export { styled } from './css/styled'
 export { useBreakpointIndex } from './css/breakpoint-context'
 export { getBreakpointIndex } from './css/get-breakpoint-index'
-export { ContainerQuery } from './container-query'
+export { ContainerQuery, BreakpointIndexProvider } from './container-query'
 
 export { useDripsyTheme } from './use-dripsy-theme'
 
