@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/nandorojo/dripsy/compare/v3.5.3...v3.6.0) (2021-12-08)
+
+
+### Features
+
+* allow container queries without a wrapping view ([b562119](https://github.com/nandorojo/dripsy/commit/b562119501db42a9bf348b5b58409081e0b4e289))
+
+
+
+
+
 ## [3.5.3](https://github.com/nandorojo/dripsy/compare/v3.5.2...v3.5.3) (2021-11-13)
 
 
