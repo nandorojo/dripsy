@@ -105,6 +105,30 @@ export function ContainerQuery({
   )
 }
 
+export function BreakpointIndexProvider({
+  children,
+  width,
+}: {
+  children: React.ReactNode
+  width: number
+}) {
+  const breakpoints = useBreakpoints()
+  const breakpointIndex = useMemo(
+    () =>
+      getBreakpointIndex({
+        breakpoints,
+        width,
+      }),
+    [breakpoints, width]
+  )
+
+  return (
+    <BreakpointIndexContext.Provider value={breakpointIndex}>
+      {children}
+    </BreakpointIndexContext.Provider>
+  )
+}
+
 const styles = StyleSheet.create({
   visuallyHidden: {
     opacity: 0,
