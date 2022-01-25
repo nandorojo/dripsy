@@ -117,7 +117,10 @@ export type MaybeTokenizedValue<
     Tokenize<DripsyThemeWithoutIgnoredKeys[AliasedScale], true, false>
   : TokenizedTheme
 
+export type ValueOrThemeFactoryValue<T> = T | ((theme: DripsyFinalTheme) => T)
+
 export type ResponsiveValue<T> = T | (null | T)[] | null | undefined
+
 // Some properties are in React Native only and don't exist on the theme-ui spec
 // so we add them here
 
@@ -237,16 +240,8 @@ type NativeOrThemeUiStyle<
   ? ThemeUICSSProperties[Key]
   : never
 
-// type NativeOrThemeUiStyle<
-//   Key extends keyof ThemeUICSSProperties | keyof NativeStyleProperties
-// > = Key extends keyof NativeStyleProperties
-//   ? Key extends keyof ThemeUICSSProperties ?
-//   ReactNativeTypesOnly extends false ? ResponsiveValue<NativeStyleProperties[Key] & {}> |  ThemeUICSSProperties[Key] & {}
-//   : ResponsiveValue<NativeStyleProperties[Key] & {}>
-//   : // otherwise, use the ThemeUI keys
-//   Key extends keyof ThemeUICSSProperties
-//   ? ThemeUICSSProperties[Key] & {} // TODO do we need {}?
-//   : never
+// used to remove the default, poorly-typed theme-ui factory functions
+type NotFunction<T> = T extends (...args: any[]) => any ? never : T
 
 type SxStyles = {
   [key in StyleableSxProperties]?:
@@ -256,7 +251,14 @@ type SxStyles = {
             | ResponsiveValue<MaybeTokenizedValue<key>>
             // if this style also exists in react native keys
             // then the type should be the native one
-            | (NativeOrThemeUiStyle<key> & {}))
+            | NotFunction<NativeOrThemeUiStyle<key> & {}>)
+    // super redundant, but here we are copying the two possibilities above
+    // and also making them possible as factory function
+    // like: p: theme => [theme.space.$1, '$2']
+    | ValueOrThemeFactoryValue<
+        | NotFunction<NativeOrThemeUiStyle<key> & {}>
+        | ResponsiveValue<MaybeTokenizedValue<key>>
+      >
     | null
 }
 

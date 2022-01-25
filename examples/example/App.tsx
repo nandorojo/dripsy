@@ -9,6 +9,7 @@ import {
   makeTheme,
   TextInput as DripsyInput,
   useResponsiveValue,
+  ActivityIndicator,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
@@ -43,6 +44,7 @@ const theme = makeTheme({
     onlyAllowThemeValues: {
       // let's only restrict colors!
       // colors: 'always',
+      space: 'always',
     },
     // strictVariants: true,
   },
@@ -127,8 +129,10 @@ const ResponsiveSquare = () => {
       sx={{
         bg: 'cool',
         padding: ['$3'],
+        height: (theme) => theme.space.$1,
+        pb: (theme) => [theme.space.$3, '$5'],
       }}
-      variant=""
+      variant="layout.narrow"
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
@@ -139,6 +143,7 @@ const ResponsiveSquare = () => {
       >
         Hello
       </DripText>
+      <ActivityIndicator color="gray" />
     </View>
   )
 }
