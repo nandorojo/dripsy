@@ -28,8 +28,8 @@ export function createThemedComponent<
     const {
       sx: _sx,
       as: SuperComponent,
-      variant,
       style,
+      variant = options.defaultVariant,
       themeKey = options.themeKey,
       variants = options.defaultVariants,
       ...props
