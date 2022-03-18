@@ -70,7 +70,7 @@ export function createThemedComponent<
 
     const TheComponent = SuperComponent || Component
 
-    return <TheComponent {...(props as any)} ref={ref} style={styles} />
+    return <TheComponent {...(props as any)} ref={ref} style={styles} variant={variant} variants={variants} />
   })
 
   WrappedComponent.displayName = `Dripsy.${
