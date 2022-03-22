@@ -2,6 +2,8 @@ import type { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 import type { Theme } from '@theme-ui/css'
 import type { Function } from 'ts-toolbelt'
 
+export { DripsyTextInputProps } from './components/TextInput'
+
 export type Shadows = Pick<
   ViewStyle,
   | 'elevation'
@@ -201,10 +203,10 @@ export interface DripsyBaseTheme
      *
      */
     onlyAllowThemeValues?:
-      | OnlyAllowThemeValues
-      | {
-          [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
-        }
+    | OnlyAllowThemeValues
+    | {
+      [key in keyof Omit<DripsyBaseTheme, 'types'>]?: OnlyAllowThemeValues
+    }
     /**
      * @deprecated See the `strictVariants` option instead
      * Defaults to `undefined | string & {}`. Set it to `undefined` to enforce that your variants match your theme.
@@ -246,11 +248,11 @@ export function makeTheme<T extends DripsyBaseTheme>(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface DripsyCustomTheme {}
+export interface DripsyCustomTheme { }
 
 export interface DripsyFinalTheme
   extends Omit<DripsyBaseTheme, keyof DripsyCustomTheme>,
-    DripsyCustomTheme {}
+  DripsyCustomTheme { }
 
 export type DripsyThemeWithoutIgnoredKeys<Theme = DripsyCustomTheme> = Omit<
   Theme,
