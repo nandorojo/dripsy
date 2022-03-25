@@ -132,6 +132,7 @@ const ResponsiveSquare = () => {
         height: (theme) => theme.space.$1,
         pb: (theme) => [theme.space.$3, '$5'],
         paddingHorizontal: '$3',
+        marginVertical: '$0',
       }}
       variant="layout.narrow"
     >
