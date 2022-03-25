@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.6.1](https://github.com/nandorojo/dripsy/compare/v3.6.0...v3.6.1) (2022-03-25)
+
+
+### Features
+
+* activity indicator color prop intellisense ([59d72f2](https://github.com/nandorojo/dripsy/commit/59d72f2a5abf6c20e9adb67b7c65b58bf3c3df4e))
+* close [#165](https://github.com/nandorojo/dripsy/issues/165), [#164](https://github.com/nandorojo/dripsy/issues/164) ([33f7dc9](https://github.com/nandorojo/dripsy/commit/33f7dc9a37f900c7868b700211029392ff9eab67))
+
+
+
+
+
 # [3.6.0](https://github.com/nandorojo/dripsy/compare/v3.5.3...v3.6.0) (2021-12-08)
 
 
