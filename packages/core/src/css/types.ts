@@ -151,10 +151,10 @@ export type WebShadowStyles = {
 
 export type ShadowStyleKeys = keyof WebShadowStyles
 
-export type StyleableSxProperties = Exclude<
-  keyof ThemeUICSSProperties,
-  ShadowStyleKeys | 'variant'
->
+export type StyleableSxProperties =
+  | Exclude<keyof ThemeUICSSProperties, ShadowStyleKeys | 'variant'>
+  | keyof ViewStyle
+  | keyof TextStyle
 
 type SmartOmit<T, K extends keyof T> = Omit<T, K>
 
