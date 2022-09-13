@@ -60,3 +60,5 @@ android/keystores/debug.keystore
 lib/
 
 **/*/.next
+
+lerna-debug.log

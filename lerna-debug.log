@@ -11,3 +11,4 @@
 85 error     at /Users/fernandorojo/Developer/os/dripsy/node_modules/@lerna/version/index.js:282:9
 85 error     at /Users/fernandorojo/Developer/os/dripsy/node_modules/p-waterfall/index.js:4:73
 85 error     at /Users/fernandorojo/Developer/os/dripsy/node_modules/p-reduce/index.js:16:10
+85 error     at runMicrotasks (<anonymous>)

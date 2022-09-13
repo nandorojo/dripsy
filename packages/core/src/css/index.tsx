@@ -67,7 +67,7 @@ const responsive = (
       continue
     }
 
-    if (key === 'transform') {
+    if (key === 'transform' || key === 'fontVariant') {
       // @ts-ignore
       next[key] = value
       continue
