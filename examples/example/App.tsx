@@ -10,6 +10,7 @@ import {
   TextInput as DripsyInput,
   useResponsiveValue,
   ActivityIndicator,
+  styled,
 } from 'dripsy'
 // Import from core
 import { H4 } from '@dripsy/core'
@@ -71,6 +72,11 @@ const theme = makeTheme({
   sizes: {
     container: 700,
   },
+  buttons: {
+    primary: {
+      backgroundColor: 'primary',
+    },
+  },
   textShadows: {
     onImage: {
       textShadowOffset: { width: 1, height: 1 },
@@ -114,6 +120,16 @@ const G = createThemedComponent(Text, {
   themeKey: 'text',
   defaultVariant: 'primary',
 })
+
+const WithVariant = styled(Text, {
+  themeKey: 'text',
+})()
+
+const WithSecondVariant = styled(WithVariant, {
+  themeKey: 'buttons',
+})()
+
+const FinalWithVariant = () => <WithSecondVariant variant="primary" />
 
 const ResponsiveSquare = () => {
   // Return literal values:
