@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.7.0](https://github.com/nandorojo/dripsy/compare/v3.6.1...v3.7.0) (2022-09-13)
+
+
+### Features
+
+* improved RN types ([7f9fe8e](https://github.com/nandorojo/dripsy/commit/7f9fe8ebc97eef0658d976db4180d93c2d2e513c))
+
+
+
+
+
 ## [3.6.1](https://github.com/nandorojo/dripsy/compare/v3.6.0...v3.6.1) (2022-03-25)
 
 
