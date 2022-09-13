@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/gradient",
-  "version": "3.7.3",
+  "version": "3.7.4",
   "description": "Linear gradient component for dripsy",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
