@@ -1,6 +1,6 @@
 {
   "name": "@dripsy/gradient",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "description": "Linear gradient component for dripsy",
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
@@ -76,7 +76,7 @@
     ]
   },
   "dependencies": {
-    "@dripsy/core": "^3.7.0",
+    "@dripsy/core": "^3.7.1",
     "stable-hash": "^0.0.2"
   },
   "peerDependencies": {
