@@ -186,7 +186,11 @@ export default function App() {
           </View>
 
           <ResponsiveSquare />
-          <Gradient sx={{ height: 50, width: 50, my: '$3' }} gradient="light" />
+          <Gradient
+            sx={{ height: 50, width: 50, my: '$3' }}
+            gradient="light"
+            colors={['accent']}
+          />
           <Pressable
             onPress={toggleState}
             style={({ hovered, pressed }) => ({

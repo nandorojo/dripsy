@@ -80,7 +80,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "@expo/html-elements": "^0.0.1",
+    "@expo/html-elements": "^0.2.0",
     "@react-native-community/hooks": "^2.6.0",
     "@theme-ui/css": "^0.4.0-rc.1",
     "stable-hash": "^0.0.2",
