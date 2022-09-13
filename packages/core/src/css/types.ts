@@ -83,7 +83,7 @@ type ScaleValue = Scales[keyof Scales]
 type AliasToScale<
   ScaleOrAlias extends
     | keyof DripsyThemeWithoutIgnoredKeys
-    | keyof ThemeUICSSProperties
+    | StyleableSxProperties
 > = ScaleOrAlias extends keyof Aliases
   ? Aliases[ScaleOrAlias] extends keyof Scales
     ? Scales[Aliases[ScaleOrAlias]] extends keyof DripsyThemeWithoutIgnoredKeys
@@ -93,10 +93,10 @@ type AliasToScale<
   : ScaleOrAlias
 
 export type MaybeTokenizedValue<
-  Key extends keyof ThemeUICSSProperties,
+  Key extends StyleableSxProperties,
   Scale extends
     | keyof DripsyThemeWithoutIgnoredKeys
-    | keyof ThemeUICSSProperties = Key extends keyof Scales
+    | StyleableSxProperties = Key extends keyof Scales
     ? // if Key = 'color'
       // then Scales['color'] = 'colors'
       // so if 'colors' is a keyof the theme
@@ -190,10 +190,10 @@ type NativeStyleProperties = ViewStyle & TextStyle & ImageStyle
  * where `$1` is the value of the theme.padding property.
  */
 type OnlyAllowThemeValueForKey<
-  Key extends keyof ThemeUICSSProperties,
+  Key extends StyleableSxProperties,
   Scale extends
     | keyof DripsyThemeWithoutIgnoredKeys
-    | keyof ThemeUICSSProperties = Key extends keyof Scales
+    | StyleableSxProperties = Key extends keyof Scales
     ? // if Key = 'color'
       // then Scales['color'] = 'colors'
       // so if 'colors' is a keyof the theme

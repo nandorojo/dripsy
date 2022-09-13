@@ -132,6 +132,7 @@ const ResponsiveSquare = () => {
         height: (theme) => theme.space.$1,
         pb: (theme) => [theme.space.$3, '$5'],
         paddingHorizontal: '$3',
+        marginVertical: '$0',
       }}
       variant="layout.narrow"
     >
@@ -185,7 +186,11 @@ export default function App() {
           </View>
 
           <ResponsiveSquare />
-          <Gradient sx={{ height: 50, width: 50, my: '$3' }} gradient="light" />
+          <Gradient
+            sx={{ height: 50, width: 50, my: '$3' }}
+            gradient="light"
+            colors={['accent']}
+          />
           <Pressable
             onPress={toggleState}
             style={({ hovered, pressed }) => ({

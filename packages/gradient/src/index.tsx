@@ -1,12 +1,20 @@
 import React from 'react'
 import { LinearGradient as ExpoLinearGradient } from 'expo-linear-gradient'
-import { styled, useDripsyTheme, DripsyFinalTheme } from '@dripsy/core'
+import {
+  styled,
+  useDripsyTheme,
+  DripsyFinalTheme,
+  DripsyBaseTheme,
+} from '@dripsy/core'
 import { StyleSheet } from 'react-native'
 import hash from 'stable-hash'
 
-type Props = Omit<React.ComponentProps<typeof ExpoLinearGradient>, 'colors'> & {
-  gradient?: Extract<keyof DripsyFinalTheme['linearGradients'], string>
-  colors?: (keyof DripsyFinalTheme['colors'] | (string & {}))[]
+type Props<Theme extends DripsyBaseTheme = DripsyFinalTheme> = Omit<
+  React.ComponentProps<typeof ExpoLinearGradient>,
+  'colors'
+> & {
+  gradient?: Extract<keyof Theme['linearGradients'], string>
+  colors?: Array<keyof Theme['colors'] | (string & {})>
   /*
    * Set to `true` if you're using the gradient for a background.
    */
