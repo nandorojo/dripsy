@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CSSObject, UseThemeFunction } from '@theme-ui/css'
 import { Platform } from 'react-native'
-import { defaultBreakpoints } from './breakpoints'
-import { SUPPORT_FRESNEL_SSR } from '../utils/deprecated-ssr'
 import { DripsyFinalTheme } from '../declarations'
 
 import type { SxProp } from './types'
@@ -22,7 +20,26 @@ type CssPropsArgument = ({ theme?: Theme } | Theme) & {
 }
 
 const defaultTheme = {
-  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  space: {
+    $0: 0,
+    $1: 4,
+    $2: 8,
+    $3: 16,
+    $4: 32,
+    $5: 64,
+    $6: 128,
+    $7: 256,
+    $8: 512,
+    0: 0,
+    1: 4,
+    2: 8,
+    3: 16,
+    4: 32,
+    5: 64,
+    6: 128,
+    7: 256,
+    8: 512,
+  },
   fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
 }
 
@@ -56,65 +73,21 @@ const responsive = (
       continue
     }
 
-    if (Platform.OS === 'web' && SUPPORT_FRESNEL_SSR) {
-      next.responsiveSSRStyles = next.responsiveSSRStyles || []
+    const nearestBreakpoint = (breakpointIndex: number): number => {
+      // mobile-first breakpoints
+      if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number') return 0
 
-      const mediaQueries = [0, ...defaultBreakpoints]
-
-      for (let i = 0; i < mediaQueries.length; i++) {
-        next.responsiveSSRStyles[i] = next.responsiveSSRStyles[i] || {}
-
-        let styleAtThisMediaQuery = value[i]
-        // say we have value value = ['blue', null, 'green']
-        // then styleAtThisMediaQuery[1] = null
-        // we want it to be blue, since it's mobile-first
-        if (styleAtThisMediaQuery == null) {
-          if (i === 0) {
-            // if we're at the first breakpoint, and it's null, just do nothing
-            // for later values, we'll extract this value from the previous value
-            continue
-          }
-          // if we're after the first breakpoint, let's extract this style value from a previous breakpoint
-          const nearestBreakpoint = (breakpointIndex: number): number => {
-            // mobile-first breakpoints
-            if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
-              return 0
-
-            if (value[breakpointIndex] == null) {
-              // if this value doesn't have a breakpoint, find the previous, recursively
-              return nearestBreakpoint(breakpointIndex - 1)
-            }
-            return breakpointIndex
-          }
-          const previousBreakpoint = nearestBreakpoint(i)
-          const styleAtPreviousMediaQuery = value[previousBreakpoint]
-          if (styleAtPreviousMediaQuery) {
-            styleAtThisMediaQuery = styleAtPreviousMediaQuery
-          }
-        }
-
-        next.responsiveSSRStyles[i][key] = styleAtThisMediaQuery
+      if (value[breakpointIndex] == null) {
+        // if this value doesn't have a breakpoint, find the previous, recursively
+        return nearestBreakpoint(breakpointIndex - 1)
       }
-    } else {
-      // since we aren't on web, we let RN handle the breakpoints with JS
-
-      const nearestBreakpoint = (breakpointIndex: number): number => {
-        // mobile-first breakpoints
-        if (breakpointIndex <= 0 || typeof breakpointIndex !== 'number')
-          return 0
-
-        if (value[breakpointIndex] == null) {
-          // if this value doesn't have a breakpoint, find the previous, recursively
-          return nearestBreakpoint(breakpointIndex - 1)
-        }
-        return breakpointIndex
-      }
-
-      // if we're on mobile, we do have a breakpoint
-      // so we can override TS here w/ `as number`
-      const breakpointIndex = nearestBreakpoint(breakpoint as number)
-      next[key] = value[breakpointIndex]
+      return breakpointIndex
     }
+
+    // if we're on mobile, we do have a breakpoint
+    // so we can override TS here w/ `as number`
+    const breakpointIndex = nearestBreakpoint(breakpoint as number)
+    next[key] = value[breakpointIndex]
   }
 
   return next
