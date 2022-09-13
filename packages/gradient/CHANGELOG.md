@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+
+**Note:** Version bump only for package @dripsy/gradient
+
+
+
+
+
 # [3.7.0](https://github.com/nandorojo/dripsy/compare/v3.6.1...v3.7.0) (2022-09-13)
 
 **Note:** Version bump only for package @dripsy/gradient
