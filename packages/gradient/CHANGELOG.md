@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+
+
+**Note:** Version bump only for package @dripsy/gradient
+
+
+
+
+
 # [3.8.0](https://github.com/nandorojo/dripsy/compare/v3.7.4...v3.8.0) (2022-09-14)
 
 **Note:** Version bump only for package @dripsy/gradient
