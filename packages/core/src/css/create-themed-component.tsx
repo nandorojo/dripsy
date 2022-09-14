@@ -1,4 +1,4 @@
-import React, { ComponentType, ComponentPropsWithRef } from 'react'
+import React, { ComponentType, PropsWithChildren } from 'react'
 import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './breakpoint-context'
@@ -7,19 +7,22 @@ import { DripsyFinalTheme } from '../declarations'
 import { useStableMemo } from '../utils/use-stable-memo'
 
 export function createThemedComponent<
-  BaseComponentProps extends { style?: any },
+  C extends ComponentType<any>,
   ExtraProps,
-  ThemeKey extends keyof DripsyFinalTheme
+  ThemeKey extends keyof DripsyFinalTheme,
+  BaseComponentProps extends { style?: any } = C extends ComponentType<infer P>
+    ? Omit<P, 'variant' | 'variants'>
+    : never
 >(
-  Component: ComponentType<BaseComponentProps>,
+  Component: C,
   {
     defaultStyle: baseStyle,
     ...options
   }: ThemedOptions<ExtraProps, ThemeKey> = {}
-): ComponentType<
+): React.ForwardRefExoticComponent<
   StyledProps<ThemeKey> &
-    ComponentPropsWithRef<ComponentType<BaseComponentProps>> &
-    ExtraProps
+    React.PropsWithoutRef<PropsWithChildren<BaseComponentProps & ExtraProps>> &
+    React.RefAttributes<React.ElementRef<C>>
 > {
   const WrappedComponent = React.forwardRef<
     any,

@@ -131,6 +131,12 @@ const WithSecondVariant = styled(WithVariant, {
 
 const FinalWithVariant = () => <WithSecondVariant variant="primary" />
 
+export const MyView = styled(NativeView)({})
+export type MyViewElement = React.ElementRef<typeof MyView>
+export type TestElement = MyViewElement extends never ? never : 'ok'
+// should not have TS errors because element type should not be never ✅
+export const testElement: { el: TestElement } = { el: 'ok' }
+
 const ResponsiveSquare = () => {
   // Return literal values:
   const textColor = useResponsiveValue(['red', 'green', 'blue'])

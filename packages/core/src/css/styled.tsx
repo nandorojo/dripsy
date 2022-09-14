@@ -17,14 +17,10 @@ import type { ThemedOptions } from './types'
  *
  */
 export function styled<
-  Props,
-  ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme,
-  P extends Omit<Props, 'variant' | 'variants'> = Omit<
-    Props,
-    'variant' | 'variants'
-  >
+  C extends ComponentType<any>,
+  ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
 >(
-  Component: ComponentType<P>,
+  Component: C,
   {
     themeKey,
     defaultVariant,
@@ -33,7 +29,7 @@ export function styled<
   return function dripsyFactory<Extra>(
     defaultStyle?: ThemedOptions<Extra, ThemeKey>['defaultStyle']
   ) {
-    return createThemedComponent<P, Extra, ThemeKey>(Component, {
+    return createThemedComponent<C, Extra, ThemeKey>(Component, {
       defaultVariant,
       themeKey,
       defaultStyle,
