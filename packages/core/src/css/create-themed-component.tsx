@@ -39,13 +39,19 @@ export function createThemedComponent<
         variants = options.defaultVariants,
         ...props
       } = prop
-      if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
+      if (
+        typeof __DEV__ !== 'undefined' &&
+        typeof SuperComponent === 'string'
+      ) {
         console.error(
           `[dripsy] Looks like you used an invalid "as" prop. "${SuperComponent}" can't be string. Please pass a valid React component. HTML elements are not supported.`
         )
       }
       const defaultStyle =
-        typeof baseStyle == 'function' ? baseStyle(prop) : baseStyle
+        typeof baseStyle == 'function'
+          ? // @ts-expect-error it's okay, it's receiving props as expected
+            baseStyle(prop)
+          : baseStyle
 
       const { theme } = useDripsyTheme()
       // make the sx factory out here so that it's a stable dependency for useStableMemo
@@ -70,7 +76,16 @@ export function createThemedComponent<
               defaultStyle,
             }
           ),
-        [theme, breakpoint, variant, sx, style, variants, themeKey, defaultStyle]
+        [
+          theme,
+          breakpoint,
+          variant,
+          sx,
+          style,
+          variants,
+          themeKey,
+          defaultStyle,
+        ]
       )
 
       const TheComponent = SuperComponent || Component

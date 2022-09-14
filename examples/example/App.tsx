@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { ElementRef, useEffect, useRef } from 'react'
 import {
   View,
   Text as DripText,
@@ -131,11 +131,28 @@ const WithSecondVariant = styled(WithVariant, {
 
 const FinalWithVariant = () => <WithSecondVariant variant="primary" />
 
-export const MyView = styled(NativeView)({})
+export const MyView = styled(NativeView)()
 export type MyViewElement = React.ElementRef<typeof MyView>
 export type TestElement = MyViewElement extends never ? never : 'ok'
 // should not have TS errors because element type should not be never ✅
 export const testElement: { el: TestElement } = { el: 'ok' }
+
+const MyViewWithRefTypes = () => {
+  const customRef = useRef<ElementRef<typeof MyView>>(null)
+  const viewRef = useRef<NativeView>(null)
+
+  useEffect(() => {
+    customRef.current?.state
+    viewRef.current?.state
+  })
+
+  return (
+    <>
+      <MyView ref={viewRef} />
+      <MyView ref={customRef} />
+    </>
+  )
+}
 
 const ResponsiveSquare = () => {
   // Return literal values:
