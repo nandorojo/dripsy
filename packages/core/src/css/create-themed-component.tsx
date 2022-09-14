@@ -12,7 +12,7 @@ type PropsWithStyledProps<P, ThemeKey extends keyof DripsyFinalTheme> = P &
   StyledProps<ThemeKey>
 
 // prettier-ignore
-type Props<C, ExtraProps, ThemeKey extends keyof DripsyFinalTheme> = C extends ComponentType<infer BaseProps>
+export type Props<C, ExtraProps, ThemeKey extends keyof DripsyFinalTheme> = C extends ComponentType<infer BaseProps>
   ? MergeProps<PropsWithoutVariants<BaseProps>, PropsWithStyledProps<ExtraProps, ThemeKey>>
   : never
 
