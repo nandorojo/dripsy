@@ -1,4 +1,4 @@
-import React, { ComponentType, ComponentPropsWithRef } from 'react'
+import React, { ComponentType, PropsWithChildren } from 'react'
 import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './breakpoint-context'
@@ -6,24 +6,33 @@ import { mapPropsToStyledComponent } from './map-props'
 import { DripsyFinalTheme } from '../declarations'
 import { useStableMemo } from '../utils/use-stable-memo'
 
+type MergeProps<P1, P2> = Omit<P1, keyof P2> & P2
+type PropsWithoutVariants<P> = Omit<P, 'variant' | 'variants'>
+type PropsWithStyledProps<P, ThemeKey extends keyof DripsyFinalTheme> = P &
+  StyledProps<ThemeKey>
+
+// prettier-ignore
+type Props<C, ExtraProps, ThemeKey extends keyof DripsyFinalTheme> = C extends ComponentType<infer BaseProps>
+  ? MergeProps<PropsWithoutVariants<BaseProps>, PropsWithStyledProps<ExtraProps, ThemeKey>>
+  : never
+
 export function createThemedComponent<
-  BaseComponentProps extends { style?: any },
+  C extends ComponentType<any>,
   ExtraProps,
   ThemeKey extends keyof DripsyFinalTheme
 >(
-  Component: ComponentType<BaseComponentProps>,
+  Component: C,
   {
     defaultStyle: baseStyle,
     ...options
   }: ThemedOptions<ExtraProps, ThemeKey> = {}
-): ComponentType<
-  StyledProps<ThemeKey> &
-    ComponentPropsWithRef<ComponentType<BaseComponentProps>> &
-    ExtraProps
+): React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<PropsWithChildren<Props<C, ExtraProps, ThemeKey>>> &
+    React.RefAttributes<React.ElementRef<C>>
 > {
   const WrappedComponent = React.forwardRef<
     any,
-    StyledProps<ThemeKey> & BaseComponentProps & ExtraProps
+    Props<C, ExtraProps, ThemeKey> & { style?: any }
   >(function Wrapped(prop, ref) {
     const {
       sx: _sx,
@@ -70,12 +79,12 @@ export function createThemedComponent<
 
     const TheComponent = SuperComponent || Component
 
-    return <TheComponent {...(props as any)} ref={ref} style={styles} />
+    return <TheComponent {...props} ref={ref} style={styles} />
   })
 
   WrappedComponent.displayName = `Dripsy.${
     Component?.displayName ?? 'NoNameComponent'
   }`
 
-  return WrappedComponent as any
+  return WrappedComponent
 }
