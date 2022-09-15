@@ -15,7 +15,12 @@ import {
 // Import from core
 import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
-import { Text, TextInput, View as NativeView } from 'react-native'
+import {
+  Text,
+  TextInput,
+  View as NativeView,
+  KeyboardAvoidingView,
+} from 'react-native'
 
 const theme = makeTheme({
   colors: {
@@ -136,6 +141,39 @@ export type MyViewElement = React.ElementRef<typeof MyView>
 export type TestElement = MyViewElement extends never ? never : 'ok'
 // should not have TS errors because element type should not be never ✅
 export const testElement: { el: TestElement } = { el: 'ok' }
+
+export const ExtendedComp = styled(KeyboardAvoidingView)({})
+
+export const ExtendedCompWithExtraProps = styled<
+  React.ComponentProps<typeof KeyboardAvoidingView> & { custom?: boolean }
+>(KeyboardAvoidingView)({})
+
+export const ExtendedCompWithExtraProps2 = styled(KeyboardAvoidingView)<
+  React.ComponentProps<typeof KeyboardAvoidingView> & { custom?: boolean }
+>({})
+
+/* @ts-expect-error behavior cannot be 'test' */
+export const ExtendA = () => <ExtendedComp behavior="test" />
+/* should not error */
+export const ExtendB = () => <ExtendedComp behavior="padding" />
+/* @ts-expect-error custom does not exist */
+export const ExtendC = () => <ExtendedComp custom="test" />
+/* @ts-expect-error behavior cannot be 'test' */
+export const ExtendE = () => <ExtendedCompWithExtraProps behavior="test" />
+/* should not error */
+export const ExtendF = () => <ExtendedCompWithExtraProps behavior="padding" />
+/* @ts-expect-error custom cannot be string */
+export const ExtendG = () => <ExtendedCompWithExtraProps custom="test" />
+/* should not error */
+export const ExtendH = () => <ExtendedCompWithExtraProps custom={false} />
+/* @ts-expect-error behavior cannot be 'test' */
+export const ExtendI = () => <ExtendedCompWithExtraProps2 behavior="test" />
+/* should not error */
+export const ExtendJ = () => <ExtendedCompWithExtraProps2 behavior="padding" />
+/* @ts-expect-error custom cannot be string */
+export const ExtendK = () => <ExtendedCompWithExtraProps2 custom="test" />
+/* should not error */
+export const ExtendL = () => <ExtendedCompWithExtraProps2 custom={false} />
 
 const ResponsiveSquare = () => {
   // Return literal values:
