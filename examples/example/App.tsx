@@ -152,26 +152,48 @@ export const ExtendedCompWithExtraProps2 = styled(KeyboardAvoidingView)<
   React.ComponentProps<typeof KeyboardAvoidingView> & { custom?: boolean }
 >({})
 
-/* @ts-expect-error behavior cannot be 'test' */
-export const ExtendA = () => <ExtendedComp behavior="test" />
+export const ExtendA = () => (
+  <ExtendedComp
+    /* @ts-expect-error behavior cannot be 'test' */
+    behavior="test"
+  />
+)
 /* should not error */
 export const ExtendB = () => <ExtendedComp behavior="padding" />
-/* @ts-expect-error custom does not exist */
-export const ExtendC = () => <ExtendedComp custom="test" />
-/* @ts-expect-error behavior cannot be 'test' */
-export const ExtendE = () => <ExtendedCompWithExtraProps behavior="test" />
+export const ExtendC = () => (
+  <ExtendedComp
+    /* @ts-expect-error custom does not exist */
+    custom="test"
+  />
+)
+export const ExtendE = () => (
+  <ExtendedCompWithExtraProps
+    /* @ts-expect-error behavior cannot be 'test' */
+    behavior="test"
+  />
+)
 /* should not error */
 export const ExtendF = () => <ExtendedCompWithExtraProps behavior="padding" />
-/* @ts-expect-error custom cannot be string */
-export const ExtendG = () => <ExtendedCompWithExtraProps custom="test" />
+export const ExtendG = () => (
+  <ExtendedCompWithExtraProps
+    /* @ts-expect-error custom cannot be string */
+    custom="test"
+  />
+)
 /* should not error */
 export const ExtendH = () => <ExtendedCompWithExtraProps custom={false} />
-/* @ts-expect-error behavior cannot be 'test' */
 export const ExtendI = () => <ExtendedCompWithExtraProps2 behavior="test" />
+
 /* should not error */
 export const ExtendJ = () => <ExtendedCompWithExtraProps2 behavior="padding" />
-/* @ts-expect-error custom cannot be string */
-export const ExtendK = () => <ExtendedCompWithExtraProps2 custom="test" />
+
+export const ExtendK = () => (
+  <ExtendedCompWithExtraProps2
+    /* @ts-expect-error custom cannot be string */
+    custom="test"
+  />
+)
+
 /* should not error */
 export const ExtendL = () => <ExtendedCompWithExtraProps2 custom={false} />
 
