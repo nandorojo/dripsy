@@ -16,8 +16,10 @@ import type { ThemedOptions } from './types'
  * ```
  *
  */
+
 export function styled<
-  C extends ComponentType<any>,
+  Props,
+  C extends ComponentType<any> = ComponentType<Props>,
   ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
 >(
   Component: C,
