@@ -59,14 +59,14 @@ type ScrollProps = Omit<
   'contentContainerStyle'
 >
 
-type Props = ScrollProps & {
+type DripsyScrollProps = ScrollProps & {
   contentContainerSx?: SxProp,
 }
 
 export function DripsyScrollView({
   contentContainerSx,
   ...props
-}: ScrollProps) {
+}: DripsyScrollProps) {
   const sx = useSx()
   return (
     <ScrollView
