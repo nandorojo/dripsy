@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+
+
+**Note:** Version bump only for package dripsy
+
+
+
+
+
 # [3.9.0](https://github.com/nandorojo/dripsy/compare/v3.8.0...v3.9.0) (2022-12-23)
 
 **Note:** Version bump only for package dripsy
