@@ -56,20 +56,20 @@ const responsive = (
     responsiveSSRStyles?: ResponsiveSSRStyles
   } = {}
 
-  for (const key in styles) {
+  for (const styleKey in styles) {
     const value =
-      typeof styles[key] === 'function' ? styles[key](theme) : styles[key]
+      typeof styles[styleKey] === 'function' ? styles[styleKey](theme) : styles[styleKey]
 
     if (value == null) continue
     if (!Array.isArray(value)) {
       // @ts-ignore
-      next[key] = value
+      next[styleKey] = value
       continue
     }
 
-    if (key === 'transform' || key === 'fontVariant') {
+    if (styleKey === 'transform' || styleKey === 'fontVariant') {
       // @ts-ignore
-      next[key] = value
+      next[styleKey] = value
       continue
     }
 
@@ -87,7 +87,7 @@ const responsive = (
     // if we're on mobile, we do have a breakpoint
     // so we can override TS here w/ `as number`
     const breakpointIndex = nearestBreakpoint(breakpoint as number)
-    next[key] = value[breakpointIndex]
+    next[styleKey] = value[breakpointIndex]
   }
 
   return next
