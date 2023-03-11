@@ -60,6 +60,7 @@ export const aliases = {
 
   bbc: 'borderBottomColor',
   bblr: 'borderBottomLeftRadius',
+  bber: 'borderBottomEndRadius',
   bbrr: 'borderBottomRightRadius',
   bbw: 'borderBottomWidth',
   blc: 'borderLeftColor',
@@ -171,6 +172,7 @@ export const scales = {
   borderTopLeftRadius: 'radii',
   borderBottomRightRadius: 'radii',
   borderBottomLeftRadius: 'radii',
+  borderBottomEndRadius: 'radii',
   borderTopWidth: 'borderWidths',
   borderTopColor: 'colors',
   borderTopStyle: 'borderStyles',
