@@ -211,19 +211,18 @@ const ResponsiveSquare = () => {
       sx={{
         bg: 'cool',
         padding: ['$3'],
-        height: (theme) => theme.space.$1,
-        pb: (theme) => [theme.space.$3, '$5'],
+        pb: (theme) => '$0',
         paddingHorizontal: '$3',
         marginVertical: '$0',
+        variant: 'buttons.primary',
       }}
-      variant="layout.narrow"
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
       <DripText
         sx={{ color: 'accent' }}
-        variants={['secondary']}
-        variant="primary"
+        variants={['primary']}
+        variant="secondary"
       >
         Hello
       </DripText>
@@ -256,6 +255,7 @@ export default function App() {
               textShadow: 'onImage',
               variant: 'text.primary',
               fontWeight: 400,
+              flex: 3,
             })}
           >
             Intellisense for shadows!
