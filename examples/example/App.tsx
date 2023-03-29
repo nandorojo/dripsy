@@ -13,7 +13,7 @@ import {
   styled,
 } from 'dripsy'
 // Import from core
-import { H4 } from '@dripsy/core'
+import { H4, ScrollView } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
 import {
   Text,
@@ -242,6 +242,7 @@ export default function App() {
   const [state, toggleState] = React.useReducer((s) => !s, true)
   return (
     <DripsyProvider theme={theme}>
+      <ScrollView />
       <Container>
         <View
           sx={{

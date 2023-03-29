@@ -12,7 +12,10 @@
     "skipLibCheck": true,
     "strict": true,
     "experimentalDecorators": true,
-    "noUnusedLocals": false
+    "noUnusedLocals": true,
+
+    "disableReferencedProjectLoad": true,
+    "disableSourceOfProjectReferenceRedirect": true
   },
   "exclude": ["examples/next-example/*"]
 }

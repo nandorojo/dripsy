@@ -68,7 +68,7 @@ export function createThemedComponent<
             variant,
             sx,
             style,
-            variants: variants as any,
+            variants: variants,
           },
           {
             ...options,
@@ -81,7 +81,7 @@ export function createThemedComponent<
 
     const TheComponent = SuperComponent || Component
 
-    return <TheComponent {...props} ref={ref} style={styles} />
+    return <TheComponent {...(props as any)} ref={ref} style={styles} />
   })
 
   WrappedComponent.displayName = `Dripsy.${

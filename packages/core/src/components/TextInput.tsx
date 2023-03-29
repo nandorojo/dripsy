@@ -1,9 +1,10 @@
-import React, { forwardRef } from 'react'
+import React, { ComponentProps, forwardRef } from 'react'
 import { TextInput as rTextInput } from 'react-native'
 import { DripsyFinalTheme } from '../declarations'
 import { createThemedComponent } from '../css/create-themed-component'
 import { defaultFontStyle } from './defaultStyle'
 import { useDripsyTheme } from '../use-dripsy-theme'
+import { StyledProps } from '../types-v2/sx'
 
 const DripsyInput = createThemedComponent(rTextInput, {
   themeKey: 'forms',
@@ -17,7 +18,8 @@ type ColorKeys = keyof Pick<
   'selectionColor' | 'underlineColorAndroid' | 'placeholderTextColor'
 >
 
-export type DripsyTextInputProps = Omit<InputProps, ColorKeys> &
+export type DripsyTextInputProps = StyledProps<'forms'> &
+  Omit<ComponentProps<typeof rTextInput>, ColorKeys> &
   {
     [key in ColorKeys]?: (string & {}) | keyof DripsyFinalTheme['colors']
   }

@@ -1,17 +1,16 @@
-import React, { forwardRef } from 'react'
+import React, { ComponentProps, forwardRef } from 'react'
 import { ScrollView as rScrollView } from 'react-native'
-import { createThemedComponent } from '../css/create-themed-component'
 import { useSx } from '../use-sx'
-import { SxProp } from '../types-v2/sx'
+import { StyledProps, SxProp } from '../types-v2/sx'
+import { styled } from '../css/styled'
 
-const DripsyScrollView = createThemedComponent(rScrollView)
+const DripsyScrollView = styled(rScrollView)()
 
-export type DripsyScrollViewProps = React.ComponentPropsWithoutRef<
-  typeof DripsyScrollView
-> & {
-  contentContainerSx?: SxProp
-  indicatorSx?: SxProp
-}
+export type DripsyScrollViewProps = StyledProps<undefined> &
+  ComponentProps<typeof rScrollView> & {
+    contentContainerSx?: SxProp
+    indicatorSx?: SxProp
+  }
 
 export const ScrollView = forwardRef<rScrollView, DripsyScrollViewProps>(
   function ScrollView(props, ref) {
