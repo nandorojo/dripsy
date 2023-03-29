@@ -119,13 +119,10 @@ type SxValue<
   StyleKey extends StyleableSxProperties
 > = ThemeValuesOnlyForStyleKey<StyleKey> extends true
   ? MaybeTokenFromStyleKey<StyleKey>
-  :
-      | MaybeThemeUiStyle<StyleKey>
-      | false
-      | (undefined extends MaybeTokenFromStyleKey<StyleKey>
-          ? MaybeNativeStyleValue<StyleKey>
-          : //   we add this string & number thing so that they can use other values from RN. it's the only way i think
-            MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number)
+  : undefined extends MaybeTokenFromStyleKey<StyleKey>
+  ? MaybeNativeStyleValue<StyleKey> | MaybeThemeUiStyle<StyleKey> | false
+  : // we add this string & number thing so that they can use other values from RN. it's the only way i think
+    MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number
 
 // you can circumvent theme values only with the factory
 type FactoryValue<T> =
@@ -145,8 +142,7 @@ export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 const sx: Sx = {
   bg: '$text',
   padding: '$1',
-  paddingRight: '$1',
-  pr: '$1',
+  m: '$1',
   boxShadow: 'test',
   shadowColor: '$text',
   textShadowColor: '$text',
@@ -213,13 +209,12 @@ type AssertedAliasTests = AssertTest<AliasTests, AliasTests>
 
 // testing
 
-// remember to comment this out before pushing
 const testTheme = makeTheme({
   colors: {
     $text: 'color',
   },
   space: {
-    $1: 4,
+    $1: 1,
   },
   shadows: {
     test: {
@@ -234,6 +229,8 @@ const testTheme = makeTheme({
   },
 })
 type TestTheme = typeof testTheme
+
+// remember to comment this out before pushing
 // @ts-expect-error leave this here so we remember to comment out lol
 declare module './declarations' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -274,10 +271,29 @@ type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
   keyof DripsyFinalTheme['colors']
 >
 
+type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
+  '$1',
+  MaybeTokenFromStyleKey<'padding'>
+>
+
 type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
   MaybeTokenFromStyleKey<'alignItems'>,
   never
 >
+
+// #region variants
+type MaybeVariantsFromScale<
+  ThemeKey extends ThemeKeysWhichContainVariants | undefined
+> = undefined extends ThemeKey
+  ? undefined
+  : ThemeKey extends keyof DripsyFinalTheme
+  ? DripsyFinalTheme[ThemeKey] extends Record<string, unknown>
+    ? keyof DripsyFinalTheme[ThemeKey]
+    : undefined
+  : undefined
+
+const testVariant: MaybeVariantsFromScale<'text'> = 'body'
+// #endregion
 
 // let a: MaybeTokenFromStyleKey<'alignItems'>
 
