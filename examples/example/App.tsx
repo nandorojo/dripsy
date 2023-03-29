@@ -47,11 +47,11 @@ const theme = makeTheme({
     $8: 512,
   },
   types: {
-    onlyAllowThemeValues: {
-      // let's only restrict colors!
-      // colors: 'always',
-      space: 'always',
-    },
+    // onlyAllowThemeValues: {
+    //   // let's only restrict colors!
+    //   colors: 'always',
+    //   space: 'always',
+    // },
     // strictVariants: true,
   },
   shadows: {
@@ -209,7 +209,7 @@ const ResponsiveSquare = () => {
   return (
     <View
       sx={{
-        bg: 'cool',
+        bg: 'accent',
         padding: ['$3'],
         pb: (theme) => '$0',
         paddingHorizontal: '$3',
@@ -245,7 +245,7 @@ export default function App() {
       <Container>
         <View
           sx={{
-            textShadowColor: 'accent',
+            color: 'primary',
           }}
           variant="shadows.md"
         >
@@ -255,7 +255,11 @@ export default function App() {
               textShadow: 'onImage',
               variant: 'text.primary',
               fontWeight: 400,
-              flex: 3,
+              transform: [
+                {
+                  translateX: 1,
+                },
+              ],
             })}
           >
             Intellisense for shadows!

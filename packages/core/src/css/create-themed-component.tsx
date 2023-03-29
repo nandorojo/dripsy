@@ -8,18 +8,20 @@ import { StyledProps, ThemedOptions } from '../types-v2/sx'
 
 type MergeProps<P1, P2> = Omit<P1, keyof P2> & P2
 type PropsWithoutVariants<P> = Omit<P, 'variant' | 'variants'>
-type PropsWithStyledProps<P, ThemeKey extends keyof DripsyFinalTheme> = P &
-  StyledProps<ThemeKey>
+type PropsWithStyledProps<
+  P,
+  ThemeKey extends keyof DripsyFinalTheme | undefined
+> = P & StyledProps<ThemeKey>
 
 // prettier-ignore
-export type Props<C, ExtraProps, ThemeKey extends keyof DripsyFinalTheme> = C extends ComponentType<infer BaseProps>
+export type Props<C, ExtraProps, ThemeKey extends keyof DripsyFinalTheme | undefined> = C extends ComponentType<infer BaseProps>
   ? MergeProps<PropsWithoutVariants<BaseProps>, PropsWithStyledProps<ExtraProps, ThemeKey>>
   : never
 
 export function createThemedComponent<
   C extends ComponentType<any>,
   ExtraProps,
-  ThemeKey extends keyof DripsyFinalTheme
+  ThemeKey extends keyof DripsyFinalTheme | undefined
 >(
   Component: C,
   {
@@ -39,7 +41,7 @@ export function createThemedComponent<
       as: SuperComponent,
       variant,
       style,
-      themeKey = options.themeKey,
+      themeKey,
       variants = options.defaultVariants,
       ...props
     } = prop
@@ -66,11 +68,11 @@ export function createThemedComponent<
             variant,
             sx,
             style,
-            variants,
+            variants: variants as any,
           },
           {
             ...options,
-            themeKey,
+            themeKey: themeKey ?? options.themeKey,
             defaultStyle,
           }
         ),

@@ -35,8 +35,10 @@ export type ResponsiveValue<T> = T | (null | T)[] | null | undefined
 
 // #region shadows
 type WebShadowSx = {
-  boxShadow?: (string & {}) | keyof DripsyFinalTheme['shadows']
-  textShadow?: (string & {}) | keyof DripsyFinalTheme['textShadows']
+  boxShadow?: ResponsiveValue<(string & {}) | keyof DripsyFinalTheme['shadows']>
+  textShadow?: ResponsiveValue<
+    (string & {}) | keyof DripsyFinalTheme['textShadows']
+  >
 }
 
 // #endregion
@@ -57,11 +59,13 @@ type NativeSx = {
 
 // #region Sx
 
-type StyleableSxProperties =
+type StyleableSxProperties = Exclude<
   | Exclude<keyof ThemeUICSSProperties, 'textShadow' | 'boxShadow' | 'variant'>
   | keyof ViewStyle
   | keyof TextStyle
-  | keyof ImageStyle
+  | keyof ImageStyle,
+  keyof NativeSx | keyof WebShadowSx
+>
 
 type NativeStyleProperties = ViewStyle & TextStyle & ImageStyle
 
@@ -157,22 +161,19 @@ export type Sx = {
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-// const sx: Sx = {
-//   bg: '$text',
-//   padding: '$1',
-//   m: '$1',
-//   boxShadow: 'test',
-//   shadowColor: '$text',
-//   textShadowColor: '$text',
-//   alignItems: 'baseline',
-//   justifyContent: ['center', 'flex-end'],
-//   paddingLeft: 20,
-//   color(theme) {
-//     return theme.colors.$text
-//   },
-//   borderColor: '$text',
-//   variant: 'shadows.test',
-// }
+const sx: SxProp = {
+  bg: '$text',
+  padding: '$1',
+  m: '$1',
+  boxShadow: 'test',
+  shadowColor: '$text',
+  textShadowColor: '$text',
+  alignItems: 'baseline',
+  justifyContent: ['center', 'flex-end'],
+  paddingLeft: 20,
+  borderColor: '$text',
+  flex: 1,
+}
 
 // const sxProp: SxProp = (theme) => ({
 //   bg: '$text',
@@ -227,36 +228,36 @@ type AssertedAliasTests = AssertTest<AliasTests, AliasTests>
 
 // testing
 
-// const testTheme = makeTheme({
-//   colors: {
-//     $text: 'color',
-//   },
-//   space: {
-//     $1: 1,
-//   },
-//   shadows: {
-//     test: {
-//       shadowColor: '$text',
-//     },
-//   },
-//   text: {
-//     body: {},
-//   },
-//   types: {
-//     reactNativeTypesOnly: false,
-//     onlyAllowThemeValues: {
-//       colors: 'always',
-//     },
-//   },
-// })
-// type TestTheme = typeof testTheme
+const testTheme = makeTheme({
+  colors: {
+    $text: 'color',
+  },
+  space: {
+    $1: 1,
+  },
+  shadows: {
+    test: {
+      shadowColor: '$text',
+    },
+  },
+  text: {
+    body: {},
+  },
+  types: {
+    reactNativeTypesOnly: false,
+    onlyAllowThemeValues: {
+      // colors: 'always',
+    },
+  },
+})
+type TestTheme = typeof testTheme
 
-// // remember to comment this out before pushing
+// remember to comment this out before pushing
 // // @ts-expect-error leave this here so we remember to comment out lol
-// // declare module './declarations' {
-// //   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-// //   interface DripsyCustomTheme extends TestTheme {}
-// // }
+// declare module './declarations' {
+//   // eslint-disable-next-line @typescript-eslint/no-empty-interface
+//   interface DripsyCustomTheme extends TestTheme {}
+// }
 
 // #region tokens
 type MaybeTokensObjectFromScale<
@@ -303,13 +304,11 @@ type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
 // >
 
 // #region variants
-type MaybeVariantsFromThemeKey<
+export type MaybeVariantsFromThemeKey<
   ThemeKey extends keyof DripsyFinalTheme | undefined
-> = undefined extends ThemeKey
-  ? undefined
-  : ThemeKey extends keyof DripsyFinalTheme
+> = ThemeKey extends keyof DripsyFinalTheme
   ? DripsyFinalTheme[ThemeKey] extends Record<string, unknown>
-    ? keyof DripsyFinalTheme[ThemeKey]
+    ? Extract<keyof DripsyFinalTheme[ThemeKey], string>
     : undefined
   : undefined
 
@@ -329,7 +328,7 @@ type MaybeVariantsFromThemeKey<
 // testString('alignItems', false as never)
 // #endregion
 
-export type StyledProps<ThemeKey extends keyof DripsyFinalTheme> = {
+export type StyledProps<ThemeKey extends keyof DripsyFinalTheme | undefined> = {
   as?: ComponentType
   variant?: MaybeVariantsFromThemeKey<ThemeKey>
   themeKey?: ThemeKey
@@ -339,7 +338,7 @@ export type StyledProps<ThemeKey extends keyof DripsyFinalTheme> = {
 
 export type ThemedOptions<
   ExtraProps,
-  ThemeKey extends Extract<keyof DripsyFinalTheme, string>
+  ThemeKey extends Extract<keyof DripsyFinalTheme, string> | undefined
 > = {
   defaultStyle?: Sx | ((props: ExtraProps) => Sx)
 } & {

@@ -3,7 +3,7 @@ import { useDripsyTheme } from './use-dripsy-theme'
 import { css } from './css'
 import { useBreakpointIndex } from './css/breakpoint-context'
 import stableHash from 'stable-hash'
-import { DripsyFinalTheme } from './declarations'
+import { DripsyFinalTheme } from './types-v2/declarations'
 import { StyleProp } from 'react-native'
 import { SxProp } from './types-v2/sx'
 

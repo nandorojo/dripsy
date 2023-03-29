@@ -5,12 +5,12 @@ import { get } from './get'
 import { StyleSheet } from 'react-native'
 
 type ThemedOptionsWithoutFunctionStyle<
-  ThemeKey extends keyof DripsyFinalTheme
+  ThemeKey extends keyof DripsyFinalTheme | undefined
 > = Omit<ThemedOptions<any, ThemeKey>, 'defaultStyle'> &
   Record<'defaultStyle', Sx | undefined>
 
 export function mapPropsToStyledComponent<
-  ThemeKey extends keyof DripsyFinalTheme
+  ThemeKey extends keyof DripsyFinalTheme | undefined
 >(
   props: StyledProps<ThemeKey> & {
     breakpoint: number

@@ -1,4 +1,4 @@
 import { View as rView } from 'react-native'
-import { createThemedComponent } from '../css/create-themed-component'
+import { styled } from '../css/styled'
 
-export const View = createThemedComponent(rView)
+export const View = styled(rView)()

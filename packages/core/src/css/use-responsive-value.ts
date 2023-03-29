@@ -1,6 +1,6 @@
 import { useDripsyTheme } from '../use-dripsy-theme'
 
-import { DripsyFinalTheme } from '../declarations'
+import { DripsyFinalTheme } from '../types-v2/declarations'
 import { useBreakpointIndex } from './breakpoint-context'
 
 type ResponsiveValues<T> = ((theme: DripsyFinalTheme | null) => T[]) | T[]
