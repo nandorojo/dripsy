@@ -90,11 +90,12 @@ type MaybeThemeUiStyle<
 type SxValue<StyleKey extends StyleableSxProperties> =
   | MaybeThemeUiStyle<StyleKey>
   | false
-  | (MaybeTokenFromStyleKey<StyleKey> | (string & {}))
-  | Exclude<MaybeNativeStyleValue<StyleKey>, ColorValue>
+  | (MaybeTokenFromStyleKey<StyleKey> extends never
+      ? MaybeNativeStyleValue<StyleKey>
+      : MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number)
 
 type Sx = {
-  [StyleKey in StyleableSxProperties]?: SxValue<StyleKey>
+  [StyleKey in StyleableSxProperties]?: ResponsiveValue<SxValue<StyleKey>>
 } &
   NativeSx &
   WebShadowSx
@@ -107,11 +108,14 @@ const sx: Sx = {
   bg: '$text',
   padding: '$1',
   paddingRight: '$1',
-  pr: 1,
-  color: '$text',
+  pr: '$1',
+  color: 'test',
   boxShadow: 'test',
   shadowColor: '$text',
   textShadowColor: '$text',
+  alignItems: 'baseline',
+  justifyContent: ['center', 'flex-end'],
+  //   pl: ['$1'],
 }
 
 // #endregion
@@ -209,10 +213,29 @@ type MaybeTokenOptionsFromScaleTest = AssertEqual<
 
 type MaybeTokenFromStyleKey<
   StyleKey extends StyleableSxProperties
-> = MaybeTokenOptionsFromScale<MaybeScaleFromStyleKeyOrAlias<StyleKey>>
+> = MaybeScaleFromStyleKeyOrAlias<StyleKey> extends never
+  ? never
+  : MaybeTokenOptionsFromScale<MaybeScaleFromStyleKeyOrAlias<StyleKey>>
 
 type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
-  keyof DripsyFinalTheme['colors'],
-  MaybeTokenFromStyleKey<'bg'>
+  MaybeTokenFromStyleKey<'bg'>,
+  keyof DripsyFinalTheme['colors']
 >
+
+type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
+  MaybeTokenFromStyleKey<'alignItems'>,
+  never
+>
+
+let a: MaybeTokenFromStyleKey<'alignItems'>
+
+declare function testString<
+  K extends StyleableSxProperties,
+  U extends MaybeTokenFromStyleKey<K> extends never
+    ? false
+    : true = MaybeTokenFromStyleKey<K> extends never ? false : true
+>(value: K, u: MaybeTokenFromStyleKey<K>): U
+
+testString('color', '$text')
+testString('alignItems', false as never)
 // #endregion
