@@ -265,7 +265,7 @@ export default function App() {
           >
             Intellisense for shadows!
           </H4>
-          <G variant="secondary">Hey</G>
+          <G variant="primary">Hey</G>
           <G>Hi!</G>
 
           <View sx={{ p: '$1' }}>
