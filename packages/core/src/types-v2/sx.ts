@@ -115,17 +115,17 @@ declare const b: ThemeValuesOnlyForStyleKey<'alignItems'>
 type MaybeThemeUiStyle<
   StyleKey extends StyleableSxProperties
 > = ReactNativeTypesOnly extends true
-  ? never
+  ? undefined
   : StyleKey extends keyof ThemeUICSSProperties
   ? ThemeUICSSProperties[StyleKey]
-  : never
+  : undefined
 
 type SxValue<
   StyleKey extends StyleableSxProperties
 > = ThemeValuesOnlyForStyleKey<StyleKey> extends true
   ? MaybeTokenFromStyleKey<StyleKey>
   : MaybeTokenFromStyleKey<StyleKey> extends undefined
-  ? MaybeNativeStyleValue<StyleKey> | MaybeThemeUiStyle<StyleKey> | false
+  ? MaybeNativeStyleValue<StyleKey> | (string & {})
   : // we add this string & number thing so that they can use other values from RN. it's the only way i think
     MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number
 
@@ -168,7 +168,7 @@ const sx: SxProp = {
   boxShadow: 'test',
   shadowColor: '$text',
   textShadowColor: '$text',
-  alignItems: 'baseline',
+  alignItems: 'center',
   justifyContent: ['center', 'flex-end'],
   paddingLeft: 20,
   borderColor: '$text',
@@ -244,7 +244,7 @@ const testTheme = makeTheme({
     body: {},
   },
   types: {
-    reactNativeTypesOnly: false,
+    reactNativeTypesOnly: true,
     onlyAllowThemeValues: {
       // colors: 'always',
     },
@@ -254,10 +254,10 @@ type TestTheme = typeof testTheme
 
 // remember to comment this out before pushing
 // // @ts-expect-error leave this here so we remember to comment out lol
-// declare module './declarations' {
-//   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-//   interface DripsyCustomTheme extends TestTheme {}
-// }
+declare module './declarations' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DripsyCustomTheme extends TestTheme {}
+}
 
 // #region tokens
 type MaybeTokensObjectFromScale<
