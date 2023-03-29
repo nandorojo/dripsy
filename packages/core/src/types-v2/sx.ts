@@ -127,30 +127,44 @@ type SxValue<
           : //   we add this string & number thing so that they can use other values from RN. it's the only way i think
             MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number)
 
-type Sx = {
-  [StyleKey in StyleableSxProperties]?: ResponsiveValue<SxValue<StyleKey>>
+// you can circumvent theme values only with the factory
+type FactoryValue<T> =
+  | T
+  | ((theme: DripsyFinalTheme) => T | (string & {}) | number)
+
+export type Sx = {
+  [StyleKey in StyleableSxProperties]?: FactoryValue<
+    ResponsiveValue<SxValue<StyleKey>>
+  >
 } &
   NativeSx &
   WebShadowSx
 
-type SxTest1 = AssertEqual<Sx['padding'], '$1'>
-type SxTest2 = AssertEqual<Sx['p'], '$1'>
+export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-type MakeSx<A extends Sx> = A
 const sx: Sx = {
   bg: '$text',
   padding: '$1',
   paddingRight: '$1',
   pr: '$1',
-  color: '$text',
   boxShadow: 'test',
   shadowColor: '$text',
   textShadowColor: '$text',
   alignItems: 'baseline',
   justifyContent: ['center', 'flex-end'],
   paddingLeft: 20,
+  color(theme) {
+    return theme.colors.$text
+  },
+  borderColor: '$text',
   //   pl: ['$1'],
 }
+
+const sxProp: SxProp = (theme) => ({
+  bg: '$text',
+  borderRightWidth: theme.space.$1,
+  borderTopWidth: '2px',
+})
 
 // #endregion
 
@@ -205,7 +219,7 @@ const testTheme = makeTheme({
     $text: 'color',
   },
   space: {
-    $1: '1px',
+    $1: 4,
   },
   shadows: {
     test: {
@@ -213,7 +227,7 @@ const testTheme = makeTheme({
     },
   },
   types: {
-    reactNativeTypesOnly: true,
+    reactNativeTypesOnly: false,
     onlyAllowThemeValues: {
       colors: 'always',
     },
