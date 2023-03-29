@@ -213,7 +213,10 @@ export const css = (
 
     if (key == 'textShadow' && val && theme.textShadows?.[val]) {
       // we want to change textShadowColor to theme keys via css function
-      const styledTextShadow = css(theme.textShadows[val], breakpoint)(theme)
+      const styledTextShadow = css(
+        theme.textShadows[val] as any,
+        breakpoint
+      )(theme)
       result = { ...result, ...styledTextShadow }
       continue
     }

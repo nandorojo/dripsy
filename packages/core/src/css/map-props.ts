@@ -54,11 +54,11 @@ export function mapPropsToStyledComponent<
     breakpoint
   )({ theme, fontFamily, themeKey })
 
+  // @ts-ignore
   const multipleVariantsStyle = multipleVariants
     .map((variantKey) =>
       css(
-        // @ts-expect-error why does get think it's a number and not undefined?
-        get(theme, themeKey + '.' + variantKey, get(theme, variantKey)),
+        get(theme, themeKey + '.' + variantKey, get(theme, variantKey as any)),
         breakpoint
       )({ theme, fontFamily, themeKey })
     )
