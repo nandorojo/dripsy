@@ -271,12 +271,12 @@ type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
   keyof DripsyFinalTheme['colors']
 >
 
-type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
+type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
   '$1',
   MaybeTokenFromStyleKey<'padding'>
 >
 
-type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
+type MaybeTokenOptionsFromStyleKeyTest3 = AssertEqual<
   MaybeTokenFromStyleKey<'alignItems'>,
   never
 >
