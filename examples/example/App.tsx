@@ -182,7 +182,7 @@ export const ExtendG = () => (
 )
 /* should not error */
 export const ExtendH = () => <ExtendedCompWithExtraProps custom={false} />
-export const ExtendI = () => <ExtendedCompWithExtraProps2 behavior="test" />
+export const ExtendI = () => <ExtendedCompWithExtraProps2 behavior="height" />
 
 /* should not error */
 export const ExtendJ = () => <ExtendedCompWithExtraProps2 behavior="padding" />
@@ -209,7 +209,7 @@ const ResponsiveSquare = () => {
   return (
     <View
       sx={{
-        bg: 'accent',
+        bg: 'gray',
         padding: ['$3'],
         pb: (theme) => '$0',
         paddingHorizontal: '$3',
@@ -220,7 +220,7 @@ const ResponsiveSquare = () => {
       <View ref={ref} />
       <DripsyInput ref={input} />
       <DripText
-        sx={{ color: 'accent' }}
+        sx={{ color: 'accent', px: '$0' }}
         variants={['primary']}
         variant="secondary"
       >
@@ -260,6 +260,7 @@ export default function App() {
                   translateX: 1,
                 },
               ],
+              flex: 1,
             })}
           >
             Intellisense for shadows!

@@ -124,7 +124,7 @@ type SxValue<
   StyleKey extends StyleableSxProperties
 > = ThemeValuesOnlyForStyleKey<StyleKey> extends true
   ? MaybeTokenFromStyleKey<StyleKey>
-  : undefined extends MaybeTokenFromStyleKey<StyleKey>
+  : MaybeTokenFromStyleKey<StyleKey> extends undefined
   ? MaybeNativeStyleValue<StyleKey> | MaybeThemeUiStyle<StyleKey> | false
   : // we add this string & number thing so that they can use other values from RN. it's the only way i think
     MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number
