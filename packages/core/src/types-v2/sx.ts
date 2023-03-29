@@ -153,7 +153,6 @@ const sx: Sx = {
     return theme.colors.$text
   },
   borderColor: '$text',
-  //   pl: ['$1'],
 }
 
 const sxProp: SxProp = (theme) => ({
@@ -251,7 +250,7 @@ type MaybeTokenOptionsFromScale<
   Key extends Scales[keyof Scales] | undefined
 > = Key extends Scales[keyof Scales]
   ? MaybeTokensObjectFromScale<Key> extends Record<string, unknown>
-    ? keyof MaybeTokensObjectFromScale<Key>
+    ? `${Extract<keyof MaybeTokensObjectFromScale<Key>, string>}`
     : undefined
   : undefined
 
