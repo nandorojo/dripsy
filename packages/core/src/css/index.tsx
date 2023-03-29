@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { CSSObject, UseThemeFunction } from '@theme-ui/css'
 import { Platform } from 'react-native'
-import { DripsyFinalTheme } from '../declarations'
+import { DripsyFinalTheme } from '../types-v2/declarations'
 
-import type { SxProp } from './types'
+import type { SxProp } from '../types-v2/sx'
 import { get } from './get'
 import { Aliases, aliases, scales, Scales } from './scales'
 
@@ -58,7 +58,9 @@ const responsive = (
 
   for (const styleKey in styles) {
     const value =
-      typeof styles[styleKey] === 'function' ? styles[styleKey](theme) : styles[styleKey]
+      typeof styles[styleKey] === 'function'
+        ? styles[styleKey](theme)
+        : styles[styleKey]
 
     if (value == null) continue
     if (!Array.isArray(value)) {
@@ -211,14 +213,12 @@ export const css = (
 
     if (key == 'textShadow' && val && theme.textShadows?.[val]) {
       // we want to change textShadowColor to theme keys via css function
-      // @ts-expect-error theme UI doesn't have RN textShadow*, need to add this later
       const styledTextShadow = css(theme.textShadows[val], breakpoint)(theme)
       result = { ...result, ...styledTextShadow }
       continue
     }
 
     if (key == 'boxShadow' && val && theme.shadows?.[val]) {
-      // @ts-expect-error theme UI doesn't have RN shadow*, need to add this later
       const styledBoxShadow = css(theme.shadows[val], breakpoint)(theme)
       result = { ...result, ...styledBoxShadow }
       continue

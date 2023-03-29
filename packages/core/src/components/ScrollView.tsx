@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 import { ScrollView as rScrollView } from 'react-native'
-import { SxProp } from '../css/types'
 import { createThemedComponent } from '../css/create-themed-component'
 import { useSx } from '../use-sx'
+import { SxProp } from '../types-v2/sx'
 
 const DripsyScrollView = createThemedComponent(rScrollView)
 

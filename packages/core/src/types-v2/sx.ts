@@ -93,18 +93,18 @@ type ThemeValuesOnlyForStyleKey<
     : false
   : false
 
-type ThemeValuesOnlyForStyleKeyTest = AssertEqual<
-  ThemeValuesOnlyForStyleKey<'color'>,
-  true
->
-type ThemeValuesOnlyForStyleKeyTest2 = AssertEqual<
-  ThemeValuesOnlyForStyleKey<'padding'>,
-  false
->
-type ThemeValuesOnlyForStyleKeyTest3 = AssertEqual<
-  ThemeValuesOnlyForStyleKey<'alignItems'>,
-  false
->
+// type ThemeValuesOnlyForStyleKeyTest = AssertEqual<
+//   ThemeValuesOnlyForStyleKey<'color'>,
+//   true
+// >
+// type ThemeValuesOnlyForStyleKeyTest2 = AssertEqual<
+//   ThemeValuesOnlyForStyleKey<'padding'>,
+//   false
+// >
+// type ThemeValuesOnlyForStyleKeyTest3 = AssertEqual<
+//   ThemeValuesOnlyForStyleKey<'alignItems'>,
+//   false
+// >
 
 declare const b: ThemeValuesOnlyForStyleKey<'alignItems'>
 
@@ -157,28 +157,28 @@ export type Sx = {
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-const sx: Sx = {
-  bg: '$text',
-  padding: '$1',
-  m: '$1',
-  boxShadow: 'test',
-  shadowColor: '$text',
-  textShadowColor: '$text',
-  alignItems: 'baseline',
-  justifyContent: ['center', 'flex-end'],
-  paddingLeft: 20,
-  color(theme) {
-    return theme.colors.$text
-  },
-  borderColor: '$text',
-  variant: 'shadows.test',
-}
+// const sx: Sx = {
+//   bg: '$text',
+//   padding: '$1',
+//   m: '$1',
+//   boxShadow: 'test',
+//   shadowColor: '$text',
+//   textShadowColor: '$text',
+//   alignItems: 'baseline',
+//   justifyContent: ['center', 'flex-end'],
+//   paddingLeft: 20,
+//   color(theme) {
+//     return theme.colors.$text
+//   },
+//   borderColor: '$text',
+//   variant: 'shadows.test',
+// }
 
-const sxProp: SxProp = (theme) => ({
-  bg: '$text',
-  borderRightWidth: theme.space.$1,
-  borderTopWidth: '2px',
-})
+// const sxProp: SxProp = (theme) => ({
+//   bg: '$text',
+//   borderRightWidth: theme.space.$1,
+//   borderTopWidth: '2px',
+// })
 
 // #endregion
 
@@ -227,36 +227,36 @@ type AssertedAliasTests = AssertTest<AliasTests, AliasTests>
 
 // testing
 
-const testTheme = makeTheme({
-  colors: {
-    $text: 'color',
-  },
-  space: {
-    $1: 1,
-  },
-  shadows: {
-    test: {
-      shadowColor: '$text',
-    },
-  },
-  text: {
-    body: {},
-  },
-  types: {
-    reactNativeTypesOnly: false,
-    onlyAllowThemeValues: {
-      colors: 'always',
-    },
-  },
-})
-type TestTheme = typeof testTheme
+// const testTheme = makeTheme({
+//   colors: {
+//     $text: 'color',
+//   },
+//   space: {
+//     $1: 1,
+//   },
+//   shadows: {
+//     test: {
+//       shadowColor: '$text',
+//     },
+//   },
+//   text: {
+//     body: {},
+//   },
+//   types: {
+//     reactNativeTypesOnly: false,
+//     onlyAllowThemeValues: {
+//       colors: 'always',
+//     },
+//   },
+// })
+// type TestTheme = typeof testTheme
 
-// remember to comment this out before pushing
-// @ts-expect-error leave this here so we remember to comment out lol
-declare module './declarations' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DripsyCustomTheme extends TestTheme {}
-}
+// // remember to comment this out before pushing
+// // @ts-expect-error leave this here so we remember to comment out lol
+// // declare module './declarations' {
+// //   // eslint-disable-next-line @typescript-eslint/no-empty-interface
+// //   interface DripsyCustomTheme extends TestTheme {}
+// // }
 
 // #region tokens
 type MaybeTokensObjectFromScale<
@@ -276,10 +276,10 @@ type MaybeTokenOptionsFromScale<
     : undefined
   : undefined
 
-type MaybeTokenOptionsFromScaleTest = AssertEqual<
-  keyof DripsyFinalTheme['colors'],
-  MaybeTokenOptionsFromScale<'colors'>
->
+// type MaybeTokenOptionsFromScaleTest = AssertEqual<
+//   keyof DripsyFinalTheme['colors'],
+//   MaybeTokenOptionsFromScale<'colors'>
+// >
 
 type MaybeTokenFromStyleKey<
   StyleKey extends StyleableSxProperties
@@ -292,15 +292,15 @@ type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
   keyof DripsyFinalTheme['colors']
 >
 
-type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
-  '$1',
-  MaybeTokenFromStyleKey<'padding'>
->
+// type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
+//   '$1',
+//   MaybeTokenFromStyleKey<'padding'>
+// >
 
-type MaybeTokenOptionsFromStyleKeyTest3 = AssertEqual<
-  MaybeTokenFromStyleKey<'alignItems'>,
-  never
->
+// type MaybeTokenOptionsFromStyleKeyTest3 = AssertEqual<
+//   MaybeTokenFromStyleKey<'alignItems'>,
+//   never
+// >
 
 // #region variants
 type MaybeVariantsFromThemeKey<
@@ -313,7 +313,7 @@ type MaybeVariantsFromThemeKey<
     : undefined
   : undefined
 
-const testVariant: MaybeVariantsFromThemeKey<'text'> = 'body'
+// const testVariant: MaybeVariantsFromThemeKey<'text'> = 'body'
 // #endregion
 
 // let a: MaybeTokenFromStyleKey<'alignItems'>
@@ -335,4 +335,18 @@ export type StyledProps<ThemeKey extends keyof DripsyFinalTheme> = {
   themeKey?: ThemeKey
   sx?: SxProp
   variants?: MaybeVariantsFromThemeKey<ThemeKey>[]
+}
+
+export type ThemedOptions<
+  ExtraProps,
+  ThemeKey extends Extract<keyof DripsyFinalTheme, string>
+> = {
+  defaultStyle?: Sx | ((props: ExtraProps) => Sx)
+} & {
+  defaultVariant?: MaybeVariantsFromThemeKey<ThemeKey> | (string & {})
+  /**
+   * List of multiple variants
+   */
+  defaultVariants?: MaybeVariantsFromThemeKey<ThemeKey>[]
+  themeKey?: ThemeKey
 }

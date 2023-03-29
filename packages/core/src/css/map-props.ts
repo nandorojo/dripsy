@@ -1,15 +1,13 @@
 import { css } from './index'
-import { StyledProps, Sx } from './types'
-import { ThemedOptions } from './DefaultStyleKey'
-import { DripsyFinalTheme } from '../declarations'
+import { StyledProps, Sx, ThemedOptions } from '../types-v2/sx'
+import { DripsyFinalTheme } from '../types-v2/declarations'
 import { get } from './get'
 import { StyleSheet } from 'react-native'
-import { DefaultStyleKey } from './DefaultStyleKey'
 
 type ThemedOptionsWithoutFunctionStyle<
   ThemeKey extends keyof DripsyFinalTheme
-> = Omit<ThemedOptions<any, ThemeKey>, DefaultStyleKey> &
-  Record<DefaultStyleKey, Sx | undefined>
+> = Omit<ThemedOptions<any, ThemeKey>, 'defaultStyle'> &
+  Record<'defaultStyle', Sx | undefined>
 
 export function mapPropsToStyledComponent<
   ThemeKey extends keyof DripsyFinalTheme

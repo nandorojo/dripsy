@@ -3,7 +3,7 @@ import { ActivityIndicator as NativeActivityIndicator } from 'react-native'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { DripsyFinalTheme } from '../declarations'
 import { useSx } from '../use-sx'
-import { SxProp } from '../css/types'
+import { SxProp } from '../types-v2/sx'
 
 type Props = Omit<ComponentProps<typeof NativeActivityIndicator>, 'color'> & {
   color?: (string & {}) | keyof DripsyFinalTheme['colors']

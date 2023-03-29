@@ -1,11 +1,10 @@
 import React, { ComponentType, PropsWithChildren } from 'react'
-import type { StyledProps, DripsyVariant } from './types'
-import type { ThemedOptions } from './DefaultStyleKey'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './breakpoint-context'
 import { mapPropsToStyledComponent } from './map-props'
 import { DripsyFinalTheme } from '../declarations'
 import { useStableMemo } from '../utils/use-stable-memo'
+import { StyledProps, ThemedOptions } from '../types-v2/sx'
 
 type MergeProps<P1, P2> = Omit<P1, keyof P2> & P2
 type PropsWithoutVariants<P> = Omit<P, 'variant' | 'variants'>
@@ -67,7 +66,7 @@ export function createThemedComponent<
             variant,
             sx,
             style,
-            variants: variants as DripsyVariant<ThemeKey>[] | undefined,
+            variants,
           },
           {
             ...options,
