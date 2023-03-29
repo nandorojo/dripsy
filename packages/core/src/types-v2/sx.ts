@@ -9,6 +9,7 @@ import type { ImageStyle, TextStyle, ViewStyle, ColorValue } from 'react-native'
 import type { AssertEqual, AssertTest, SmartOmit } from './type-helpers'
 import type { Scales } from '../css/scales'
 import type { Aliases } from '../css/scales'
+import { DripsyCustomTheme } from './declarations'
 
 // ✅
 type ThemeKeysWhichContainVariants = keyof Pick<
@@ -129,13 +130,30 @@ type FactoryValue<T> =
   | T
   | ((theme: DripsyFinalTheme) => T | (string & {}) | number)
 
+type AllVariantSets = {
+  [K in keyof DripsyCustomTheme as K extends ThemeKeysWhichContainVariants
+    ? K
+    : never]: DripsyFinalTheme[K]
+}
+
+type DotPath<T> = keyof {
+  [K in keyof T as `${Extract<K, string>}.${Extract<
+    keyof T[K],
+    string
+  >}`]: undefined
+}
+
+export type Variant = DotPath<AllVariantSets>
+
 export type Sx = {
   [StyleKey in StyleableSxProperties]?: FactoryValue<
     ResponsiveValue<SxValue<StyleKey>>
   >
 } &
   NativeSx &
-  WebShadowSx
+  WebShadowSx & {
+    variant?: Variant
+  }
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
@@ -153,6 +171,7 @@ const sx: Sx = {
     return theme.colors.$text
   },
   borderColor: '$text',
+  variant: 'shadows.test',
 }
 
 const sxProp: SxProp = (theme) => ({
@@ -219,6 +238,9 @@ const testTheme = makeTheme({
     test: {
       shadowColor: '$text',
     },
+  },
+  text: {
+    body: {},
   },
   types: {
     reactNativeTypesOnly: false,
