@@ -254,11 +254,11 @@ type TestTheme = typeof testTheme
 
 // remember to comment this out before pushing
 // // @ts-expect-error leave this here so we remember to comment out lol
-declare module './declarations' {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  interface DripsyCustomTheme extends TestTheme {}
-}
-
+// declare module './declarations' {
+//   // eslint-disable-next-line @typescript-eslint/no-empty-interface
+//   interface DripsyCustomTheme extends TestTheme {}
+// }
+//
 // #region tokens
 type MaybeTokensObjectFromScale<
   Key extends Scales[keyof Scales]
