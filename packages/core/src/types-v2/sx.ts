@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ThemeUICSSProperties } from '@theme-ui/css'
+import type { ThemeUICSSProperties } from '@theme-ui/css'
 import {
   DripsyFinalTheme,
   DripsyThemeWithoutIgnoredKeys,
@@ -7,9 +7,9 @@ import {
 } from './declarations'
 import type { ImageStyle, TextStyle, ViewStyle, ColorValue } from 'react-native'
 import type { AssertEqual, AssertTest, SmartOmit } from './type-helpers'
-import type { Scales } from '../css/scales'
-import type { Aliases } from '../css/scales'
-import { DripsyCustomTheme } from './declarations'
+import type { Scales, Aliases } from '../css/scales'
+import type { DripsyCustomTheme } from './declarations'
+import { ComponentType } from 'react'
 
 // ✅
 type ThemeKeysWhichContainVariants = keyof Pick<
@@ -303,8 +303,8 @@ type MaybeTokenOptionsFromStyleKeyTest3 = AssertEqual<
 >
 
 // #region variants
-type MaybeVariantsFromScale<
-  ThemeKey extends ThemeKeysWhichContainVariants | undefined
+type MaybeVariantsFromThemeKey<
+  ThemeKey extends keyof DripsyFinalTheme | undefined
 > = undefined extends ThemeKey
   ? undefined
   : ThemeKey extends keyof DripsyFinalTheme
@@ -313,7 +313,7 @@ type MaybeVariantsFromScale<
     : undefined
   : undefined
 
-const testVariant: MaybeVariantsFromScale<'text'> = 'body'
+const testVariant: MaybeVariantsFromThemeKey<'text'> = 'body'
 // #endregion
 
 // let a: MaybeTokenFromStyleKey<'alignItems'>
@@ -328,3 +328,11 @@ const testVariant: MaybeVariantsFromScale<'text'> = 'body'
 // testString('color', '$text')
 // testString('alignItems', false as never)
 // #endregion
+
+export type StyledProps<ThemeKey extends keyof DripsyFinalTheme> = {
+  as?: ComponentType
+  variant?: MaybeVariantsFromThemeKey<ThemeKey>
+  themeKey?: ThemeKey
+  sx?: SxProp
+  variants?: MaybeVariantsFromThemeKey<ThemeKey>[]
+}

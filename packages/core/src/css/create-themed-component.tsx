@@ -1,5 +1,6 @@
 import React, { ComponentType, PropsWithChildren } from 'react'
-import type { ThemedOptions, StyledProps, DripsyVariant } from './types'
+import type { StyledProps, DripsyVariant } from './types'
+import type { ThemedOptions } from './DefaultStyleKey'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './breakpoint-context'
 import { mapPropsToStyledComponent } from './map-props'

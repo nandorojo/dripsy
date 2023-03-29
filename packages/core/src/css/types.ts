@@ -7,22 +7,6 @@ import type { Shadows } from '../declarations'
 import type { DripsyFinalTheme } from '../declarations'
 import type { Aliases, Scales } from './scales'
 
-export type DefaultStyleKey = 'defaultStyle'
-
-export type ThemedOptions<
-  ExtraProps,
-  ThemeKey extends Extract<keyof DripsyFinalTheme, string>
-> = {
-  [key in DefaultStyleKey]?: Sx | ((props: ExtraProps) => Sx)
-} & {
-  defaultVariant?: (string & {}) | DripsyVariant<ThemeKey>
-  /**
-   * List of multiple variants
-   */
-  defaultVariants?: ((string & {}) | DripsyVariant<ThemeKey>)[]
-  themeKey?: ThemeKey
-}
-
 // https://github.com/intergalacticspacehighway/react-native-styled-variants/blob/main/src/types.ts
 // thank you @nishanbende!
 type HiddenArrayKeys = Exclude<keyof [], number>

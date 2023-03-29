@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 import { DripsyFinalTheme } from '../declarations'
 import { createThemedComponent } from './create-themed-component'
-import type { ThemedOptions } from './types'
+import type { ThemedOptions } from './DefaultStyleKey'
 
 /**
  * `styled` is little more than a recreation of `createThemedComponent`, with a nicer API. It does the same thing, but looks a bit nicer to use and has a clean name 😇

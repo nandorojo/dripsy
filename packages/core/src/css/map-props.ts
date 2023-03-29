@@ -1,9 +1,10 @@
 import { css } from './index'
-import { StyledProps, Sx, ThemedOptions } from './types'
+import { StyledProps, Sx } from './types'
+import { ThemedOptions } from './DefaultStyleKey'
 import { DripsyFinalTheme } from '../declarations'
 import { get } from './get'
 import { StyleSheet } from 'react-native'
-import { DefaultStyleKey } from '../css/types'
+import { DefaultStyleKey } from './DefaultStyleKey'
 
 type ThemedOptionsWithoutFunctionStyle<
   ThemeKey extends keyof DripsyFinalTheme
