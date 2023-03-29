@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/nandorojo/dripsy#readme",
   "devDependencies": {
-    "typescript": "^4.4.3"
+    "typescript": "5.0.2"
   },
   "jest": {
     "preset": "react-native",

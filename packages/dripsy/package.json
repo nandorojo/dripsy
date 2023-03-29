@@ -75,7 +75,7 @@
     ]
   },
   "devDependencies": {
-    "typescript": "^4.4.3"
+    "typescript": "5.0.2"
   },
   "dependencies": {
     "@dripsy/core": "^3.9.0"
