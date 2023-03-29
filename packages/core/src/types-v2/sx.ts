@@ -1,10 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ThemeUICSSProperties } from '@theme-ui/css'
 import {
   DripsyFinalTheme,
   DripsyThemeWithoutIgnoredKeys,
-  Shadows,
-  TextShadows,
-  ThemeColorName,
   makeTheme,
 } from './declarations'
 import type { ImageStyle, TextStyle, ViewStyle, ColorValue } from 'react-native'
@@ -79,6 +77,36 @@ type ReactNativeTypesOnly = NonNullable<
   ? true
   : false
 
+type OnlyAllowThemeValuesInput = NonNullable<
+  DripsyFinalTheme['types']
+>['onlyAllowThemeValues']
+
+type ThemeValuesOnlyForStyleKey<
+  StyleKeyOrAlias extends StyleableSxProperties,
+  Scale extends MaybeScaleFromStyleKeyOrAlias<StyleKeyOrAlias> = MaybeScaleFromStyleKeyOrAlias<StyleKeyOrAlias>
+> = OnlyAllowThemeValuesInput extends 'always'
+  ? true
+  : OnlyAllowThemeValuesInput extends Record<string, unknown>
+  ? Scale extends keyof OnlyAllowThemeValuesInput
+    ? true
+    : false
+  : false
+
+type ThemeValuesOnlyForStyleKeyTest = AssertEqual<
+  ThemeValuesOnlyForStyleKey<'color'>,
+  true
+>
+type ThemeValuesOnlyForStyleKeyTest2 = AssertEqual<
+  ThemeValuesOnlyForStyleKey<'padding'>,
+  false
+>
+type ThemeValuesOnlyForStyleKeyTest3 = AssertEqual<
+  ThemeValuesOnlyForStyleKey<'alignItems'>,
+  false
+>
+
+declare const b: ThemeValuesOnlyForStyleKey<'alignItems'>
+
 type MaybeThemeUiStyle<
   StyleKey extends StyleableSxProperties
 > = ReactNativeTypesOnly extends true
@@ -87,12 +115,17 @@ type MaybeThemeUiStyle<
   ? ThemeUICSSProperties[StyleKey]
   : never
 
-type SxValue<StyleKey extends StyleableSxProperties> =
-  | MaybeThemeUiStyle<StyleKey>
-  | false
-  | (MaybeTokenFromStyleKey<StyleKey> extends never
-      ? MaybeNativeStyleValue<StyleKey>
-      : MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number)
+type SxValue<
+  StyleKey extends StyleableSxProperties
+> = ThemeValuesOnlyForStyleKey<StyleKey> extends true
+  ? MaybeTokenFromStyleKey<StyleKey>
+  :
+      | MaybeThemeUiStyle<StyleKey>
+      | false
+      | (undefined extends MaybeTokenFromStyleKey<StyleKey>
+          ? MaybeNativeStyleValue<StyleKey>
+          : //   we add this string & number thing so that they can use other values from RN. it's the only way i think
+            MaybeTokenFromStyleKey<StyleKey> | (string & {}) | number)
 
 type Sx = {
   [StyleKey in StyleableSxProperties]?: ResponsiveValue<SxValue<StyleKey>>
@@ -109,12 +142,13 @@ const sx: Sx = {
   padding: '$1',
   paddingRight: '$1',
   pr: '$1',
-  color: 'test',
+  color: '$text',
   boxShadow: 'test',
   shadowColor: '$text',
   textShadowColor: '$text',
   alignItems: 'baseline',
   justifyContent: ['center', 'flex-end'],
+  paddingLeft: 20,
   //   pl: ['$1'],
 }
 
@@ -123,12 +157,11 @@ const sx: Sx = {
 // #region scales
 type MaybeScaleFromStyleKey<
   StyleKey extends StyleableSxProperties
-> = StyleKey extends keyof Scales ? Scales[StyleKey] : never
+> = StyleKey extends keyof Scales ? Scales[StyleKey] : undefined
 
 type ScaleTests = {
   space: MaybeScaleFromStyleKey<'padding'>
   colors: MaybeScaleFromStyleKey<'backgroundColor'>
-  MozAnimation: MaybeScaleFromStyleKey<'MozAnimation'>
 }
 
 type AssertedScaleTests = AssertTest<ScaleTests, ScaleTests>
@@ -181,6 +214,9 @@ const testTheme = makeTheme({
   },
   types: {
     reactNativeTypesOnly: true,
+    onlyAllowThemeValues: {
+      colors: 'always',
+    },
   },
 })
 type TestTheme = typeof testTheme
@@ -201,10 +237,12 @@ type MaybeTokensFromScaleTest = AssertEqual<
 >
 
 type MaybeTokenOptionsFromScale<
-  Key extends Scales[keyof Scales]
-> = MaybeTokensObjectFromScale<Key> extends Record<string, unknown>
-  ? keyof MaybeTokensObjectFromScale<Key>
-  : never
+  Key extends Scales[keyof Scales] | undefined
+> = Key extends Scales[keyof Scales]
+  ? MaybeTokensObjectFromScale<Key> extends Record<string, unknown>
+    ? keyof MaybeTokensObjectFromScale<Key>
+    : undefined
+  : undefined
 
 type MaybeTokenOptionsFromScaleTest = AssertEqual<
   keyof DripsyFinalTheme['colors'],
@@ -213,8 +251,8 @@ type MaybeTokenOptionsFromScaleTest = AssertEqual<
 
 type MaybeTokenFromStyleKey<
   StyleKey extends StyleableSxProperties
-> = MaybeScaleFromStyleKeyOrAlias<StyleKey> extends never
-  ? never
+> = MaybeScaleFromStyleKeyOrAlias<StyleKey> extends undefined
+  ? undefined
   : MaybeTokenOptionsFromScale<MaybeScaleFromStyleKeyOrAlias<StyleKey>>
 
 type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
@@ -227,15 +265,15 @@ type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
   never
 >
 
-let a: MaybeTokenFromStyleKey<'alignItems'>
+// let a: MaybeTokenFromStyleKey<'alignItems'>
 
-declare function testString<
-  K extends StyleableSxProperties,
-  U extends MaybeTokenFromStyleKey<K> extends never
-    ? false
-    : true = MaybeTokenFromStyleKey<K> extends never ? false : true
->(value: K, u: MaybeTokenFromStyleKey<K>): U
+// declare function testString<
+//   K extends StyleableSxProperties,
+//   U extends MaybeTokenFromStyleKey<K> extends never
+//     ? false
+//     : true = MaybeTokenFromStyleKey<K> extends never ? false : true
+// >(value: K, u: MaybeTokenFromStyleKey<K>): U
 
-testString('color', '$text')
-testString('alignItems', false as never)
+// testString('color', '$text')
+// testString('alignItems', false as never)
 // #endregion
