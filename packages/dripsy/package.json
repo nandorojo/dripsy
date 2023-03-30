@@ -3,7 +3,7 @@
   "version": "4.0.0-alpha.18+fd400d6",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "types": "index.d.ts",
   "react-native": "src/index.ts",
   "source": "src/index.ts",
   "files": [
