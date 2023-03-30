@@ -5,8 +5,11 @@ import { DripsyFinalTheme } from '../declarations'
 import { useSx } from '../use-sx'
 import { SxProp } from '../types-v2/sx'
 
-type Props = Omit<ComponentProps<typeof NativeActivityIndicator>, 'color'> & {
-  color?: (string & {}) | keyof DripsyFinalTheme['colors']
+type Props<Theme extends DripsyFinalTheme = DripsyFinalTheme> = Omit<
+  ComponentProps<typeof NativeActivityIndicator>,
+  'color'
+> & {
+  color?: (string & {}) | keyof Theme['colors']
 }
 
 function Indicator(props: Props & { sx?: SxProp }) {

@@ -258,12 +258,12 @@ const testTheme = makeTheme({
 type TestTheme = typeof testTheme
 
 // remember to comment this out before pushing
-// // @ts-expect-error leave this here so we remember to comment out lol
 // declare module './declarations' {
+//   // @ts-expect-error leave this here so we remember to comment out lol
 //   // eslint-disable-next-line @typescript-eslint/no-empty-interface
 //   interface DripsyCustomTheme extends TestTheme {}
 // }
-//
+
 // #region tokens
 type MaybeTokensObjectFromScale<
   Key extends Scales[keyof Scales]
@@ -333,12 +333,28 @@ export type MaybeVariantsFromThemeKey<
 // testString('alignItems', false as never)
 // #endregion
 
-export type StyledProps<ThemeKey extends keyof DripsyFinalTheme | undefined> = {
+type VariantProp<
+  ThemeKey extends keyof DripsyFinalTheme | undefined | 'missing'
+> = ThemeKey extends 'missing' | undefined
+  ? Variant
+  : ThemeKey extends keyof DripsyFinalTheme
+  ? DripsyFinalTheme[ThemeKey] extends undefined
+    ? Variant
+    : MaybeVariantsFromThemeKey<ThemeKey>
+  : undefined
+
+// type TestVariant1 = AssertEqual<VariantProp<'text'>, 'body'>
+// type TestVariant2 = AssertEqual<VariantProp<undefined>, 'shadows.test'>
+
+export type StyledProps<
+  // idk lol this hack with missing seems to work. without it the variant prop for View is empty. undefined might be weird
+  ThemeKey extends keyof DripsyFinalTheme | undefined | 'missing' = 'missing'
+> = {
   as?: ComponentType
-  variant?: MaybeVariantsFromThemeKey<ThemeKey>
+  variant?: VariantProp<ThemeKey>
   themeKey?: ThemeKey
   sx?: SxProp
-  variants?: MaybeVariantsFromThemeKey<ThemeKey>[]
+  variants?: VariantProp<ThemeKey>[]
 }
 
 export type ThemedOptions<

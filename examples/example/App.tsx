@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   styled,
   H4,
+  ScrollView,
 } from 'dripsy'
 // Import from core
 import { Gradient } from 'dripsy/gradient'
@@ -216,6 +217,7 @@ const ResponsiveSquare = () => {
         marginVertical: '$0',
         variant: 'buttons.primary',
       }}
+      variant=""
     >
       <View ref={ref} />
       <DripsyInput ref={input} />
@@ -242,7 +244,8 @@ export default function App() {
   const [state, toggleState] = React.useReducer((s) => !s, true)
   return (
     <DripsyProvider theme={theme}>
-      <Container>
+      <ScrollView variant="buttons.primary" />
+      <Container variant="narrow">
         <View
           sx={{
             color: 'primary',
@@ -262,6 +265,7 @@ export default function App() {
               ],
               flex: 1,
             })}
+            variant="primary"
           >
             Intellisense for shadows!
           </H4>
@@ -276,6 +280,7 @@ export default function App() {
           <Gradient
             sx={{ height: 50, width: 50, my: '$3' }}
             gradient="strong"
+            variant="layout.wide"
             colors={['accent']}
           />
           <Pressable

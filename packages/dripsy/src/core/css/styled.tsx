@@ -19,8 +19,8 @@ import { MaybeVariantsFromThemeKey, ThemedOptions } from '../types-v2/sx'
 
 export function styled<
   Props,
-  C extends ComponentType<any> = ComponentType<Props>,
-  ThemeKey extends keyof DripsyFinalTheme = keyof DripsyFinalTheme
+  ThemeKey extends keyof DripsyFinalTheme | undefined = undefined,
+  C extends ComponentType<any> = ComponentType<Props>
 >(
   Component: C,
   {
