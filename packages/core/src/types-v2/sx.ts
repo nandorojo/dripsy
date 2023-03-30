@@ -31,7 +31,7 @@ type ThemeKeysWhichContainVariants = keyof Pick<
   | 'textShadows'
 >
 
-export type ResponsiveValue<T> = T | (null | T)[] | null | undefined
+export type ResponsiveValue<T> = T | (null | T | undefined)[] | null | undefined
 
 // #region shadows
 type WebShadowSx = {
