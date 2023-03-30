@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "4.0.0-alpha.40+22d82e5",
+  "version": "4.0.0-alpha.41+59f10f5",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
   "types": "index.d.ts",
@@ -86,5 +86,5 @@
     "ts-toolbelt": "^9.6.0"
   },
   "sideEffects": false,
-  "gitHead": "22d82e5115c91dbc3df35889c5e0602f79ffe714"
+  "gitHead": "59f10f59f09edcd2fdc07aced16c18e4571e00be"
 }
