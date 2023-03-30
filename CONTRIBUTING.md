@@ -1,45 +1,26 @@
 # Contributing
 
+Please keep in mind that I copy-pasted this contributing guide as a starting point...
+
 We want this community to be friendly and respectful to each other. Please follow it in all your interactions with the project.
 
 ## Development workflow
 
-To get started with the project, run `yarn bootstrap` in the root directory to install the required dependencies for each package:
+To get started with the project, run `yarn` in the root directory to install the required dependencies for each package:
 
-```sh
-yarn bootstrap
-```
-
-While developing, you can run the [example app](/example/) to test your changes.
+While developing, you can run the [example app](/examples/example) to test your changes.
 
 To start the packager:
 
 ```sh
-yarn example start
-```
-
-To run the example app on Android:
-
-```sh
-yarn example android
-```
-
-To run the example app on iOS:
-
-```sh
-yarn example ios
-```
-
-To run the example app on Web:
-
-```sh
-yarn example web
+yarn
+expo start --ios
 ```
 
 Make sure your code passes TypeScript and ESLint. Run the following to verify:
 
 ```sh
-yarn typescript
+yarn prepare
 yarn lint
 ```
 
@@ -47,12 +28,6 @@ To fix formatting errors, run the following:
 
 ```sh
 yarn lint --fix
-```
-
-Remember to add tests for your change if possible. Run the unit tests by:
-
-```sh
-yarn test
 ```
 
 ### Commit message convention
@@ -79,14 +54,6 @@ Our pre-commit hooks verify that the linter and tests pass when committing.
 ### Scripts
 
 The `package.json` file contains various scripts for common tasks:
-
-- `yarn bootstrap`: setup project by installing all dependencies and pods.
-- `yarn typescript`: type-check files with TypeScript.
-- `yarn lint`: lint files with ESLint.
-- `yarn test`: run unit tests with Jest.
-- `yarn example start`: start the Metro server for the example app.
-- `yarn example android`: run the example app on Android.
-- `yarn example ios`: run the example app on iOS.
 
 ### Sending a pull request
 
