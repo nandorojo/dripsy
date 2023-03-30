@@ -11,10 +11,10 @@ import {
   useResponsiveValue,
   ActivityIndicator,
   styled,
+  H4,
 } from 'dripsy'
 // Import from core
-import { H4 } from '@dripsy/core'
-import { Gradient } from '@dripsy/gradient'
+import { Gradient } from 'dripsy/gradient'
 import {
   Text,
   TextInput,
@@ -275,7 +275,7 @@ export default function App() {
           <ResponsiveSquare />
           <Gradient
             sx={{ height: 50, width: 50, my: '$3' }}
-            gradient="light"
+            gradient="strong"
             colors={['accent']}
           />
           <Pressable

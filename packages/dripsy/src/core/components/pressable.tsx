@@ -19,7 +19,12 @@ const StyledPressable = styled(NativePressable)(
   })
 )
 export const Pressable = React.forwardRef(function Pressable(
-  props: Omit<ComponentProps<typeof StyledPressable>, 'showCursor'>,
+  props: Omit<
+    ComponentProps<typeof StyledPressable>,
+    'showCursor' | 'children'
+  > & {
+    children?: ComponentProps<typeof NativePressable>['children']
+  },
   ref?: ComponentPropsWithRef<typeof NativePressable>['ref']
 ) {
   return (
