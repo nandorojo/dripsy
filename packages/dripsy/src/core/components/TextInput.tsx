@@ -1,6 +1,6 @@
 import React, { ComponentProps, forwardRef } from 'react'
 import { TextInput as rTextInput } from 'react-native'
-import { DripsyFinalTheme } from '../declarations'
+import { DripsyFinalTheme } from '../types-v2/declarations'
 import { createThemedComponent } from '../css/create-themed-component'
 import { defaultFontStyle } from './defaultStyle'
 import { useDripsyTheme } from '../use-dripsy-theme'
