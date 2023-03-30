@@ -41,7 +41,5 @@ export function styled<
     } as any)
   }
 
-  dripsyFactory.themeKey = themeKey
-
   return dripsyFactory
 }

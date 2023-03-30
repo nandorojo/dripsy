@@ -55,16 +55,16 @@ React.ForwardRefExoticComponent<
   >(function Wrapped(prop, ref) {
     const {
       sx: _sx,
-      as: SuperComponent,
+      as,
       variant,
       style,
       themeKey,
       variants = options.defaultVariants,
       ...props
     } = prop
-    if (typeof __DEV__ !== 'undefined' && typeof SuperComponent === 'string') {
+    if (typeof __DEV__ !== 'undefined' && typeof as === 'string') {
       console.error(
-        `[dripsy] Looks like you used an invalid "as" prop. "${SuperComponent}" can't be string. Please pass a valid React component. HTML elements are not supported.`
+        `[dripsy] Looks like you used an invalid "as" prop. "${as}" can't be a string. Please pass a valid React component. HTML elements are not supported.`
       )
     }
     const defaultStyle =
@@ -96,7 +96,7 @@ React.ForwardRefExoticComponent<
       [theme, breakpoint, variant, sx, style, variants, themeKey, defaultStyle]
     )
 
-    const TheComponent = SuperComponent || Component
+    const TheComponent = as || Component
 
     return <TheComponent {...(props as any)} ref={ref} style={styles} />
   })
