@@ -1,1 +1,1 @@
-export * from '@dripsy/core'
+export * from './core'
