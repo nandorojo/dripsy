@@ -80,7 +80,7 @@ export function createThemedComponent<
             variant,
             sx,
             style,
-            variants: variants,
+            variants: variants as any,
           },
           {
             ...options,
