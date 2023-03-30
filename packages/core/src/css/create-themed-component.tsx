@@ -1,4 +1,4 @@
-import React, { ComponentType, PropsWithChildren } from 'react'
+import React, { ComponentProps, ComponentType, PropsWithChildren } from 'react'
 import { useDripsyTheme } from '../use-dripsy-theme'
 import { useBreakpointIndex } from './breakpoint-context'
 import { mapPropsToStyledComponent } from './map-props'
@@ -13,10 +13,18 @@ type PropsWithStyledProps<
   ThemeKey extends keyof DripsyFinalTheme | undefined
 > = P & StyledProps<ThemeKey>
 
-// prettier-ignore
-export type Props<C, ExtraProps, ThemeKey extends keyof DripsyFinalTheme | undefined> = C extends ComponentType<infer BaseProps>
-  ? MergeProps<PropsWithoutVariants<BaseProps>, PropsWithStyledProps<ExtraProps, ThemeKey>>
+export type Props<
+  C,
+  ExtraProps,
+  ThemeKey extends keyof DripsyFinalTheme | undefined
+> = C extends ComponentType<infer BaseProps>
+  ? MergeProps<
+      PropsWithoutVariants<BaseProps>,
+      PropsWithStyledProps<ExtraProps, ThemeKey>
+    >
   : never
+
+type GetProps<C> = C extends ComponentType<infer P> ? P : never
 
 export function createThemedComponent<
   C extends ComponentType<any>,
@@ -28,9 +36,18 @@ export function createThemedComponent<
     defaultStyle: baseStyle,
     ...options
   }: ThemedOptions<ExtraProps, ThemeKey> = {}
-): React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<PropsWithChildren<Props<C, ExtraProps, ThemeKey>>> &
-    React.RefAttributes<React.ElementRef<C>>
+): // React.ForwardRefExoticComponent<
+//   React.PropsWithoutRef<PropsWithChildren<Props<C, ExtraProps, ThemeKey>>> &
+//     React.RefAttributes<React.ElementRef<C>>
+// >
+
+React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<
+    Omit<PropsWithChildren<GetProps<C>>, 'variant' | 'variants'>
+  > &
+    StyledProps<ThemeKey> &
+    React.RefAttributes<React.ElementRef<C>> &
+    ExtraProps
 > {
   const WrappedComponent = React.forwardRef<
     any,
@@ -88,5 +105,5 @@ export function createThemedComponent<
     Component?.displayName ?? 'NoNameComponent'
   }`
 
-  return WrappedComponent
+  return WrappedComponent as any
 }

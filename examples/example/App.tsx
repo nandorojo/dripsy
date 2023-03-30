@@ -13,7 +13,7 @@ import {
   styled,
 } from 'dripsy'
 // Import from core
-import { H4, ScrollView } from '@dripsy/core'
+import { H4 } from '@dripsy/core'
 import { Gradient } from '@dripsy/gradient'
 import {
   Text,
@@ -195,7 +195,7 @@ export const ExtendK = () => (
 )
 
 /* should not error */
-export const ExtendL = () => <ExtendedCompWithExtraProps2 custom={false} />
+export const ExtendL = () => <ExtendedCompWithExtraProps2 custom />
 
 const ResponsiveSquare = () => {
   // Return literal values:
@@ -222,7 +222,7 @@ const ResponsiveSquare = () => {
       <DripText
         sx={{ color: 'accent', px: '$0' }}
         variants={['primary']}
-        variant="secondary"
+        variant="primary"
       >
         Hello
       </DripText>
@@ -242,7 +242,6 @@ export default function App() {
   const [state, toggleState] = React.useReducer((s) => !s, true)
   return (
     <DripsyProvider theme={theme}>
-      <ScrollView />
       <Container>
         <View
           sx={{
