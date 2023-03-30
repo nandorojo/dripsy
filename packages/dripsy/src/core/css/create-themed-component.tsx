@@ -6,6 +6,24 @@ import { DripsyFinalTheme } from '../types-v2/declarations'
 import { useStableMemo } from '../utils/use-stable-memo'
 import { StyledProps, ThemedOptions } from '../types-v2/sx'
 
+type MergeProps<P1, P2> = Omit<P1, keyof P2> & P2
+type PropsWithoutVariants<P> = Omit<P, 'variant' | 'variants'>
+type PropsWithStyledProps<
+  P,
+  ThemeKey extends keyof DripsyFinalTheme | undefined
+> = P & StyledProps<ThemeKey>
+
+export type Props<
+  C,
+  ExtraProps,
+  ThemeKey extends keyof DripsyFinalTheme | undefined
+> = C extends ComponentType<infer BaseProps>
+  ? MergeProps<
+      PropsWithoutVariants<BaseProps>,
+      PropsWithStyledProps<ExtraProps, ThemeKey>
+    >
+  : never
+
 type GetProps<C> = C extends ComponentType<infer P> ? P : never
 
 export function createThemedComponent<

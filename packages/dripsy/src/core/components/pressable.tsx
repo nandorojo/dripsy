@@ -38,6 +38,8 @@ export const Pressable = React.forwardRef(function Pressable(
       }
       {...props}
       ref={ref}
-    />
+    >
+      {props.children as any}
+    </StyledPressable>
   )
 })
