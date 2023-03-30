@@ -79,9 +79,6 @@
   "devDependencies": {
     "typescript": "5.0.2"
   },
-  "dependencies": {
-    "@dripsy/core": "^4.0.0-alpha.18+fd400d6"
-  },
   "sideEffects": false,
   "gitHead": "fd400d6398763e64fe9b2753c6d97a0525d282e0"
 }
