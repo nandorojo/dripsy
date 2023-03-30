@@ -246,7 +246,13 @@ export const css = (
       continue
     }
 
-    const prop = key in aliases ? aliases[key as keyof Aliases] : key
+    const themedAliases = {
+      ...aliases,
+      ...theme.aliases,
+    }
+
+    const prop =
+      key in themedAliases ? themedAliases[key as keyof Aliases] : key
     const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
     // @ts-expect-error
     const scale = get(theme, scaleName, get(theme, prop, {}))

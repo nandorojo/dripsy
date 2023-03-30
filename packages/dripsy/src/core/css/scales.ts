@@ -1,3 +1,5 @@
+import { DripsyFinalTheme } from '../types-v2/declarations'
+
 export const aliases = {
   zi: 'zIndex',
   dsp: 'display',
@@ -96,7 +98,7 @@ export const aliases = {
   ussel: 'userSelect',
   cur: 'cursor',
 } as const
-export type Aliases = typeof aliases
+export type Aliases = typeof aliases & DripsyFinalTheme['aliases']
 
 export const scales = {
   // RN SPECIFIC SCALES FIRST

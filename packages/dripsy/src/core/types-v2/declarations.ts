@@ -128,6 +128,9 @@ export interface DripsyBaseTheme
   fontWeights?: Partial<{
     [key: string]: FontWeight
   }>
+  aliases?: {
+    [key: string]: keyof (ViewStyle & TextStyle & ImageStyle)
+  }
   types?: {
     /**
      * Docs: https://dripsy.xyz/typescript/strict

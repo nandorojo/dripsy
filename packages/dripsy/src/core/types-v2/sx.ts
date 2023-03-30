@@ -68,6 +68,7 @@ type StyleableSxProperties = Exclude<
   | Exclude<keyof ThemeUICSSProperties, 'textShadow' | 'boxShadow' | 'variant'>
   | keyof ViewStyle
   | keyof TextStyle
+  | keyof DripsyFinalTheme['aliases']
   | keyof ImageStyle,
   keyof NativeSx | keyof WebShadowSx
 >

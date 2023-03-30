@@ -120,6 +120,9 @@ const theme = makeTheme({
   //   },
   //   reactNativeTypesOnly: false,
   // },
+  aliases: {
+    www: 'color',
+  },
 })
 
 const G = createThemedComponent(Text, {
@@ -210,12 +213,13 @@ const ResponsiveSquare = () => {
   return (
     <View
       sx={{
-        bg: 'gray',
+        bg: 'background',
         padding: ['$3'],
         pb: (theme) => '$0',
-        paddingHorizontal: 4,
+        paddingHorizontal: '$4',
         marginVertical: '$0',
         variant: 'buttons.primary',
+        www: 'accent',
       }}
       variant="buttons.primary"
     >
