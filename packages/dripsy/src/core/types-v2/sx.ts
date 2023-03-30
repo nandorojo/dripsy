@@ -221,6 +221,8 @@ type AliasToStyleKey<
   StyleKeyOrAlias extends StyleableSxProperties
 > = StyleKeyOrAlias extends keyof Aliases
   ? Aliases[StyleKeyOrAlias]
+  : StyleKeyOrAlias extends keyof DripsyFinalTheme['aliases']
+  ? DripsyFinalTheme['aliases'][StyleKeyOrAlias]
   : StyleKeyOrAlias
 
 type AliasTests = {

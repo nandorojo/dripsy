@@ -129,7 +129,7 @@ export interface DripsyBaseTheme
     [key: string]: FontWeight
   }>
   aliases?: {
-    [key: string]: keyof (ViewStyle & TextStyle & ImageStyle)
+    [key: string]: keyof TextStyle
   }
   types?: {
     /**

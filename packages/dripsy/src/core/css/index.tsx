@@ -222,7 +222,7 @@ export const css = (
     }
 
     if (key == 'boxShadow' && val && theme.shadows?.[val]) {
-      const styledBoxShadow = css(theme.shadows[val], breakpoint)(theme)
+      const styledBoxShadow = css(theme.shadows[val] as any, breakpoint)(theme)
       result = { ...result, ...styledBoxShadow }
       continue
     }
