@@ -74,7 +74,7 @@ type MaybeNativeStyleValue<
   StyleKey = AliasToStyleKey<StyleKeyOrAlias>
 > = StyleKey extends keyof NativeStyleProperties
   ? NativeStyleProperties[StyleKey]
-  : never
+  : MaybeThemeUiStyle<StyleKeyOrAlias>
 
 type ReactNativeTypesOnly = NonNullable<
   DripsyFinalTheme['types']
