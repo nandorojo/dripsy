@@ -228,7 +228,7 @@ const ResponsiveSquare = () => {
       >
         Hello
       </DripText>
-      <ActivityIndicator color="gray" />
+      <ActivityIndicator color="callout" />
     </View>
   )
 }
