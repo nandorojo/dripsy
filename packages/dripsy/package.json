@@ -8,7 +8,9 @@
   "source": "src/index.ts",
   "files": [
     "src",
-    "build"
+    "build",
+    "gradient",
+    "index.d.ts"
   ],
   "scripts": {
     "typescript": "tsc --noEmit",
