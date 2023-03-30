@@ -48,11 +48,11 @@ const theme = makeTheme({
     $8: 512,
   },
   types: {
-    // onlyAllowThemeValues: {
-    //   // let's only restrict colors!
-    //   colors: 'always',
-    //   space: 'always',
-    // },
+    onlyAllowThemeValues: {
+      // let's only restrict colors!
+      colors: 'always',
+      space: 'always',
+    },
     // strictVariants: true,
   },
   shadows: {
@@ -213,14 +213,14 @@ const ResponsiveSquare = () => {
         bg: 'gray',
         padding: ['$3'],
         pb: (theme) => '$0',
-        paddingHorizontal: '$3',
+        paddingHorizontal: 4,
         marginVertical: '$0',
         variant: 'buttons.primary',
       }}
-      variant=""
+      variant="buttons.primary"
     >
       <View ref={ref} />
-      <DripsyInput ref={input} />
+      <DripsyInput ref={input} placeholderTextColor="accent" />
       <DripText
         sx={{ color: 'accent', px: '$0' }}
         variants={['primary']}
