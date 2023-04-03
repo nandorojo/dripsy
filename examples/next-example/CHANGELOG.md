@@ -11,6 +11,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+
+
+**Note:** Version bump only for package next-dripsy-example
+
+
+
+
+
 # [3.9.0](https://github.com/nandorojo/dripsy/compare/v3.8.0...v3.9.0) (2022-12-23)
 
 **Note:** Version bump only for package next-dripsy-example
