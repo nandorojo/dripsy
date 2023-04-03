@@ -4,8 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
     "paths": {
-      "@dripsy/*": ["../../packages/*/src"],
-      "dripsy": ["../../packages/dripsy/src"]
+      "dripsy$": ["../../packages/dripsy/src"]
     },
     "allowJs": true,
     "skipLibCheck": true,
