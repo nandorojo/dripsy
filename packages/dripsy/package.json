@@ -1,6 +1,6 @@
 {
   "name": "dripsy",
-  "version": "4.0.0-alpha.45+9b39e73",
+  "version": "4.0.0",
   "description": "🍷 A super-simple responsive design system for React Native Web.",
   "main": "build/index.js",
   "types": "index.d.ts",
