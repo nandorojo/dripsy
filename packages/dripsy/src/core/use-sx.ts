@@ -11,23 +11,23 @@ export function useSx() {
   const { theme } = useDripsyTheme()
   const breakpoint = useBreakpointIndex()
 
-  const cache = useRef<Record<string, StyleProp<any>>>({})
+  const cache = useRef<Map<string, StyleProp<any>>>(new Map())
 
-  return useCallback(
-    (sx: SxProp, { themeKey }: { themeKey?: keyof DripsyFinalTheme } = {}) => {
-      const themedStyle = css(
-        sx,
-        breakpoint
-      )({
-        theme,
-        themeKey,
-      })
-      const hash = stableHash(themedStyle)
-      if (!cache.current[hash]) {
-        cache.current[hash] = themedStyle
-      }
-      return cache.current[hash]
-    },
-    [breakpoint, theme]
-  )
+  return (
+    sx: SxProp,
+    { themeKey }: { themeKey?: keyof DripsyFinalTheme } = {}
+  ) => {
+    const themedStyle = css(
+      sx,
+      breakpoint
+    )({
+      theme,
+      themeKey,
+    })
+    const hash = stableHash(themedStyle)
+    if (!cache.current.has(hash)) {
+      cache.current.set(hash, themedStyle)
+    }
+    return cache.current.get(hash)
+  }
 }

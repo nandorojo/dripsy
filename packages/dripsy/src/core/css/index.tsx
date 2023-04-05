@@ -30,17 +30,17 @@ const defaultTheme = {
     $6: 128,
     $7: 256,
     $8: 512,
-    0: 0,
-    1: 4,
-    2: 8,
-    3: 16,
-    4: 32,
-    5: 64,
-    6: 128,
-    7: 256,
-    8: 512,
+    // 0: 0,
+    // 1: 4,
+    // 2: 8,
+    // 3: 16,
+    // 4: 32,
+    // 5: 64,
+    // 6: 128,
+    // 7: 256,
+    // 8: 512,
   },
-  fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
+  // fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72],
 }
 
 export type ResponsiveSSRStyles = Exclude<
@@ -254,10 +254,9 @@ export const css = (
     const prop =
       key in themedAliases ? themedAliases[key as keyof Aliases] : key
     const scaleName = prop in scales ? scales[prop as keyof Scales] : undefined
-    // @ts-expect-error
-    const scale = get(theme, scaleName, get(theme, prop, {}))
-    const transform = get(transforms, prop, get)
-    const value = transform(scale, val, val)
+    const scale = get(theme, scaleName as any, get(theme, prop, {}))
+    // const transform = get(transforms, prop, get)
+    const value = get(scale, val, val)
 
     if (key === 'fontFamily') {
       // ok, building off of fontWeight prior
