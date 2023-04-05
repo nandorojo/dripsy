@@ -58,7 +58,7 @@ type NativeSx = {
   animationKeyframes?: Record<string, unknown>
   animationDuration?: string
   animationDelay?: string
-}
+} & Pick<ViewStyle, 'shadowOffset'>
 
 // #endregion
 
@@ -68,8 +68,8 @@ type StyleableSxProperties = Exclude<
   | Exclude<keyof ThemeUICSSProperties, 'textShadow' | 'boxShadow' | 'variant'>
   | keyof ViewStyle
   | keyof TextStyle
-  | keyof DripsyFinalTheme['aliases']
-  | keyof ImageStyle,
+  | keyof ImageStyle
+  | keyof DripsyFinalTheme['aliases'],
   keyof NativeSx | keyof WebShadowSx
 >
 
@@ -179,6 +179,10 @@ const sx: SxProp = {
   paddingLeft: 20,
   borderColor: '$text',
   flex: 1,
+  shadowOffset: {
+    height: 10,
+    width: 10,
+  },
 }
 
 // const sxProp: SxProp = (theme) => ({
