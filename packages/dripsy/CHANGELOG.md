@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/nandorojo/dripsy/compare/v4.0.0...v4.0.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* pressable types ([a33a05c](https://github.com/nandorojo/dripsy/commit/a33a05cb62f4d4ae8640e67c123d77fb551be746))
+* transforms ([f662761](https://github.com/nandorojo/dripsy/commit/f662761a205480e4f04f7e8ce51b7cfe331eeeda))
+
+
+
+
+
 
 
 **Note:** Version bump only for package dripsy
