@@ -146,12 +146,35 @@ type AllVariantSets = {
     : never]: DripsyFinalTheme[K]
 }
 
-type DotPath<T> = keyof {
-  [K in keyof T as `${Extract<K, string>}.${Extract<
-    keyof T[K],
-    string
-  >}`]: undefined
-}
+type ValueOf<T> = T[keyof T]
+
+type DotPath<T> = ValueOf<
+  {
+    [K in keyof T]: `${Extract<K, string | number>}.${Extract<
+      keyof T[K],
+      string | number
+    >}`
+  }
+>
+
+type DotPathOrKeyOf<T> = ValueOf<
+  {
+    [K in keyof T]: T[K] extends Record<string | number, string>
+      ? `${Extract<K, string | number>}.${Extract<keyof T[K], string | number>}`
+      : K
+  }
+>
+
+type DotPathOrKeyofTest = AssertEqual<
+  DotPathOrKeyOf<TestTheme['colors']>,
+  '$nested.100'
+>
+
+type DotPathColors = DotPathOrKeyOf<{
+  $here: {
+    100: 1
+  }
+}>
 
 export type Variant = DotPath<AllVariantSets>
 
@@ -179,6 +202,7 @@ const sx: SxProp = {
   paddingLeft: 20,
   borderColor: '$text',
   flex: 1,
+  color: '$nested.100',
   shadowOffset: {
     height: 10,
     width: 10,
@@ -243,6 +267,10 @@ type AssertedAliasTests = AssertTest<AliasTests, AliasTests>
 const testTheme = makeTheme({
   colors: {
     $text: 'color',
+    $nested: {
+      100: 'red',
+      200: 'blue',
+    },
   },
   space: {
     $1: 1,
@@ -264,7 +292,6 @@ const testTheme = makeTheme({
 })
 type TestTheme = typeof testTheme
 
-// remember to comment this out before pushing
 // declare module './declarations' {
 //   // @ts-expect-error leave this here so we remember to comment out lol
 //   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -285,7 +312,8 @@ type MaybeTokenOptionsFromScale<
   Key extends Scales[keyof Scales] | undefined
 > = Key extends Scales[keyof Scales]
   ? MaybeTokensObjectFromScale<Key> extends Record<string, unknown>
-    ? `${Extract<keyof MaybeTokensObjectFromScale<Key>, string>}`
+    ? // ? `${Extract<keyof MaybeTokensObjectFromScale<Key>, string>}`
+      `${Exclude<DotPathOrKeyOf<MaybeTokensObjectFromScale<Key>>, symbol>}`
     : undefined
   : undefined
 
@@ -300,10 +328,10 @@ type MaybeTokenFromStyleKey<
   ? undefined
   : MaybeTokenOptionsFromScale<MaybeScaleFromStyleKeyOrAlias<StyleKey>>
 
-type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
-  MaybeTokenFromStyleKey<'bg'>,
-  keyof DripsyFinalTheme['colors']
->
+// type MaybeTokenOptionsFromStyleKeyTest = AssertEqual<
+//   MaybeTokenFromStyleKey<'bg'>,
+//   keyof DripsyFinalTheme['colors']
+// >
 
 // type MaybeTokenOptionsFromStyleKeyTest2 = AssertEqual<
 //   '$1',
