@@ -245,7 +245,7 @@ export interface DripsyBaseTheme
   }
 }
 
-export function makeTheme<const T extends DripsyBaseTheme>(
+export function makeTheme<T extends DripsyBaseTheme>(
   theme: Function.Narrow<T>
 ): Function.Narrow<T> {
   return theme
