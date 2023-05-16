@@ -264,7 +264,7 @@ export default function App() {
           variant="shadows.md"
         >
           <H4
-            sx={(theme) => ({
+            sx={{
               boxShadow: [null, 'md'],
               textShadow: 'onImage',
               variant: 'text.primary',
@@ -275,7 +275,7 @@ export default function App() {
                 },
               ],
               flex: 1,
-            })}
+            }}
             variant="primary"
           >
             Intellisense for shadows!

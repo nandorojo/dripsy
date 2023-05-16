@@ -3,7 +3,7 @@ import type { Theme } from '@theme-ui/css'
 import type { Function } from 'ts-toolbelt'
 import { ColorPath } from './sx'
 
-export type ThemeColorName = ColorPath 
+export type ThemeColorName = ColorPath
 
 export type Shadows = Pick<
   ViewStyle,
@@ -245,7 +245,7 @@ export interface DripsyBaseTheme
   }
 }
 
-export function makeTheme<const T extends DripsyBaseTheme>(
+export function makeTheme<T extends DripsyBaseTheme>(
   theme: Function.Narrow<T>
 ): Function.Narrow<T> {
   return theme

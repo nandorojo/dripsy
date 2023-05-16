@@ -201,7 +201,7 @@ const sx: Sx = {
   m: '$1',
   boxShadow: 'test',
   shadowColor: '$text',
-  textShadowColor: '$text',
+  textShadowColor: '$nested.100',
   alignItems: 'center',
   justifyContent: ['center', 'flex-end'],
   paddingLeft: 20,
@@ -212,7 +212,6 @@ const sx: Sx = {
     height: 10,
     width: 10,
   },
-  ...sx2,
 }
 
 // const sxProp: SxProp = (theme) => ({
