@@ -39,13 +39,6 @@
     "url": "https://github.com/nandorojo/dripsy/issues"
   },
   "homepage": "https://github.com/nandorojo/dripsy#readme",
-  "jest": {
-    "preset": "react-native",
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
-    ]
-  },
   "eslintIgnore": [
     "node_modules/",
     "lib/"

@@ -10,6 +10,7 @@ import {
   DripsyBaseTheme,
   ColorPath,
 } from '../core'
+import { get } from '../core/css/get'
 
 type Props<Theme extends DripsyBaseTheme = DripsyFinalTheme> = Omit<
   React.ComponentProps<typeof ExpoLinearGradient>,
@@ -31,8 +32,8 @@ const Grad = styled(
       const colorArrayToTheme = (colorArray: typeof colors) => {
         // Return an empty array if the colors come back as undefined
         return (
-          colorArray?.map(
-            (color) => (themeColors?.[color] as string) ?? color
+          colorArray?.map((color) =>
+            themeColors ? get(themeColors, color) : color
           ) ?? []
         )
       }
