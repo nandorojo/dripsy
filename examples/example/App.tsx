@@ -13,6 +13,7 @@ import {
   styled,
   H4,
   ScrollView,
+  Sx,
 } from 'dripsy'
 // Import from core
 import { Gradient } from 'dripsy/gradient'
@@ -201,6 +202,8 @@ export const ExtendK = () => (
 /* should not error */
 export const ExtendL = () => <ExtendedCompWithExtraProps2 custom />
 
+const sx: Sx = {}
+
 const ResponsiveSquare = () => {
   // Return literal values:
   const textColor = useResponsiveValue(['red', 'green', 'blue'])
@@ -215,11 +218,12 @@ const ResponsiveSquare = () => {
       sx={{
         bg: 'background',
         padding: ['$3'],
-        pb: (theme) => '$0',
+        pb: (theme) => 0,
         paddingHorizontal: '$4',
         marginVertical: '$0',
         variant: 'buttons.primary',
         www: 'accent',
+        ...sx,
       }}
       variant="buttons.primary"
     >

@@ -190,7 +190,10 @@ export type Sx = {
 
 export type SxProp = Sx | ((theme: DripsyFinalTheme) => Sx)
 
-const sx: SxProp = {
+const sx2: Sx = {}
+
+const sx: Sx = {
+  height: () => 0,
   bg: '$text',
   padding: '$1',
   m: '$1',
@@ -207,6 +210,7 @@ const sx: SxProp = {
     height: 10,
     width: 10,
   },
+  ...sx2,
 }
 
 // const sxProp: SxProp = (theme) => ({

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/nandorojo/dripsy/compare/v4.0.0...v4.1.0) (2023-04-12)
+
+
+### Bug Fixes
+
+* pressable types ([a33a05c](https://github.com/nandorojo/dripsy/commit/a33a05cb62f4d4ae8640e67c123d77fb551be746))
+* transforms ([f662761](https://github.com/nandorojo/dripsy/commit/f662761a205480e4f04f7e8ce51b7cfe331eeeda))
+
+
+### Features
+
+* dot path theme tokens ([e8272cd](https://github.com/nandorojo/dripsy/commit/e8272cd46261a34554c16fd370a536c5514e1312))
+
+
+
+
+
 ## [4.0.2](https://github.com/nandorojo/dripsy/compare/v4.0.0...v4.0.2) (2023-04-05)
 
 
