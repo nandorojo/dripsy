@@ -8,6 +8,7 @@ import {
   useDripsyTheme,
   DripsyFinalTheme,
   DripsyBaseTheme,
+  ColorPath,
 } from '../core'
 
 type Props<Theme extends DripsyBaseTheme = DripsyFinalTheme> = Omit<
@@ -15,7 +16,7 @@ type Props<Theme extends DripsyBaseTheme = DripsyFinalTheme> = Omit<
   'colors'
 > & {
   gradient?: Extract<keyof Theme['linearGradients'], string>
-  colors?: (keyof Theme['colors'] | (string & {}))[]
+  colors?: (ColorPath | (string & {}))[]
   /*
    * Set to `true` if you're using the gradient for a background.
    */

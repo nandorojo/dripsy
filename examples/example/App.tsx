@@ -35,6 +35,9 @@ const theme = makeTheme({
     warning: 'yellow',
     error: 'red',
     gray: '#888',
+    nested: {
+      one: '',
+    },
   },
   space: {
     $none: 0,
@@ -289,7 +292,7 @@ export default function App() {
             sx={{ height: 50, width: 50, my: '$3' }}
             gradient="strong"
             variant="layout.wide"
-            colors={['accent']}
+            colors={['accent', 'nested.one']}
           />
           <Pressable
             onPress={toggleState}

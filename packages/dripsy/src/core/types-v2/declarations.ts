@@ -1,9 +1,9 @@
 import type { ViewStyle, TextStyle, ImageStyle } from 'react-native'
 import type { Theme } from '@theme-ui/css'
 import type { Function } from 'ts-toolbelt'
-import { Keyof } from './type-helpers'
+import { ColorPath } from './sx'
 
-export type ThemeColorName = Keyof<DripsyFinalTheme['colors']>
+export type ThemeColorName = ColorPath 
 
 export type Shadows = Pick<
   ViewStyle,

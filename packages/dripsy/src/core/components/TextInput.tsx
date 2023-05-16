@@ -4,7 +4,7 @@ import { DripsyFinalTheme } from '../types-v2/declarations'
 import { createThemedComponent } from '../css/create-themed-component'
 import { defaultFontStyle } from './defaultStyle'
 import { useDripsyTheme } from '../use-dripsy-theme'
-import { StyledProps } from '../types-v2/sx'
+import { ColorPath, StyledProps } from '../types-v2/sx'
 
 const DripsyInput = createThemedComponent(rTextInput, {
   themeKey: 'forms',
@@ -21,7 +21,7 @@ type ColorKeys = keyof Pick<
 export type DripsyTextInputProps = StyledProps<'forms'> &
   Omit<ComponentProps<typeof rTextInput>, ColorKeys> &
   {
-    [key in ColorKeys]?: (string & {}) | keyof DripsyFinalTheme['colors']
+    [key in ColorKeys]?: (string & {}) | ColorPath
   }
 
 const colorKeys: Record<ColorKeys, true> = {

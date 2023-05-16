@@ -165,9 +165,11 @@ type DotPathOrKeyOf<T> = ValueOf<
   }
 >
 
+export type ColorPath = DotPathOrKeyOf<DripsyFinalTheme['colors']>
+
 type DotPathOrKeyofTest = AssertEqual<
   DotPathOrKeyOf<TestTheme['colors']>,
-  '$nested.100'
+  '$nested.100' | '$text'
 >
 
 type DotPathColors = DotPathOrKeyOf<{
