@@ -93,7 +93,16 @@ export function createThemedComponent<
 
     const TheComponent = as || Component
 
-    return <TheComponent {...(props as any)} ref={ref} style={styles} />
+    return (
+      <TheComponent
+        {...(props as any)}
+        ref={ref}
+        style={styles}
+        {...{
+          variant: variant || options.defaultVariant,
+        }}
+      />
+    )
   })
 
   WrappedComponent.displayName = `Dripsy.${
