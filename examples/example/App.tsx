@@ -87,6 +87,9 @@ const theme = makeTheme({
       backgroundColor: 'primary',
     },
   },
+  radii: {
+    niceBorderRadius: 10,
+  },
   textShadows: {
     onImage: {
       textShadowOffset: { width: 1, height: 1 },
@@ -225,6 +228,9 @@ const ResponsiveSquare = () => {
         paddingHorizontal: '$4',
         marginVertical: '$0',
         variant: 'buttons.primary',
+        // use default aliases
+        br: 'niceBorderRadius',
+        // and your own
         www: 'accent',
         ...sx,
       }}
@@ -289,7 +295,7 @@ export default function App() {
 
           <ResponsiveSquare />
           <Gradient
-            sx={{ height: 50, width: 50, my: '$3' }}
+            sx={{ height: 50, w: 50, my: '$3' }}
             gradient="strong"
             variant="layout.wide"
             colors={['accent', 'nested.one']}
