@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import { useDripsyTheme } from './use-dripsy-theme'
 import { css } from './css'
 import { useBreakpointIndex } from './css/breakpoint-context'

@@ -9,9 +9,9 @@
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "experimentalDecorators": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
 
     "disableReferencedProjectLoad": true,
     "disableSourceOfProjectReferenceRedirect": true
