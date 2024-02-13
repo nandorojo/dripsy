@@ -88,9 +88,7 @@ type ReactNativeTypesOnly = NonNullable<
   ? true
   : false
 
-type OnlyAllowThemeValuesInput = NonNullable<
-  DripsyFinalTheme['types']
->['onlyAllowThemeValues']
+type OnlyAllowThemeValuesInput<T extends DripsyFinalTheme = DripsyFinalTheme> = 'onlyAllowThemeValues' extends keyof NonNullable<T['types']> ? NonNullable<T['types']>['onlyAllowThemeValues'] : undefined;
 
 type ThemeValuesOnlyForStyleKey<
   StyleKeyOrAlias extends StyleableSxProperties,
