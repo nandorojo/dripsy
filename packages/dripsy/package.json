@@ -21,11 +21,10 @@
     "bootstrap": "yarn example && yarn && yarn pods",
     "local": "yarn prepare && yarn pack && cd example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn start -c",
     "ssr": "yarn prepare && yarn pack && cd next-example && yarn add ../dripsy-v0.6.0-fresnel-2.1.tgz && yarn next",
-    "build": "expo-module build",
-    "clean": "expo-module clean",
-    "test": "expo-module test",
-    "prepare": "expo-module prepare",
-    "expo-module": "expo-module"
+    "build": "yarn expo-module build",
+    "clean": "yarn expo-module clean",
+    "test": "yarn expo-module test",
+    "prepare": "npx expo-module prepare"
   },
   "keywords": [
     "react-native",
