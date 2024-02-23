@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ThemeUICSSProperties } from '@theme-ui/css'
+import type { Object } from 'ts-toolbelt'
 import {
   DripsyFinalTheme,
   DripsyThemeWithoutIgnoredKeys,
@@ -64,13 +65,16 @@ type NativeSx = {
 
 // #region Sx
 
+type NonStyleableSxProperties = keyof NativeSx | keyof WebShadowSx
+
 type StyleableSxProperties = Exclude<
-  | Exclude<keyof ThemeUICSSProperties, 'textShadow' | 'boxShadow' | 'variant'>
+  | Exclude<keyof ThemeUICSSProperties, 'variant'>
   | keyof ViewStyle
   | keyof TextStyle
   | keyof ImageStyle
+  | keyof Omit<Aliases, Object.SelectKeys<Aliases, NonStyleableSxProperties>>
   | keyof DripsyFinalTheme['aliases'],
-  keyof NativeSx | keyof WebShadowSx
+  NonStyleableSxProperties
 >
 
 type NativeStyleProperties = ViewStyle & TextStyle & ImageStyle
@@ -197,6 +201,8 @@ const sx: Sx = {
   bg: '$text',
   padding: '$1',
   m: '$1',
+  w: '$1',
+  br: '$circle',
   boxShadow: 'test',
   shadowColor: '$text',
   textShadowColor: '$nested.100',
@@ -228,6 +234,8 @@ type MaybeScaleFromStyleKey<
 type ScaleTests = {
   space: MaybeScaleFromStyleKey<'padding'>
   colors: MaybeScaleFromStyleKey<'backgroundColor'>
+  sizes: MaybeScaleFromStyleKeyOrAlias<'width'>
+  radii: MaybeScaleFromStyleKeyOrAlias<'borderRadius'>
 }
 
 type AssertedScaleTests = AssertTest<ScaleTests, ScaleTests>
@@ -239,6 +247,8 @@ type MaybeScaleFromStyleKeyOrAlias<
 type ScaleOrAliasTests = {
   space: MaybeScaleFromStyleKeyOrAlias<'p'>
   colors: MaybeScaleFromStyleKeyOrAlias<'bg'>
+  sizes: MaybeScaleFromStyleKeyOrAlias<'w'>
+  radii: MaybeScaleFromStyleKeyOrAlias<'br'>
 }
 
 type AssertedScaleOrAliasTests = AssertTest<
@@ -260,6 +270,8 @@ type AliasTests = {
   padding: AliasToStyleKey<'p'>
   backgroundColor: AliasToStyleKey<'bg'>
   margin: AliasToStyleKey<'m'>
+  width: AliasToStyleKey<'w'>
+  borderRadius: AliasToStyleKey<'br'>
 }
 
 type AssertedAliasTests = AssertTest<AliasTests, AliasTests>
@@ -277,6 +289,12 @@ const testTheme = makeTheme({
   },
   space: {
     $1: 1,
+  },
+  size: {
+    $1: 1,
+  },
+  radii: {
+    $circle: 1000,
   },
   shadows: {
     test: {
