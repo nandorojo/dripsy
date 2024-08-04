@@ -1,6 +1,6 @@
 # Responsive Design
 
-Dripsy provides in-line support for setting responsive values. You just have to provide an array values for style properties, and dripsy will automatically match the values to the breakpoints:
+Dripsy provides in-line support for setting responsive values in your styles. You just have to provide an array values in your styles, and dripsy will automatically match the values to the breakpoints:
 
 ```jsx
 <Text
@@ -22,11 +22,9 @@ Dripsy provides [Bootstrap's](https://getbootstrap.com/docs/5.0/layout/breakpoin
 - **992** (desktops, 992px and up)
 - **1200** (large desktops, 1200px and up)
 
-In the previous example, fontSize 14 would be applied for <576px, 16 for <768px, and 20 for anything at or above 992px.
-
 ## Overriding default breakpoints
 
-You can pass in your own breakpoints into [makeTheme](/apis/makeTheme):
+You can also pass in your own breakpoints into [makeTheme](/apis/makeTheme):
 
 ```ts
 const theme = makeTheme({
@@ -50,11 +48,17 @@ console.log(breakpoints) // [576, 768, 992, 1200]
 
 ### `useBreakpointIndex()`
 
-Returns the index of the current breakpoint. For example, if we have the default breakpoints, and the screen's width is 1600px, the hook will return `4`.
+Returns the index of the current breakpoint. For example, if your theme has the default breakpoints, and the screen's width is 1600px, the hook returns `4`.
 
 ```ts
 const breakpointIndex = useBreakpointIndex()
 console.log(breakpointIndex) // 4
 ```
 
-You can also use this hook to conditionally render components based on screen size. For example, to only render a certain component if the user is viewing the screen on a desktop, you can use `{breakpointIndex >= 4 && (...)}`
+- width <576 ➡️ 0
+- width 576-767 ➡️ 1
+- width 768-991 ➡️ 2
+- width 992-1119 ➡️ 3
+- and width >=1200 ➡️ 4
+
+You can also use this hook to conditionally render components based on screen size. For example, to only render a certain component if the user is viewing the page on a desktop, you can use `{breakpointIndex >= 4 && (...)}`
