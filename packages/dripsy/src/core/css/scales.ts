@@ -1,5 +1,3 @@
-import { DripsyFinalTheme } from '../types-v2/declarations'
-
 export const aliases = {
   zi: 'zIndex',
   dsp: 'display',

@@ -183,10 +183,12 @@ export const css = (
   fontFamily: fontFamilyFromProps,
   ...props
 }: CssPropsArgument = {}): CSSObject => {
-  const theme: DripsyFinalTheme = {
-    ...defaultTheme,
-    ...('theme' in props ? props.theme : props),
-  } as DripsyFinalTheme
+  let theme = defaultTheme as DripsyFinalTheme
+  if ('theme' in props) {
+    theme = Object.assign({}, theme, props.theme)
+  } else {
+    theme = Object.assign({}, theme, props)
+  }
   let result: CSSObject = {}
   const obj = typeof args === 'function' ? args(theme) : args
   const filteredOutWebKeys = filterWebStyleKeys(obj)
@@ -202,7 +204,7 @@ export const css = (
         get(theme, themeKey + '.' + val, get(theme, val)),
         breakpoint
       )({ theme })
-      result = { ...result, ...variant }
+      Object.assign(result, variant)
       continue
     }
 
@@ -217,13 +219,13 @@ export const css = (
         theme.textShadows[val] as any,
         breakpoint
       )(theme)
-      result = { ...result, ...styledTextShadow }
+      Object.assign(result, styledTextShadow)
       continue
     }
 
     if (key == 'boxShadow' && val && theme.shadows?.[val]) {
       const styledBoxShadow = css(theme.shadows[val] as any, breakpoint)(theme)
-      result = { ...result, ...styledBoxShadow }
+      Object.assign(result, styledBoxShadow)
       continue
     }
 
@@ -246,9 +248,9 @@ export const css = (
       continue
     }
 
-    let themedAliases = aliases;
+    let themedAliases = aliases
     if (theme.aliases) {
-        themedAliases = Object.assign({}, themedAliases, theme.aliases);
+      themedAliases = Object.assign({}, themedAliases, theme.aliases)
     }
 
     const prop =
