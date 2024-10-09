@@ -142,7 +142,7 @@ const transforms = [
 const filterWebStyleKeys = (
   styleProp: Exclude<SxProps, UseThemeFunction> = {}
 ): Exclude<SxProps, UseThemeFunction> => {
-  if (Platform.OS == 'web') {
+  if (Platform.OS === 'web') {
     return styleProp
   }
 
@@ -150,6 +150,7 @@ const filterWebStyleKeys = (
   const finalStyles = { ...styleProp }
   const webOnlyKeys = [
     // from https://necolas.github.io/react-native-web/docs/styling/#non-standard-properties
+    // and https://github.com/necolas/react-native-web/blob/HEAD/packages/react-native-web/src/exports/View/types.js#L193
     'animationKeyframes',
     'animationFillMode',
     'transitionProperty',
@@ -164,6 +165,9 @@ const filterWebStyleKeys = (
     'animationDirection',
     'animationIterationCount',
     'outlineColor',
+    'outlineOffset',
+    'outlineStyle',
+    'outlineWidth',
   ]
   webOnlyKeys.forEach((key) => {
     if (finalStyles?.[key as keyof typeof styleProp]) {

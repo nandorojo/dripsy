@@ -371,8 +371,8 @@ export type MaybeVariantsFromThemeKey<
 // testString('alignItems', false as never)
 // #endregion
 
-type VariantProp<
-  ThemeKey extends keyof DripsyFinalTheme | undefined | 'missing'
+export type VariantProp<
+  ThemeKey extends keyof DripsyFinalTheme | undefined | 'missing' = 'missing'
 > = ThemeKey extends 'missing' | undefined
   ? Variant
   : ThemeKey extends keyof DripsyFinalTheme
