@@ -31,7 +31,7 @@ export function styled<
     defaultVariant?: (string & {}) | MaybeVariantsFromThemeKey<ThemeKey>
   } = {}
 ) {
-  function dripsyFactory<Extra>(
+  function dripsyFactory<Extra = {}>(
     defaultStyle?: ThemedOptions<Extra, ThemeKey>['defaultStyle']
   ) {
     return createThemedComponent<C, Extra, ThemeKey>(Component, {
