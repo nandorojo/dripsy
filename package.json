@@ -7,8 +7,7 @@
     "prepare": "lerna run prepare",
     "publish": "lerna run publish",
     "bootstrap": "lerna bootstrap",
-    "release": "lerna publish",
-    "postinstall": "expo-yarn-workspaces check-workspace-dependencies"
+    "release": "lerna publish"
   },
   "workspaces": [
     "packages/*",

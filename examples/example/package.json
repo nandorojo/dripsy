@@ -9,8 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "start": "expo start",
-    "test": "jest",
-    "postinstall": "expo-yarn-workspaces postinstall"
+    "test": "jest"
   },
   "dependencies": {
     "expo": "^40.0.0",
