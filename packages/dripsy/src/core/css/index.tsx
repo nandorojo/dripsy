@@ -246,9 +246,9 @@ export const css = (
       continue
     }
 
-    const themedAliases = Object.assign({}, aliases);
+    let themedAliases = aliases;
     if (theme.aliases) {
-        Object.assign(themedAliases, theme.aliases);
+        themedAliases = Object.assign({}, themedAliases, theme.aliases);
     }
 
     const prop =
