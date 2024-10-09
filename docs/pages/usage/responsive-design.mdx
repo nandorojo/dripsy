@@ -1,0 +1,64 @@
+# Responsive Design
+
+Dripsy provides in-line support for setting responsive values in your styles. You just have to provide an array values in your styles, and dripsy will automatically match the values to the breakpoints:
+
+```jsx
+<Text
+  sx={{
+    fontSize: [14, 16, 20], // 14 on mobile, 16 on tablet, 20 on desktop
+    color: ['$primary', null, 'accent'], // `primary` on mobile & tablet, `accent` on desktop
+  }}
+>
+  Responsive font size?? 🤯
+</Text>
+```
+
+## Default breakpoints
+
+Dripsy provides [Bootstrap's](https://getbootstrap.com/docs/5.0/layout/breakpoints/) default breakpoints:
+
+- **576** (landscape phones, 576px and up)
+- **768** (tablets, 768px and up)
+- **992** (desktops, 992px and up)
+- **1200** (large desktops, 1200px and up)
+
+## Overriding default breakpoints
+
+You can also pass in your own breakpoints into [makeTheme](/apis/makeTheme):
+
+```ts
+const theme = makeTheme({
+  breakpoints: ['576', '768', '992', '1200'],
+  // ...
+})
+```
+
+## Retrieving breakpoint values outside themes
+
+Dripsy provides two hooks for working with breakpoints:
+
+### `useBreakpoints()`
+
+Returns the current array of breakpoints:
+
+```ts
+const breakpoints = useBreakpoints()
+console.log(breakpoints) // [576, 768, 992, 1200]
+```
+
+### `useBreakpointIndex()`
+
+Returns the index of the current breakpoint. For example, if your theme has the default breakpoints, and the screen's width is 1600px, the hook returns `4`.
+
+```ts
+const breakpointIndex = useBreakpointIndex()
+console.log(breakpointIndex) // 4
+```
+
+- width <576 ➡️ 0
+- width 576-767 ➡️ 1
+- width 768-991 ➡️ 2
+- width 992-1119 ➡️ 3
+- and width >=1200 ➡️ 4
+
+You can also use this hook to conditionally render components based on screen size. For example, to only render a certain component if the user is viewing the page on a desktop, you can use `{breakpointIndex >= 4 && (...)}`
